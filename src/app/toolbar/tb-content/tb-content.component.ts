@@ -21,11 +21,14 @@ export class TbContentComponent implements OnInit {
   @Input() public cmsettings: CMSettings;
   public buttons: Observable<CMButton[]>;
   public colors: Observable<CMColorbar[]>;
+  public tolerance = 10;
+  public transColor = 'white';
   public selCMEo: any;
   public picsize: number;
   public contentStrg: string;
   public contentCat: string;
   public inputType: string;
+  public copy = false;
   public pos = 0;
   public contentlen = 0;
 
@@ -38,6 +41,15 @@ export class TbContentComponent implements OnInit {
                 store.select('selectedcmeo').subscribe((data) => {
                   if (typeof data === 'object') {
                     this.selCMEo = data;
+                    if (this.cmsettings) {
+                      if (this.cmsettings.copy) {
+                        if (this.cmsettings.copy.type === 'content') {
+                          this.copy = true;
+                        }
+                      } else {
+                        this.copy = false;
+                      }
+                    }
                     if (this.selCMEo !== null) {
                       if (this.selCMEo['cmobject']) {
                         if (this.selCMEo.cmobject['content']) {
@@ -120,7 +132,8 @@ export class TbContentComponent implements OnInit {
   }
 
   public makeTrans(color) {
-    this.elementService.makeTrans(color);
+    this.transColor = color;
+    this.elementService.makeTrans(color, this.tolerance);
   }
 
   // change cat of content (if possible)
@@ -140,30 +153,36 @@ export class TbContentComponent implements OnInit {
     }
   }
 
+  // pastes content
+  public pasteContent() {
+    this.elementService.pasteContent();
+    // console.log(this.contentStrg);
+  }
+
+  // copies content
+  public copyContent() {
+    this.cmsettings.copy.type = 'content';
+    this.cmsettings.copy.strg = JSON.stringify(this.selCMEo.cmobject.content[this.pos]);
+    this.settingsService.updateSettings(this.cmsettings);
+    // console.log(this.contentStrg);
+  }
+
   // copies content of svg object
   public copySVG() {
-    // do something
     this.inputType = 'svg';
     this.contentStrg = this.selCMEo.cmobject.content[this.pos].object;
     // console.log(this.contentStrg);
   }
 
-  // copies content of svg object
-  public copyPic() {
-    // do something
-    this.inputType = 'info';
-    this.contentStrg = this.selCMEo.cmobject.content[this.pos].object;
-  }
-
-  // copies content of svg object
+  // copies info
   public copyInfo() {
-    // do something
     this.inputType = 'info';
     this.contentStrg = this.selCMEo.cmobject.content[this.pos].info;
     if (this.selCMEo.cmobject.content[this.pos].cat === 'html') {
       this.codeeditorService.code = this.contentStrg;
     }
   }
+
   // reads string in input field
   public readInput(input) {
     if (this.selCMEo) {
@@ -193,6 +212,21 @@ export class TbContentComponent implements OnInit {
         this.contentlen = this.selCMEo.cmobject.content.length;
       } catch (err) {
         console.log(err);
+      }
+    }
+  }
+
+  // changes tollerance
+  public changeTol(value: string, enter: boolean) {
+    let valueNum = parseInt(value);
+    if (typeof valueNum === 'number') {
+      if (valueNum >= 0 && valueNum <= 255) {
+        this.tolerance = valueNum;
+      } else {
+        alert('Please enter an integer number between 0 and 255');
+      }
+      if (enter) {
+        this.makeTrans(this.transColor);
       }
     }
   }

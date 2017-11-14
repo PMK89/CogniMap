@@ -4,6 +4,7 @@ import 'rxjs/add/operator/filter';
 import { Store } from '@ngrx/store';
 import { ElementService } from'../element.service';
 import { SettingsService } from'../settings.service';
+import { MjEditorService } from'../../widgets/mjeditor/mjeditor.service';
 
 // models and reducers
 import { CMEo } from '../../models/CMEo';
@@ -29,10 +30,12 @@ export class ColorbarComponent implements OnInit {
   public mode = 'colors';
   public selectcolor: string;
   public maxid = 0;
+  public copiedcolor = false;
   @ViewChild('colorpick') public colorpick: ElementRef;
 
   constructor(private elementService: ElementService,
               private settingsService: SettingsService,
+              private mjEditorService: MjEditorService,
               private store: Store<CMStore>) {
                 this.selCMEo = store.select('selectedcmeo');
                 this.selCMEl = store.select('selectedcmel');
@@ -52,12 +55,20 @@ export class ColorbarComponent implements OnInit {
     this.settingsService.changeColors(colorbar);
   }
 
+  // changes the selected color
+  public changecolorclick(colorbar) {
+    if (this.copiedcolor) {
+      this.copiedcolor = false;
+      this.changecolor(colorbar);
+    }
+  }
+
   public getcolor(colorbar) {
     this.selectcolor = colorbar.id.toString();
     let selElem;
     if (colorbar.cat === 'tbline0' || colorbar.cat === 'tbline1') {
       selElem = this.selCMEl;
-    } else {
+    } else if (colorbar.cat !== 'latex') {
       selElem = this.selCMEo;
     }
     // console.log(selElem);
@@ -86,7 +97,13 @@ export class ColorbarComponent implements OnInit {
         }
       }).unsubscribe();
     } else {
-      this.value = colorbar.colors[0];
+      if (colorbar.cat === 'latex') {
+        if (this.elementService.cmsettings) {
+          this.value = this.elementService.cmsettings.latexcolor;
+        }
+      } else {
+        this.value = colorbar.colors[0];
+      }
     }
     return this.value;
   }
@@ -98,6 +115,11 @@ export class ColorbarComponent implements OnInit {
     };
     if (colorbar.cat === 'tbline0' || colorbar.cat === 'tbline1') {
       this.elementService.changeCMEl(this.action);
+    } else if (colorbar.cat === 'latex') {
+      let settings = this.elementService.cmsettings;
+      settings.latexcolor = color;
+      // this.mjEditorService.makeColor(color);
+      this.settingsService.updateSettings(settings);
     } else {
       this.elementService.changeCMEo(this.action);
     }
@@ -117,6 +139,27 @@ export class ColorbarComponent implements OnInit {
       this.mode = 'colors';
     } else {
       this.mode = name;
+    }
+  }
+
+  // copy color from actual selection
+  public copycolor() {
+    if (this.value) {
+      if (this.elementService.cmsettings) {
+        this.elementService.cmsettings.copycolor = this.value;
+        this.settingsService.updateSettings(this.elementService.cmsettings);
+      }
+    }
+  }
+
+  // paste color from settings
+  public pastecolor() {
+    if (this.elementService.cmsettings) {
+      if (this.elementService.cmsettings.copycolor) {
+        this.copiedcolor = true;
+        this.value = this.elementService.cmsettings.copycolor;
+        this.colorpick.nativeElement.value = this.value;
+      }
     }
   }
 

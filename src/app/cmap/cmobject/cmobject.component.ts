@@ -8,6 +8,7 @@ declare var Snap: any;
 import { ElementService } from '../../shared/element.service';
 import { SnapsvgService } from '../../shared/snapsvg.service';
 import { EventService } from '../../shared/event.service';
+import { MetaService } from '../../shared/meta.service';
 
 // models and reducers
 import { CME } from '../../models/CME';
@@ -34,6 +35,7 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private eventService: EventService,
               private snapsvgService: SnapsvgService,
+              private metaService: MetaService,
               private sanitizer: DomSanitizer,
               private store: Store<CMStore>,
               private elementService: ElementService) {
@@ -78,6 +80,7 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
         } else if (this.cmeo.prio >= 99) {
           this.cmeo.prio = 99;
         }
+        let bbox0 = this.cmgroup.getBBox();
         let bbox = this.cmgroup.getBBox();
         if (this.cmeo.cmobject.content.length > 0) {
           // generates content as svg
@@ -91,7 +94,10 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.video = true;
                 this.videourl = content.object;
               } else {
+                let oldwidth = bbox.w - bbox0.w;
                 this.snapsvgService.makeContent(this.cmeo, this.cmgroup, i, totwidth);
+                bbox = this.cmgroup.getBBox();
+                content.width = bbox.w - oldwidth;
               }
               totwidth += content.width;
             }
@@ -127,19 +133,68 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
             this.cmgroup.add(title);
           }
           bbox = this.cmgroup.getBBox();
+          if (this.cmeo.cmobject.meta) {
+            if (this.cmeo.cmobject.meta.length > 0) {
+              for (let key in this.cmeo.cmobject.meta) {
+                // ads symbol for each meta element + click function to open meta element
+                if (this.cmeo.cmobject.meta[key]) {
+                  let metaImg;
+                  let meta = this.cmeo.cmobject.meta[key];
+                  let size = this.cmeo.cmobject.style.title.size * 1.0;
+                  switch (meta.type) {
+                    case 'pdf':
+                      metaImg = s.image('assets/images/svgelements/symbols/pdf.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      break;
+                    case 'videos':
+                      metaImg = s.image('assets/images/svgelements/symbols/video.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      break;
+                    case 'audio':
+                      metaImg = s.image('assets/images/svgelements/symbols/audio.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      break;
+                    case 'link':
+                      metaImg = s.image('assets/images/svgelements/symbols/link.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      break;
+                    case 'txt':
+                      metaImg = s.image('assets/images/svgelements/symbols/txt.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      break;
+                    case 'comment':
+                      metaImg = s.image('assets/images/svgelements/symbols/comment.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      break;
+                    case 'code':
+                      metaImg = s.image('assets/images/svgelements/symbols/code.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      break;
+                    default:
+                      console.log('unknown type: ', meta.type)
+                  }
+                  if (metaImg) {
+                    metaImg.attr({id: id + 'meta' + key.toString()});
+                    this.cmgroup.add(metaImg);
+                    bbox = this.cmgroup.getBBox();
+                  }
+                }
+              }
+            }
+          }
           let content = this.cmgroup.innerSVG();
           content = content.replace(/ \\"/g, " '");
           content = content.replace(/\\",/g, "',");
+          this.cmgroup.clear();
           this.snapsvgService.makeShape(this.cmeo, bbox, this.cmgroup);
           this.cmgroup.add(Snap.parse(content));
         }
+        // sets size of element
         bbox = this.cmgroup.getBBox();
         this.cmeo.x0 = bbox.x;
         this.cmeo.y0 = bbox.y;
         this.cmeo.x1 = bbox.x2;
         this.cmeo.y1 = bbox.y2;
-
+        // saves prepared element to save loading time
         if (this.TextInput === false) {
+          if (this.elementService.selCMEo) {
+            if (this.elementService.selCMEo.id === this.cmeo.id) {
+              this.elementService.updateSelCMEo(this.cmeo);
+            }
+          }
           let prep = this.cmgroup.innerSVG();
           prep = prep.replace(/ \\"/g, " '");
           prep = prep.replace(/\\",/g, "',");
@@ -165,11 +220,25 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
         gt.transform('t240,235');
       } else {
         // transfers id in case of click events
-        this.cmgroup.mousedown( () => {
+        this.cmgroup.mousedown( (e) => {
           if (document.getElementById('TPid') !== undefined) {
-            console.log('cmobject.component: mousedown');
-            document.getElementById('TPid').title = id;
-            // console.log(document.getElementById('TPid').title);
+            if (e.target) {
+              if (e.target.id) {
+                if (e.target.id.indexOf('meta') === -1) {
+                  document.getElementById('TPid').title = id;
+                  // console.log(document.getElementById('TPid').title);
+                } else {
+                  if (!this.cmeo) {
+                    this.cmeo = this.elementService.CMEtoCMEol(this.cmelement);
+                  }
+                  let pos = e.target.id.substr((e.target.id.indexOf('meta') + 4));
+                  let arg = JSON.stringify(this.cmeo.cmobject.meta[pos]);
+                  document.getElementById('TPmeta').title = arg;
+                }
+              } else {
+                document.getElementById('TPid').title = id;
+              }
+            }
           }
         });
 

@@ -33,45 +33,50 @@ const createDbWindow = function createDbWindow() {
   // find all child nodes and returns selected elements
   ipcMain.on('findChildren', function (event, arg) {
     // variables to store different types of objects ids
-    var childcounter = [];
-    var parentArrayArray = []
     var selCMEoArray = [];
     var selCMElArray = [];
     var cmeArray = [];
     var selCMElArrayBorder = [];
     var endcounter = 0;
-    selectLinks(arg, []);
-    // function to find elements from links
-    function selectLinks(cme0, parentArray0) {
-      if (cme0) {
-        var parentArray = JSON.parse(JSON.stringify(parentArray0));
-        if (typeof cme0 === 'number') {
-          // find out if last node is finished
-          var index = selCMEoArray.indexOf(cme0);
-          childcounter[index]--;
-          if (childcounter[index] <= 1 || cme0 === arg.id) {
-            var parentId = parentArray.pop();
-            if ((parentId === undefined || 'connector' === parentId) && cme0 !== arg.id) {
-              if (parentArrayArray[index]) {
-                parentArray = JSON.parse(JSON.stringify(parentArrayArray[index]));
-                parentId = parentArray.pop();
-              }
-            }
-            console.log(cme0, index, childcounter[index], parentId);
-            if (parentId !== undefined) {
-                selectLinks(parentId, parentArray);
-            } else {
-              console.log(selCMEoArray.length, selCMElArray.length, cmeArray.length);
-              var SelChildren = {
-                selCMEoArray: selCMEoArray,
-                selCMElArray: selCMElArray,
-                selarray: cmeArray,
-                selCMElArrayBorder: selCMElArrayBorder
-              }
-              event.sender.send('selectedChildren', SelChildren);
-            }
+    waiting = false;
+    selectLinks(arg);
+    // triggers a timeout to check if new elements were added
+    function waitingTime() {
+      if (!waiting) {
+        waiting = true;
+        setTimeout(function() {
+          waiting = false;
+          checkEnd();
+        }, 100);
+        return;
+      }
+    }
+    // function to check if the iteration is still in progress
+    function checkEnd() {
+      if (endcounter === 0) {
+        endcounter = Date.now();
+      } else {
+        if ((Date.now() - endcounter) >= 100) {
+          console.log(selCMEoArray.length, selCMElArray.length, cmeArray.length);
+          var SelChildren = {
+            selCMEoArray: selCMEoArray,
+            selCMElArray: selCMElArray,
+            selarray: cmeArray,
+            selCMElArrayBorder: selCMElArrayBorder
           }
-        } else if (typeof cme0.id === 'number') {
+          event.sender.send('selectedChildren', SelChildren);
+        } else if (!waiting) {
+          endcounter = Date.now();
+          waitingTime();
+        } else {
+          endcounter = Date.now();
+        }
+      }
+    }
+    // function to find elements from links
+    function selectLinks(cme0) {
+      if (cme0) {
+        if (typeof cme0.id === 'number') {
           if (cme0.id >= 1) {
             if (selCMEoArray.indexOf(cme0.id) === -1) {
               cmeArray.push(cme0);
@@ -82,81 +87,67 @@ const createDbWindow = function createDbWindow() {
                 cmobject = cme0.cmobject;
               }
               if (cmobject.links) {
-                var len = cmobject.links.length -1;
-                console.log(cme0.id, len)
                 selCMEoArray.push(cme0.id);
-                childcounter.push(len);
-                parentArrayArray.push(parentArray);
-                if (len > 0) {
+                if (cmobject.links.length > 1) {
                   for (var key in cmobject.links) {
                     if (cmobject.links[key]) {
                       var link = cmobject.links[key];
                       // console.log(link);
-                      if (cme0.id === arg.id || link.weight !== 0) {
-                        if (cme0.id === arg.id && link.start === false) {
+                      if (cme0.id === arg.id && link.start === false) {
+                        cme.findOne({id: link.id}, function(err, data) {
+                          if (err) {
+                            console.log(err);
+                          } else {
+                            if (data) {
+                              selCMElArrayBorder.push(data.id);
+                              cmeArray.push(data);
+                            } else {
+                              console.log("Error (Border Link) at ParentID: ", cme0.id, " ChildId: ", link.targetId, " LinkId: ", link.id);
+                            }
+                          }
+                        });
+                      } else {
+                        if (link.id !== 0 && selCMElArray.indexOf(link.id) === -1) {
                           cme.findOne({id: link.id}, function(err, data) {
                             if (err) {
                               console.log(err);
                             } else {
                               if (data) {
-                                selCMElArrayBorder.push(link.id);
+                                if (link.weight === 0) {
+                                  selCMElArrayBorder.push(data.id);
+                                } else {
+                                  selCMElArray.push(data.id);
+                                }
                                 cmeArray.push(data);
                               } else {
-                                console.log("Error (Border Link) at ParentID: ", cme0.id, " ChildId: ", link.targetId, " LinkId: ", link.id);
+                                console.log("Error (Link) at ParentID: ", cme0.id, " ChildId: ", link.targetId, " LinkId: ", link.id);
                               }
                             }
                           });
-                        } else {
-                          if (selCMElArray.indexOf(link.id) === -1) {
-                            cme.findOne({id: link.id}, function(err, data) {
-                              if (err) {
-                                console.log(err);
+                        }
+                        var targetIdIndex = selCMEoArray.indexOf(link.targetId);
+                        if (targetIdIndex === -1 && link.weight !== 0) {
+                          cme.findOne({id: link.targetId}, function(err, data) {
+                            if (err) {
+                              console.log(err);
+                            } else {
+                              if (data) {
+                                selectLinks(data);
                               } else {
-                                if (data) {
-                                  selCMElArray.push(data.id);
-                                  cmeArray.push(data);
-                                } else {
-                                  console.log("Error (Link) at ParentID: ", cme0.id, " ChildId: ", link.targetId, " LinkId: ", link.id);
-                                }
+                                console.log("Error (Child) at ParentID: ", cme0.id, " ChildId: ", link.targetId, " LinkId: ", link.id);
                               }
-                            });
-                          }
-                          var targetIdIndex = selCMEoArray.indexOf(link.targetId);
-                          if (targetIdIndex === -1) {
-                            cme.findOne({id: link.targetId}, function(err, data) {
-                              if (err) {
-                                console.log(err);
-                              } else {
-                                if (data) {
-                                  if (parentArray[parentArray.length - 1] !== cme0.id || parentArray.length === 0) {
-                                    parentArray.push(cme0.id);
-                                  }
-                                  selectLinks(data, parentArray);
-                                } else {
-                                  var parent = parentArray.pop();
-                                  console.log("Error (Child) at ParentID: ", cme0.id, " ChildId: ", link.targetId, " LinkId: ", link.id, parent, parentArray);
-                                  selectLinks(parent, parentArray);
-                                }
-                              }
-                            });
-                          } else if (parentArray[parentArray.length -1] !== link.targetId || (parentArray[parentArray.length -1] === cme0.id
-                             && parentArray[parentArray.length -2] !== link.targetId)) {
-                            selectLinks(selCMEoArray[targetIdIndex], ['connector']);
-                          }
+                            }
+                          });
                         }
                       }
                     }
                   }
                 } else {
-                  var parent = parentArray.pop();
-                  console.log(parent, parentArray);
-                  selectLinks(parent, parentArray);
+                  checkEnd();
                 }
               } else {
                 selCMEoArray.push(cme0.id);
-                var parent = parentArray.pop();
-                console.log("!link id: ", cme0.id, parent, parentArray);
-                selectLinks(parent, parentArray);
+                console.log("!link id: ", cme0.id);
               }
             }
           }
@@ -246,7 +237,7 @@ const createDbWindow = function createDbWindow() {
       }
     });
     */
-    cme.find({}, function(err, data) {
+    cme.find({}).sort({cdate: 1}).exec(function(err, data) {
       if (err) console.log(err);
       if (data) {
         var dataArray = [];
@@ -291,251 +282,87 @@ const createDbWindow = function createDbWindow() {
         var nolinkerrorarray = [];
         var undefinderrorarray = [];
         for (i = 0; i < l; i++) {
+          var posarray = [];
+          var error = false;
           if(data[i]) {
-            if (data[i].x0 <= 0 || data[i].y0 <= 0 || data[i].x1 <= 0 || data[i].y1 <= 0) {
-              dataArray.push(data[i]);
-              coor0counter++
-              coor0array.push(data[i].id);
-            } else {
-              if (data[i].id > 0) {
-                try {
-                  var cmobject = JSON.parse(data[i].cmobject);
-                  if (cmobject.links) {
-                    if (cmobject.links.length > 0) {
-                      for (j = 0; j < cmobject.links.length; j++) {
-                        if (cmobject.links[j]) {
-                          if (typeof cmobject.links[j].id === 'number' && typeof cmobject.links[j].id === 'number') {
-                            var linkid0 = (-1) * parseInt(String(data[i].id) + String(cmobject.links[j].targetId), 10);
-                            var linkid1 = (-1) * parseInt(String(cmobject.links[j].targetId) + String(data[i].id), 10);
-                            var targetCMEarray = data.filter((e) => {
-                              return e.id === cmobject.links[j].targetId;
-                            });
-                            var linkCMEarray = data.filter((e) => {
-                              return e.id === cmobject.links[j].id;
-                            });
-                            var targetCME = targetCMEarray.pop();
-                            var linkCME = linkCMEarray.pop();
-                            if (targetCME) {
-                              if (targetCME.cmobject) {
-                                var tcmobject = JSON.parse(targetCME.cmobject);
-                                if (tcmobject.links) {
-                                  var nolinks = true;
-                                  var errors = false;
-                                  for (k = 0; k < tcmobject.links.length; k++) {
-                                    if (tcmobject.links[k]) {
-                                      tlink = tcmobject.links[k];
-                                      if (tlink.id === cmobject.links[j].id || tlink.targetId === data[i].id) {
-                                        nolinks = false;
-                                        if (tlink.targetId !== data[i].id) {
-                                          errors = true;
-                                          tlink.targetId = data[i].id;
-                                        }
-                                        if (tlink.id !== cmobject.links[j].id) {
-                                          errors = true;
-                                          tlink.id = cmobject.links[j].id;
-                                        }
-                                      }
-                                    }
-                                  }
-                                  if (nolinks) {
-                                    errors = true;
-                                    var newstart;
-                                    if (cmobject.links[j].start) {
-                                      newstart = false;
-                                    } else {
-                                      newstart = true;
-                                    }
-                                    var newlink = {
-                                      id: cmobject.links[j].id,
-                                      targetId: data[i].id,
-                                      weight: -1,
-                                      con: 'e',
-                                      start: newstart
-                                    }
-                                    tcmobject.links.push(newlink);
-                                    targetCME.cmobject = JSON.stringify(tcmobject);
-                                  }
-                                  if (errors) {
-                                    linkerrorcounter++;
-                                    linkerrorarray.push(targetCME.id);
-                                    dataArray.push(targetCME);
-                                    targetCME.save(function (err) {
-                                      if (err) {
-                                        console.log(err) // #error message
-                                      }
-                                    });
-                                  }
-                                }
-                              }
+            if (data[i].id) {
+              try {
+                if ([data[i].x0, data[i].x1, data[i].y0, data[i].y1].indexOf(NaN) !== -1) {
+                  console.log('NaN: ', data[i].id);
+                  dataArray.push(data[i]);
+                  data[i].remove(function (err) {console.log('NaN: ', err)});
+                } else if ([data[i].x0, data[i].x1, data[i].y0, data[i].y1].indexOf(undefined) !== -1) {
+                  console.log('undefined: ', data[i].id);
+                  dataArray.push(data[i]);
+                  data[i].remove(function (err) {console.log('undefined: ', err)});
+                } else if (data[i].x0 < 0 || data[i].x1 < 0 || data[i].y0 < 0 || data[i].y1 < 0) {
+                  console.log('<0: ', data[i].id);
+                  dataArray.push(data[i]);
+                  data[i].remove(function (err) {console.log('<0: ', err)});
+                }
+                /*
+                var cmobject = JSON.parse(data[i].cmobject);
+                if (cmobject.links) {
+                  if (cmobject.links.length > 0) {
+                    for (var j = cmobject.links.length - 1; j >= 0; j--) {
+                      if (cmobject.links[j]) {
+                        if (typeof cmobject.links[j].id === 'number' && typeof cmobject.links[j].targetId === 'number') {
+                          var linkid0 = (-1) * parseInt(String(data[i].id) + String(cmobject.links[j].targetId), 10);
+                          var linkid1 = (-1) * parseInt(String(cmobject.links[j].targetId) + String(data[i].id), 10);
+                          if (cmobject.links[j].id === 0) {
+                            if (cmobject.links[j].title === 'marking') {
+                              // console.log('marking: ', cmobject.links[j]);
                             } else {
-                              linkerrorcounter++;
-                              linkerrorarray.push(data[i].id);
-                              dataArray.push(data[i]);
-                            }
-                            if (linkCME) {
-                              if (linkCME.cmobject) {
-                                var lcmobject = JSON.parse(linkCME.cmobject);
-                                if (linkCME) {
-                                  var errors = false;
-                                  if (cmobject.links[j].start) {
-                                    if (lcmobject.id0 !== data[i].id) {
-                                      errors = true;
-                                      lcmobject.id0 = data[i].id;
-                                    }
-                                    if (lcmobject.id1 !== cmobject.links[j].targetId) {
-                                      errors = true;
-                                      lcmobject.id1 = cmobject.links[j].targetId;
-                                    }
-                                  } else {
-                                    if (lcmobject.id1 !== data[i].id) {
-                                      errors = true;
-                                      lcmobject.id1 = data[i].id;
-                                    }
-                                    if (lcmobject.id0 !== cmobject.links[j].targetId) {
-                                      errors = true;
-                                      lcmobject.id0 = cmobject.links[j].targetId;
-                                    }
-                                  }
-                                  if (errors) {
-                                    linkerrorcounter++;
-                                    linkerrorarray.push(linkCME.id);
-                                    dataArray.push(linkCME);
-                                    linkCME.save(function (err) {
-                                      if (err) {
-                                        console.log(err) // #error message
-                                      }
-                                    });
-                                  }
-                                }
-                              }
-                            } else {
-                              linkerrorcounter++;
-                              linkerrorarray.push(data[i].id);
-                              dataArray.push(data[i]);
-                            }
-                            /*
-                            if (cmobject.links[j].id >= 0 || cmobject.links[j].targetId <= 0 ) {
-                              var haserror = true;
-                              if (j === cmobject.links.length - 1) {
-                                if (cmobject.links[0].id !== 0) {
-                                  cmobject.links[j].id = JSON.parse(JSON.stringify(cmobject.links[0].id));
-                                  if (cmobject.links[0].start) {
-                                    cmobject.links[0].id = (-1) * parseInt(String(data[i].id) + String(cmobject.links[0].targetId), 10);
-                                  } else {
-                                    cmobject.links[0].id = (-1) * parseInt(String(cmobject.links[0].targetId) + String(data[i].id), 10);
-                                    // console.log(cmobject.links[0].id, data[i].id, cmobject.links[0].targetId);
-                                  }
-                                  if (typeof cmobject.links[0].id === 'number' && typeof cmobject.links[j].id === 'number') {
-                                    if (cmobject.links[0].id !== cmobject.links[j].id) {
-                                      haserror = false;
-                                      console.log(cmobject.links[0].id, cmobject.links[j].id);
-                                      data[i].cmobject = JSON.stringify(cmobject);
-                                      linkerrorcounter1++;
-                                      linkerrorarray1.push(data[i].id);
-                                      data[i].save(function (err) {
-                                        if (err) {
-                                          console.log(err) // #error message
-                                        }
-                              				});
-                                    }
-                                  }
-                                }
-                              }
-                              if (cmobject.links[j].id !== linkid0 && cmobject.links[j].id !== linkid1) {
-                                if (cmobject.links[j].start) {
-                                  cmobject.links[j].id = linkid0;
-                                } else {
-                                  cmobject.links[j].id = linkid1;
-                                  // console.log(cmobject.links[0].id, data[i].id, cmobject.links[0].targetId);
-                                }
-                                haserror = false;
-                                data[i].cmobject = JSON.stringify(cmobject);
-                                linkerrorcounter1++;
-                                linkerrorarray1.push(data[i].id);
-                                data[i].save(function (err) {
-                                  if (err) {
-                                    console.log(err) // #error message
-                                  }
-                                });
-                              }
-                              j = cmobject.links.length;
-                              if (haserror) {
-                                linkerrorcounter++;
-                                linkerrorarray.push(data[i].id);
-                                dataArray.push(data[i]);
-                              }
-                            } else if (cmobject.links[j].id !== linkid0 && cmobject.links[j].id !== linkid1) {
-
                               if (cmobject.links[j].start) {
                                 cmobject.links[j].id = linkid0;
                               } else {
                                 cmobject.links[j].id = linkid1;
-                                // console.log(cmobject.links[0].id, data[i].id, cmobject.links[0].targetId);
                               }
-                              data[i].cmobject = JSON.stringify(cmobject);
-                              linkerrorcounter1++;
-                              linkerrorarray1.push(data[i].id);
-                              data[i].save(function (err) {
-                                if (err) {
-                                  console.log(err) // #error message
-                                }
-                              });
                             }
-                            */
                           }
+                          var linkCMEarray = data.filter((e) => {
+                            return e.id === cmobject.links[j].id;
+                          });
+                          var linkCME = linkCMEarray.pop();
+                          if (!linkCME) {
+                            if (cmobject.links[j].id !== 0) {
+                              error = true;
+                              console.log('delete: ', cmobject.links[j]);
+                              cmobject.links.splice(j, 1);
+                            } else {
+                              // console.log('no delete: ', cmobject.links[j]);
+                            }
+                          }
+                        } else {
+                          error = true;
+                          console.log('delete: ', cmobject.links[j]);
+                          cmobject.links.splice(j, 1);
+                          console.log('non numeric id: ', data[i].id);
                         }
                       }
-                    } else {
-                      dataArray.push(data[i]);
-                      nolinkerrorarray.push(data[i].id)
-                      nolinkerrorcounter++;
-                    }
-                  }
-                } catch (err) {
-                  dataArray.push(data[i]);
-                  objecterrorarray.push(data[i].id)
-                  objecterrorcounter++;
-                  console.log(err)
-                }
-              } else {
-                try {
-                  var cmobject = JSON.parse(data[i].cmobject);
-                  if (cmobject) {
-                    if (cmobject.id0 <= 0 || cmobject.id1 <= 0) {
-                      dataArray.push(data[i]);
-                      id0array.push(data[i].id)
-                      id0counter++;
                     }
                   } else {
                     dataArray.push(data[i]);
-                    lineerrorarray.push(data[i].id)
-                    lineerrorcounter++;
                   }
-                } catch (err) {
-                  undefinderrorcounter++;
-                  undefinderrorarray.push(data[i].id)
-                  dataArray.push(data[i]);
-                  console.log(err)
                 }
+                if (error) {
+                  dataArray.push(data[i]);
+                  data[i].cmobject = JSON.stringify(cmobject);
+                  data[i].save(function (err) {
+                    if (err) {
+                      console.log(err) // #error message
+                    }
+                  });
+                }
+                */
+              } catch (err) {
+                console.log(err)
               }
             }
           }
         }
-        console.log('coor0counter: ', coor0counter, 'id0counter: ', id0counter, 'linkerrorcounter: ', linkerrorcounter,
-        'fixed link error: ', linkerrorcounter1, 'nolinkerrorcounter: ', nolinkerrorcounter, 'objecterrorcounter: ',
-        objecterrorcounter, 'lineerrorcounter: ', lineerrorcounter, 'undefinderrorcounter: ', undefinderrorcounter);
-        var strData = JSON.stringify(dataArray, null, 2);
-        var strIdData = 'coor0errors ' + coor0counter + ': \n' + JSON.stringify(coor0array, null, 2) + '\n';
-        strIdData += 'id0errors ' + id0counter + ': \n' + JSON.stringify(id0array, null, 2) + '\n';
-        strIdData += 'linkerrors ' + linkerrorcounter + ': \n' + JSON.stringify(linkerrorarray, null, 2) + '\n';
-        strIdData += 'fixed link errors ' + linkerrorcounter1 + ': \n' + JSON.stringify(linkerrorarray1, null, 2) + '\n';
-        strIdData += 'nolinkerrors ' + nolinkerrorcounter + ': \n' + JSON.stringify(nolinkerrorarray, null, 2) + '\n';
-        strIdData += 'objecterrors ' + objecterrorcounter + ': \n' + JSON.stringify(objecterrorarray, null, 2) + '\n';
-        strIdData += 'lineerrors ' + lineerrorcounter + ': \n' + JSON.stringify(lineerrorarray, null, 2) + '\n';
-        strIdData += 'undefinderrors ' + undefinderrorcounter + ': \n' + JSON.stringify(undefinderrorarray, null, 2) + '\n';
-        fs.writeFileSync('./dist/assets/errors.json', strData);
-        fs.writeFileSync('./dist/assets/errorsid.json', strIdData);
-        event.returnValue = 'database saved to ' + arg
+        fs.writeFileSync('./dist/assets/newdb.json', JSON.stringify(data, null, 2));
+        event.returnValue = 'changed elements ' + JSON.stringify(dataArray, null, 2);
       }
     });
 

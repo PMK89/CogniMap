@@ -101,6 +101,18 @@ export class NavigatorService {
     }
   }
 
+  // sets current meta in settings
+  public setCurrentMeta(settings) {
+    this.settingsService.updateSettings(settings);
+  }
+
+  // sets current meta in settings
+  public changeCME(cme) {
+    if (cme['id'] && cme['cmobject']) {
+      this.elementService.updateSelCMEo(cme);
+    }
+  }
+
   // add value to current coordinates
   public addCoor(coor: string, n0, n1) {
     try {

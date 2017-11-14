@@ -53,8 +53,10 @@ import { LineShapesService } from './shared/shapes/lineshapes.service';
 import { ObjectShapesService } from './shared/shapes/objectshapes.service';
 import { SnapsvgService } from './shared/snapsvg.service';
 import { MathJaxService } from './shared/mathjax.service';
+import { MetaService } from './shared/meta.service';
 import { NavigatorService } from './widgets/navigator/navigator.service';
 import { MjEditorService } from './widgets/mjeditor/mjeditor.service';
+import { MjEditorLatexService } from './widgets/mjeditor/mjeditor.latex.service';
 import { CodeeditorService } from './widgets/codeeditor/codeeditor.service';
 import { settings } from './reducers/settings.reducer';
 import { buttons } from './reducers/buttons.reducer';
@@ -125,6 +127,8 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
               SnapsvgService,
               NavigatorService,
               MjEditorService,
+              MetaService,
+              MjEditorLatexService,
               CodeeditorService,
               ElementService],
   bootstrap: [ AppComponent ],

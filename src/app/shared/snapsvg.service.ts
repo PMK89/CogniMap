@@ -33,9 +33,12 @@ export class SnapsvgService {
               private cmlsvgService: CmlsvgService) {
                 this.settingsService.cmsettings
                     .subscribe((data) => {
-                      if (data !== undefined) {
+                      if (data !== undefined && data !== null) {
                         this.cmsettings = data;
                         // console.log(data);
+                        if (this.cmsettings.mode !== 'draw_poly') {
+                          this.clearPointLine();
+                        }
                       }
                     });
               }
@@ -83,6 +86,9 @@ export class SnapsvgService {
         break;
       case 't':
         this.cmosvgService.createText(cme, bbox, cmg);
+        break;
+      case 'p':
+        this.cmosvgService.createPoly(cme, bbox, cmg);
         break;
       case 'a':
         this.cmosvgService.createTest(cme, bbox, cmg);
@@ -329,6 +335,75 @@ export class SnapsvgService {
       }
       */
     }
+  }
+
+  // greates points and lines in between them for ployeder figures
+  public pointLine(coor: any, color0: string, color1: string) {
+    if (coor.length > 0) {
+      this.cmsvg = Snap('#cmsvg');
+      let polypoints = this.cmsvg.select('#polypoints');
+      if (polypoints) {
+        polypoints.clear();
+        let pathStrg = 'M'
+        for (let key in coor) {
+          if (coor[key]) {
+            pathStrg += coor[key].x + ' ' + coor[key].y + 'L';
+            let c = this.cmsvg.circle(coor[key].x, coor[key].y, 3);
+            c.attr({
+              fill: color0,
+              title: 'point'
+            });
+            polypoints.add(c);
+          }
+        }
+        let polylines = this.cmsvg.select('#polylines');
+        if (polylines) {
+          polylines.clear();
+          pathStrg = pathStrg.substring(0, pathStrg.length - 1);
+          let path = this.cmsvg.path(pathStrg);
+          path.attr({
+            stroke: color1,
+            fill: 'none',
+            id: 'pointpath',
+            strokeWidth: 1
+          })
+          polylines.add(path);
+          return pathStrg;
+        }
+      }
+    }
+  }
+
+  // greates points and lines in between them for ployeder figures
+  public closeLine(coor: any, color0: string, color1: string) {
+    this.cmsvg = Snap('#cmsvg');
+    if (coor.length > 0) {
+      coor.push(coor[0]);
+      let path = this.pointLine(coor, color0, color1);
+      let pointpath = this.cmsvg.select('#pointpath');
+      if (pointpath) {
+        pointpath.attr({
+          fill: color0
+        });
+        this.clearPointLine();
+        return path;
+      }
+    }
+  }
+
+  // removes points and lines
+  public clearPointLine() {
+    this.cmsvg = Snap('#cmsvg');
+    if (this.cmsvg) {
+      let polylines = this.cmsvg.select('#polylines');
+      if (polylines) {
+        polylines.clear();
+      }
+      let polypoints = this.cmsvg.select('#polypoints');
+      if (polypoints) {
+        polypoints.clear();
+      }
+    }    
   }
 
   // creates popups for media with thumbnails

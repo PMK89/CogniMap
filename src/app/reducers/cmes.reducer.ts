@@ -13,7 +13,7 @@ export function cmes (Cmes: CME[] = [], action: Action) {
       return action.payload;
     case 'DEL_CME':
       return Cmes.filter((cmex) => {
-        return cmex.id !== action.payload.id;
+        return cmex.id !== action.payload;
       });
     case 'UPDATE_CME':
       return Cmes.map((Cme) => cme(Cme, action));

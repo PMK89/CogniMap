@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { LayoutService } from './layout.service';
 import { WindowService } from './shared/window.service';
 import { EventService } from './shared/event.service';
+import { MetaService } from './shared/meta.service';
 import { ElementService } from './shared/element.service';
 import { SettingsService } from './shared/settings.service';
 import { TemplateService } from './shared/template.service';
@@ -34,8 +35,10 @@ export class AppComponent implements AfterViewInit {
   public menueStyle: any = this.layoutService.menueStyle;
   public widgets0Style: any = this.layoutService.widgets0Style;
   public widgets1Style: any = this.layoutService.widgets1Style;
+  public strDown: boolean;
   @ViewChild('TPid') public tpid: ElementRef;
   @ViewChild('TPmaxid') public tpmaxid: ElementRef;
+  @ViewChild('TPmeta') public tpmeta: ElementRef;
   @ViewChild('TPy') public tpy: ElementRef;
   private sizesset = false;
 
@@ -45,6 +48,7 @@ export class AppComponent implements AfterViewInit {
               private elementService: ElementService,
               private templateService: TemplateService,
               private eventService: EventService,
+              private metaService: MetaService,
               private store: Store<CMStore>,
               private renderer: Renderer) {
                 this.windowService.setSize(window.innerWidth, window.innerHeight);
@@ -92,7 +96,7 @@ export class AppComponent implements AfterViewInit {
       this.eventService.onMouseClick(evt);
     });
     this.renderer.listenGlobal('window', 'keydown', (evt) => {
-      this.eventService.onKeyDown(evt);
+      this.strDown = this.eventService.onKeyDown(evt);
       // console.log(evt.key);
     });
     this.renderer.listenGlobal('window', 'keyup', (evt) => {
@@ -114,6 +118,7 @@ export class AppComponent implements AfterViewInit {
 
   // detects changes in third-party controlled elements.
   public changedetect() {
+    // reads values from dom element / communication between incompatible libraries
     let tpidval = this.tpid.nativeElement.title;
     // let tpyval = this.tpy.nativeElement.title;
     let id = parseInt(tpidval, 10);
@@ -121,7 +126,7 @@ export class AppComponent implements AfterViewInit {
       if (this.elementService.selCMEo) {
         if (this.elementService.selCMEo.id === id) {
           console.log(this.cmsettings.mode);
-          if (this.cmsettings.mode === 'edit') {
+          if (this.cmsettings.mode === 'edit' && this.strDown) {
             if (this.elementService.selCMEo.types[0] !== 'i') {
               this.cmaction.variable = ['state'];
               this.cmaction.value = 'typing';
@@ -129,16 +134,24 @@ export class AppComponent implements AfterViewInit {
               this.cmsettings.mode = 'typing';
               this.settingsService.updateSettings(this.cmsettings);
             }
+          } else if (this.elementService.selCMEo.cmobject.style.object.class_array.indexOf('beam') !== -1) {
+            if (this.elementService.selCMEo.cmobject.style.object.num_array.length > 1) {
+              this.windowService.scrollXY(this.elementService.selCMEo.cmobject.style.object.num_array[0],
+               this.elementService.selCMEo.cmobject.style.object.num_array[1]);
+            }
           }
         } else if (this.cmsettings.mode === 'marking') {
           if (this.elementService.markCMEo.id !== id) {
             this.elementService.markCMEo = this.elementService.CMEtoCMEol(this.elementService.getDBCMEbyId(id));
           }
+        } else if (this.cmsettings.mode === 'beam') {
+          // do nothing
         } else {
           if (this.cmsettings.mode === 'connecting') {
             this.elementService.newConnector(id);
-          }
-          this.elementService.setSelectedCME(id);
+          } else {
+            this.elementService.setSelectedCME(id);
+          }          
         }
       } else {
         this.elementService.setSelectedCME(id);
@@ -148,7 +161,16 @@ export class AppComponent implements AfterViewInit {
       this.elementService.setSelectedCME(id);
     }
     this.tpid.nativeElement.title = '0';
-    // console.log('FUCK YEAH: ', tpidval);
+    let tpmetaval = this.tpmeta.nativeElement.title;
+    if (tpmetaval) {
+      tpmetaval = JSON.parse(tpmetaval);
+      if (tpmetaval['type'] && tpmetaval['path'] && tpmetaval['name'] && tpmetaval['pos']) {
+        this.cmsettings.currentMeta = tpmetaval;
+        this.settingsService.updateSettings(this.cmsettings);
+        this.metaService.openFile(tpmetaval['path'], tpmetaval['type']);
+        this.tpmeta.nativeElement.title = '0';
+      }
+    }
   }
 
   // creates exact position for layout
@@ -194,13 +216,13 @@ export class AppComponent implements AfterViewInit {
       // console.log('setSizes');
       if (this.sizesset === false) {
         this.cmsettings['tblayout1'].width = this.windowService.WinWidth;
-        this.cmsettings['wlayout0'].top = this.cmsettings['tblayout1'].height;
+        this.cmsettings['wlayout0'].top = this.cmsettings['tblayout1'].height + 1;
         this.cmsettings['wlayout0'].height = (this.windowService.WinHeight -
-          this.cmsettings['tblayout1'].height) / 2;
+          (this.cmsettings['tblayout1'].height + 2)) / 2;
         this.cmsettings['wlayout1'].top = this.cmsettings['tblayout1'].height +
-          this.cmsettings['wlayout0'].height;
+          this.cmsettings['wlayout0'].height + 2;
         this.cmsettings['wlayout1'].height = (this.windowService.WinHeight -
-          this.cmsettings['tblayout1'].height) / 2;
+          (this.cmsettings['tblayout1'].height + 2)) / 2;
         this.sizesset = true;
         this.setLayout(this.cmsettings['tblayout1'], 'toolbar1Style');
         this.setLayout(this.cmsettings['wlayout0'], 'widgets0Style');

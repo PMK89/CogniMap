@@ -103,6 +103,11 @@ export class TemplateService {
       this.elementService.tempCMEl.prep = '';
       this.elementService.tempCMEl.prep1 = '';
       this.elementService.tempCMEl.state = '';
+      if (this.elementService.tempCMEl.cmobject) {
+        if (this.elementService.tempCMEl.cmobject.str === 'connector') {
+          this.elementService.tempCMEl.cmobject.str = '';
+        }
+      }
     }
   }
 

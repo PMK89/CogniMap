@@ -31,6 +31,7 @@ export class ElementService {
   public tempMarkCMEo: CMEo;
   public cmap = true;
   public allCME = [];
+  public selCME = [];
   public inputtext: string;
   public maxID: number;
   public counter = 0;
@@ -73,6 +74,17 @@ export class ElementService {
                 this.electronService.ipcRenderer.on('changedCME', (event, arg) => {
                   if (arg) {
                     // console.log('changedCME: ', arg, Date.now());
+                  }
+                });
+                this.electronService.ipcRenderer.on('selectedChildren', (event, arg) => {
+                  if (arg) {
+                    console.log('selectedChildren: ', arg);
+                    this.selCMElArray = arg.selCMElArray;
+                    this.selCMElArrayBorder = arg.selCMElArrayBorder;
+                    this.selCMEoArray = arg.selCMEoArray;
+                    this.selCME = arg.selarray;
+                    this.selCMEo = undefined;
+                    this.selectionGroup(this.selCMEoArray, this.selCMElArray);
                   }
                 });
               }
@@ -136,7 +148,7 @@ export class ElementService {
     }
   }
 
-  // gets data from database/server
+  // gets highest id from database/server
   public getMaxID() {
     // Pro: gets data from electron
     let maxID = this.electronService.ipcRenderer.sendSync('maxID', '1');
@@ -149,11 +161,12 @@ export class ElementService {
   }
 
   // makes picture background transparent
-  public makeTrans(color0) {
+  public makeTrans(color0, tolerance) {
     if (this.selCMEo) {
       if (this.selCMEo.cmobject.content.length > 0) {
         if (this.selCMEo.cmobject.content[0].object.indexOf('.png')) {
           let arg = {
+            tolerance: tolerance,
             color: color0,
             file: this.selCMEo.cmobject.content[0].object
           };
@@ -209,7 +222,7 @@ export class ElementService {
               ((parameters.r + 1000) <= x[i].x1 || x[i].x1 <= (parameters.l - 1000))) {
                 let action = {
                   type: 'DEL_CME',
-                  payload: x[i]
+                  payload: x[i].id
                 };
                 this.store.dispatch(action);
                 console.log('del: ', x[i].id);
@@ -217,7 +230,7 @@ export class ElementService {
               ((parameters.b + 1000) <= x[i].y1 || x[i].y1 <= (parameters.t - 1000))) {
                 let action = {
                   type: 'DEL_CME',
-                  payload: x[i]
+                  payload: x[i].id
                 };
                 this.store.dispatch(action);
                 console.log('del: ', x[i].id);
@@ -278,7 +291,7 @@ export class ElementService {
     cme.prep1 = '';
     if (this.tempCMEo) {
       if (this.tempCMEo.id !== cme.id) {
-        this.store.dispatch({type: 'DEL_CME', payload: this.newCME(this.tempCMEo)});
+        this.store.dispatch({type: 'DEL_CME', payload: this.newCME(this.tempCMEo).id});
         this.tempCMEo = cme;
         this.store.dispatch({type: 'ADD_CME', payload: this.newCME(this.tempCMEo)});
       }
@@ -294,7 +307,7 @@ export class ElementService {
     cme.prep1 = '';
     if (this.tempCMEl) {
       if (this.tempCMEl.id !== cme.id) {
-        this.store.dispatch({type: 'DEL_CME', payload: this.newCME(this.tempCMEl)});
+        this.store.dispatch({type: 'DEL_CME', payload: this.newCME(this.tempCMEl).id});
         this.tempCMEl = cme;
         this.store.dispatch({type: 'ADD_CME', payload: this.newCME(this.tempCMEl)});
       }
@@ -377,6 +390,8 @@ export class ElementService {
         x: this.selCMEo.coor.x,
         y: this.selCMEo.coor.y
       };
+      this.electronService.ipcRenderer.send('findChildren', this.selCMEo);
+      /*
       let selarray = this.selectLinks(this.selCMEo);
       for (let key = 0; key < selarray.length; key++) {
         if (selarray[key]) {
@@ -399,6 +414,7 @@ export class ElementService {
       this.selCMEoArray.push(this.selCMEo.id);
       this.selCMEo = undefined;
       this.selectionGroup(this.selCMEoArray, this.selCMElArray);
+      */
     } else {
       alert('please select an element.');
     }
@@ -420,10 +436,12 @@ export class ElementService {
                       if (x0 < data[key].x1 && data[key].x1 < x1 && y0 < data[key].y1 && data[key].y1 < y1) {
                         if (this.selCMElArray.indexOf(data[key].id) === -1) {
                           this.selCMElArray.push(data[key].id);
+                          this.selCME.push(data[key]);
                         }
                       } else {
                         if (this.selCMElArrayBorder.indexOf(data[key].id) === -1) {
                           this.selCMElArrayBorder.push(data[key].id);
+                          this.selCME.push(data[key]);
                           this.startPos = {
                             x: data[key].x0,
                             y: data[key].y0
@@ -433,6 +451,7 @@ export class ElementService {
                     } else {
                       if (x0 < data[key].x1 && data[key].x1 < x1 && y0 < data[key].y1 && data[key].y1 < y1) {
                         if (this.selCMEoArray.indexOf(data[key].id) === -1) {
+                          this.selCME.push(data[key]);
                           this.selCMEoArray.push(data[key].id);
                         }
                       }
@@ -440,6 +459,7 @@ export class ElementService {
                   } else if (x0 < data[key].x1 && data[key].x1 < x1 && y0 < data[key].y1 && data[key].y1 < y1) {
                     if (data[key].id < 0) {
                       if (this.selCMElArrayBorder.indexOf(data[key].id) === -1) {
+                        this.selCME.push(data[key]);
                         this.selCMElArrayBorder.push(data[key].id);
                         this.startPos = {
                           x: data[key].x1,
@@ -505,6 +525,7 @@ export class ElementService {
 
   // cleans area selection before a new one
   public clearAreaSelection() {
+    this.selCME = [];
     this.selCMElArray = [];
     this.selCMEoArray = [];
     this.selCMElArrayBorder = [];
@@ -516,11 +537,9 @@ export class ElementService {
     if (this.selCMEo && id > 0) {
       if (this.selCMEo.id !== id) {
         this.selCMEo.state = '';
-        let newCME = this.newCME(this.selCMEo);
-        this.store.dispatch({type: 'UPDATE_CME', payload: newCME });
+        this.updateSelCMEo(this.selCMEo);
         // if a marker is the current selected element update settings
         if (this.selCMEo.types[0] === 'm') {
-
           this.cmsettings.cmtbmarking.types = this.selCMEo.types;
           this.cmsettings.cmtbmarking.prio = this.selCMEo.prio;
           this.cmsettings.cmtbmarking.trans = this.selCMEo.cmobject.style.object.trans;
@@ -534,8 +553,7 @@ export class ElementService {
     if (this.selCMEl && id < 0) {
       if (this.selCMEl.id !== id) {
         this.selCMEl.state = '';
-        let newCME = this.newCME(this.selCMEl);
-        this.store.dispatch({type: 'UPDATE_CME', payload: newCME });
+        this.updateSelCMEl(this.selCMEl);
         // this.changeDBCME(newCME);
       }
     }
@@ -725,7 +743,7 @@ export class ElementService {
       });
       this.updateCMEol(oldcme);
       this.setSelectedCME(newElemObj.id);
-      console.log('old: ', oldcme, ' new: ', newElemObj);
+      //console.log('old: ', oldcme, ' new: ', newElemObj);
       this.newCMEl(oldcme, newElemObj);
       // console.log('Object: ', action);
     }
@@ -788,12 +806,23 @@ export class ElementService {
                 if (data[key]) {
                   if (data[key].id === id) {
                     id = 0;
+                    let weight = -1;
                     let ccme = this.CMEtoCMEol(data[key]);
+                    if (Math.abs(ccme.coor.x - this.selCMEo.coor.x) > 2000 || Math.abs(ccme.coor.y - this.selCMEo.coor.y) > 2000) {
+                      for (let i in ccme.cmobject.links) {
+                        if (ccme.cmobject.links[i]) {
+                          if (!ccme.cmobject.links[i].start) {
+                            weight = 0;
+                            console.log('end found');
+                          }
+                        }
+                      }
+                    }
                     ccme.cmobject.links.push({
                       id: 0,
                       targetId: this.selCMEo.id,
                       title: this.selCMEo.title,
-                      weight: -1,
+                      weight: weight,
                       con: 'e',
                       start: false
                     });
@@ -801,13 +830,13 @@ export class ElementService {
                       id: 0,
                       targetId: ccme.id,
                       title: ccme.title,
-                      weight: -1,
+                      weight: weight,
                       con: 'e',
                       start: true
                     });
                     this.selCMEo.state = '';
                     this.updateSelCMEo(this.selCMEo);
-                    console.log('old: ', this.selCMEo, ' new: ', ccme);
+                    // console.log('old: ', this.selCMEo, ' new: ', ccme);
                     this.newCMEl(this.selCMEo, ccme);
                     // console.log('Object: ', action);
                     this.setSelectedCME(ccme.id);
@@ -863,6 +892,12 @@ export class ElementService {
         // console.log('y1<=y0: ', newElem.coor);
       }
       // console.log('after: ', newElem.coor);
+      // indicates an connector
+      if (this.cmsettings.mode === 'connecting') {
+        newElem.cmobject.str = 'connector';
+      } else {
+        newElem.cmobject.str = newElem.cmobject.str.replace('connector', '');
+      }
       oldlink[oldcme.cmobject.links.length - 1].id = newElem.id;
       this.updateCMEol(oldcme);
       newcme.cmobject.links[newcme.cmobject.links.length - 1].id = newElem.id;
@@ -878,7 +913,7 @@ export class ElementService {
       }
       this.setSelectedCME(newElem.id);
       // console.log('after dispatch: ', newElem.coor);
-      // console.log('old: ', oldcme, ' new: ', newcme, ' newLine: ', newElem);
+      console.log('old: ', oldcme, ' new: ', newcme, ' newLine: ', newElem);
       // console.log('Line: ', action);
     }
   }
@@ -1122,6 +1157,12 @@ export class ElementService {
       if (this.cmsettings.mode !== 'marking') {
         this.markCMEo = undefined;
       }
+      if (this.cmsettings.mode !== 'draw_poly') {
+        if (this.cmsettings.pointArray.length > 0) {
+          this.cmsettings.pointArray = [];
+          this.settingsService.updateSettings(this.cmsettings);
+        }
+      }
     }
   }
 
@@ -1339,59 +1380,66 @@ export class ElementService {
       this.counter = 0;
       let locCMEArray = this.selCMEoArray.concat(this.selCMElArray);
       let borderLinks = [];
-      this.cmelements
-          .subscribe((data) => {
-              for (let key in data) {
-                if (data[key]) {
-                  // select elements within the selcted area
-                  if (data[key]['id']) {
-                    let pos = locCMEArray.indexOf(data[key].id);
-                    if (pos !== -1) {
-                      let cme = this.CMEtoCMEol(data[key]);
-                      // console.log(cme);
-                      cme.coor.x += x;
-                      cme.coor.y += y;
-                      cme.x0 += x;
-                      cme.y0 += y;
-                      cme.x1 += x;
-                      cme.y1 += y;
-                      cme.prep = '';
-                      cme.prep1 = '';
-                      // data[key] = this.newCME(cme);
-                      locCMEArray.splice(pos, 1);
-                      if (cme.id > 0) {
-                        for (let i in cme.cmobject.links) {
-                          if (cme.cmobject.links[i]) {
-                            let link = cme.cmobject.links[i];
-                            if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
-                              // console.log(cme);
-                              borderLinks.push(cme);
-                            }
-                          }
-                        }
+      if (this.selCME.length > 0) {
+        for (let key in this.selCME) {
+          if (this.selCME[key]) {
+            // select elements within the selcted area
+            if (this.selCME[key]['id']) {
+              let pos = locCMEArray.indexOf(this.selCME[key].id);
+              if (pos !== -1) {
+                let cme;
+                if (this.selCME[key].id > 0) {
+                  cme = this.CMEtoCMEol(this.selCME[key]);
+                } else {
+                  cme = this.selCME[key];
+                }
+                // console.log(cme);
+                cme.coor.x += x;
+                cme.coor.y += y;
+                cme.x0 += x;
+                cme.y0 += y;
+                cme.x1 += x;
+                cme.y1 += y;
+                cme.prep = '';
+                cme.prep1 = '';
+                // data[key] = this.newCME(cme);
+                locCMEArray.splice(pos, 1);
+                if (cme.id > 0) {
+                  for (let i in cme.cmobject.links) {
+                    if (cme.cmobject.links[i]) {
+                      let link = cme.cmobject.links[i];
+                      if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
+                        // console.log(cme);
+                        borderLinks.push(cme);
                       }
-                      let storeaction = {type: 'UPDATE_CME', payload: this.newCME(cme) };
-                      this.store.dispatch(storeaction);
                     }
                   }
+                  cme = this.newCME(cme);
                 }
-              }
-            }).unsubscribe();
-      if (borderLinks.length > 0) {
-        for (let i in borderLinks) {
-          if (borderLinks[i]) {
-            for (let j in borderLinks[i].cmobject.links) {
-              if (borderLinks[i].cmobject.links[j]) {
-                let link = borderLinks[i].cmobject.links[j];
-                if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
-                  let conxy = this.conectionCoor(borderLinks[i], link);
-                  this.changeLink(link.id, conxy[0], conxy[1], link.start);
-                }
+                let storeaction = {type: 'UPDATE_CME', payload: cme };
+                this.store.dispatch(storeaction);
               }
             }
           }
         }
-        this.clearselectionGroup();
+        if (borderLinks.length > 0) {
+          for (let i in borderLinks) {
+            if (borderLinks[i]) {
+              for (let j in borderLinks[i].cmobject.links) {
+                if (borderLinks[i].cmobject.links[j]) {
+                  let link = borderLinks[i].cmobject.links[j];
+                  if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
+                    let conxy = this.conectionCoor(borderLinks[i], link);
+                    this.changeLink(link.id, conxy[0], conxy[1], link.start);
+                  }
+                }
+              }
+            }
+          }
+          this.clearselectionGroup();
+        }
+      } else {
+        alert('no Elements selected');
       }
     }
   }
@@ -1506,60 +1554,81 @@ export class ElementService {
       cmeselection.remove();
     }
     cmeselection = cmeselect.g({id: 'cmeselectiongroup'});
-    let i = 0;
-    let color = '';
-    if (this.cmsettings.mode === 'dragging') {
-      color = '#ff0000';
-      for (i = 0; i < CMElArray.length; i++) {
-        if (cmsvg.select('#g' + CMElArray[i])) {
-          cmeselection.add(cmsvg.select('#g' + CMElArray[i]).clone());
-        }
+    if (CMEoArray.length === 1) {
+      if (!this.selCMEo || this.selCMEo['id'] !== CMEoArray[0]) {
+        this.setSelectedCME(CMEoArray[0]);
       }
-      for (i = 0; i < CMEoArray.length; i++) {
-        if (cmsvg.select('#g' + CMEoArray[i])) {
-          cmeselection.add(cmsvg.select('#g' + CMEoArray[i]).clone());
-        }
-      }
-      let move = function(dx, dy) {
-        this.attr({
-                  transform: this.data('origTransform') +
-                   (this.data('origTransform') ? 'T' : 't') + [dx, dy]
-                });
-              };
-
-      let start = function() {
-          this.data('origTransform', this.transform().local );
-        };
-      let stop = function() {
-          // console.log('finished dragging');
-          document.getElementById('TPid').title = '0';
-          // document.getElementById('TPy').title = this.cmgroup.attr('y');
-        };
-      cmeselection.drag(move, start, stop);
     } else {
-      cmeselection.undrag();
-      color = '#0000ff';
-      for (i = 0; i < CMElArray.length; i++) {
-        if (cmsvg.select('#g' + CMElArray[i])) {
-          cmeselection.add(cmsvg.select('#g' + CMElArray[i]).clone());
+      let i = 0;
+      let color = '';
+      if (this.cmsettings.mode === 'dragging') {
+        color = '#ff0000';
+        try {
+          for (i = 0; i < CMElArray.length; i++) {
+            if (cmsvg.select('#g' + CMElArray[i])) {
+              cmeselection.add(cmsvg.select('#g' + CMElArray[i]).clone());
+            }
+          }
+        } catch (err) {
+          console.log(err, CMElArray[i])
+        }
+        try {
+          for (i = 0; i < CMEoArray.length; i++) {
+            if (cmsvg.select('#g' + CMEoArray[i])) {
+              cmeselection.add(cmsvg.select('#g' + CMEoArray[i]).clone());
+            }
+          }
+        } catch (err) {
+          console.log(err, CMEoArray[i])
+        }
+        let move = function(dx, dy) {
+          this.attr({
+                    transform: this.data('origTransform') +
+                     (this.data('origTransform') ? 'T' : 't') + [dx, dy]
+                  });
+                };
+        let start = function() {
+            this.data('origTransform', this.transform().local );
+          };
+        let stop = function() {
+            // console.log('finished dragging');
+            document.getElementById('TPid').title = '0';
+            // document.getElementById('TPy').title = this.cmgroup.attr('y');
+          };
+        cmeselection.drag(move, start, stop);
+      } else {
+        cmeselection.undrag();
+        color = '#0000ff';
+        try {
+          for (i = 0; i < CMElArray.length; i++) {
+            if (cmsvg.select('#g' + CMElArray[i])) {
+              cmeselection.add(cmsvg.select('#g' + CMElArray[i]).clone());
+            }
+          }
+        } catch (err) {
+          console.log(err, CMElArray[i])
+        }
+        try {
+          for (i = 0; i < CMEoArray.length; i++) {
+            if (cmsvg.select('#g' + CMEoArray[i])) {
+              cmeselection.add(cmsvg.select('#g' + CMEoArray[i]).clone());
+            }
+          }
+        } catch (err) {
+          console.log(err, CMEoArray[i])
         }
       }
-      for (i = 0; i < CMEoArray.length; i++) {
-        if (cmsvg.select('#g' + CMEoArray[i])) {
-          cmeselection.add(cmsvg.select('#g' + CMEoArray[i]).clone());
-        }
-      }
+      let BBox = cmeselection.getBBox();
+      let marking = cmsvg.rect(BBox.x, BBox.y, (BBox.w), (BBox.h));
+      marking.attr({
+        fill: 'none',
+        opacity: 0.5,
+        strokeWidth: 5,
+        id: 'cmeselectionmark',
+        stroke: color
+      });
+      cmeselection.add(marking);
     }
-    let BBox = cmeselection.getBBox();
-    let marking = cmsvg.rect(BBox.x, BBox.y, (BBox.w), (BBox.h));
-    marking.attr({
-      fill: 'none',
-      opacity: 0.5,
-      strokeWidth: 5,
-      id: 'cmeselectionmark',
-      stroke: color
-    });
-    cmeselection.add(marking);
   }
 
   // clears selection as one group
@@ -1608,6 +1677,25 @@ export class ElementService {
          ).unsubscribe();
   }
 
+  // inserts content
+  public pasteContent() {
+    if (this.selCMEo && this.cmsettings.copy) {
+      if (this.cmsettings.copy.type === 'content') {
+        try {
+          let newcontent = JSON.parse(this.cmsettings.copy.strg);
+          if (newcontent) {
+            if (newcontent['info'] && newcontent['object']) {
+              this.selCMEo.cmobject.content.push(newcontent);
+              this.updateSelCMEo(this.selCMEo);
+            }
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+  }
+
   // changes object link titles if title of object is changed
   public changeObjectTitle(id: number, title: string, linkid: number) {
     this.cmelements
@@ -1620,6 +1708,31 @@ export class ElementService {
                     if (cme.cmobject.links[i]) {
                       if (cme.cmobject.links[i].id === linkid) {
                         cme.cmobject.links[i].title = title;
+                      }
+                    }
+                  }
+                  this.updateCMEol(cme);
+                  id = 0;
+                }
+              }
+            }
+          },
+          (error) => console.log(error),
+         ).unsubscribe();
+  }
+
+  // changes object link weight
+  public changeLinkWeight(id: number, linkid: number, weight: number) {
+    this.cmelements
+        .subscribe((data) => {
+            for (let key in data) {
+              if (data[key]) {
+                if (data[key].id === id) {
+                  let cme = this.CMEtoCMEol(data[key]);
+                  for (let i in cme.cmobject.links) {
+                    if (cme.cmobject.links[i]) {
+                      if (cme.cmobject.links[i].id === linkid) {
+                        cme.cmobject.links[i].weight = weight;
                       }
                     }
                   }
@@ -1680,7 +1793,8 @@ export class ElementService {
               break;
             } else {
               if (action.value.indexOf('$$') !== -1) {
-                action.value = action.value.replace(/$$/g, '');
+                action.value = action.value.replace('$$', '');
+                action.value = action.value.replace('$$', '');
                 let content = {
                   cat: 'LateX',
                   coor: {
@@ -1693,20 +1807,7 @@ export class ElementService {
                   height: 100
                 };
                 this.selCMEo.cmobject.content.push(content);
-              } else if (action.value.indexOf('cm/pmk_') !== -1) {
-                let content = {
-                  cat: 'png',
-                  coor: {
-                    x: 0,
-                    y: 0
-                  },
-                  object: action.value,
-                  width: 100,
-                  info: action.value,
-                  height: 100
-                };
-                this.selCMEo.cmobject.content.push(content);
-              }else {
+              } else {
                 this.selCMEo.title = action.value;
               }
               this.selCMEo.state = 'new';
@@ -1913,19 +2014,73 @@ export class ElementService {
     }
   }
 
+  // creates beam component
+  public makeBeam(coor, id) {
+    if (this.selCMEo && coor.x && coor.y) {
+      this.selCMEo.cmobject.style.object.num_array = [coor.x, coor.y];
+      let newlink = {
+        id: 0,
+        targetId: id,
+        title: 'beam',
+        weight: 0,
+        con: 'e',
+        start: true
+      }
+      if (this.selCMEo.cmobject.style.object.class_array.indexOf('beam') === -1) {
+        this.selCMEo.cmobject.style.object.class_array.push('beam')
+        this.selCMEo.cmobject.links.push(newlink);
+      } else {
+        for (let key in this.selCMEo.cmobject.links) {
+          if (this.selCMEo.cmobject.links[key]) {
+            if (this.selCMEo.cmobject.links[key].title = 'beam') {
+              this.selCMEo.cmobject.links[key] = newlink;
+            }
+          }
+        }
+      }
+      this.updateSelCMEo(this.selCMEo);
+    }
+
+  }
+
+  // deletes selected elements
+  public delSel() {
+    if (this.cmsettings.mode === 'selecting') {
+      if (this.selCMEoArray.length > 0 && this.selCMElArray.length > 0) {
+        let allIdArray = this.selCMEoArray.concat(this.selCMElArray);
+        if (this.selCMElArrayBorder.length > 0) {
+          for (let key in this.selCMElArrayBorder) {
+            if (this.selCMElArrayBorder[key]) {
+              this.setSelectedCME(this.selCMElArrayBorder[key]);
+              this.delCME(this.selCMElArrayBorder[key]);
+            }
+          }
+        }
+        for (let key in allIdArray) {
+          if (allIdArray[key]) {
+            let action = {
+              type: 'DEL_CME',
+              payload: allIdArray[key]
+            };
+            this.store.dispatch(action);
+            this.deleteDBCME(allIdArray[key]);
+          }
+        }
+        this.cmsettings.mode = 'edit';
+        this.settingsService.updateSettings(this.cmsettings);
+      }
+    }
+  }
+
   // deletes selected element
   public delCME(id: number) {
-    if (this.cmsettings.mode === 'typing') {
-      this.cmsettings.mode = 'edit';
-      this.settingsService.updateSettings(this.cmsettings);
-    }
     if (id < -1) {
       if (id === this.selCMEl.id) {
         this.delLink(this.selCMEl.cmobject.id0, id);
         this.delLink(this.selCMEl.cmobject.id1, id);
         let action = {
           type: 'DEL_CME',
-          payload: this.selCMEl
+          payload: this.selCMEl.id
         };
         this.store.dispatch(action);
         this.store.dispatch({ type: 'DEL_SCMEL', payload: ''});
@@ -1941,7 +2096,7 @@ export class ElementService {
         }
         let action = {
           type: 'DEL_CME',
-          payload: this.selCMEo
+          payload: this.selCMEo.id
         };
         this.store.dispatch(action);
         this.store.dispatch({ type: 'DEL_SCMEO', payload: ''});
@@ -1963,7 +2118,7 @@ export class ElementService {
                     this.delLink(cme.cmobject.id1, linkid);
                     let action = {
                       type: 'DEL_CME',
-                      payload: cme
+                      payload: cme.id
                     };
                     this.store.dispatch(action);
                     this.deleteDBCME(cme.id);
@@ -1990,7 +2145,7 @@ export class ElementService {
             }
           }
         }
-        if (pos) {
+        if (typeof pos === 'number') {
           cme.cmobject.links.splice(pos, 1);
           let newCME = this.newCME(cme);
           this.updateCME(newCME);

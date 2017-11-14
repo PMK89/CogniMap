@@ -7,10 +7,10 @@
 <script>
     //this function will be called after the JavaScriptApplet code has been loaded.
     function jsmeOnLoad() {
-        var startingStructure = "13 14 C 15.94 -11.45 C 15.94 -10.05 C 14.72 -9.35 C 13.51 -10.05 C 13.51 -11.45 C 14.72 -12.15 C 17.34 -11.45 C 17.34 -10.05 O 18.33 -9.06 C 18.33 -12.44 C 17.96 -13.79 C 19.68 -12.07 N 21.03 -11.71 1 2 1 2 3 -1 3 4 1 4 5 1 5 6 1 1 6 -1 7 8 1 2 8 1 1 7 1 8 9 2 7 10 -1 10 11 2 10 12 1 12 13 3";
+        var startingStructure = document.getElementById('structure').value;
         jsmeApplet = new JSApplet.JSME("jsme_container", "580px", "370px", {
             "options" : "oldlook",
-            "jme" : startingStructure
+            "smiles" : startingStructure
         });
         jsmeApplet.setNotifyStructuralChangeJSfunction("showSVG");
    }
@@ -18,12 +18,11 @@
      var text = {
        type: 'jsme-svg',
        object: jsmeApplet.getMolecularAreaGraphicsString(),
-       info: jsmeApplet.molFile
+       info: jsmeApplet.nonisomericSmiles()
      };
-    var elm = document.getElementById("svg_textarea");
- 	 elm.value = JSON.stringify(text);
-    elm.select();
-
+     var elm = document.getElementById("svg_textarea");
+     elm.value = JSON.stringify(text);
+     elm.select();
    }
 </script>
 </head>
@@ -31,7 +30,8 @@
 <body style="margin: 0px !important; padding: 0px !important; overflow: hidden;">
 <div id="jsme_container" ></div>
 <button type="button" onclick="showSVG()">CM</button><input type="text" id="svg_textarea" defaultValue="">
-<div id="cmoutput"  style="display: none"></div>
+<div id="cmoutput" style="display: none"></div>
+<input type="text" style="display: none" id="structure" value="CC1CCC/C(C)=C1/C=C/C(C)=C/C=C/C(C)=C/C=C/C=C(C)/C=C/C=C(C)/C=C/C2=C(C)/CCCC2(C)C">
 
 </body>
 </html>

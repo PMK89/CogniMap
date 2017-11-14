@@ -53,6 +53,11 @@ export class LayoutService {
 
   public widgets0Style = {
     'position': 'fixed',
+    'border-style': 'solid',
+    'border-width': '1px',
+    'border-color': '#808080',
+    'border-radius': '5px',
+    'overflow': 'hidden',
     'padding': 0,
     'left': 0,
     'top': 0,
@@ -65,6 +70,11 @@ export class LayoutService {
 
   public widgets1Style = {
     'position': 'fixed',
+    'border-style': 'solid',
+    'border-width': '1px',
+    'border-color': '#808080',
+    'border-radius': '5px',
+    'overflow': 'hidden',
     'padding': 0,
     'left': 0,
     'top': 0,

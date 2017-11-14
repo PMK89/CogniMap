@@ -58,10 +58,10 @@
       ]
     },
     "cmtbmarking": {
-      "color0": "#ec3100",
-      "color1": "#ff0000",
-      "prio": 5,
-      "trans": 0.5000000000000001,
+      "color0": "#ffcb28",
+      "color1": "#ffbf00",
+      "prio": 3,
+      "trans": 0.40000000000000013,
       "types": [
         "m",
         "r",
@@ -86,14 +86,30 @@
     },
     "cngtemp": false,
     "coor": {
-      "x": 328039,
-      "y": 155942
+      "x": 255618,
+      "y": 196925
+    },
+    "copy": {
+      "num": 0,
+      "numArray": [],
+      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1508674253186.png\",\"width\":100,\"info\":\"png\",\"height\":100}",
+      "strgArray": [],
+      "type": "content"
+    },
+    "copycolor": "#012044",
+    "currentMeta": {
+      "comment": "",
+      "name": "Crash Course Physics: Friction",
+      "path": "https://youtu.be/Y-QOfc2XqOk",
+      "pos": "0",
+      "type": "link"
     },
     "debug": true,
     "dev": false,
     "dirty": true,
     "dragging": false,
     "id": 1,
+    "latexcolor": "#ffff00",
     "menue": {
       "display": "block",
       "height": 400,
@@ -105,6 +121,7 @@
       "z-index": 490
     },
     "mode": "edit",
+    "pointArray": [],
     "selcmeo": {
       "cat": [],
       "cmobject": {
@@ -343,28 +360,28 @@
       "opacity": 0.8,
       "position": "fixed",
       "top": 0,
-      "width": 1800,
+      "width": 1920,
       "z-index": 515
     },
-    "widget0": "navigator",
+    "widget0": "none",
     "widget1": "none",
     "wlayout0": {
-      "display": "block",
-      "height": 447.5,
+      "display": "none",
+      "height": 454,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
-      "top": 80,
+      "top": 81,
       "width": 600,
       "z-index": 510
     },
     "wlayout1": {
       "display": "none",
-      "height": 447.5,
+      "height": 454,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
-      "top": 527.5,
+      "top": 536,
       "width": 600,
       "z-index": 510
     }

@@ -311,13 +311,15 @@
   </g>
   <g id="cmeselection"></g>
   <g id="minicmap"></g>
+  <g id="polylines"></g>
+  <g id="polypoints"></g>
 </svg>
 <div id="selection" [ngStyle]="selection"></div>
 <div id="position" [ngStyle]="position"></div>
 <app-cmapMedia style="z-index: 5; position absolute"></app-cmapMedia>
 <div style="z-index: 3; position absolute">
   <div *ngFor="let cmelement of cmelements | async">
-        <app-cmline *ngIf="cmelement.id < 0"  [ngStyle]="elementStyle(cmelement)" [cmelement]="cmelement"></app-cmline>
-        <app-cmobject *ngIf="cmelement.id > 0" [ngStyle]="elementStyle(cmelement)" [cmelement]="cmelement"></app-cmobject>
+    <app-cmline *ngIf="cmelement.id < 0"  [ngStyle]="elementStyle(cmelement)" [cmelement]="cmelement"></app-cmline>
+    <app-cmobject *ngIf="cmelement.id > 0" [ngStyle]="elementStyle(cmelement)" [cmelement]="cmelement"></app-cmobject>
   </div>
 </div>

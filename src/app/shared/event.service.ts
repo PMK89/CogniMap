@@ -8,6 +8,7 @@ import 'rxjs/add/observable/fromEvent';
 import { ElementService } from './element.service';
 import { TemplateService } from './template.service';
 import { SettingsService } from './settings.service';
+import { SnapsvgService } from './snapsvg.service';
 import { WindowService } from './window.service';
 import { CMStore } from '../models/CMStore';
 
@@ -44,6 +45,7 @@ export class EventService {
   public selCMEl: any;
   public selCMElTime: number;
   public cmsettings: any;
+  public pointArray: CMCoor[] = [];
   public position: CMCoor;
   public buttons: Observable<CMButton[]>;
   public decoArray: string[] = ['none', 'line-through', 'underline'];
@@ -52,6 +54,7 @@ export class EventService {
               private settingsService: SettingsService,
               private electronService: ElectronService,
               private elementService: ElementService,
+              private snapsvgService: SnapsvgService,
               private templateService: TemplateService,
               private store: Store<CMStore>) {
                 this.store.select('settings')
@@ -166,7 +169,43 @@ export class EventService {
         } else if (this.elementService.selCMEoArray.length > 0 && this.elementService.selCMElArray.length > 0) {
           this.cmsettings.mode = 'selecting';
           this.settingsService.updateSettings(this.cmsettings);
-        }*/
+        }*/ // collects points for svg
+      } else if (this.cmsettings.mode === 'draw_poly') {
+        if (this.selCMEo) {
+          if (this.selCMEo['cmobject']['style']['object']) {
+            let color0 = this.selCMEo['cmobject']['style']['object'].color0;
+            let color1 = this.selCMEo['cmobject']['style']['object'].color1;
+            if (parseInt(evt.target.title, 10) < 0 || parseInt(evt.target.title, 10) > 0 ||
+             evt.target.id === 'cmap' || evt.target.id === 'cmsvg') {
+              let coor = {
+                x: this.clickX,
+                y: this.clickY
+              };
+              this.cmsettings.pointArray.push(coor);
+              this.settingsService.updateSettings(this.cmsettings);
+              console.log(this.cmsettings.pointArray[0].x, this.clickX, this.cmsettings.pointArray[0].y, this.clickY);
+              this.snapsvgService.pointLine(this.cmsettings.pointArray, color0, color1);
+            } else if (this.cmsettings.pointArray[0]) {
+              if (this.clickX <= (this.cmsettings.pointArray[0].x + 3) && this.clickX >= (this.cmsettings.pointArray[0].x - 3) &&
+              this.clickY <= (this.cmsettings.pointArray[0].y + 3) && this.clickY >= (this.cmsettings.pointArray[0].y - 3)) {
+                let minX = Math.min.apply(Math,this.cmsettings.pointArray.map(function(o){return o.x;}));
+                let minY = Math.min.apply(Math,this.cmsettings.pointArray.map(function(o){return o.y;}));
+                for (let key in this.cmsettings.pointArray) {
+                  if (this.cmsettings.pointArray[key]) {
+                    this.cmsettings.pointArray[key].x = this.cmsettings.pointArray[key].x - minX;
+                    this.cmsettings.pointArray[key].y = this.cmsettings.pointArray[key].y - minY;
+                  }
+                }
+                this.selCMEo.cmobject.style.object.str = this.snapsvgService.closeLine(this.cmsettings.pointArray, color0, color1);
+                this.selCMEo.cmobject.style.object.str += 'xdif:' + (minX - this.selCMEo.coor.x).toString() + 'ydif:' + (minY - this.selCMEo.coor.y).toString()
+                this.selCMEo.types = ['s', 'p', 'b'];
+                this.elementService.updateSelCMEo(this.selCMEo);
+                this.cmsettings.pointArray = [];
+                this.settingsService.updateSettings(this.cmsettings);
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -209,6 +248,14 @@ export class EventService {
            (typeof parseInt(evt.target.title, 10) === 'number'));
            */
           this.elementService.newPointer(coor);
+      }
+    } else if (this.cmsettings.mode === 'beam') {
+      if (typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '') {
+          let coor = {
+            x: this.clickX,
+            y: this.clickY
+          };
+          this.elementService.makeBeam(coor, parseInt(evt.target.title, 10));
       }
     }
   }
@@ -267,7 +314,7 @@ export class EventService {
   // handles mouse up
   public onMouseUp(evt) {
     // used in edit mode to drag
-    console.log('event.service: onMouseUp');
+    // console.log('event.service: onMouseUp');
     if (this.cmsettings.mode === 'dragging') {
       this.dragX = evt.clientX  + this.windowService.WinXOffset - this.startX;
       this.dragY = evt.clientY + this.windowService.WinYOffset - this.startY;
@@ -423,16 +470,6 @@ export class EventService {
     if (this.keyPressed.indexOf(evt.key) === -1) {
       this.keyPressed.push(evt.key);
     }
-    if (this.keyPressed.indexOf('Delete') !== -1) {
-      // deletes latest marked object
-      if (this.cmsettings.mode === 'marking') {
-        this.cmsettings.mode = 'edit';
-        this.settingsService.updateSettings(this.cmsettings);
-      }
-      if (this.cmsettings.mode === 'edit' || this.cmsettings.mode === 'dragging') {
-        this.delCmd();
-      }
-    }
     if (this.keyPressed.indexOf('Control') !== -1) {
       // uses arrow keys to choose links and move through cognimap
       if (this.keyPressed.indexOf('f') === -1 && this.keyPressed.indexOf('o') === -1 &&
@@ -587,8 +624,10 @@ export class EventService {
         if (this.cmsettings.mode === 'cutting') {
           this.cmsettings.mode = 'edit';
         } else if (this.cmsettings.mode !== 'typing') {
-          this.cmsettings.mode = 'cutting';
-          this.elementService.hideCMEs();
+          if (this.cmsettings.widget0 !== 'none' && this.cmsettings.widget1 !== 'none') {
+            this.cmsettings.mode = 'cutting';
+            this.elementService.hideCMEs();
+          }
         }
         this.settingsService.updateSettings(this.cmsettings);
       }
@@ -632,6 +671,22 @@ export class EventService {
           }
         }
       }
+      // deleting function
+      if (this.keyPressed.indexOf('Delete') !== -1) {
+        // deletes latest marked object
+        if (this.cmsettings.mode === 'marking') {
+          this.cmsettings.mode = 'edit';
+          this.settingsService.updateSettings(this.cmsettings);
+        }
+        if (this.cmsettings.mode === 'dragging' || this.cmsettings.mode === 'edit') {
+          this.delCmd();
+        } else if (this.cmsettings.mode === 'selecting') {
+          if (this.elementService.selCMElArray.length > 0 && this.elementService.selCMEoArray.length > 0) {
+            this.elementService.delSel();
+          }
+        }
+      }
+      return true;
       // console.log(this.keyPressed);
     } else if (this.keyPressed.indexOf('Shift') !== -1) {
       let dist = 10;
@@ -727,6 +782,9 @@ export class EventService {
           }
         }
       }
+      return false;
+    } else {
+      return false;
     }
   }
 

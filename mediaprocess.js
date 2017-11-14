@@ -1,5 +1,6 @@
-const { BrowserWindow, clipboard, ipcMain, nativeImage, session } = require('electron');
+const { BrowserWindow, clipboard, ipcMain, nativeImage, session, shell } = require('electron');
 const fs = require('fs');
+const exec = require('child_process').exec;
 // const getPixels = require("get-pixels")
 const PNG = require('pngjs').PNG;
 const mjAPI = require("mathjax-node");
@@ -20,25 +21,135 @@ const createMediaWindow = function createMediaWindow () {
     mediawin = null
   });
 
-  // get clipboard content if its a picture
-  ipcMain.on('getPicture', (event, arg) => {
-    // console.log('Parameters: ', arg);
-    var nimg = clipboard.readImage().toPNG();
-    var picture_link = 'chem/oc/' + Date.now().toString() + '.png';
-    fs.writeFileSync(('./dist/assets/images/' + picture_link), nimg);
+  // opens url in os' default browser
+  ipcMain.on('openBrowser', (event, arg) => {
+    if (arg) {
+      if (arg['type'] && arg['path'] && arg['complete']) {
+        switch (arg.type) {
+          case 'pdf':
+            var path
+            if (arg.complete) {
+              path = 'file://' + arg.path;
+            } else {
+              path = 'file://' + __dirname + arg.path;
+            }
+            shell.openExternal(path);
+            event.returnValue = 'Opened PDF: ' + path;
+            break;
+          case 'txt':
+            var path
+            if (arg.complete) {
+              path = arg.path;
+            } else {
+              path = 'file://' + __dirname + arg.path;
+            }
+            shell.openExternal(path);
+            event.returnValue = 'Opened txt: ' + path;
+            break;
+          case 'link':
+            shell.openExternal(arg.path);
+            event.returnValue = 'Opened site: ' + arg.path;
+            break;
+          case 'audio':
+          case 'videos':
+            var path
+            if (arg.complete) {
+              path = 'vlc ' + arg.path;
+            } else {
+              path = 'vlc ' + __dirname + arg.path;
+            }
+            function execute(command, callback){
+                exec(command, function(error, stdout, stderr){ callback(stdout); });
+            };
+            // call the function
+            execute(path, function(output) {
+                console.log(output);
+            });
+            event.returnValue = 'Opened video: ' + path;
+            break;
+          default:
+            event.returnValue = 'Can not open: ' + arg.path + 'unknown type' + arg.type;
+        }
+      }
+    }
+  })
 
-    event.returnValue = picture_link;
+  // reads files in assets
+  ipcMain.on('readAssetFiles', (event, arg) => {
+    var filearray = [];
+    function iterateDirectories(folders) {
+      if (folders) {
+        if (folders.length > 0) {
+          for (var i = 0; i < folders.length; i++) {
+            var folder = {
+              name: folders[i].name,
+              files: [],
+              folders: []
+            };
+            var dir = fs.readdirSync(folders[i].path);
+            if (dir) {
+              for (var j = 0; j < dir.length; j++) {
+                var elementpath = folders[i].path + '/' + dir[j];
+                var stats = fs.statSync(elementpath);
+                if (stats.isDirectory()) {
+                  folder.folders.push({
+                    name: dir[j],
+                    path: elementpath
+                  })
+                } else if (stats.isFile()) {
+                  folder.files.push({
+                    name: dir[j],
+                    path: elementpath
+                  })
+                }
+              }
+              filearray.push(folder);
+              if (folder.folders.length > 0) {
+                iterateDirectories(folder.folders)
+              }
+            }
+          }
+        }
+      }
+    }
+    if (arg['prefix'] && arg['folders']) {
+      if (arg.folders.length > 0) {
+        var startarray = [];
+        for (var i = 0; i < arg.folders.length; i++) {
+          var path = __dirname + arg.prefix + 'assets/' + arg.folders[i];
+          console.log(path);
+          startarray.push({
+            name: arg.folders[i],
+            path: path
+          })
+        }
+        iterateDirectories(startarray)
+        event.returnValue = filearray;
+      }
+    }
   })
 
   // makes a SVG from mathjax/TeX string
   ipcMain.on('makeMjSVG', (event, arg) => {
     console.log('TeX: ', arg);
+    mjAPI.config({
+      MathJax: {
+        SVG: {
+          scale: 150
+        }
+      }
+    });
     var svg = mjAPI.typeset({
       math: arg,
       format: "TeX", // "inline-TeX", "MathML"
       svg:true, //  svg:true,
     }, function (data) {
-      if (!data.errors) {event.returnValue = data;}
+      if (data.errors) {
+        console.log(data.errors);
+        event.returnValue = 'error';
+      } else {
+        event.returnValue = data;
+      }
     });
   })
 
@@ -54,18 +165,54 @@ const createMediaWindow = function createMediaWindow () {
         if (arg.color === 'black') {
           num = 0;
         }
+        if (arg.tolerance) {
+          num = Math.abs(num - arg.tolerance)
+        }
+        // var linearray0 = [];
+        // var linearray1 = [];
         const nx = png.width;
         const ny = png.height;
         for (var y = 0; y < ny; y++) {
+          // var line0 = '';
+          // var line1 = '';
           for (var x = 0; x < nx; x++) {
-            var idx = (nx * y + x);
-            if (png.data[idx] === num && png.data[idx+1] === num && png.data[idx+2] === num) {
-              png.data[idx+3] = 0;
+            var idx = (nx * y * 4 + x * 4);
+            // line0 += '(R:' + png.data[idx] + 'G:' + png.data[idx+1] + 'B:' + png.data[idx+2] + 'T:' + png.data[idx+3] + ')';
+            if (arg.color === 'black') {
+              if (png.data[idx] <= num && png.data[idx+1] <= num && png.data[idx+2] <= num) {
+                png.data[idx+3] = 0;
+                // line1 += '(R:' + png.data[idx] + 'G:' + png.data[idx+1] + 'B:' + png.data[idx+2] + 'T:' + png.data[idx+3] + ')';
+              } else {
+                // line1 += '(R:' + png.data[idx] + 'G:' + png.data[idx+1] + 'B:' + png.data[idx+2] + 'T:' + png.data[idx+3] + ')';
+              }
+            } else {
+              if (png.data[idx] >= num && png.data[idx+1] >= num && png.data[idx+2] >= num) {
+                png.data[idx+3] = 0;
+                // line1 += '(R:' + png.data[idx] + 'G:' + png.data[idx+1] + 'B:' + png.data[idx+2] + 'T:' + png.data[idx+3] + ')';
+              } else {
+                // line1 += '(R:' + png.data[idx] + 'G:' + png.data[idx+1] + 'B:' + png.data[idx+2] + 'T:' + png.data[idx+3] + ')';
+              }
             }
           }
+          // linearray0.push(line0);
+          // linearray1.push(line1);
         }
         var newpngbuffer = PNG.sync.write(png);
-        var newfilename = arg.file.replace('pmk', '_pmk');
+        console.log('original png:');
+        /*
+        for (var i = 0; i < linearray0.length; i++) {
+          if (linearray0[i]) {
+            console.log(linearray0[i]);
+          }
+        }
+        console.log('changed png:');
+        for (var i = 0; i < linearray1.length; i++) {
+          if (linearray1[i]) {
+            console.log(linearray1[i]);
+          }
+        }
+        */
+        // var newfilename = arg.file.replace('pmk', '_pmk');
         const newfilepath = './dist/assets/images/' + newfilename;
         fs.writeFileSync(newfilepath, newpngbuffer);
       }

@@ -1,14 +1,17 @@
 <table>
     <tr>
+      <td style="font-size: 9px" (click)="copycolor()">
+        <img src="assets/images/svgelements/menue/upcloud.svg" width="10px" height="10px">
+      </td>
       <td style="font-size: 9px" (click)="setmode('save')">
-        save
+        <img src="assets/images/svgelements/menue/save.svg" width="10px" height="10px">
       </td>
       <td rowspan="2" *ngIf="mode === 'colors'">
         <div *ngFor="let colorbar of colorbars | async">
           <table *ngIf="colorbar.cat == selector && colorbar.prio == 0">
             <tr>
               <td class="tbtd">
-                <input type="color" class="clrpk" [value]="getcolor(colorbar)" #colorpick ng-model="color" (change)="changecolor(colorbar)">
+                <input type="color" class="clrpk" [value]="getcolor(colorbar)" #colorpick ng-model="color" (change)="changecolor(colorbar)" (click)="changecolorclick(colorbar)">
               </td>
               <ng-container *ngIf="colorbar.colors">
                 <td class="tbtd" *ngFor="let color of colorbar.colors" [ngStyle]="{ 'background-color': color, 'width': '5px', 'height': '10px' }" (click)="setcolor(colorbar, color)">
@@ -36,8 +39,11 @@
       </td>
     </tr>
     <tr>
+      <td style="font-size: 9px" (click)="pastecolor()">
+        <img src="assets/images/svgelements/menue/downcloud.svg" width="10px" height="10px">
+      </td>
       <td style="font-size: 9px" (click)="setmode('load')">
-        load
+        <img src="assets/images/svgelements/menue/load.svg" width="10px" height="10px">
       </td>
     </tr>
 </table>

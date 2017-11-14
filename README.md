@@ -1,3 +1,10 @@
+# CogniMap
+
+# CogniMap Controls
+
+# Keyboard shortcuts
+
+
 # Electron Angular2 Webpack Starter with HMR and AOT
 
 This Repo just appends the usage of `Electron` to the `awsome` [AngularClass/angular2-webpack-starter](https://github.com/AngularClass/angular2-webpack-starter):

@@ -97,10 +97,6 @@ export class TbObjectComponent implements OnInit {
     }
   }
 
-  public makeTrans(color) {
-    this.elementService.makeTrans(color);
-  }
-
   public delselCMEo() {
     if (this.elementService.selCMEo) {
       this.elementService.delCME(this.elementService.selCMEo.id);

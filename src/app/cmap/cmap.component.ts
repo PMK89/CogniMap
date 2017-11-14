@@ -10,6 +10,7 @@ import { EventService } from '../shared/event.service';
 
 // models and reducers
 import { CMStore } from '../models/CMStore';
+import { CMCoor } from '../models/CMCoor';
 
 @Component({
   selector: 'app-cmap',
@@ -18,7 +19,11 @@ import { CMStore } from '../models/CMStore';
 })
 export class CmapComponent implements OnInit {
   public cmelements: Observable<any[]>;
+  public cmsettings: any;
+  public selCMEo: any;
   public minicmap = false;
+  public color0 = '#440000';
+  public color1 = '#220000';
   public selection = {
     'display': 'none',
     'left': '0px',
@@ -37,6 +42,39 @@ export class CmapComponent implements OnInit {
               private eventService: EventService,
               private store: Store<CMStore>) {
                 this.cmelements = store.select('cmes');
+                // subscribes to settings
+                this.store.select('settings')
+                .subscribe((data) => {
+                  if (data) {
+                    this.cmsettings = data;
+                    /*
+                    if (this.cmsettings.mode === 'draw_poly') {
+                      if (this.cmsettings.pointArray) {
+                        if (this.cmsettings.pointArray.length !== this.pointArray.length) {
+                          this.pointArray = this.cmsettings.pointArray;
+                          console.log(this.pointArray);
+                        }
+                      }
+                    }
+                    */
+                  }
+                  // console.log('settings ', data);
+                });
+                this.store.select('selectedcmeo')
+                .subscribe((data) => {
+                  if (data ) {
+                    if (data !== {}) {
+                      this.selCMEo = data;
+                      if (this.selCMEo) {
+                        if (this.selCMEo['cmobject']['style']['object']) {
+                          this.color0 = this.selCMEo['cmobject']['style']['object']['color0'];
+                          this.color1 = this.selCMEo['cmobject']['style']['object']['color1'];
+                        }
+                      }
+                    }
+                  }
+                  // console.log('settings ', data);
+                });
                 // this.elementService.getMaxID();
                 this.eventService.mousedif()
                 .subscribe(
@@ -81,6 +119,20 @@ export class CmapComponent implements OnInit {
               }
 
   public ngOnInit() {}
+
+  // controls style of point elementService
+  public getStylePoint(point) {
+    if (point['x'] && point['y']) {
+      if (this.color0 && this.color1) {
+        // console.log(point['x'], point['y']);
+        return {
+          'top': (point['y'] - 2).toString() + 'px',
+          'left': (point['x'] - 2).toString() + 'px',
+          'background-color': this.color0
+        }
+      }
+    }
+  }
 
   public trackCME(index, cmelement) {
     return cmelement ? cmelement.id : undefined;

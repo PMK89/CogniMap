@@ -93,6 +93,10 @@ export class SButtonComponent implements OnInit {
               if (cmelement[button.variable[0]][button.variable[1]][button.variable[2]][button.variable[3]]
                 === button.value) {
                 button.active = true;
+              } else if (button.variable[3] === 'class_array') {
+                if (cmelement[button.variable[0]][button.variable[1]][button.variable[2]][button.variable[3]].indexOf(button.value[0]) !== -1) {
+                  button.active = true;
+                }
               } else {
                 button.active = false;
               };
@@ -137,6 +141,10 @@ export class SButtonComponent implements OnInit {
     console.log(button.value);
     if (button.cat === 'cmsettings') {
       if (button.variable[0] === 'mode') {
+        if (button.value === 'draw_poly') {
+          this.cmsettings.pointArray = [];
+          this.settingsService.updateSettings(this.cmsettings);
+        }
         if (this.cmsettings.mode === button.value) {
           this.cmsettings.mode = 'edit';
           this.settingsService.updateSettings(this.cmsettings);

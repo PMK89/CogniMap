@@ -77,15 +77,15 @@ export class WindowService {
       let ydif = y - this.Boundaries0.t;
       if (Math.abs(xdif) > this.WinWidth && xdif < 0 ) {
         // this.Boundaries0.r = x + this.WinWidth;
-        this.Parameters.l = x - (2 * this.WinWidth);
-        this.Parameters.r = x + this.WinWidth;
+        this.Parameters.l = x - (3 * this.WinWidth);
+        this.Parameters.r = x + (2 * this.WinWidth);
         this.Parameters.t = y - (2 * this.WinHeight);
         this.Parameters.b = y + (2 * this.WinHeight);
         Scrolled = true;
         // console.log('- ', xdif);
       } else if (Math.abs(xdif) > this.WinWidth && xdif > 0 ) {
         // this.Boundaries0.r = x + this.WinWidth;
-        this.Parameters.l = x - this.WinWidth;
+        this.Parameters.l = x - (2 * this.WinWidth);
         this.Parameters.r = x + (3 * this.WinWidth);
         this.Parameters.t = y - (2 * this.WinHeight);
         this.Parameters.b = y + (2 * this.WinHeight);
@@ -95,14 +95,14 @@ export class WindowService {
       if (Math.abs(ydif) > this.WinHeight && ydif < 0 ) {
         // this.Boundaries0.b = y + this.WinHeight;
         this.Parameters.t = y - (3 * this.WinHeight);
-        this.Parameters.b = y + this.WinHeight;
+        this.Parameters.b = y + (2 * this.WinHeight);
         this.Parameters.l = x - (2 * this.WinWidth);
         this.Parameters.r = x + (2 * this.WinWidth);
         Scrolled = true;
         // console.log('- ', ydif);
       } else if (Math.abs(ydif) > this.WinHeight && ydif > 0 ) {
         // this.Boundaries0.b = y + this.WinHeight;
-        this.Parameters.t = y - this.WinHeight;
+        this.Parameters.t = y - (2 * this.WinHeight);
         this.Parameters.b = y + (3 * this.WinHeight);
         this.Parameters.l = x - (2 * this.WinWidth);
         this.Parameters.r = x + (2 * this.WinWidth);
@@ -110,7 +110,7 @@ export class WindowService {
         // console.log('+ ', ydif);
       }
       if (Scrolled) {
-        // console.log('x: ', x, 'y: ', y, 'Parameters: ', this.Parameters);
+        console.log('x: ', x, ' y: ', y, 'xdif: ', xdif, ' ydif: ', ydif, ' width: ', this.WinWidth, ' height: ', this.WinHeight,' Parameters: ', this.Parameters);
         this.Boundaries0.l = x;
         this.Boundaries0.t = y;
         this.cmsettings.coor.x = x;

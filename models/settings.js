@@ -23,6 +23,16 @@ var CMStyle = {
   btnclass: String
 }
 
+// copy object
+var CMCopy = {
+  type: String,
+  strg: String,
+  num: Number,
+  numArray: [Number],
+  strgArray: [Number]
+}
+
+
 // gui for objects
 var CMTBObject = {
   color0: String,
@@ -65,12 +75,25 @@ var CMLayout = {
   vis: Boolean
 }
 
+var CurrentMeta = {
+  name: String,
+  path: String,
+  type: String,
+  pos: String,
+  comment: String,
+}
+
 // Basic settings for layout, style and basic work modes
 var CMSettings = {
   id: Number,
   mode: String,
   seltb: String,
+  copy: CMCopy,
+  copycolor: String,
+  latexcolor: String,
+  currentMeta: CurrentMeta,
   coor: CMCoor,
+  pointArray: [CMCoor],
   style: CMStyle,
   debug: Boolean,
   dragging: Boolean,

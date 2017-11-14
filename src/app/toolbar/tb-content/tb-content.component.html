@@ -1,7 +1,7 @@
-<div class="tbbox" *ngIf="contentlen!==0" >
+<div class="tbbox" *ngIf="contentlen!==0||copy" >
   <table>
     <tr>
-      <td>
+      <td *ngIf="contentlen!==0">
         <table id="objecttable">
           <tr>
             <td style="white-space: nowrap;">
@@ -14,11 +14,13 @@
             </td>
             <td>
               <div (click)="delContent()">
-                del
+                <img src="assets/images/svgelements/menue/del.svg" width="20px" height="20px">
               </div>
             </td>
             <td>
-              <app-s-button [buttons]="buttons" [selector]="8"></app-s-button>
+              <div (click)="copyContent()">
+                <img src="assets/images/svgelements/menue/upcloud.svg" width="20px" height="20px">
+              </div>
             </td>
             <td>
 
@@ -58,19 +60,15 @@
               <div  *ngIf="contentCat==='svg'||contentCat==='html'||contentCat==='jsme-svg'||contentCat==='LateX'">
                 <input #titleInput value="{{contentStrg}}" size="10" (keyup.enter)="readInput(titleInput.value)">
               </div>
-              <div  *ngIf="contentCat==='png'||contentCat==='i'">
-                <input #titleInput value="{{contentStrg}}" size="10" (keyup.enter)="readInput(titleInput.value)">
-              </div>
             </td>
             <td>
-
+              <div  *ngIf="contentCat==='png' || contentCat==='i'">
+                <input #toleranceInput value="{{tolerance}}" size="5" (keyup.enter)="changeTol(toleranceInput.value, true)" (keyup)="changeTol(toleranceInput.value, false)">
+              </div>
             </td>
             <td>
               <div *ngIf="contentCat==='html'||contentCat==='jsme-svg'||contentCat==='LateX'" (click)="copyInfo()">
                 info
-              </div>
-              <div *ngIf="contentCat==='png'||contentCat==='i'" (click)="copyPic()">
-                pic
               </div>
 
             </td>
@@ -93,6 +91,11 @@
             </td>
           </tr>
         </table>
+      </td>
+      <td *ngIf="copy">
+        <div (click)="pasteContent()">
+          <img src="assets/images/svgelements/menue/downcloud.svg" width="20px" height="20px">
+        </div>
       </td>
     </tr>
   </table>

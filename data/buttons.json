@@ -252,6 +252,34 @@
     "active": false
   },
   {
+    "id": 19,
+    "group": "",
+    "cat": "tbobject",
+    "blocked": false,
+    "btntype": "s",
+    "name": "beam",
+    "variable": ["cmobject", "style", "object", "class_array"],
+    "contenttype": "g",
+    "value": ["beam"],
+    "prio": 0,
+    "content": "assets/images/svgelements/object/beam.svg",
+    "active": false
+  },
+  {
+    "id": 20,
+    "group": "",
+    "cat": "tbobject",
+    "blocked": false,
+    "btntype": "l",
+    "name": "transparent",
+    "variable": ["cmobject", "style", "object", "color0"],
+    "contenttype": "g",
+    "value": "none",
+    "prio": 0,
+    "content": "assets/images/svgelements/object/transparent.svg",
+    "active": false
+  },
+  {
     "id": 101,
     "group": "",
     "cat": "tbline",
@@ -697,6 +725,34 @@
     "value": "connecting",
     "prio": 0,
     "content": "assets/images/svgelements/line/connector.svg",
+    "active": false
+  },
+  {
+    "id": 608,
+    "group": "",
+    "cat": "cmsettings",
+    "blocked": false,
+    "btntype": "s",
+    "name": "poly",
+    "variable": ["mode"],
+    "contenttype": "g",
+    "value": "draw_poly",
+    "prio": 0,
+    "content": "assets/images/svgelements/object/poly.svg",
+    "active": false
+  },
+  {
+    "id": 609,
+    "group": "",
+    "cat": "cmsettings",
+    "blocked": false,
+    "btntype": "s",
+    "name": "beam",
+    "variable": ["mode"],
+    "contenttype": "g",
+    "value": "beam",
+    "prio": 0,
+    "content": "assets/images/svgelements/object/beam.svg",
     "active": false
   },
   {

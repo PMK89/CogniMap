@@ -40,6 +40,27 @@ export class CmosvgService {
     this.addShape(cme, cmg, c);
   }
 
+  // creates a circle
+  public createPoly(cme, bbox, cmg: any) {
+    let s = Snap('#cmsvg');
+    if (cme.cmobject.style.object.str) {
+      let str = cme.cmobject.style.object.str
+      let xIndex = str.indexOf('xdif:');
+      let yIndex = str.indexOf('ydif:');
+      if (xIndex !== -1 && yIndex !== -1) {
+        let xdif = parseFloat(str.substr((xIndex + 5), yIndex));
+        let ydif = parseFloat(str.substr((yIndex + 5)));
+        str = str.substr(0, xIndex);
+        let p = s.path(str);
+        p.transform('t' + (cme.coor.x + xdif) + ','
+         + (cme.coor.y + ydif));
+        console.log(p);
+        this.addShape(cme, cmg, p);
+      }
+    }
+
+  }
+
   // creates a Text
   public createText(cme, bbox, cmg: any) {
     let s = Snap('#cmsvg');

@@ -1,6 +1,7 @@
 export class CMEMeta {
   public name: string;
-  public cat: string;
-  public content: string;
+  public type: string;
+  public path: string;
+  public pos: string;
   public comment: string;
 }

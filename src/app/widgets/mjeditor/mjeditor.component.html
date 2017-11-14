@@ -2,11 +2,223 @@
   <div id="output">
     <svg width="550px" height="60px" id="mjeditorsvg"></svg>
   </div>
+  <table id="uppertable">
+    <tr>
+      <td>
+        <div id="save" (mousedown)="saveLateX()">
+          <img src="assets/images/svgelements/menue/upcloud.svg" width="20px" height="20px">
+        </div>
+      </td>
+      <td>
+        <div id="back" (mousedown)="back()">
+          <img src="assets/images/svgelements/menue/back.svg" width="20px" height="20px">
+        </div>
+      </td>
+      <td>
+        <div id="forward" (mousedown)="forward()">
+          <img src="assets/images/svgelements/menue/forward.svg" width="20px" height="20px">
+        </div>
+      </td>
+      <td>
+        <div id="makeBtn" (mousedown)="makeButtons()" style="display: none">
+          makeBtn
+        </div>
+      </td>
+      <td>
+        <div id="counter" style="display: none">
+          {{cpos}}
+        </div>
+      </td>
+    </tr>
+  </table>
   <div id="input">
-    <textarea #latexInput value="{{inputtext}}" rows="4" cols="40"
+    <textarea #latexInput value="{{inputtext}}" rows="4" cols="60"
     (keyup)="makeLatex(latexInput, latexInput.value)"
-    (click)="makeLatex(latexInput, latexInput.value)" 
+    (mouseup)="makeLatex(latexInput, latexInput.value)"
     (change)="makeLatex(latexInput, latexInput.value)"></textarea>
   </div>
-  <div>{{caretPos}}</div>
+  <table id="uppertable">
+    <tr>
+      <td id="column1">
+        <table>
+          <tr *ngFor="let c1row of LateX.column1">
+            <td *ngFor="let cell1 of c1row">
+              <div class="LatexSvgButton" [innerHTML]="getSVG(cell1)" (mousedown)="buttonInput(cell1)" (mouseup)="focusText()">
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td id="column2">
+        <table>
+          <tr *ngFor="let c2row of LateX.column2">
+            <td *ngFor="let cell2 of c2row">
+              <div class="LatexSvgButton" [innerHTML]="getSVG(cell2)" (mousedown)="buttonInput(cell2)" (mouseup)="focusText()">
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td id="column3">
+        <table>
+          <tr>
+            <td colspan="6">
+              <app-colorbar [colorbars]="colors" [selector]="'latex'"></app-colorbar>
+            </td>
+          </tr>
+          <tr *ngFor="let c3row of LateX.column3">
+            <td *ngFor="let cell3 of c3row">
+              <div class="LatexSvgButton" [innerHTML]="getSVG(cell3)" (mousedown)="buttonInput(cell3)" (mouseup)="focusText()">
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td id="matrix">
+        <table>
+          <tr>
+            <td colspan="2">
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[2][0])" (mousedown)="matrixInput(LateX.misc[2][0])" (mouseup)="focusText()"></div>
+            </td>
+            <td colspan="2">
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[2][1])" (mousedown)="matrixInput(LateX.misc[2][1])" (mouseup)="focusText()"></div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[2][2])" (mousedown)="matrixInput(LateX.misc[2][2])" (mouseup)="focusText()"></div>
+            </td>
+            <td colspan="2">
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[2][3])" (mousedown)="matrixInput(LateX.misc[2][3])" (mouseup)="focusText()"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              X:
+            </td>
+            <td>
+              <input #matrixXInput value="{{matrixX}}" size="3"
+              (keyup)="matrixX = matrixXInput.value"
+              (mouseup)="matrixX = matrixXInput.value"
+              (change)="matrixX = matrixXInput.value">
+            </td>
+            <td>
+              Y:
+            </td>
+            <td>
+              <input #matrixYInput value="{{matrixY}}" size="3"
+              (keyup)="matrixY = matrixYInput.value"
+              (mouseup)="matrixY = matrixYInput.value"
+              (change)="matrixY = matrixYInput.value">
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td id="dots">
+        <table>
+          <tr>
+            <td>
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[0][0])" (mousedown)="buttonInput(LateX.misc[0][0])" (mouseup)="focusText()"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[0][1])" (mousedown)="buttonInput(LateX.misc[0][1])" (mouseup)="focusText()"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[0][2])" (mousedown)="buttonInput(LateX.misc[0][2])" (mouseup)="focusText()"></div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <table id="greektable">
+    <tr>
+      <td id="greekSmall">
+        <table>
+          <tr *ngFor="let gsrow of LateX.greekSmall">
+            <td *ngFor="let cellgs of gsrow">
+              <div class="LatexSvgButton" [innerHTML]="getSVG(cellgs)" (mousedown)="buttonInput(cellgs)" (mouseup)="focusText()">
+
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td id="greekVar">
+        <table>
+          <tr *ngFor="let gvrow of LateX.greekVar">
+            <td *ngFor="let cellgv of gvrow">
+              <div class="LatexSvgButton" [innerHTML]="getSVG(cellgv)" (mousedown)="buttonInput(cellgv)" (mouseup)="focusText()">
+
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td id="greekBig">
+        <table>
+          <tr *ngFor="let gbrow of LateX.greekBig">
+            <td *ngFor="let cellgb of gbrow">
+              <div class="LatexSvgButton" [innerHTML]="getSVG(cellgb)" (mousedown)="buttonInput(cellgb)" (mouseup)="focusText()">
+
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td id="misc">
+        <table>
+          <tr>
+            <td>
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[3][0])" (mousedown)="buttonInput(LateX.misc[3][0])" (mouseup)="focusText()"></div>
+            </td>
+            <td>
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[3][1])" (mousedown)="buttonInput(LateX.misc[3][1])" (mouseup)="focusText()"></div>
+            </td>
+            <td>
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[3][2])" (mousedown)="buttonInput(LateX.misc[3][2])" (mouseup)="focusText()"></div>
+            </td>
+            <td>
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[3][3])" (mousedown)="buttonInput(LateX.misc[3][3])" (mouseup)="focusText()"></div>
+            </td>
+            <td>
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[3][4])" (mousedown)="buttonInput(LateX.misc[3][4])" (mouseup)="focusText()"></div>
+            </td>
+            <td>
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[3][5])" (mousedown)="buttonInput(LateX.misc[3][5])" (mouseup)="focusText()"></div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[1][0])" (mousedown)="buttonInput(LateX.misc[1][0])" (mouseup)="focusText()"></div>
+            </td>
+            <td>
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[1][1])" (mousedown)="buttonInput(LateX.misc[1][1])" (mouseup)="focusText()"></div>
+            </td>
+            <td>
+              <div class="LatexSvgButton" [innerHTML]="getSVG(LateX.misc[1][2])" (mousedown)="buttonInput(LateX.misc[1][2])" (mouseup)="focusText()"></div>
+            </td>
+          </tr>
+          <tr>
+
+          </tr>
+        </table>
+      </td>
+      <td id="column4">
+        <table>
+          <tr *ngFor="let c4row of LateX.column4">
+            <td *ngFor="let cell4 of c4row">
+              <div class="LatexSvgButton" [innerHTML]="getSVG(cell4)" (mousedown)="buttonInput(cell4)" (mouseup)="focusText()">
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
 </div>

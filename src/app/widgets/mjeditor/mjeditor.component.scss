@@ -1,9 +1,10 @@
-#treeview
+.LatexSvgButton
 {
-	overflow-x: auto;
-  overflow-y: hidden;
-  max-height: 400px;
-  max-width: 580px;
+	border: 1px;
+	border-style: solid;
+	border-radius: 2px;
+	border-color: #808080;
+	background-color: #ffffff;
 }
 
 .subarrayDiv

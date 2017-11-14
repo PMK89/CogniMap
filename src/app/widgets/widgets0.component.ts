@@ -44,9 +44,9 @@ export class Widgets0Component implements OnInit {
     console.log('cminterface');
     let iframe = this.iframe0.nativeElement.contentDocument
     || this.iframe0.nativeElement.contentWindow;
-    let output = iframe.getElementById('cmoutput');
+    let output = iframe.getElementById('svg_textarea');
     if (output) {
-      console.log(output.innerHTML);
+      console.log(output.value);
     } else {
       console.log('no output');
     }
@@ -56,6 +56,18 @@ export class Widgets0Component implements OnInit {
       console.log('input: ', input.innerHTML);
     } else {
       console.log('no input');
+    }
+  }
+
+  // loads Smiles structure to JSME
+  public loadStructure(structure) {
+    let iframe = this.iframe0.nativeElement.contentDocument
+    || this.iframe0.nativeElement.contentWindow;
+    let JSMEstructure = iframe.getElementById('structure');
+    if (JSMEstructure) {
+      JSMEstructure.value = structure;
+    } else {
+      console.log('no structure');
     }
   }
 

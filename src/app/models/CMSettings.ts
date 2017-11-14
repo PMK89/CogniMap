@@ -1,6 +1,8 @@
 import { CMCoor } from './CMCoor';
 import { CMLayout } from './CMLayout';
 import { CMStyle } from './CMStyle';
+import { CMCopy } from './CMCopy';
+import { CMEMeta } from './CMEMeta';
 import { CMTBObject } from './CMTBObject';
 import { CMTBMarking } from './CMTBMarking';
 import { CMTBFont } from './CMTBFont';
@@ -11,10 +13,15 @@ export class CMSettings {
   public mode: string;
   public seltb: string;
   public coor: CMCoor;
+  public pointArray: CMCoor[];
   public style: CMStyle;
   public debug: boolean;
   public cngtemp: boolean;
   public dragging: boolean;
+  public copy: CMCopy;
+  public copycolor: string;
+  public latexcolor: string;
+  public currentMeta: CMEMeta;
   public cmap: CMLayout;
   public tblayout0: CMLayout;
   public tblayout1: CMLayout;
