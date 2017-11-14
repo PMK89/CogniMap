@@ -10,7 +10,7 @@ export class CMElement {
   y1: number;
   prio: number;
   title: string;
-  type: string;
+  types: [string];
   coor: CMCoor;
   cat: [string];
   z_pos: number;

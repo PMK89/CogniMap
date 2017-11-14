@@ -2,6 +2,7 @@
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 
 // services
 import { ElementService } from '../shared/element.service';
@@ -51,12 +52,23 @@ export class CmapComponent implements OnInit {
         // Prod: handle electron response
         // /*
         .subscribe(x => {
-          if (x) {
-            let action = {
-              type: 'ADD_CME_FROM_DB',
-              payload: x
-            };
-            this.store.dispatch(action);
+          /*
+          let action = {
+            type: 'ADD_CME_FROM_DB',
+            payload: x
+          };
+          this.store.dispatch(action);
+          */
+          for (let i in x) {
+            if (x[i]) {
+              x[i].cmobject = JSON.parse(x[i].cmobject);
+              x[i].cmline = JSON.parse(x[i].cmline);
+              let action = {
+                type: 'ADD_CME',
+                payload: x[i]
+              };
+              this.store.dispatch(action);
+            }
           }
         });
         // */

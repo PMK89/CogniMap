@@ -1,0 +1,22 @@
+2017/01/22-14:43:27.899 362c Recovering log #10
+2017/01/22-14:43:27.900 362c Level-0 table #13: started
+2017/01/22-14:43:27.913 362c Level-0 table #13: 170567 bytes OK
+2017/01/22-14:43:27.923 362c Delete type=0 #10
+2017/01/22-14:43:27.923 362c Delete type=3 #4
+2017/01/22-14:44:26.074 1a64 Compacting 2@0 + 1@1 files
+2017/01/22-14:44:26.165 1a64 Generated table #15@0: 3512 keys, 2136809 bytes
+2017/01/22-14:44:26.192 1a64 Generated table #16@0: 927 keys, 561398 bytes
+2017/01/22-14:44:26.192 1a64 Compacted 2@0 + 1@1 files => 2698207 bytes
+2017/01/22-14:44:26.194 1a64 compacted to: files[ 0 2 1 0 0 0 0 ]
+2017/01/22-14:44:26.194 1a64 Delete type=2 #9
+2017/01/22-14:44:26.194 1a64 Delete type=2 #11
+2017/01/22-14:44:26.195 1a64 Delete type=2 #13
+2017/01/22-14:44:33.563 1a64 Expanding@1 1+1 (2136809+1262196 bytes) to 2+1 (2698207+1262196 bytes)
+2017/01/22-14:44:33.563 1a64 Compacting 2@1 + 1@2 files
+2017/01/22-14:44:33.653 1a64 Generated table #17@1: 3507 keys, 2137290 bytes
+2017/01/22-14:44:33.720 1a64 Generated table #18@1: 3007 keys, 1823756 bytes
+2017/01/22-14:44:33.720 1a64 Compacted 2@1 + 1@2 files => 3961046 bytes
+2017/01/22-14:44:33.721 1a64 compacted to: files[ 0 0 2 0 0 0 0 ]
+2017/01/22-14:44:33.722 1a64 Delete type=2 #7
+2017/01/22-14:44:33.722 1a64 Delete type=2 #15
+2017/01/22-14:44:33.722 1a64 Delete type=2 #16

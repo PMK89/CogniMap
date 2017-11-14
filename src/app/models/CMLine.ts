@@ -11,10 +11,10 @@ export class CMLine {
   title0: string;
   id1: number;
   title1: string;
-  property: Array<string>;
+  property: [string];
   dasharray: string;
   str: string;
-  num_array: Array<number>;
+  num_array: [number];
   cmclass: string;
   markers: [CMMarker];
 }

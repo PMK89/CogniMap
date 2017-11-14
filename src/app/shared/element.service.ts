@@ -15,6 +15,7 @@ import { SettingsService } from './settings.service';
 // models and reducers
 import { CMEStore } from '../models/CMEstore';
 import { CMElement } from '../models/CMElement';
+// import { nCMElement } from '../models/newCMElement';
 import { CMAction } from '../models/CMAction';
 import { CMCoor } from '../models/CMCoor';
 import { CMSettings } from '../models/CMSettings';
@@ -140,6 +141,68 @@ export class ElementService {
     // */
   }
 
+  // new element in database
+  newDBElement(cmelement: CMElement) {
+    // Pro: gets data from electron
+    /*
+    return elementController.change()
+            .subscribe(cme => {
+              if (cme) {
+                console.log(cme);
+              }
+            });
+    */
+    // Dev: gets data from testserver
+     /*
+    let url = 'http://localhost:80/newcmelement';
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    let newcmelement: nCMElement = {
+      id: cmelement.id,
+      prio: cmelement.prio,
+      z_pos: cmelement.z_pos,
+      x0: cmelement.x0,
+      y0: cmelement.y0,
+      x1: cmelement.x1,
+      y1: cmelement.y1,
+      title: cmelement.title,
+      type: [cmelement.type, '', ''],
+      coor: cmelement.coor,
+      cat: cmelement.cat,
+      dragging: false,
+      active: false,
+      cmline: cmelement.cmline,
+      cmobject: {
+        content: cmelement.cmobject.content,
+        meta: cmelement.cmobject.meta,
+        style: {
+          title: cmelement.cmobject.style.title,
+          object: {
+            color0: cmelement.cmobject.style.object.color1,
+            color1: cmelement.cmobject.style.object.color1,
+            trans: cmelement.cmobject.style.object.trans,
+            weight: cmelement.cmobject.style.object.weight,
+            str: cmelement.cmobject.style.object.str,
+            num_array: cmelement.cmobject.style.object.num_array,
+            class_array: cmelement.cmobject.style.object.class_array
+          }
+        },
+        links: cmelement.cmobject.links,
+        cdate: Date.now(),
+        vdate: Date.now()
+      },
+      prep: ''
+    };
+    if (cmelement.cmobject.style.object.shape) {
+      newcmelement.type[1] = cmelement.cmobject.style.object.shape;
+    }
+    let body = JSON.stringify( newcmelement );
+    this.http.post(url, body, options)
+      .subscribe(res => console.log(res));
+    // console.log(cmelement.id);
+     */
+  }
+
   // generates a new element
   newElementObj(oldcme: CMElement, cmcoor: CMCoor) {
     if (this.currentElement) {
@@ -207,7 +270,7 @@ export class ElementService {
         x1: parseInt(newxy[0], 10),
         y1: parseInt(newxy[1], 10),
         title: String(oldcme.id) + '-' + String(newcme.id),
-        type: this.newElementLine.type,
+        types: this.newElementLine.types,
         coor: {x: 0, y: 0},
         cat: this.newElementLine.cat,
         dragging: false,
@@ -256,7 +319,7 @@ export class ElementService {
       y1: oldcme.y1,
       prio: oldcme.prio,
       title: oldcme.title,
-      type: oldcme.type,
+      types: oldcme.types,
       coor: oldcme.coor,
       cat: oldcme.cat,
       z_pos: oldcme.z_pos,

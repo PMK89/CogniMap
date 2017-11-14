@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { SnapsvgService } from '../../shared/snapsvg.service';
+import { ElementService } from '../../shared/element.service';
 
 import { CMElement } from '../../models/CMElement';
 
@@ -15,10 +16,12 @@ export class CmlineComponent implements OnInit {
   @Input() cmelement: CMElement;
 
 
-  constructor(private snapsvgService: SnapsvgService) { }
+  constructor(private snapsvgService: SnapsvgService,
+              private elementService: ElementService) { }
 
   ngOnInit() {
     this.snapsvgService.makeShape(this.cmelement);
+    // this.elementService.newDBElement(this.cmelement);
   }
 
 }

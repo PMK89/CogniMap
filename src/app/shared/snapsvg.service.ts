@@ -63,7 +63,7 @@ export class SnapsvgService {
   // called for object elements
   objectSvg(cme: CMElement) {
     // console.log('objectsvg');
-    switch (cme.type) {
+    switch (cme.types[1]) {
       case 'r':
         this.cmosvgService.createRectangle(cme, this.cmsvg);
         break;
@@ -77,7 +77,7 @@ export class SnapsvgService {
 
   // called for line elements
   lineSvg(cme: CMElement) {
-    switch (cme.type) {
+    switch (cme.types[0]) {
       case 'e':
         this.cmlsvgService.createEdge(cme, this.cmsvg);
         break;
