@@ -27,6 +27,11 @@ export class CmapComponent implements OnInit {
     'z-index': 200,
     'height': '0px'
   };
+  public position = {
+    display: 'none',
+    left: '0px',
+    top: '0px'
+  };
 
   constructor(private elementService: ElementService,
               private eventService: EventService,
@@ -51,6 +56,24 @@ export class CmapComponent implements OnInit {
                       } else {
                         this.selection.display = 'none';
                       }
+                    }
+                  },
+                  (error) => console.log(error)
+                );
+                this.eventService.keyUp()
+                .subscribe(
+                  (data) => {
+                    if (data) {
+                      if (data['y'] && data['x']) {
+                        this.position.left = data['x'] + 'px';
+                        this.position.top = data['y'] + 'px';
+                        this.position.display = 'block';
+                        // console.log(data);
+                      } else {
+                        this.position.display = 'none';
+                      }
+                    } else {
+                      this.position.display = 'none';
                     }
                   },
                   (error) => console.log(error)

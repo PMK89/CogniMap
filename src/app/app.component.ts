@@ -122,11 +122,13 @@ export class AppComponent implements AfterViewInit {
         if (this.elementService.selCMEo.id === id) {
           console.log(this.cmsettings.mode);
           if (this.cmsettings.mode === 'edit') {
-            this.cmaction.variable = ['state'];
-            this.cmaction.value = 'typing';
-            this.elementService.changeCMEo(this.cmaction);
-            this.cmsettings.mode = 'typing';
-            this.settingsService.updateSettings(this.cmsettings);
+            if (this.elementService.selCMEo.types[0] !== 'i') {
+              this.cmaction.variable = ['state'];
+              this.cmaction.value = 'typing';
+              this.elementService.changeCMEo(this.cmaction);
+              this.cmsettings.mode = 'typing';
+              this.settingsService.updateSettings(this.cmsettings);
+            }
           }
         } else if (this.cmsettings.mode === 'marking') {
           if (this.elementService.markCMEo.id !== id) {

@@ -12,6 +12,7 @@ import { MathJaxService } from './mathjax.service';
 import { ElementService } from './element.service';
 import { CmosvgService } from './shapes/cmosvg.service';
 import { CmlsvgService } from './shapes/cmlsvg.service';
+import { LineShapesService } from './shapes/lineshapes.service';
 
 // models and reducers
 import { CMSettings } from '../models/CMSettings';
@@ -28,6 +29,7 @@ export class SnapsvgService {
               private settingsService: SettingsService,
               private mathjaxService: MathJaxService,
               private elementService: ElementService,
+              private lineShapesService: LineShapesService,
               private cmlsvgService: CmlsvgService) {
                 this.settingsService.cmsettings
                     .subscribe((data) => {
@@ -82,8 +84,11 @@ export class SnapsvgService {
       case 't':
         this.cmosvgService.createText(cme, bbox, cmg);
         break;
-      default:
+      case 'a':
         this.cmosvgService.createTest(cme, bbox, cmg);
+        break;
+      default:
+        this.cmosvgService.createShapes(cme, bbox, cmg);
     }
   }
 
@@ -106,14 +111,70 @@ export class SnapsvgService {
       case 'z':
         this.cmlsvgService.createZigzag(cme, this.cmsvg, cmg);
         break;
+      case 'r':
+        this.cmlsvgService.createRoundedEdge(cme, this.cmsvg, cmg);
+        break;
       default:
         this.cmlsvgService.createLine(cme, this.cmsvg, cmg);
     }
   }
 
+  // places arrowhead on end of an line
+  public makeArrow(cme: CMEl, cmg: any) {
+    let source;
+    let lengthreducer = 0;
+    this.cmsvg = Snap('#cmsvg');
+    switch (cme.cmobject.end) {
+      case 'slim':
+        source = this.lineShapesService.ArrowHeads['slim'];
+        lengthreducer = 0;
+        break;
+      case 'fat':
+        source = this.lineShapesService.ArrowHeads['fat'];
+        lengthreducer = cme.cmobject.size0 * 2;
+        break;
+      case 'triangle':
+        source  = this.lineShapesService.ArrowHeads['triangle'];
+        lengthreducer = cme.cmobject.size0 * 2;
+        break;
+      default:
+        source  = this.lineShapesService.ArrowHeads['triangle'];
+        lengthreducer = cme.cmobject.size0 * 2;
+    }
+    let svggroup = cmg.g();
+    let p = cmg.select('#cms' + cme.id);
+    if (p) {
+      let length = p.getTotalLength();
+      let edgelen = 5 * cme.cmobject.size0;
+      let endpoint = p.getPointAtLength(length - lengthreducer);
+      let svg = Snap.parse(source);
+      svggroup.add(svg);
+      let svgbbox = svggroup.getBBox();
+      let layer1 = svggroup.select('#layer1');
+      if (layer1) {
+        console.log(endpoint);
+        layer1.transform('s' + (edgelen / svgbbox.h));
+        svgbbox = svggroup.getBBox();
+        svggroup.transform('r' + (endpoint.alpha - 180) + ',' + (svgbbox.x + (svgbbox.w/2)) + ',' + (svgbbox.y + (svgbbox.w/2)));
+        svgbbox = svggroup.getBBox();
+        let transformgroup = cmg.g();
+        transformgroup.add(svggroup);
+        transformgroup.transform('t' + ((endpoint.x - edgelen/2) - svgbbox.x) + ',' + ((endpoint.y - edgelen/2) - svgbbox.y));
+      }
+      let arrowhead = svggroup.select('#svg_1');
+      if (arrowhead) {
+        arrowhead.attr({
+          opacity: cme.cmobject.trans,
+          stroke: cme.cmobject.color1,
+          fill: cme.cmobject.color0
+        });
+      }
+    }
+  }
+
   // generates shape from prepared string or initiates new creation
   public makeContent(cme: any, cmg: any, i: any, totwidth: number) {
-    console.log(cmg);
+    // console.log(cmg);
     if (typeof cme.cmobject === 'string') {
       cme = this.elementService.CMEtoCMEol(cme);
     }
@@ -205,11 +266,11 @@ export class SnapsvgService {
             case 'LateX':
               // do something with images
               let xmlgroup = cmg.g();
-              let mjsvg = this.mathjaxService.getMjSVG(content.object);
-              con = Snap.parse(mjsvg);
+              content.object = this.mathjaxService.getMjSVG(content.info);
+              con = Snap.parse(content.object);
               xmlgroup.append(con);
               let xmlbbox = xmlgroup.getBBox();
-              console.log(xmlgroup);
+              // console.log(content.object);
               xmlgroup.transform('t' + (coorX + totwidth - xmlbbox.x) + ',' + (coorY - xmlbbox.y));
               content.width = xmlbbox.width;
               cmg.add(xmlgroup);

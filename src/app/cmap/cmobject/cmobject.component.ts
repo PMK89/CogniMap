@@ -65,9 +65,6 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       if (this.cmelement.prep !== '' && this.cmelement.prep !== undefined) {
         this.cmgroup.append(Snap.parse(this.cmelement.prep));
-        if (this.cmelement.prep1 !== '' && this.cmelement.prep1 !== undefined) {
-          this.html = this.sanitizer.bypassSecurityTrustHtml(this.cmelement.prep1);
-        }
         // console.log(this.cmelement.prep);
       } else {
         let marking = s.select('#cmmark' + id);
@@ -93,12 +90,7 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
                 console.log(content);
                 this.video = true;
                 this.videourl = content.object;
-              } /* else if (this.cmeo.cmobject.content[i].cat === 'html') {
-                // process html
-                this.cmelement.prep1 = this.cmeo.cmobject.content[i].object;
-                this.cmeo.prep1 = this.cmeo.cmobject.content[i].object;
-                this.html = this.sanitizer.bypassSecurityTrustHtml(this.cmeo.cmobject.content[i].object);
-              } */ else {
+              } else {
                 this.snapsvgService.makeContent(this.cmeo, this.cmgroup, i, totwidth);
               }
               totwidth += content.width;
@@ -269,35 +261,10 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
   public passText(text) {
     this.TextInput = false;
     if (this.cmelement.state === 'svginput') {
-      /*
-      if (this.cmeo === undefined) {
-        this.cmeo = this.elementService.CMEtoCMEol(this.cmelement);
-      }
-      text = text.replace('fill="white"', 'fill="none"');
-      let content = {
-        cat: 's',
-        coor: {
-          x: 0,
-          y: 0
-        },
-        object: text,
-        width: 100,
-        height: 100
-      };
-      this.cmeo.title = 'svg';
-      this.cmeo.types = ['s', '0', '0'];
-      this.cmeo.cmobject.content.push(content);
-      this.cmeo.state = 'selected';
-      this.cmeo.prep = '';
-      this.cmeo.prep1 = '';
-      // console.log(this.cmeo);
-      this.elementService.updateSelCMEo(this.cmeo);
-      */
+      // something
     } else if (this.cmelement.state === 'typing') {
       this.elementService.changeCMEo({variable: ['title'], value: text});
     }
-    // console.log(this.cmeo.title);
-    // this.elementService.setInactive(this.cmeo.id);
   }
 
   // Sets number

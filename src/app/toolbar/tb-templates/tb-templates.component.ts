@@ -112,6 +112,11 @@ export class TbTemplatesComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // selects errors in database
+  public findErrors() {
+    this.settingsService.findErrors();
+  }
+
   // saves changes on template in database
   public saveCME() {
     this.templateService.saveCMEo(this.IDconvert(this.tempCMEo));

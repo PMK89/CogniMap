@@ -10,7 +10,7 @@
     "contenttype": "g",
     "value": ["a", "a", "0"],
     "prio": 0,
-    "content": "assets/images/basic/rounded.png",
+    "content": "assets/images/svgelements/object/rounded.svg",
     "active": false
   },
   {
@@ -24,7 +24,7 @@
     "contenttype": "g",
     "value": ["a", "r", "0"],
     "prio": 0,
-    "content": "assets/images/basic/rect.png",
+    "content": "assets/images/svgelements/object/rect.svg",
     "active": false
   },
   {
@@ -38,7 +38,7 @@
     "contenttype": "g",
     "value": ["a", "e", "0"],
     "prio": 0,
-    "content": "assets/images/basic/elipse.png",
+    "content": "assets/images/svgelements/object/elipse.svg",
     "active": false
   },
   {
@@ -52,7 +52,7 @@
     "contenttype": "g",
     "value": ["s", "c", "0"],
     "prio": 0,
-    "content": "assets/images/basic/circle.png",
+    "content": "assets/images/svgelements/object/circle.svg",
     "active": false
   },
   {
@@ -66,7 +66,7 @@
     "contenttype": "g",
     "value": ["t", "t", "0"],
     "prio": 0,
-    "content": "assets/images/basic/text.png",
+    "content": "assets/images/svgelements/object/text.svg",
     "active": false
   },
   {
@@ -80,7 +80,7 @@
     "contenttype": "g",
     "value": ["a", "a", "b"],
     "prio": 0,
-    "content": "assets/images/basic/rounded_b.png",
+    "content": "assets/images/svgelements/object/rounded_b.svg",
     "active": false
   },
   {
@@ -94,7 +94,7 @@
     "contenttype": "g",
     "value": ["a", "r", "b"],
     "prio": 0,
-    "content": "assets/images/basic/rect_b.png",
+    "content": "assets/images/svgelements/object/rect_b.svg",
     "active": false
   },
   {
@@ -108,7 +108,7 @@
     "contenttype": "g",
     "value": ["a", "e", "b"],
     "prio": 0,
-    "content": "assets/images/basic/elipse_b.png",
+    "content": "assets/images/svgelements/object/elipse_b.svg",
     "active": false
   },
   {
@@ -122,7 +122,7 @@
     "contenttype": "g",
     "value": ["s", "c", "b"],
     "prio": 0,
-    "content": "assets/images/basic/circle_b.png",
+    "content": "assets/images/svgelements/object/circle_b.svg",
     "active": false
   },
   {
@@ -136,7 +136,7 @@
     "contenttype": "g",
     "value": ["t", "t", "b"],
     "prio": 0,
-    "content": "assets/images/basic/text_b.png",
+    "content": "assets/images/svgelements/object/text_b.svg",
     "active": false
   },
   {
@@ -150,7 +150,7 @@
     "contenttype": "g",
     "value": ["i", "0", "0"],
     "prio": 0,
-    "content": "assets/images/basic/image.png",
+    "content": "assets/images/svgelements/object/img.svg",
     "active": false
   },
   {
@@ -159,12 +159,96 @@
     "cat": "tbobject",
     "blocked": false,
     "btntype": "s",
-    "name": "svg",
-    "variable": ["state"],
+    "name": "doublearrow",
+    "variable": ["types"],
     "contenttype": "g",
-    "value": "svginput",
+    "value": ["s", "da", "0"],
     "prio": 0,
-    "content": "assets/images/basic/svg.png",
+    "content": "assets/images/svgelements/object/doublearrow0.svg",
+    "active": false
+  },
+  {
+    "id": 13,
+    "group": "",
+    "cat": "tbobject",
+    "blocked": false,
+    "btntype": "l",
+    "name": "speechbubble",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["s", "sb", "0"],
+    "prio": 0,
+    "content": "assets/images/svgelements/object/speechbubble.svg",
+    "active": false
+  },
+  {
+    "id": 14,
+    "group": "",
+    "cat": "tbobject",
+    "blocked": false,
+    "btntype": "l",
+    "name": "thoughtbubble",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["s", "tb", "0"],
+    "prio": 0,
+    "content": "assets/images/svgelements/object/thoughtbubble.svg",
+    "active": false
+  },
+  {
+    "id": 15,
+    "group": "",
+    "cat": "tbobject",
+    "blocked": false,
+    "btntype": "l",
+    "name": "thoughtbubble1",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["s", "tb1", "0"],
+    "prio": 0,
+    "content": "assets/images/svgelements/object/thoughtbubble1.svg",
+    "active": false
+  },
+  {
+    "id": 16,
+    "group": "",
+    "cat": "tbobject",
+    "blocked": false,
+    "btntype": "l",
+    "name": "diamond",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["s", "d", "0"],
+    "prio": 0,
+    "content": "assets/images/svgelements/object/diamond.svg",
+    "active": false
+  },
+  {
+    "id": 17,
+    "group": "",
+    "cat": "tbobject",
+    "blocked": false,
+    "btntype": "l",
+    "name": "hexagon",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["s", "h", "0"],
+    "prio": 0,
+    "content": "assets/images/svgelements/object/hexagon.svg",
+    "active": false
+  },
+  {
+    "id": 18,
+    "group": "",
+    "cat": "tbobject",
+    "blocked": false,
+    "btntype": "l",
+    "name": "pentagon",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["s", "p", "0"],
+    "prio": 0,
+    "content": "assets/images/svgelements/object/pentagon.svg",
     "active": false
   },
   {
@@ -178,7 +262,7 @@
     "contenttype": "g",
     "value": ["l", "k", "0"],
     "prio": 0,
-    "content": "assets/images/basic/line.png",
+    "content": "assets/images/svgelements/line/line.svg",
     "active": false
   },
   {
@@ -192,7 +276,7 @@
     "contenttype": "g",
     "value": ["l", "e", "0"],
     "prio": 0,
-    "content": "assets/images/basic/edge.png",
+    "content": "assets/images/svgelements/line/edge.svg",
     "active": false
   },
   {
@@ -206,7 +290,7 @@
     "contenttype": "g",
     "value": ["l", "c", "0"],
     "prio": 0,
-    "content": "assets/images/basic/curve.png",
+    "content": "assets/images/svgelements/line/curve.svg",
     "active": false
   },
   {
@@ -220,7 +304,7 @@
     "contenttype": "g",
     "value": ["l", "s", "0"],
     "prio": 0,
-    "content": "assets/images/basic/scurve.png",
+    "content": "assets/images/svgelements/line/scurve.svg",
     "active": false
   },
   {
@@ -234,7 +318,7 @@
     "contenttype": "g",
     "value": ["p", "p", "0"],
     "prio": 0,
-    "content": "assets/images/basic/pointer.png",
+    "content": "assets/images/svgelements/line/pointer.svg",
     "active": false
   },
   {
@@ -262,7 +346,7 @@
     "contenttype": "g",
     "value": ["l", "z", "0"],
     "prio": 0,
-    "content": "assets/images/basic/zigzag.png",
+    "content": "assets/images/svgelements/line/sawcurve.svg",
     "active": false
   },
   {
@@ -276,7 +360,7 @@
     "contenttype": "g",
     "value": ["l", "w", "0"],
     "prio": 0,
-    "content": "assets/images/basic/wave.png",
+    "content": "assets/images/svgelements/line/sinus.svg",
     "active": false
   },
   {
@@ -290,7 +374,7 @@
     "contenttype": "g",
     "value": "10, 5",
     "prio": 0,
-    "content": "assets/images/basic/dash.png",
+    "content": "assets/images/svgelements/line/line_dashed.svg",
     "active": false
   },
   {
@@ -304,7 +388,7 @@
     "contenttype": "g",
     "value": "2",
     "prio": 0,
-    "content": "assets/images/basic/pointed.png",
+    "content": "assets/images/svgelements/line/line_pointed.svg",
     "active": false
   },
   {
@@ -318,7 +402,77 @@
     "contenttype": "g",
     "value": "",
     "prio": 0,
-    "content": "assets/images/basic/line.png",
+    "content": "assets/images/svgelements/line/line.svg",
+    "active": false
+  },
+  {
+    "id": 112,
+    "group": "",
+    "cat": "tbline",
+    "blocked": false,
+    "btntype": "l",
+    "name": "noarrow",
+    "variable": ["cmobject", "end"],
+    "contenttype": "g",
+    "value": "",
+    "prio": 0,
+    "content": "assets/images/svgelements/line/noarrow.svg",
+    "active": false
+  },
+  {
+    "id": 113,
+    "group": "",
+    "cat": "tbline",
+    "blocked": false,
+    "btntype": "l",
+    "name": "slim",
+    "variable": ["cmobject", "end"],
+    "contenttype": "g",
+    "value": "slim",
+    "prio": 0,
+    "content": "assets/images/svgelements/line/arrowslim.svg",
+    "active": false
+  },
+  {
+    "id": 114,
+    "group": "",
+    "cat": "tbline",
+    "blocked": false,
+    "btntype": "l",
+    "name": "fat",
+    "variable": ["cmobject", "end"],
+    "contenttype": "g",
+    "value": "fat",
+    "prio": 0,
+    "content": "assets/images/svgelements/line/arrowfat.svg",
+    "active": false
+  },
+  {
+    "id": 115,
+    "group": "",
+    "cat": "tbline",
+    "blocked": false,
+    "btntype": "l",
+    "name": "triangle",
+    "variable": ["cmobject", "end"],
+    "contenttype": "g",
+    "value": "triangle",
+    "prio": 0,
+    "content": "assets/images/svgelements/line/arrowtriangle.svg",
+    "active": false
+  },
+  {
+    "id": 116,
+    "group": "",
+    "cat": "tbline",
+    "blocked": false,
+    "btntype": "s",
+    "name": "roundededge",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["l", "r", "0"],
+    "prio": 0,
+    "content": "assets/images/svgelements/line/roundededge.svg",
     "active": false
   },
   {
@@ -332,7 +486,7 @@
     "contenttype": "g",
     "value": "none",
     "prio": 0,
-    "content": "assets/images/basic/f_cn.png",
+    "content": "assets/images/svgelements/menue/font_normal.svg",
     "active": false
   },
   {
@@ -346,7 +500,7 @@
     "contenttype": "g",
     "value": "line-through",
     "prio": 0,
-    "content": "assets/images/basic/f_cl.png",
+    "content": "assets/images/svgelements/menue/font_linethrough.svg",
     "active": false
   },
   {
@@ -360,7 +514,189 @@
     "contenttype": "g",
     "value": "underline",
     "prio": 0,
-    "content": "assets/images/basic/f_cu.png",
+    "content": "assets/images/svgelements/menue/font_underline.svg",
+    "active": false
+  },
+  {
+    "id": 300,
+    "group": "",
+    "cat": "tbmarking",
+    "blocked": false,
+    "btntype": "s",
+    "name": "rounded",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["m", "a", "0"],
+    "prio": 0,
+    "content": "assets/images/svgelements/object/rounded.svg",
+    "active": false
+  },
+  {
+    "id": 301,
+    "group": "",
+    "cat": "tbmarking",
+    "blocked": false,
+    "btntype": "s",
+    "name": "rect",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["m", "r", "0"],
+    "prio": 0,
+    "content": "assets/images/svgelements/object/rect.svg",
+    "active": false
+  },
+  {
+    "id": 302,
+    "group": "",
+    "cat": "tbmarking",
+    "blocked": false,
+    "btntype": "s",
+    "name": "brounded",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["m", "a", "b"],
+    "prio": 0,
+    "content": "assets/images/svgelements/object/rounded_b.svg",
+    "active": false
+  },
+  {
+    "id": 303,
+    "group": "",
+    "cat": "tbmarking",
+    "blocked": false,
+    "btntype": "s",
+    "name": "brect",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["m", "r", "b"],
+    "prio": 0,
+    "content": "assets/images/basic/rect_b.png",
+    "active": false
+  },
+  {
+    "id": 304,
+    "group": "",
+    "cat": "tbmarking",
+    "blocked": false,
+    "btntype": "s",
+    "name": "btext",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["m", "t", "b"],
+    "prio": 0,
+    "content": "assets/images/svgelements/object/rect_b.svg",
+    "active": false
+  },
+  {
+    "id": 600,
+    "group": "",
+    "cat": "cmsettings",
+    "blocked": false,
+    "btntype": "s",
+    "name": "view",
+    "variable": ["mode"],
+    "contenttype": "g",
+    "value": "view",
+    "prio": 0,
+    "content": "assets/images/svgelements/menue/view.svg",
+    "active": false
+  },
+  {
+    "id": 601,
+    "group": "",
+    "cat": "cmsettings",
+    "blocked": false,
+    "btntype": "s",
+    "name": "edit",
+    "variable": ["mode"],
+    "contenttype": "g",
+    "value": "edit",
+    "prio": 0,
+    "content": "assets/images/svgelements/menue/edit.svg",
+    "active": false
+  },
+  {
+    "id": 602,
+    "group": "",
+    "cat": "cmsettings",
+    "blocked": false,
+    "btntype": "s",
+    "name": "new",
+    "variable": ["mode"],
+    "contenttype": "g",
+    "value": "new",
+    "prio": 0,
+    "content": "assets/images/svgelements/menue/new.svg",
+    "active": false
+  },
+  {
+    "id": 603,
+    "group": "",
+    "cat": "cmsettings",
+    "blocked": false,
+    "btntype": "s",
+    "name": "dragging",
+    "variable": ["mode"],
+    "contenttype": "g",
+    "value": "dragging",
+    "prio": 0,
+    "content": "assets/images/svgelements/menue/dragging.svg",
+    "active": false
+  },
+  {
+    "id": 604,
+    "group": "",
+    "cat": "cmsettings",
+    "blocked": false,
+    "btntype": "s",
+    "name": "marking",
+    "variable": ["mode"],
+    "contenttype": "g",
+    "value": "marking",
+    "prio": 0,
+    "content": "assets/images/svgelements/menue/marking.svg",
+    "active": false
+  },
+  {
+    "id": 605,
+    "group": "",
+    "cat": "cmsettings",
+    "blocked": false,
+    "btntype": "s",
+    "name": "selecting",
+    "variable": ["mode"],
+    "contenttype": "g",
+    "value": "selecting",
+    "prio": 0,
+    "content": "assets/images/svgelements/menue/selecting.svg",
+    "active": false
+  },
+  {
+    "id": 606,
+    "group": "",
+    "cat": "cmsettings",
+    "blocked": false,
+    "btntype": "s",
+    "name": "pointing",
+    "variable": ["mode"],
+    "contenttype": "g",
+    "value": "pointing",
+    "prio": 0,
+    "content": "assets/images/svgelements/line/pointer.svg",
+    "active": false
+  },
+  {
+    "id": 607,
+    "group": "",
+    "cat": "cmsettings",
+    "blocked": false,
+    "btntype": "s",
+    "name": "connecting",
+    "variable": ["mode"],
+    "contenttype": "g",
+    "value": "connecting",
+    "prio": 0,
+    "content": "assets/images/svgelements/line/connector.svg",
     "active": false
   },
   {
@@ -472,6 +808,34 @@
     "contenttype": "n",
     "value": "2",
     "prio": 1,
+    "content": "++--",
+    "active": false
+  },
+  {
+    "id": 908,
+    "group": "",
+    "cat": "tbmarking",
+    "blocked": false,
+    "btntype": "n",
+    "name": "tbmarking_z_pos",
+    "variable": ["prio"],
+    "contenttype": "n",
+    "value": "1",
+    "prio": 1,
+    "content": "++--",
+    "active": false
+  },
+  {
+    "id": 909,
+    "group": "",
+    "cat": "tbmarking",
+    "blocked": false,
+    "btntype": "n",
+    "name": "tbmarking_trans",
+    "variable": ["cmobject", "style", "object", "trans"],
+    "contenttype": "n",
+    "value": "1",
+    "prio": 0.1,
     "content": "++--",
     "active": false
   }

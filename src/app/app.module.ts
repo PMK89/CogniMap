@@ -48,6 +48,8 @@ import { TemplateService } from './shared/template.service';
 import { EventService } from './shared/event.service';
 import { CmlsvgService } from './shared/shapes/cmlsvg.service';
 import { CmosvgService } from './shared/shapes/cmosvg.service';
+import { LineShapesService } from './shared/shapes/lineshapes.service';
+import { ObjectShapesService } from './shared/shapes/objectshapes.service';
 import { SnapsvgService } from './shared/snapsvg.service';
 import { MathJaxService } from './shared/mathjax.service';
 import { NavigatorService } from './widgets/navigator/navigator.service';
@@ -114,6 +116,8 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
               EventService,
               CmlsvgService,
               CmosvgService,
+              LineShapesService,
+              ObjectShapesService,
               TemplateService,
               SnapsvgService,
               NavigatorService,

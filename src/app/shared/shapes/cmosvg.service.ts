@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { ObjectShapesService } from './objectshapes.service';
 // import { Snap } from 'snapsvg';
 declare var Snap: any;
 
 @Injectable()
 export class CmosvgService {
 
-  constructor() { }
+  constructor(private objectShapesService: ObjectShapesService) { }
 
   // creates a rectangle
   public createRectangle(cme, bbox, cmg: any) {
@@ -63,6 +64,85 @@ export class CmosvgService {
         opacity: cme.cmobject.style.object.trans,
       });
       cmg.add(r);
+    }
+  }
+
+  // create special shapes
+  public createShapes(cme, bbox, cmg: any) {
+    let s = Snap('#cmsvg');
+    let source;
+    let xdif = 0.5;
+    let ydif = 0.5;
+    let wdif = 10;
+    let hdif = 10;
+    switch (cme.types[1]) {
+      case 'da':
+        source = this.objectShapesService.Shapes['doublearrow'];
+        wdif = cme.cmobject.style.title.size * 2;
+        hdif = cme.cmobject.style.title.size * 1.5;
+        break;
+      case 'sb':
+        source = this.objectShapesService.Shapes['speechbubble'];
+        ydif = 0.2;
+        wdif = cme.cmobject.style.title.size * 0.5;
+        hdif = cme.cmobject.style.title.size;
+        break;
+      case 'tb':
+        source = this.objectShapesService.Shapes['thoughtbubble'];
+        ydif = 0.3;
+        wdif = cme.cmobject.style.title.size * 0.5;
+        hdif = cme.cmobject.style.title.size + (bbox.w * 0.1);
+        break;
+      case 'tb1':
+        source = this.objectShapesService.Shapes['thoughtbubble1'];
+        ydif = 0.2;
+        wdif = cme.cmobject.style.title.size * 0.5;
+        hdif = cme.cmobject.style.title.size;
+        break;
+      case 'd':
+        source = this.objectShapesService.Shapes['diamond'];
+        wdif = cme.cmobject.style.title.size;
+        hdif = bbox.w * 0.5;
+        break;
+      case 'h':
+        source = this.objectShapesService.Shapes['hexagon'];
+        wdif = cme.cmobject.style.title.size * 0.5;
+        hdif = cme.cmobject.style.title.size + bbox.w * 0.2;
+        break;
+      case 'p':
+        source = this.objectShapesService.Shapes['pentagon'];
+        wdif = cme.cmobject.style.title.size* 0.5;
+        hdif = cme.cmobject.style.title.size + bbox.w * 0.2;
+        ydif = 0.4;
+        break;
+      default:
+        source = this.objectShapesService.Shapes['diamond'];
+    }
+    let mrg = 5;
+    let svggroup = cmg.g();
+    let tsvggroup = cmg.g();
+    let svg = Snap.parse(source);
+    tsvggroup.add(svg);
+    let layer1 = tsvggroup.select('#layer1');
+    if (layer1) {
+      tsvggroup.remove();
+      svggroup.add(layer1);
+      let svgbbox = svggroup.getBBox();
+      layer1.transform('s' + ((bbox.w + wdif) / svgbbox.w) + ' ' + ((bbox.h + hdif) / svgbbox.h));
+      svgbbox = svggroup.getBBox();
+      // let transformgroup = cmg.g();
+      // transformgroup.add(svggroup);
+      svggroup.transform('t' + ((bbox.x - (xdif * (svgbbox.w - bbox.w))) - svgbbox.x) + ',' + ((bbox.y - (ydif * (svgbbox.h - bbox.h))) - svgbbox.y));
+      console.log(xdif, ydif, wdif, hdif);
+    }
+    let a = svggroup.select('#svg_1');
+    if (a) {
+      a.attr({
+        fill: cme.cmobject.style.object.color0,
+        stroke: cme.cmobject.style.object.color1,
+        opacity: cme.cmobject.style.object.trans,
+        id: 'cms' + cme.id.toString(),
+      });
     }
   }
 

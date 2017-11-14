@@ -32,6 +32,20 @@ export class CmlsvgService {
       this.addLine(p, id, cmg, cme, cmsvg);
     }
 
+    // creates a rounded edged line between two point
+    public createRoundedEdge(cme, cmsvg, cmg) {
+      let p;
+      let id = cme.id.toString();
+      let radius = cme.cmobject.size0 * 2;
+      if (cme.id > -1) {
+        id = id.replace('.', '_');
+      }
+      let path = 'M' + cme.x0 + ' ' + cme.y0 + 'C' + cme.x0 +
+       ' ' + cme.y1 + ' ' + cme.x0 + ' ' + cme.y1 + ' ' + cme.x1 + ' ' + cme.y1;
+      p = cmsvg.path(path);
+      this.addLine(p, id, cmg, cme, cmsvg);
+    }
+
     // creates a cubic bezier curve between two point
     public createCurve(cme, cmsvg, cmg) {
       let p;

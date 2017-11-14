@@ -3,16 +3,16 @@
     "blocked": false,
     "cat": "tbobject0",
     "colors": [
-      "#ffffff",
-      "#8668f0",
+      "#fb9894",
       "#95aafb",
-      "#ffcb28",
-      "#b68aff",
-      "#26a497",
-      "#24dc9d",
-      "#c42e06",
+      "#eefb01",
+      "#2302fb",
+      "#bebbd2",
       "#95aafb",
-      "#cfb9ea"
+      "#c66bc8",
+      "#b6b6b6",
+      "#c79fc4",
+      "#c3a1c0"
     ],
     "cuppled": false,
     "group": "",
@@ -31,16 +31,16 @@
     "blocked": false,
     "cat": "tbobject1",
     "colors": [
+      "#e3bbb2",
+      "#b061a1",
+      "#feffcf",
+      "#a3a47b",
       "#d0b3ff",
       "#005a1a",
       "#ff0000",
       "#ffbf00",
       "#ffff00",
-      "#40ff00",
-      "#00ff80",
-      "#00ffff",
-      "#0000ff",
-      "#bf00ff"
+      "#40ff00"
     ],
     "cuppled": false,
     "group": "",
@@ -53,58 +53,6 @@
       "style",
       "object",
       "color1"
-    ]
-  },
-  {
-    "id": 3,
-    "name": "default",
-    "group": "",
-    "cat": "tbline1",
-    "prio": 0,
-    "blocked": false,
-    "variable": [
-      "cmobject",
-      "color1"
-    ],
-    "colors": [
-      "#ff0000",
-      "#ffbf00",
-      "#ffff00",
-      "#40ff00",
-      "#00ff80",
-      "#00ffff",
-      "#0000ff",
-      "#bf00ff",
-      "#ff00bf",
-      "#000000"
-    ],
-    "cuppled": false,
-    "secured": false
-  },
-  {
-    "blocked": false,
-    "cat": "tbline0",
-    "colors": [
-      "#f10707",
-      "#a48ff0",
-      "#7f6b9e",
-      "#00ffff",
-      "#b3c1f6",
-      "#d0b3ff",
-      "#978ff6",
-      "#b3c1f6",
-      "#b3c1f6",
-      "#cbd5fa"
-    ],
-    "cuppled": false,
-    "group": "",
-    "id": 4,
-    "name": "default",
-    "prio": 0,
-    "secured": false,
-    "variable": [
-      "cmobject",
-      "color0"
     ]
   },
   {
@@ -124,6 +72,114 @@
     ],
     "cuppled": false,
     "group": "",
+    "id": 6,
+    "name": "test",
+    "prio": 1,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "style",
+      "title",
+      "color"
+    ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbmarking1",
+    "colors": [
+      "#ffe700",
+      "#1200ff",
+      "#d0b3ff",
+      "#005a1a",
+      "#ff0000",
+      "#ffbf00",
+      "#ffff00",
+      "#40ff00",
+      "#00ff80",
+      "#00ffff"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 7,
+    "name": "default",
+    "prio": 0,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "style",
+      "object",
+      "color1"
+    ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbline1",
+    "colors": [
+      "#e3bbb2",
+      "#b061a1",
+      "#ff0000",
+      "#ffbf00",
+      "#ffff00",
+      "#40ff00",
+      "#00ff80",
+      "#00ffff",
+      "#0000ff",
+      "#bf00ff"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 3,
+    "name": "default",
+    "prio": 0,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "color1"
+    ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbline0",
+    "colors": [
+      "#95aafb",
+      "#ff001f",
+      "#f9fb94",
+      "#95aafb",
+      "#c66bc8",
+      "#b6b6b6",
+      "#c79fc4",
+      "#c3a1c0",
+      "#bfa3bd",
+      "#bb8eb9"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 4,
+    "name": "default",
+    "prio": 0,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "color0"
+    ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbfont",
+    "colors": [
+      "#faaeae",
+      "#ffffff",
+      "#000000",
+      "#2eb500",
+      "#ff0000",
+      "#ffbf00",
+      "#ffff00",
+      "#40ff00",
+      "#00ff80",
+      "#00ffff"
+    ],
+    "cuppled": false,
+    "group": "",
     "id": 5,
     "name": "default",
     "prio": 0,
@@ -133,6 +189,196 @@
       "style",
       "title",
       "color"
+    ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbfont",
+    "colors": [
+      "#3c2121",
+      "#bb3535",
+      "#bf6060",
+      "#761818",
+      "#ffffff",
+      "#000000",
+      "#2eb500",
+      "#ff0000",
+      "#ffbf00",
+      "#ffff00"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 8,
+    "name": "test1",
+    "prio": 1,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "style",
+      "title",
+      "color"
+    ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbobject0",
+    "colors": [
+      "#743f70",
+      "#744366",
+      "#723765",
+      "#915384",
+      "#915384",
+      "#966085",
+      "#c179b3",
+      "#bb73ad",
+      "#dd9ece",
+      "#ce8bc0"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 9,
+    "name": "pure_math",
+    "prio": 1,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "style",
+      "object",
+      "color0"
+    ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbline0",
+    "colors": [
+      "#743f70",
+      "#744366",
+      "#723765",
+      "#915384",
+      "#915384",
+      "#966085",
+      "#c179b3",
+      "#bb73ad",
+      "#dd9ece",
+      "#ce8bc0"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 10,
+    "name": "pure_math",
+    "prio": 1,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "color0"
+    ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbobject0",
+    "colors": [
+      "#77d0e1",
+      "#7abee0",
+      "#73b6e1",
+      "#89dae1",
+      "#81cadf",
+      "#5cc2df",
+      "#5ca9df",
+      "#5b8ee1",
+      "#89c1e0",
+      "#c7a263"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 11,
+    "name": "appl_math",
+    "prio": 1,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "style",
+      "object",
+      "color0"
+    ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbline0",
+    "colors": [
+      "#77d0e1",
+      "#7abee0",
+      "#73b6e1",
+      "#89dae1",
+      "#81cadf",
+      "#5cc2df",
+      "#5ca9df",
+      "#5b8ee1",
+      "#89c1e0",
+      "#c7a263"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 12,
+    "name": "appl_math",
+    "prio": 1,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "color0"
+    ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbobject0",
+    "colors": [
+      "#c79fc4",
+      "#c3a1c0",
+      "#bfa3bd",
+      "#bb8eb9",
+      "#81a2b0",
+      "#adcad7",
+      "#deb1aa",
+      "#e4aca3",
+      "#e5b6ad",
+      "#e3bbb2"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 13,
+    "name": "physics0",
+    "prio": 1,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "style",
+      "object",
+      "color0"
+    ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbline0",
+    "colors": [
+      "#c79fc4",
+      "#c3a1c0",
+      "#bfa3bd",
+      "#bb8eb9",
+      "#81a2b0",
+      "#adcad7",
+      "#deb1aa",
+      "#e4aca3",
+      "#e5b6ad",
+      "#e3bbb2"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 14,
+    "name": "physics0",
+    "prio": 1,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "color0"
     ]
   }
 ]

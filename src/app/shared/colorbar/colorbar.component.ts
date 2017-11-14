@@ -21,11 +21,14 @@ export class ColorbarComponent implements OnInit {
   @Input() public selector: string;
   @Input() public colorbars: Observable<CMColorbar[]>;
   public action: CMAction;
+  public loccolorbars = [];
   public color: string;
   public value: string;
   public selCMEo: Observable<CMEo>;
   public selCMEl: Observable<CMEl>;
   public mode = 'colors';
+  public selectcolor: string;
+  public maxid = 0;
   @ViewChild('colorpick') public colorpick: ElementRef;
 
   constructor(private elementService: ElementService,
@@ -50,6 +53,7 @@ export class ColorbarComponent implements OnInit {
   }
 
   public getcolor(colorbar) {
+    this.selectcolor = colorbar.id.toString();
     let selElem;
     if (colorbar.cat === 'tbline0' || colorbar.cat === 'tbline1') {
       selElem = this.selCMEl;
@@ -100,8 +104,11 @@ export class ColorbarComponent implements OnInit {
   }
 
   // saves colorbar under entered name
-  public saveColors(name: string, colorbar) {
-    console.log(name, colorbar);
+  public saveColors(name: string, colorbar0) {
+    let fuckingcolorbar = JSON.parse(JSON.stringify(colorbar0));
+    fuckingcolorbar.name = name;
+    this.settingsService.newColors(fuckingcolorbar);
+    this.mode = 'colors';
   }
 
   // sets colorbar mode under entered name
@@ -110,6 +117,46 @@ export class ColorbarComponent implements OnInit {
       this.mode = 'colors';
     } else {
       this.mode = name;
+    }
+  }
+
+  // changes the selected color
+  public changeColorbar() {
+    this.colorbars.subscribe((colorbar) => {
+      if (colorbar) {
+        for (let key in colorbar) {
+          if (colorbar[key]) {
+            if (colorbar[key].cat === this.selector) {
+              if (colorbar[key].id === parseInt(this.selectcolor)) {
+                colorbar[key].prio = 0;
+              } else if (colorbar[key].prio === 0) {
+                colorbar[key].prio += 1;
+              }
+            }
+            this.loccolorbars.push(colorbar[key]);
+          }
+        }
+        console.log(this.loccolorbars);
+        this.settingsService.changeAllColors(this.loccolorbars);
+        this.loccolorbars = [];
+        this.mode = 'colors';
+      }
+    }).unsubscribe();
+  }
+
+  public getState() {
+    if (this.colorbars) {
+      this.colorbars.subscribe((colorbar) => {
+        if (colorbar) {
+          for (let key in colorbar) {
+            if (colorbar[key]) {
+              if (colorbar[key].prio === 0 && colorbar[key].cat === this.selector) {
+                this.selectcolor = colorbar[key].id.toString();
+              }
+            }
+          }
+        }
+      }).unsubscribe();
     }
   }
 

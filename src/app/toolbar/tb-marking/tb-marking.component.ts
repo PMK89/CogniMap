@@ -37,7 +37,7 @@ export class TbMarkingComponent implements OnInit {
                         if (this.selCMEo.cmobject['content']) {
                           if (this.selCMEo.cmobject.content[0] !== undefined) {
                             if (this.selCMEo.cmobject.content[0].cat === 'i') {
-                              this.picsize = this.selCMEo.cmobject.content[0].width;
+                              this.picsize = this.selCMEo.cmobject.content[0].height;
                               this.ispic = true;
                             } else {
                               this.ispic = false;
@@ -88,28 +88,31 @@ export class TbMarkingComponent implements OnInit {
   } return style;
   }
 
-  public setPicSize(picSize) {
-    // console.log(picSize, (typeof picSize));
-    let size = parseInt(picSize, 10);
-    if ((typeof size) === 'number') {
-      this.selCMEo.cmobject.content[0].width = size;
-      this.elementService.updateSelCMEo(this.selCMEo);
-    }
-  }
-
-  public makeTrans(color) {
-    this.elementService.makeTrans(color);
-  }
-
-  public delselCMEo() {
-    if (this.elementService.selCMEo) {
-      this.elementService.delCME(this.elementService.selCMEo.id);
-    }
-  }
-
   public changeCon(con: string, start: boolean) {
     // cange connection goes here
     this.elementService.changeCon(con, start);
+  }
+
+  public setSize(xvalue: string, yvalue: string) {
+    // cange connection goes here
+    let oldwidth = this.selCMEo.x1 - this.selCMEo.x0;
+    let newwidth = parseInt(xvalue, 10);
+    let difx = (newwidth - oldwidth) / 2;
+    let oldheight = this.selCMEo.y1 - this.selCMEo.y0;
+    let newheight = parseInt(yvalue, 10);
+    let dify = (newheight - oldheight) / 2;
+    if (typeof dify === 'number' && typeof difx === 'number') {
+      console.log(oldwidth, newwidth, difx, oldheight, newheight, dify);
+      this.selCMEo.coor.x -= difx;
+      this.selCMEo.x0 -= difx;
+      this.selCMEo.x1 += difx;
+      this.selCMEo.coor.y -= dify;
+      this.selCMEo.y0 -= dify;
+      this.selCMEo.y1 += dify;
+      this.selCMEo.prep = '';
+      this.selCMEo.prep1 = '';
+      this.elementService.updateSelCMEo(this.selCMEo);
+    }
   }
 
 }

@@ -2,12 +2,12 @@
   {
     "cmap": {
       "display": "block",
-      "height": 200000,
+      "height": 500000,
       "left": 0,
       "opacity": 1,
       "position": "absolute",
       "top": 0,
-      "width": 200000,
+      "width": 500000,
       "z-index": 0
     },
     "cmtbfont": {
@@ -60,7 +60,7 @@
     "cmtbmarking": {
       "color0": "#ec3100",
       "color1": "#ff0000",
-      "prio": 6,
+      "prio": 5,
       "trans": 0.5000000000000001,
       "types": [
         "m",
@@ -86,8 +86,8 @@
     },
     "cngtemp": false,
     "coor": {
-      "x": 59658,
-      "y": 55797
+      "x": 328039,
+      "y": 155942
     },
     "debug": true,
     "dev": false,
@@ -308,6 +308,7 @@
       "y0": 99910.9140625,
       "y1": 100022.6328125
     },
+    "seltb": "",
     "style": {
       "bgcolor": "#ffffff",
       "boxclass": "boxdefault",
@@ -342,14 +343,14 @@
       "opacity": 0.8,
       "position": "fixed",
       "top": 0,
-      "width": 1920,
+      "width": 1800,
       "z-index": 515
     },
-    "widget0": "none",
+    "widget0": "navigator",
     "widget1": "none",
     "wlayout0": {
-      "display": "none",
-      "height": 473,
+      "display": "block",
+      "height": 447.5,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
@@ -359,11 +360,11 @@
     },
     "wlayout1": {
       "display": "none",
-      "height": 473,
+      "height": 447.5,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
-      "top": 553,
+      "top": 527.5,
       "width": 600,
       "z-index": 510
     }

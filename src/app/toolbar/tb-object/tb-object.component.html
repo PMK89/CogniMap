@@ -22,6 +22,12 @@
             <td>
               <app-s-button [buttons]="buttons" [selector]="10"></app-s-button>
             </td>
+            <td>
+              <app-l-button [buttons]="buttons" [selector]="13"></app-l-button>
+            </td>
+            <td>
+              <app-l-button [buttons]="buttons" [selector]="16"></app-l-button>
+            </td>
           </tr>
           <tr>
             <td colspan="3">
@@ -42,13 +48,19 @@
             <td>
               <app-s-button [buttons]="buttons" [selector]="5"></app-s-button>
             </td>
+            <td>
+              <app-l-button [buttons]="buttons" [selector]="14"></app-l-button>
+            </td>
+            <td>
+              <app-l-button [buttons]="buttons" [selector]="17"></app-l-button>
+            </td>
           </tr>
           <tr>
             <td>
               <app-numberchange [buttons]="buttons" [selector]="901"></app-numberchange>
             </td>
-            <td>
-
+            <td (click)="selectChildren()">
+              SelCN
             </td>
             <td>
 
@@ -60,13 +72,19 @@
               <app-s-button [buttons]="buttons" [selector]="11"></app-s-button>
             </td>
             <td >
-
+              <app-s-button [buttons]="buttons" [selector]="12"></app-s-button>
             </td>
             <td>
 
             </td>
             <td>
 
+            </td>
+            <td>
+              <app-l-button [buttons]="buttons" [selector]="15"></app-l-button>
+            </td>
+            <td>
+              <app-l-button [buttons]="buttons" [selector]="18"></app-l-button>
             </td>
           </tr>
         </table>

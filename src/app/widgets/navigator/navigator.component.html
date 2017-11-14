@@ -18,6 +18,58 @@
           X:
         </td>
         <td>
+          <input #xNewCoorInput value="{{position.left}}" size="5" [disabled]="position.disabled">
+        </td>
+        <td>
+          Add X:
+        </td>
+        <td>
+          <input #xAddCoorInput value="0" size="5" [disabled]="position.disabled">
+        </td>
+        <td (click)="addCoor('x', xNewCoorInput.value, xAddCoorInput.value)">
+          Add
+        </td>
+        <td  (click)="moveTo(xNewCoorInput.value, yNewCoorInput.value)">
+          Go
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Y:
+        </td>
+        <td>
+          <input #yNewCoorInput value="{{position.top}}" size="5" [disabled]="position.disabled">
+        </td>
+        <td>
+          Add Y:
+        </td>
+        <td>
+          <input #yAddCoorInput value="0" size="5" [disabled]="position.disabled">
+        </td>
+        <td (click)="addCoor('y', yNewCoorInput.value, yAddCoorInput.value)">
+          Add
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+      </tr>
+      <tr>
+        <td>
+          X:
+        </td>
+        <td>
           <input #xCoorInput value="0" size="5">
         </td>
         <td>

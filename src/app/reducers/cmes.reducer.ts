@@ -6,8 +6,6 @@ import { cme } from './cme.reducer';
 export function cmes (Cmes: CME[] = [], action: Action) {
   switch (action.type) {
     case 'ADD_CME':
-      // console.log(action.payload);
-      // return Object.assign({}, action.payload, {dirty: true});
       return Cmes.concat([Object.assign({}, action.payload, {dirty: true})]);
     case 'ADD_CME_FROM_DB':
       // let d = new Date();

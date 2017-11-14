@@ -640,6 +640,7 @@ TODOS
 					'#tool_import div div': 'import',
 					'#tool_source': 'source',
 					'#tool_cm_send': 'cm_send',
+					'#tool_cm_read': 'cm_read',
 					'#tool_docprops > div': 'docprops',
 					'#tool_wireframe': 'wireframe',
 
@@ -1003,6 +1004,7 @@ TODOS
 				}
 			};
 
+			// copies svg text to textarea and marks it for copiing
 			var sendSVG = function(e)  {
 				var text = {
 		        type: 'svg',
@@ -1012,6 +1014,13 @@ TODOS
 			  // console.log(origSource);
 			  document.getElementById('svg-text').value = JSON.stringify(text);
 				document.getElementById('svg-text').select();
+			}
+
+			// reads svg text from textarea
+			var readSVG = function(e)  {
+				var svg = document.getElementById('svg-text').value;
+				svgCanvas.setSvgString(svg);
+
 			}
 
 			var showSourceEditor = function(e, forSaving) {
@@ -4507,6 +4516,7 @@ TODOS
 					{sel: '#tool_import', fn: clickImport, evt: 'mouseup'},
 					{sel: '#tool_source', fn: showSourceEditor, evt: 'click', key: ['U', true]},
 					{sel: '#tool_cm_send', fn: sendSVG, evt: 'click', key: ['S', true]},
+					{sel: '#tool_cm_read', fn: readSVG, evt: 'click', key: ['S', true]},
 					{sel: '#tool_wireframe', fn: clickWireframe, evt: 'click', key: ['F', true]},
 					{sel: '#tool_source_cancel,.overlay,#tool_docprops_cancel,#tool_prefs_cancel', fn: cancelOverlays, evt: 'click', key: ['esc', false, false], hidekey: true},
 					{sel: '#tool_source_save', fn: saveSourceEditor, evt: 'click'},

@@ -17,6 +17,7 @@ import { CMSettings } from '../../models/CMSettings';
 @Injectable()
 export class CodeeditorService {
   public cmsettings: CMSettings;
+  public code: string;
 
   constructor(private settingsService: SettingsService,
               private elementService: ElementService,
@@ -31,7 +32,7 @@ export class CodeeditorService {
               }
 
   // finds element by title
-  public processCode(code) {
+  public processCode(code, text, change) {
     // this.codeedit.instance.runMode(this.code, 'text/x-go', this.cmOutput());
     let codestring = '<svg><foreignObject id="fo" width="' + code.sizer.clientWidth
     + 'px" height="' + code.sizer.clientHeight +
@@ -48,27 +49,51 @@ export class CodeeditorService {
         codestring += codearray[i].node.innerHTML;
       }
     }
-    */
     codestring = codestring.replace('position: absolute', 'position: relative');
     codestring = codestring.replace('z-index: 1;', '');
-    console.log(codestring);
+    */
+    // console.log(codestring);
     if (this.elementService.selCMEo) {
-      let content = {
-        cat: 'html',
-        coor: {
-          x: 0,
-          y: 0
-        },
-        object: codestring,
-        width: code.sizer.clientWidth,
-        info: 'insert corect code',
-        height: code.sizer.clientHeight
-      };
-      this.elementService.selCMEo.cmobject.content.push(content);
-      this.elementService.selCMEo.state = 'new';
+      if (change) {
+        for (let key in this.elementService.selCMEo.cmobject.content) {
+          if (this.elementService.selCMEo.cmobject.content[key]) {
+            let content = this.elementService.selCMEo.cmobject.content[key];
+            if (content.cat === 'html') {
+              content.info = text;
+              content.width = code.sizer.clientWidth;
+              content.height = code.sizer.clientHeight;
+              content.object = codestring;
+            }
+          }
+        }
+      } else {
+        let content = {
+          cat: 'html',
+          coor: {
+            x: 0,
+            y: 0
+          },
+          object: codestring,
+          width: code.sizer.clientWidth,
+          info: text,
+          height: code.sizer.clientHeight
+        };
+        this.elementService.selCMEo.cmobject.content.push(content);
+      }
+      if (this.cmsettings.mode === 'typing') {
+        this.cmsettings.mode = 'edit';
+        this.settingsService.updateSettings(this.cmsettings);
+      }
+      this.elementService.selCMEo.types = ['i', 'i', '0'];
+      this.elementService.selCMEo.state = 'selected';
       this.elementService.updateSelCMEo(this.elementService.selCMEo);
     } else {
       alert('Please choose an Element to insert the code');
     }
+  }
+
+  // reads code from cognimap
+  public readCode(code) {
+    this.code = code;
   }
 }

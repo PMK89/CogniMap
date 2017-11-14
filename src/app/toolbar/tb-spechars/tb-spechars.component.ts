@@ -89,6 +89,7 @@ export class TbSpecharsComponent implements OnInit {
            let lulen = Math.ceil(this.spechars['lastused'].chars0.length / 2);
            this.spechars['lastused'].chars1 = this.spechars['lastused'].chars0.slice(0, lulen);
            this.spechars['lastused'].chars2 = this.spechars['lastused'].chars0.slice(lulen);
+           console.log(this.electronService.ipcRenderer.sendSync('changeSpeChars', this.spechars));
         }
       }
     }

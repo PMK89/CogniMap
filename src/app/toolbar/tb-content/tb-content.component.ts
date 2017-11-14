@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { SettingsService } from '../../shared/settings.service';
 import { ElementService } from '../../shared/element.service';
+import { CodeeditorService } from '../../widgets/codeeditor/codeeditor.service';
 // import { SButtonComponent } from '../../shared/s-button/s-button.component';
 
 // models and reducers
@@ -22,11 +23,15 @@ export class TbContentComponent implements OnInit {
   public colors: Observable<CMColorbar[]>;
   public selCMEo: any;
   public picsize: number;
+  public contentStrg: string;
+  public contentCat: string;
+  public inputType: string;
   public pos = 0;
   public contentlen = 0;
 
   constructor(private settingsService: SettingsService,
               private elementService: ElementService,
+              private codeeditorService: CodeeditorService,
               private store: Store<CMStore>) {
                 this.buttons = store.select('buttons');
                 this.colors = store.select('colors');
@@ -41,6 +46,7 @@ export class TbContentComponent implements OnInit {
                               this.contentlen = this.selCMEo.cmobject.content.length;
                               this.pos = 0;
                               this.picsize = this.selCMEo.cmobject.content[this.pos].height;
+                              this.contentCat = this.selCMEo.cmobject.content[this.pos].cat;
                             } else {
                               this.contentlen = 0;
                             }
@@ -108,6 +114,8 @@ export class TbContentComponent implements OnInit {
     } else {
       this.pos = this.contentlen - 1;
     }
+    this.picsize = this.selCMEo.cmobject.content[this.pos].height;
+    this.contentCat = this.selCMEo.cmobject.content[this.pos].cat;
     console.log(this.pos, '/', this.contentlen);
   }
 
@@ -132,6 +140,38 @@ export class TbContentComponent implements OnInit {
     }
   }
 
+  // copies content of svg object
+  public copySVG() {
+    // do something
+    this.inputType = 'svg';
+    this.contentStrg = this.selCMEo.cmobject.content[this.pos].object;
+    // console.log(this.contentStrg);
+  }
+
+  // copies content of svg object
+  public copyInfo() {
+    // do something
+    this.inputType = 'info';
+    this.contentStrg = this.selCMEo.cmobject.content[this.pos].info;
+    if (this.selCMEo.cmobject.content[this.pos].cat === 'html') {
+      this.codeeditorService.code = this.contentStrg;
+    }
+  }
+  // reads string in input field
+  public readInput(input) {
+    if (this.selCMEo) {
+      if (this.inputType === 'info') {
+        this.selCMEo.cmobject.content[this.pos].info = input;
+        this.elementService.updateSelCMEo(this.selCMEo);
+      } else if (this.inputType === 'svg') {
+        this.selCMEo.cmobject.content[this.pos].object = input;
+        this.elementService.updateSelCMEo(this.selCMEo);
+      } else {
+        console.log('no inputType');
+      }
+    }
+  }
+
   // deletes selected entry from content array
   public delContent() {
     if (this.elementService.selCMEo) {
@@ -143,6 +183,7 @@ export class TbContentComponent implements OnInit {
         } else {
           this.elementService.delCME(this.elementService.selCMEo.id);
         }
+        this.contentlen = this.selCMEo.cmobject.content.length;
       } catch (err) {
         console.log(err);
       }

@@ -6,12 +6,14 @@ import 'rxjs/add/observable/fromEvent';
 
 // cognimap services
 import { ElementService } from './element.service';
+import { TemplateService } from './template.service';
 import { SettingsService } from './settings.service';
 import { WindowService } from './window.service';
 import { CMStore } from '../models/CMStore';
-// import { CMCoor } from '../models/CMCoor';
 
+import { CMButton } from '../models/CMButton';
 import { CMAction } from '../models/CMAction';
+import { CMCoor } from '../models/CMCoor';
 import { CMEo } from '../models/CMEo';
 
 @Injectable()
@@ -23,6 +25,7 @@ export class EventService {
                                     y: event.clientY + this.windowService.WinYOffset
                                   };
                                 });
+  public KeyUp: Observable<any> = Observable.fromEvent(document, 'keyup');
   public clickX: number;
   public clickY: number;
   public startX: number;
@@ -41,11 +44,15 @@ export class EventService {
   public selCMEl: any;
   public selCMElTime: number;
   public cmsettings: any;
+  public position: CMCoor;
+  public buttons: Observable<CMButton[]>;
+  public decoArray: string[] = ['none', 'line-through', 'underline'];
 
   constructor(private windowService: WindowService,
               private settingsService: SettingsService,
               private electronService: ElectronService,
               private elementService: ElementService,
+              private templateService: TemplateService,
               private store: Store<CMStore>) {
                 this.store.select('settings')
                 .subscribe((data) => {
@@ -62,6 +69,7 @@ export class EventService {
                       this.selCMEoLinkPos = 0;
                       this.setSelCMEoLinkPos(0);
                       this.selCMEo = data;
+                      this.position = undefined;
                     }
                   }
                   // console.log('settings ', data);
@@ -141,6 +149,24 @@ export class EventService {
         } else if (parseInt(evt.target.title, 10) > 0) {
           this.elementService.setSelectedCME(parseInt(evt.target.title, 10));
         }
+      } else if (this.cmsettings.mode === 'cutting') {
+        if (parseInt(evt.target.title, 10) < 0 || evt.target.id === 'cmap'
+          || evt.target.id === 'cmsvg') {
+          if (this.elementService.selCMEo) {
+            this.elementService.selCMEo.state = 'cutting';
+            this.elementService.updateSelCMEo(this.elementService.selCMEo);
+          }
+          console.log(evt.target);
+          this.elementService.cutPaste(this.clickX, this.clickY);
+        }
+        /*
+        if (this.elementService.selCMEo) {
+          this.cmsettings.mode = 'edit';
+          this.settingsService.updateSettings(this.cmsettings);
+        } else if (this.elementService.selCMEoArray.length > 0 && this.elementService.selCMElArray.length > 0) {
+          this.cmsettings.mode = 'selecting';
+          this.settingsService.updateSettings(this.cmsettings);
+        }*/
       }
     }
   }
@@ -371,8 +397,29 @@ export class EventService {
     }
   }
 
+  // provides an observable for keydown events
+  public keyUp() {
+    return this.KeyUp
+            .map((evt) => {
+              if (this.cmsettings.mode === 'new') {
+                if (this.position) {
+                  let dif = {
+                    x: this.position.x,
+                    y: this.position.y
+                  };
+                  return dif;
+                } else {
+                  return {
+                    display: 'none'
+                  };
+                }
+              }
+            });
+  }
+
   // handles keydown events
   public onKeyDown(evt) {
+    // console.log(evt.key);
     if (this.keyPressed.indexOf(evt.key) === -1) {
       this.keyPressed.push(evt.key);
     }
@@ -382,42 +429,118 @@ export class EventService {
         this.cmsettings.mode = 'edit';
         this.settingsService.updateSettings(this.cmsettings);
       }
-      this.delCmd();
+      if (this.cmsettings.mode === 'edit' || this.cmsettings.mode === 'dragging') {
+        this.delCmd();
+      }
     }
     if (this.keyPressed.indexOf('Control') !== -1) {
-      if (this.keyPressed.indexOf('ArrowUp') !== -1) {
-        this.setSelCMEoLinkPos(1);
-      } else if (this.keyPressed.indexOf('ArrowDown') !== -1) {
-        this.setSelCMEoLinkPos(-1);
-      } else if (this.keyPressed.indexOf('ArrowRight') !== -1) {
-        if (this.selCMEl) {
-          if (this.selCMEo) {
-            if (this.prevSelCMEo.length >= 50) {
-              this.prevSelCMEo.shift();
-              this.prevSelCMEo.push(this.selCMEo);
-            } else {
-              this.prevSelCMEo.push(this.selCMEo);
-            }
-            if (this.selCMEo.id === this.selCMEl.cmobject.id0) {
-              window.scrollTo((this.selCMEl.x1 - (window.innerWidth / 2)),
-               (this.selCMEl.y1 - (window.innerHeight / 2)));
-              this.elementService.setSelectedCME(this.selCMEl.cmobject.id1);
-            } else {
-              window.scrollTo((this.selCMEl.x0 - (window.innerWidth / 2)),
-               (this.selCMEl.y0 - (window.innerHeight / 2)));
-              this.elementService.setSelectedCME(this.selCMEl.cmobject.id0);
+      // uses arrow keys to choose links and move through cognimap
+      if (this.keyPressed.indexOf('f') === -1 && this.keyPressed.indexOf('o') === -1 &&
+          this.keyPressed.indexOf('l') === -1) {
+        if (this.keyPressed.indexOf('ArrowUp') !== -1) {
+          this.setSelCMEoLinkPos(1);
+        } else if (this.keyPressed.indexOf('ArrowDown') !== -1) {
+          this.setSelCMEoLinkPos(-1);
+        } else if (this.keyPressed.indexOf('ArrowRight') !== -1) {
+          if (this.selCMEl) {
+            if (this.selCMEo) {
+              if (this.prevSelCMEo.length >= 50) {
+                this.prevSelCMEo.shift();
+                this.prevSelCMEo.push(this.selCMEo);
+              } else {
+                this.prevSelCMEo.push(this.selCMEo);
+              }
+              if (this.selCMEo.id === this.selCMEl.cmobject.id0) {
+                window.scrollTo((this.selCMEl.x1 - (window.innerWidth / 2)),
+                 (this.selCMEl.y1 - (window.innerHeight / 2)));
+                this.elementService.setSelectedCME(this.selCMEl.cmobject.id1);
+              } else {
+                window.scrollTo((this.selCMEl.x0 - (window.innerWidth / 2)),
+                 (this.selCMEl.y0 - (window.innerHeight / 2)));
+                this.elementService.setSelectedCME(this.selCMEl.cmobject.id0);
+              }
             }
           }
+        } else if (this.keyPressed.indexOf('ArrowLeft') !== -1) {
+          if (this.prevSelCMEo.length > 0) {
+            let prevCMEo = this.prevSelCMEo.pop();
+            this.elementService.setSelectedCME(prevCMEo.id);
+            window.scrollTo((prevCMEo.x0 - (window.innerWidth / 2)),
+             (prevCMEo.y0 - (window.innerHeight / 2)));
+          }
         }
-      } else if (this.keyPressed.indexOf('ArrowLeft') !== -1) {
-        if (this.prevSelCMEo.length > 0) {
-          let prevCMEo = this.prevSelCMEo.pop();
-          this.elementService.setSelectedCME(prevCMEo.id);
-          window.scrollTo((prevCMEo.x0 - (window.innerWidth / 2)),
-           (prevCMEo.y0 - (window.innerHeight / 2)));
+      } else if (this.keyPressed.indexOf('f') !== -1 && this.selCMEo) {
+        // changes font properties of selected element
+        if (this.keyPressed.indexOf('ArrowUp') !== -1) {
+          this.selCMEo.cmobject.style.title.size += 1;
+          this.elementService.updateSelCMEo(this.selCMEo);
+        } else if (this.keyPressed.indexOf('ArrowDown') !== -1) {
+          if (this.selCMEo.cmobject.style.title.size > 0) {
+            this.selCMEo.cmobject.style.title.size -= 1;
+            this.elementService.updateSelCMEo(this.selCMEo);
+          }
+        } else if (this.keyPressed.indexOf('ArrowRight') !== -1) {
+          let decoNum = this.decoArray.indexOf(this.selCMEo.cmobject.style.title.deco);
+          if (decoNum < this.decoArray.length) {
+            this.selCMEo.cmobject.style.title.deco = this.decoArray[decoNum + 1];
+          } else {
+            this.selCMEo.cmobject.style.title.deco = this.decoArray[0];
+          }
+          this.elementService.updateSelCMEo(this.selCMEo);
+        } else if (this.keyPressed.indexOf('ArrowLeft') !== -1) {
+          let decoNum = this.decoArray.indexOf(this.selCMEo.cmobject.style.title.deco);
+          if (decoNum > 0) {
+            this.selCMEo.cmobject.style.title.deco = this.decoArray[decoNum - 1];
+          } else {
+            this.selCMEo.cmobject.style.title.deco = this.decoArray[this.decoArray.length];
+          }
+          this.elementService.updateSelCMEo(this.selCMEo);
+        }
+      } else if (this.keyPressed.indexOf('o') !== -1 && this.selCMEo) {
+        // changes object properties of selected element
+        if (this.keyPressed.indexOf('ArrowUp') !== -1) {
+          this.selCMEo.prio += 1;
+          this.elementService.updateSelCMEo(this.selCMEo);
+        } else if (this.keyPressed.indexOf('ArrowDown') !== -1) {
+          if (this.selCMEo.prio > 0) {
+            this.selCMEo.prio -= 1;
+            this.elementService.updateSelCMEo(this.selCMEo);
+          }
+        } else if (this.keyPressed.indexOf('ArrowRight') !== -1) {
+          if (this.selCMEo.cmobject.style.object.trans < 1) {
+            this.selCMEo.cmobject.style.object.trans += 0.1;
+            this.elementService.updateSelCMEo(this.selCMEo);
+          }
+        } else if (this.keyPressed.indexOf('ArrowLeft') !== -1) {
+          if (this.selCMEo.cmobject.style.object.trans > 0) {
+            this.selCMEo.cmobject.style.object.trans -= 0.1;
+            this.elementService.updateSelCMEo(this.selCMEo);
+          }
+        }
+      } else if (this.keyPressed.indexOf('l') !== -1 && this.selCMEl) {
+        // changes line properties of selected element
+        if (this.keyPressed.indexOf('ArrowUp') !== -1) {
+          this.selCMEl.cmobject.size0 += 1;
+          this.elementService.updateSelCMEl(this.selCMEl);
+        } else if (this.keyPressed.indexOf('ArrowDown') !== -1) {
+          if (this.selCMEl.cmobject.size0 > 0) {
+            this.selCMEl.cmobject.size0 -= 1;
+            this.elementService.updateSelCMEl(this.selCMEl);
+          }
+        } else if (this.keyPressed.indexOf('ArrowRight') !== -1) {
+          if (this.selCMEl.cmobject.trans < 1) {
+            this.selCMEl.cmobject.trans += 0.1;
+            this.elementService.updateSelCMEl(this.selCMEl);
+          }
+        } else if (this.keyPressed.indexOf('ArrowLeft') !== -1) {
+          if (this.selCMEl.cmobject.trans > 0) {
+            this.selCMEl.cmobject.trans -= 0.1;
+            this.elementService.updateSelCMEl(this.selCMEl);
+          }
         }
       }
       if (this.keyPressed.indexOf('n') !== -1) {
+        // turns on new element mode
         if (this.cmsettings.mode === 'new') {
           this.cmsettings.mode = 'edit';
         } else {
@@ -425,13 +548,18 @@ export class EventService {
         }
         this.settingsService.updateSettings(this.cmsettings);
       } else if (this.keyPressed.indexOf('d') !== -1) {
+        // turns on dragging mode
         if (this.cmsettings.mode === 'dragging') {
           this.cmsettings.mode = 'edit';
         } else {
           this.cmsettings.mode = 'dragging';
         }
         this.settingsService.updateSettings(this.cmsettings);
+      } else if (this.keyPressed.indexOf('u') !== -1) {
+        // sets selected element as template
+        this.templateService.useSelectedCME();
       } else if (this.keyPressed.indexOf('m') !== -1) {
+        // turns on marking mode
         if (this.cmsettings.mode === 'marking') {
           this.cmsettings.mode = 'edit';
         } else {
@@ -439,19 +567,38 @@ export class EventService {
         }
         this.settingsService.updateSettings(this.cmsettings);
       } else if (this.keyPressed.indexOf('s') !== -1) {
+        // turns on selection mode
         if (this.cmsettings.mode === 'selecting') {
           this.cmsettings.mode = 'edit';
         } else if (this.cmsettings.mode !== 'typing') {
           this.cmsettings.mode = 'selecting';
         }
         this.settingsService.updateSettings(this.cmsettings);
+      } else if (this.keyPressed.indexOf('+') !== -1) {
+        // turns on connecting mode
+        if (this.cmsettings.mode === 'connecting') {
+          this.cmsettings.mode = 'edit';
+        } else if (this.cmsettings.mode !== 'typing') {
+          this.cmsettings.mode = 'connecting';
+        }
+        this.settingsService.updateSettings(this.cmsettings);
+      } else if (this.keyPressed.indexOf('x') !== -1) {
+        // turns on cutting mode
+        if (this.cmsettings.mode === 'cutting') {
+          this.cmsettings.mode = 'edit';
+        } else if (this.cmsettings.mode !== 'typing') {
+          this.cmsettings.mode = 'cutting';
+          this.elementService.hideCMEs();
+        }
+        this.settingsService.updateSettings(this.cmsettings);
       }
       if (this.keyPressed.indexOf('v') !== -1) {
+        // pastes content from clipboard
         if (['typing', 'new', 'edit'].indexOf(this.cmsettings.mode) !== -1) {
           let arg = this.electronService.ipcRenderer.sendSync('getClipboard', '1');
           if (this.selCMEo) {
             if (arg['type']) {
-              if (['png', 'LateX', 'html', 'svg', 'jsme-svg'].indexOf(arg.type) !== -1) {
+              if (['png', 'LateX', 'svg', 'jsme-svg'].indexOf(arg.type) !== -1) {
                 // console.log(arg);
                 let content = {
                   cat: 'r',
@@ -486,11 +633,115 @@ export class EventService {
         }
       }
       // console.log(this.keyPressed);
+    } else if (this.keyPressed.indexOf('Shift') !== -1) {
+      let dist = 10;
+      let direct = false;
+      if (this.keyPressed.indexOf('_') !== -1) {
+        dist = 1;
+      } else if (this.keyPressed.indexOf('*') !== -1) {
+        dist = 100;
+      }
+      if (this.keyPressed.indexOf('_') !== -1) {
+        direct = true;
+      }
+      if (this.cmsettings.mode === 'new') {
+        if (this.selCMEo) {
+          // positions new element
+          if (this.keyPressed.indexOf('ArrowUp') !== -1) {
+            if (this.position) {
+              this.position.y -= dist;
+            } else {
+              if (direct) {
+                this.position = {
+                  x: this.selCMEo.coor.x,
+                  y: this.selCMEo.coor.y - dist
+                };
+              } else {
+                this.position = {
+                  x: this.selCMEo.coor.x,
+                  y: this.selCMEo.coor.y - (this.selCMEo.y1 - this.selCMEo.y0) * 2
+                };
+              }
+            }
+          } else if (this.keyPressed.indexOf('ArrowDown') !== -1) {
+            if (this.position) {
+              this.position.y += dist;
+            } else {
+              if (direct) {
+                this.position = {
+                  x: this.selCMEo.coor.x,
+                  y: this.selCMEo.coor.y + dist
+                };
+              } else {
+                this.position = {
+                  x: this.selCMEo.coor.x,
+                  y: this.selCMEo.coor.y + (this.selCMEo.y1 - this.selCMEo.y0) * 2
+                };
+              }
+            }
+          } else if (this.keyPressed.indexOf('ArrowRight') !== -1) {
+            if (this.position) {
+              this.position.x += dist;
+            } else {
+              if (direct) {
+                this.position = {
+                  x: this.selCMEo.coor.x + dist,
+                  y: this.selCMEo.coor.y
+                };
+              } else {
+                this.position = {
+                  x: this.selCMEo.coor.x + (this.selCMEo.x1 - this.selCMEo.x0) * 2,
+                  y: this.selCMEo.coor.y
+                };
+              }
+            }
+          } else if (this.keyPressed.indexOf('ArrowLeft') !== -1) {
+            if (this.position) {
+              this.position.x -= dist;
+            } else {
+              if (direct) {
+                this.position = {
+                  x: this.selCMEo.coor.x - dist,
+                  y: this.selCMEo.coor.y
+                };
+              } else {
+                this.position = {
+                  x: this.selCMEo.coor.x - (this.selCMEo.x1 - this.selCMEo.x0) * 2,
+                  y: this.selCMEo.coor.y
+                };
+              }
+            }
+          }
+        }
+      } else {
+        if (this.selCMEo) {
+          // moves selected element in direction of arrow by dist
+          if (this.keyPressed.indexOf('ArrowUp') !== -1) {
+            this.elementService.moveElement(0, (-1 * dist), true);
+          } else if (this.keyPressed.indexOf('ArrowDown') !== -1) {
+            this.elementService.moveElement(0, dist, true);
+          } else if (this.keyPressed.indexOf('ArrowRight') !== -1) {
+            this.elementService.moveElement(dist, 0, true);
+          } else if (this.keyPressed.indexOf('ArrowLeft') !== -1) {
+            this.elementService.moveElement((-1 * dist), 0, true);
+          }
+        }
+      }
     }
   }
 
   // handles keyup events
   public onKeyUp(evt) {
+    if (this.keyPressed.indexOf('Enter') !== -1) {
+      // creates new element at position
+      if (this.cmsettings.mode === 'new') {
+        if (this.position) {
+          let oldcme = JSON.parse(JSON.stringify(this.selCMEo));
+          this.elementService.newCMEo(oldcme, this.position);
+          this.position = undefined;
+        }
+      }
+    }
     if (this.keyPressed.indexOf(evt.key) !== -1) {
       this.keyPressed.splice(this.keyPressed.indexOf(evt.key), 1);
     }

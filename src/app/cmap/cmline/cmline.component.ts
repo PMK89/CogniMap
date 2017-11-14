@@ -49,29 +49,39 @@ export class CmlineComponent implements OnInit, OnDestroy {
           marking.remove();
         }
         this.cmel = this.elementService.CMEtoCMEol(this.cmelement);
-        // console.log(this.cmelement.id);
-        if (this.cmelement.prio <= 0) {
-          this.cmelement.prio = 0;
-        } else if (this.cmelement.prio >= 99) {
-          this.cmelement.prio = 99;
-        }
-        this.snapsvgService.makeShape(this.cmel, null, this.cmgroup);
-        let prep = this.cmgroup.innerSVG();
-        prep = prep.replace(/ \\"/g, " '");
-        prep = prep.replace(/\\",/g, "',");
-        this.cmel.prep = prep;
-        this.cmelement.prep = prep;
-        // console.log('line update');
-        if (this.cmel.id > -1) {
-          this.projectTemplate(this.cmgroup, id);
-        }
-        let p = s.select('#cms' + id);
-        if (p) {
-          if (p.getTotalLength() >= 2000) {
-            // this.cmel.cmobject.markers = [];
-            this.createMarker(s, p);
-          } else {
-            this.elementService.updateCMEol(this.cmel);
+        if (this.cmel !== undefined) {
+          // console.log(this.cmelement.id);
+          if (this.cmelement.prio <= 0) {
+            this.cmelement.prio = 0;
+          } else if (this.cmelement.prio >= 99) {
+            this.cmelement.prio = 99;
+          }
+          this.snapsvgService.makeShape(this.cmel, null, this.cmgroup);
+          if (this.cmel.cmobject.end !== '') {
+            this.snapsvgService.makeArrow(this.cmel, this.cmgroup);
+          }
+          let prep = this.cmgroup.innerSVG();
+          prep = prep.replace(/ \\"/g, " '");
+          prep = prep.replace(/\\",/g, "',");
+          this.cmel.prep = prep;
+          this.cmelement.prep = prep;
+          // console.log('line update');
+          if (this.cmel.id > -1) {
+            this.projectTemplate(this.cmgroup, id);
+          }
+          let p = s.select('#cms' + id);
+          if (p) {
+            if (p.getTotalLength() >= 2000) {
+              // this.cmel.cmobject.markers = [];
+              this.createMarker(s, p);
+            } else {
+              if(this.cmel.cmobject.str === 'connector') {
+                this.elementService.changeLinkWeight(this.cmel.cmobject.id0, this.cmel.id, -1);
+                this.elementService.changeLinkWeight(this.cmel.cmobject.id1, this.cmel.id, -1);
+                this.cmel.cmobject.str = '';
+              }
+              this.elementService.updateCMEol(this.cmel);
+            }
           }
         }
       }

@@ -1,25 +1,38 @@
-<div *ngFor="let colorbar of colorbars | async">
-  <table *ngIf="colorbar.cat == selector && colorbar.prio == 0">
+<table>
     <tr>
       <td style="font-size: 9px" (click)="setmode('save')">
         save
       </td>
       <td rowspan="2" *ngIf="mode === 'colors'">
-        <table>
-          <tr>
-            <td class="tbtd">
-              <input type="color" class="clrpk"[value]="getcolor(colorbar)" #colorpick ng-model="color" (change)="changecolor(colorbar)">
-            </td>
-            <td class="tbtd" *ngFor="let color of colorbar.colors" [ngStyle]="{ 'background-color': color, 'width': '5px', 'height': '10px' }" (click)="setcolor(colorbar, color)">
-            </td>
-          </tr>
-        </table>
+        <div *ngFor="let colorbar of colorbars | async">
+          <table *ngIf="colorbar.cat == selector && colorbar.prio == 0">
+            <tr>
+              <td class="tbtd">
+                <input type="color" class="clrpk" [value]="getcolor(colorbar)" #colorpick ng-model="color" (change)="changecolor(colorbar)">
+              </td>
+              <ng-container *ngIf="colorbar.colors">
+                <td class="tbtd" *ngFor="let color of colorbar.colors" [ngStyle]="{ 'background-color': color, 'width': '5px', 'height': '10px' }" (click)="setcolor(colorbar, color)">
+                </td>
+              </ng-container>
+            </tr>
+          </table>
+        </div>
       </td>
       <td rowspan="2" *ngIf="mode === 'save'">
-        <input class="inputclass" #colorbox value="{{colorbar.name}}"
-          width="20"
-          (keyup.enter)="saveColors(colorbox.value, colorbar)"
-          (blur)="saveColors(colorbox.value, colorbar)">
+          <ng-container *ngFor="let colorbar of colorbars | async">
+            <input class="inputclass" #colorbox value="{{colorbar.name}}"
+              width="20" *ngIf="colorbar.cat == selector && colorbar.prio == 0"
+              (keyup.enter)="saveColors(colorbox.value, colorbar)">
+          </ng-container>
+      </td>
+      <td rowspan="2" *ngIf="mode === 'load'">
+          <select [(ngModel)]="selectcolor" (change)="changeColorbar()" [class]="getState()">
+            <ng-container *ngFor="let colorbar1 of colorbars | async">
+                <option *ngIf="colorbar1.cat == selector" value={{colorbar1.id}}>
+                    {{colorbar1.name}}
+                </option>
+            </ng-container>
+          </select>
       </td>
     </tr>
     <tr>
@@ -27,5 +40,4 @@
         load
       </td>
     </tr>
-  </table>
-</div>
+</table>

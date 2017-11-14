@@ -18,7 +18,16 @@ export class SettingsService {
 
   constructor(private http: Http,
               private electronService: ElectronService,
-              private store: Store<CMStore>) { }
+              private store: Store<CMStore>) {
+                this.electronService.ipcRenderer.on('changedColors', (event, arg) => {
+                  console.log('changeAllcolors:', arg);
+                  let action = {
+                    type: 'ADD_CMC_FROM_DB',
+                    payload: arg
+                  };
+                  store.dispatch(action);
+                });
+              }
 
   // reads data from Electron
   public getSettings() {
@@ -69,8 +78,26 @@ export class SettingsService {
   public changeSetting (Settings: CMSettings) {
     this.electronService.ipcRenderer.send('changeSettings', Settings);
   }
+
   // posts changed Color
   public changeColors (Color: CMColorbar) {
     this.electronService.ipcRenderer.send('changeColors', Color);
+  }
+
+  // posts changed Color
+  public changeAllColors (Colors: CMColorbar[]) {
+    this.electronService.ipcRenderer.send('changeAllColors', Colors);
+  }
+
+  // posts new Colorbar
+  public newColors (Color: CMColorbar) {
+    this.electronService.ipcRenderer.send('addColors', Color);
+  }
+
+  // finds Errors in Database and Outputs effected entries
+  public findErrors() {
+    // console.log('getSettings');
+    let arg = this.electronService.ipcRenderer.sendSync('searchDb', '1');
+    console.log(arg);
   }
 }

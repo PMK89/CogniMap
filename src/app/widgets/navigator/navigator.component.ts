@@ -19,6 +19,7 @@ export class NavigatorComponent implements OnInit {
   public cmsettings: Observable<CMSettings> = this.store.select('settings');
   public titlearray = [];
   public cmearray = [[]];
+  public position = this.navigatorService.position;
 
   constructor(private store: Store<CMStore>,
               private navigatorService: NavigatorService) { }
@@ -45,6 +46,16 @@ export class NavigatorComponent implements OnInit {
   // moves view to entered coordinates
   public goTo(x: string, y: string) {
     this.navigatorService.goTo(x, y);
+  }
+
+  // moves element to entered coordinates
+  public moveTo(x: string, y: string) {
+    this.navigatorService.moveTo(x, y);
+  }
+
+  // moves element to entered coordinates
+  public addCoor(coor: string, n0, n1) {
+    this.navigatorService.addCoor(coor, n0, n1);
   }
 
   // moves view to entered coordinates

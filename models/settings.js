@@ -69,6 +69,7 @@ var CMLayout = {
 var CMSettings = {
   id: Number,
   mode: String,
+  seltb: String,
   coor: CMCoor,
   style: CMStyle,
   debug: Boolean,

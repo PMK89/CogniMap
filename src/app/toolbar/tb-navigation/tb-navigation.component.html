@@ -2,9 +2,7 @@
   <table id="navitable">
     <tr>
       <td>
-        <div (click)="changeMode('view')"  [ngStyle]="selectionStyle('view')">
-          View
-        </div>
+        <app-s-button [buttons]="buttons" [selector]="600"></app-s-button>
       </td>
       <td>
         <select [(ngModel)]="widget0" (change)="changeWidget(0)">
@@ -21,9 +19,7 @@
     </tr>
     <tr>
       <td>
-        <div (click)="changeMode('new')" [ngStyle]="selectionStyle('new')">
-          New
-        </div>
+        <app-s-button [buttons]="buttons" [selector]="602"></app-s-button>
       </td>
       <td>
         <select [(ngModel)]="widget1" (change)="changeWidget(1)">
@@ -40,19 +36,13 @@
     </tr>
     <tr>
       <td>
-        <div (click)="changeMode('dragging')" [ngStyle]="selectionStyle('dragging')">
-          Drag
-        </div>
+        <app-s-button [buttons]="buttons" [selector]="603"></app-s-button>
       </td>
       <td>
-        <div (click)="changeMode('selecting')" [ngStyle]="selectionStyle('selecting')">
-          Selecting
-        </div>
+        <app-s-button [buttons]="buttons" [selector]="605"></app-s-button>
       </td>
       <td>
-        <div (click)="changeMode('marking')" [ngStyle]="selectionStyle('marking')">
-          Mark
-        </div>
+        <app-s-button [buttons]="buttons" [selector]="604"></app-s-button>
       </td>
     </tr>
   </table>

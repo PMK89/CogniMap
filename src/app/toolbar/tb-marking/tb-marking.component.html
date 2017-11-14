@@ -8,16 +8,17 @@
               <app-colorbar [colorbars]="colors" [selector]="'tbmarking0'"></app-colorbar>
             </td>
             <td>
-              <app-s-button [buttons]="buttons" [selector]="300"></app-s-button>
+              <app-s-button [buttons]="buttons" [selector]="302"></app-s-button>
             </td>
             <td>
-              <app-s-button [buttons]="buttons" [selector]="301"></app-s-button>
+              <app-s-button [buttons]="buttons" [selector]="303"></app-s-button>
             </td>
             <td>
-
+              w:
             </td>
             <td>
-
+              <input #xInput value="{{selCMEo.x1 - selCMEo.x0}}" size="5"
+                (keyup.enter)="setSize(xInput.value, yInput.value)">
             </td>
             <td>
 
@@ -28,16 +29,17 @@
               <app-colorbar [colorbars]="colors" [selector]="'tbmarking1'"></app-colorbar>
             </td>
             <td>
-              <app-s-button [buttons]="buttons" [selector]="302"></app-s-button>
+              <app-s-button [buttons]="buttons" [selector]="300"></app-s-button>
             </td>
             <td>
-              <app-s-button [buttons]="buttons" [selector]="303"></app-s-button>
+              <app-s-button [buttons]="buttons" [selector]="301"></app-s-button>
             </td>
             <td>
-
+              h:
             </td>
             <td>
-
+              <input #yInput value="{{selCMEo.y1 - selCMEo.y0}}" size="5"
+                (keyup.enter)="setSize(xInput.value, yInput.value)">
             </td>
             <td>
 

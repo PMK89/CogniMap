@@ -2,12 +2,14 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { ElementService } from'../element.service';
+import { SettingsService } from '../../shared/settings.service';
 
 // models and reducers
 import { CMButton } from '../../models/CMButton';
 import { CMEo } from '../../models/CMEo';
 import { CMEl } from '../../models/CMEl';
 import { CMStore } from '../../models/CMStore';
+import { CMSettings } from '../../models/CMSettings';
 
 @Component({
   selector: 'app-s-button',
@@ -19,11 +21,23 @@ export class SButtonComponent implements OnInit {
   @Input() public selector: number;
   public selCMEo: Observable<CMEo>;
   public selCMEl: Observable<CMEl>;
+  public cmsettings: CMSettings;
+  public style = {
+    'border-color': '#808080',
+    'background-color': '#ffffff'
+  };
 
   constructor(private elementService: ElementService,
+              private settingsService: SettingsService,
               private store: Store<CMStore>) {
                 this.selCMEo = store.select('selectedcmeo');
                 this.selCMEl = store.select('selectedcmel');
+                this.settingsService.cmsettings
+                      .subscribe((data) => {
+                        if (data) {
+                          this.cmsettings = data;
+                        }
+                      });
               }
 
   public ngOnInit() {
@@ -33,6 +47,8 @@ export class SButtonComponent implements OnInit {
     let selElem;
     if (button.cat === 'tbline') {
       selElem = this.selCMEl;
+    } else if (button.cat === 'cmsettings' || button.cat === 'function') {
+      // do nothing
     } else {
       selElem = this.selCMEo;
     }
@@ -88,27 +104,72 @@ export class SButtonComponent implements OnInit {
           button.active = false;
         }
       }).unsubscribe();
+    } else if (button.cat === 'cmsettings') {
+      // do nothing
+      if (button.variable[0] === 'mode') {
+        if (this.cmsettings.mode === button.value) {
+          button.active = true;
+        } else {
+          button.active = false;
+        }
+      }
+    } else if (button.cat === 'function') {
+      // do nothing
     } else {
       button.active = false;
     }
     // console.log(button.active);
     if (button.active === true) {
-      return 'btnclick';
+      this.style['background-color'] = this.cmsettings.style.btnclickcolor;
+      return this.style;
     } else {
-      return 'btnidle';
+      this.style['background-color'] = this.cmsettings.style.btnbgcolor0;
+      return this.style;
     }
   }
 
+  // handles click events
   public clicked(button) {
     let action = {
       variable: button.variable,
       value: button.value
     };
     console.log(button.value);
-    if (button.cat === 'tbline') {
+    if (button.cat === 'cmsettings') {
+      if (button.variable[0] === 'mode') {
+        if (this.cmsettings.mode === button.value) {
+          this.cmsettings.mode = 'edit';
+          this.settingsService.updateSettings(this.cmsettings);
+        } else {
+          this.cmsettings.mode = button.value;
+          this.settingsService.updateSettings(this.cmsettings);
+        }
+      }
+    } else if (button.cat === 'tbline') {
       this.elementService.changeCMEl(action);
     } else {
       this.elementService.changeCMEo(action);
+    }
+  }
+
+  // get class of button
+  public getClass(button) {
+    if (this.cmsettings) {
+      this.style['border-color'] = this.cmsettings.style.btnbordercolor;
+      return this.cmsettings.style.btnclass;
+    } else if (button.cat === 'cmsettings') {
+      // do nothing
+      if (button.variable === 'mode') {
+        if (this.cmsettings.mode === button.value && this.cmsettings.mode !== 'edit') {
+          this.cmsettings.mode = 'edit';
+        } else {
+          this.cmsettings.mode = button.value;
+        }
+        // console.log(this.cmsettings);
+        this.settingsService.updateSettings(this.cmsettings);
+      }
+    } else {
+      return 'btndefault';
     }
   }
 }

@@ -22,6 +22,7 @@ export class MathJaxService {
   // makes SVG from MathJax string
   public getMjSVG(mjString: string) {
     // console.log('getColors');
+    mjString = mjString.replace('$$', '').replace('$$', '');
     let arg = this.electronService.ipcRenderer.sendSync('makeMjSVG', mjString);
     // console.log(arg);
     return arg.svg;

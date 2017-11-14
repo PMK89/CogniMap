@@ -2,9 +2,11 @@
   <table id="templatetable">
     <tr>
       <td>
-
+        <div (click)="findErrors()">
+          findErr
+        </div>
       </td>
-      <td *ngIf="CMEoTextInput===false">
+      <td *ngIf="CMEoTextInput===false" style="display: none">
         <select [(ngModel)]="tempCMEo" (change)="changeTemplate(0)">
           <option *ngFor="let TempCMEo of TempCMEos" value= {{TempCMEo.id}}>
              {{TempCMEo.title}}
@@ -19,7 +21,7 @@
 
       </td>
       <td rowspan="3" colspan="4" (click)="changeMode('templateEdit')"  [ngStyle]="selectionStyle('templateEdit')">
-        <svg id="templatesvg" height="70" width="160"></svg>
+        <svg id="templatesvg" height="70" width="160" style="display: none"></svg>
       </td>
     </tr>
     <tr>
@@ -46,7 +48,7 @@
         </div>
       </td>
       <td>
-        <div (click)="clearSVG()">
+        <div (click)="clearSVG()" style="display: none">
           clear
         </div>
       </td>

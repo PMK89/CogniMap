@@ -33,6 +33,8 @@ export class ElementService {
   public allCME = [];
   public inputtext: string;
   public maxID: number;
+  public counter = 0;
+  public startPos: CMCoor;
   public selCMEoArray: number[] = [];
   public selCMElArray: number[] = [];
   public selCMElArrayBorder: number[] = [];
@@ -55,17 +57,33 @@ export class ElementService {
                 this.electronService.ipcRenderer.on('loadedCME', (event, arg) => {
                   ngZone.run(() => {
                     // console.log(arg);
-                    let action = {
-                      type: 'ADD_CME_FROM_DB',
-                      payload: arg
-                    };
-                    store.dispatch(action);
-                    // console.log('gotElements: ', Date.now());
+                    if (this.cmsettings.mode !== 'minimap') {
+                      let action = {
+                        type: 'ADD_CME_FROM_DB',
+                        payload: arg
+                      };
+                      if (this.cmsettings.mode === 'cutting' || this.cmsettings.mode === 'typing') {
+                        action.type = 'ADD_CME';
+                      }
+                      store.dispatch(action);
+                      // console.log('gotElements: ', Date.now());
+                    }
                   });
                 });
                 this.electronService.ipcRenderer.on('changedCME', (event, arg) => {
                   if (arg) {
                     // console.log('changedCME: ', arg, Date.now());
+                  }
+                });
+                this.electronService.ipcRenderer.on('selectedChildren', (event, arg) => {
+                  if (arg) {
+                    console.log('selectedChildren: ', arg);
+                    this.selCMElArray = arg.selCMElArray;
+                    this.selCMElArrayBorder = arg.selCMElArrayBorder;
+                    this.selCMEoArray = arg.selCMEoArray;
+                    this.allCME = arg.selarray;
+                    this.selCMEo = undefined;
+                    this.selectionGroup(this.selCMEoArray, this.selCMElArray);
                   }
                 });
               }
@@ -129,7 +147,7 @@ export class ElementService {
     }
   }
 
-  // gets data from database/server
+  // gets highest id from database/server
   public getMaxID() {
     // Pro: gets data from electron
     let maxID = this.electronService.ipcRenderer.sendSync('maxID', '1');
@@ -169,6 +187,10 @@ export class ElementService {
   public changeDBCME(dbcme: CME) {
     // console.log('change id:', dbcme.id, Date.now());
     dbcme.state = '';
+    this.counter++;
+    if ((this.counter % 100) === 0) {
+      console.log(this.counter, dbcme);
+    }
     this.electronService.ipcRenderer.send('changeCME', dbcme);
   }
 
@@ -300,6 +322,102 @@ export class ElementService {
     this.changeDBCME(cme);
   }
 
+  // select array of elements
+  public selectLinks(cme) {
+    // console.log(cme);
+    if (cme.cmobject.links) {
+      let ids = [];
+      let links = [];
+      for (let key in cme.cmobject.links) {
+        if (cme.cmobject.links[key]) {
+          let link = cme.cmobject.links[key];
+          if (link.start) {
+            // console.log(link);
+            if (ids.indexOf(link.id) === -1) {
+              ids.push(link.id);
+            }
+            if (ids.indexOf(link.targetId) === -1) {
+              ids.push(link.targetId);
+            }
+          } else if (this.selCMEo) {
+            if (this.selCMEo.id === cme.id) {
+              this.selCMElArrayBorder.push(link.id);
+            }
+          }
+        }
+      }
+      // console.log(ids);
+      this.cmelements
+          .subscribe((data) => {
+              for (let key in data) {
+                if (data[key]) {
+                  let idindex = ids.indexOf(data[key].id);
+                  if (idindex !== -1) {
+                    // console.log(data[key]);
+                    ids.splice(idindex, 1);
+                    links.push(data[key]);
+                  }
+                }
+              }
+            }).unsubscribe();
+      // console.log(ids);
+      if (ids.length > 0) {
+        for (let id in ids) {
+          if (ids[id]) {
+            let link = this.getDBCMEbyId(ids[id]);
+            if (link) {
+              if (link !== undefined && link !== null) {
+                this.store.dispatch({type: 'ADD_CME', payload: link });
+                links.push(link);
+              }
+            }
+          }
+        }
+      }
+      return links;
+    }
+  }
+
+  // select child nodes
+  public selectChildren() {
+    if (this.selCMEo) {
+      this.clearAreaSelection();
+      this.cmsettings.mode = 'selecting';
+      this.settingsService.updateSettings(this.cmsettings);
+      this.startPos = {
+        x: this.selCMEo.coor.x,
+        y: this.selCMEo.coor.y
+      };
+      this.electronService.ipcRenderer.send('findChildren', this.selCMEo);
+      /*
+      let selarray = this.selectLinks(this.selCMEo);
+      for (let key = 0; key < selarray.length; key++) {
+        if (selarray[key]) {
+          selarray[key] = this.CMEtoCMEol(selarray[key]);
+          if (selarray[key].id >= 1) {
+            if (this.selCMEoArray.indexOf(selarray[key].id) === -1) {
+              this.selCMEoArray.push(selarray[key].id);
+              selarray = selarray.concat(this.selectLinks(selarray[key]));
+            }
+          } else if (selarray[key].id < 0) {
+            if (this.selCMElArray.indexOf(selarray[key].id) === -1) {
+              this.selCMElArray.push(selarray[key].id);
+              // selarray = selarray.concat(this.selectLinks(selarray[key]));
+            }
+          }
+        }
+        // console.log(selarray);
+      }
+      this.allCME = selarray;
+      this.selCMEoArray.push(this.selCMEo.id);
+      this.selCMEo = undefined;
+      this.selectionGroup(this.selCMEoArray, this.selCMElArray);
+      */
+    } else {
+      alert('please select an element.');
+    }
+  }
+
   // selects all CME in area
   public areaSelection(x0: number, y0: number, x1: number, y1: number) {
     this.selCMEl = undefined;
@@ -320,6 +438,10 @@ export class ElementService {
                       } else {
                         if (this.selCMElArrayBorder.indexOf(data[key].id) === -1) {
                           this.selCMElArrayBorder.push(data[key].id);
+                          this.startPos = {
+                            x: data[key].x0,
+                            y: data[key].y0
+                          };
                         }
                       }
                     } else {
@@ -333,6 +455,10 @@ export class ElementService {
                     if (data[key].id < 0) {
                       if (this.selCMElArrayBorder.indexOf(data[key].id) === -1) {
                         this.selCMElArrayBorder.push(data[key].id);
+                        this.startPos = {
+                          x: data[key].x1,
+                          y: data[key].y1
+                        };
                       }
                     }
                   }
@@ -360,6 +486,10 @@ export class ElementService {
               } else {
                 if (this.selCMElArrayBorder.indexOf(data.id) === -1) {
                   this.selCMElArrayBorder.push(data.id);
+                  this.startPos = {
+                    x: data.x0,
+                    y: data.y0
+                  };
                 }
               }
             } else {
@@ -373,6 +503,10 @@ export class ElementService {
             if (data.id < 0) {
               if (this.selCMElArrayBorder.indexOf(data.id) === -1) {
                 this.selCMElArrayBorder.push(data.id);
+                this.startPos = {
+                  x: data.x1,
+                  y: data.y1
+                };
               }
             }
           }
@@ -400,6 +534,7 @@ export class ElementService {
         this.store.dispatch({type: 'UPDATE_CME', payload: newCME });
         // if a marker is the current selected element update settings
         if (this.selCMEo.types[0] === 'm') {
+
           this.cmsettings.cmtbmarking.types = this.selCMEo.types;
           this.cmsettings.cmtbmarking.prio = this.selCMEo.prio;
           this.cmsettings.cmtbmarking.trans = this.selCMEo.cmobject.style.object.trans;
@@ -459,6 +594,10 @@ export class ElementService {
                           this.settingsService.updateSettings(this.cmsettings);
                         }
                       }
+                      this.startPos = {
+                        x: cme.coor.x,
+                        y: cme.coor.y
+                      };
                       this.store.dispatch({type: 'ADD_SCMEO', payload: cme });
                       this.store.dispatch({type: 'UPDATE_CME', payload: data[key] });
                       this.selCMEo = cme;
@@ -493,24 +632,32 @@ export class ElementService {
   // returns an CMEo/l from an CMEdb
   public CMEtoCMEol(cme: CME) {
     if (cme !== undefined) {
-      let cmeol = {
-        id: cme.id,
-        x0: cme.x0,
-        y0: cme.y0,
-        x1: cme.x1,
-        y1: cme.y1,
-        prio: cme.prio,
-        title: cme.title,
-        types: cme.types,
-        coor: cme.coor,
-        cat: cme.cat,
-        state: cme.state,
-        cmobject: JSON.parse(cme.cmobject),
-        prep: cme.prep,
-        prep1: cme.prep1
-      };
-      // console.log('CMEtoCMEol: ', cmeol);
-      return cmeol;
+      if (typeof cme['cmobject'] === 'string') {
+        let cmeol = {
+          id: cme.id,
+          x0: cme.x0,
+          y0: cme.y0,
+          x1: cme.x1,
+          y1: cme.y1,
+          prio: cme.prio,
+          title: cme.title,
+          types: cme.types,
+          coor: cme.coor,
+          cat: cme.cat,
+          state: cme.state,
+          cmobject: JSON.parse(cme.cmobject),
+          prep: cme.prep,
+          prep1: cme.prep1
+        };
+        // console.log('CMEtoCMEol: ', cmeol);
+        return cmeol;
+      } else {
+        if (cme !== null) {
+          return cme;
+        } else {
+          return undefined;
+        }
+      }
     } else {
       return undefined;
     }
@@ -655,12 +802,21 @@ export class ElementService {
                 if (data[key]) {
                   if (data[key].id === id) {
                     id = 0;
+                    let weight = -1;
                     let ccme = this.CMEtoCMEol(data[key]);
+                    for (let i in ccme.cmobject.links) {
+                      if (ccme.cmobject.links[i]) {
+                        if (!ccme.cmobject.links[i].start) {
+                          weight = 0;
+                          console.log('end found');
+                        }
+                      }
+                    }
                     ccme.cmobject.links.push({
                       id: 0,
                       targetId: this.selCMEo.id,
                       title: this.selCMEo.title,
-                      weight: -1,
+                      weight: weight,
                       con: 'e',
                       start: false
                     });
@@ -668,13 +824,13 @@ export class ElementService {
                       id: 0,
                       targetId: ccme.id,
                       title: ccme.title,
-                      weight: -1,
+                      weight: weight,
                       con: 'e',
                       start: true
                     });
                     this.selCMEo.state = '';
                     this.updateSelCMEo(this.selCMEo);
-                    // console.log('old: ', oldcme, ' new: ', newElemObj);
+                    console.log('old: ', this.selCMEo, ' new: ', ccme);
                     this.newCMEl(this.selCMEo, ccme);
                     // console.log('Object: ', action);
                     this.setSelectedCME(ccme.id);
@@ -730,9 +886,13 @@ export class ElementService {
         // console.log('y1<=y0: ', newElem.coor);
       }
       // console.log('after: ', newElem.coor);
+      // indicates an connector
+      if (this.cmsettings.mode === 'connecting') {
+        newElem.cmobject.str = 'connector';
+      }
       oldlink[oldcme.cmobject.links.length - 1].id = newElem.id;
       this.updateCMEol(oldcme);
-      newcme.cmobject.links[0].id = newElem.id;
+      newcme.cmobject.links[newcme.cmobject.links.length - 1].id = newElem.id;
       this.updateSelCMEo(newcme);
       // console.log('functions: ', newElem.coor);
       let newCME = this.newCME(newElem);
@@ -983,7 +1143,7 @@ export class ElementService {
           }
         }
       }
-      if (this.cmsettings.mode !== 'selecting') {
+      if (this.cmsettings.mode !== 'selecting' && this.cmsettings.mode !== 'dragging') {
         this.clearselectionGroup();
       }
       if (this.cmsettings.mode !== 'marking') {
@@ -1000,11 +1160,61 @@ export class ElementService {
         let i = 0;
         let cmsvg = Snap('#cmsvg');
         let minigroup = cmsvg.select('#minicmap');
-        let border = cmsvg.rect(0, 0, 2000, 2000).attr({
+        let width = this.cmsettings.cmap.width / 100;
+        let height = this.cmsettings.cmap.height / 100;
+        let border = cmsvg.rect(0, 0, width, height).attr({
           fill: 'none',
           strokeWidth: 1,
           stroke: '#000000',
         });
+        for (let j = 0; j < height; j += 10) {
+          let newline = cmsvg.line(0, j, width, j).attr({
+            stroke: '#000000',
+            fill: 'none',
+          });
+          if ((j % 1000) === 0) {
+            newline.attr({
+              strokeWidth: 0.8,
+              opacity: 0.8
+            });
+            console.log(newline);
+          } else if ((j % 100) === 0) {
+            newline.attr({
+              strokeWidth: 0.6,
+              opacity: 0.5
+            });
+          } else {
+            newline.attr({
+              strokeWidth: 0.5,
+              opacity: 0.4
+            });
+          }
+          minigroup.add(newline);
+        }
+        for (let j = 0; j < width; j += 10) {
+          let newline = cmsvg.line(j, 0, j, height).attr({
+            stroke: '#000000',
+            fill: 'none',
+          });
+          if ((j % 1000) === 0) {
+            newline.attr({
+              strokeWidth: 0.8,
+              opacity: 0.8
+            });
+            console.log(newline);
+          } else if ((j % 100) === 0) {
+            newline.attr({
+              strokeWidth: 0.6,
+              opacity: 0.5
+            });
+          } else {
+            newline.attr({
+              strokeWidth: 0.5,
+              opacity: 0.4
+            });
+          }
+          minigroup.add(newline);
+        }
         minigroup.add(border);
         for (i = 0; i < len; i++) {
           if (this.allCME[i]) {
@@ -1062,11 +1272,13 @@ export class ElementService {
     }
   }
 
+  // cuts element or group and pastes it at choosen point
+
   // moves element by dragging differences
-  public moveElement(x, y) {
-    if (this.selCMEo && x && y) {
-      if (this.selCMEo.state === 'dragging') {
-        // console.log(x, y);
+  public moveElement(x, y, keymove?) {
+    // moves a single selected element
+    if (this.selCMEo && (typeof x === 'number') && (typeof y === 'number')) {
+      if (this.selCMEo.state === 'dragging' || this.selCMEo.state === 'cutting' || keymove) {
         this.selCMEo.coor.x += x;
         this.selCMEo.coor.y += y;
         this.selCMEo.x0 += x;
@@ -1084,12 +1296,13 @@ export class ElementService {
             let link = this.selCMEo.cmobject.links[i];
             let conxy = this.conectionCoor(this.selCMEo, link);
             this.changeLink(link.id, conxy[0], conxy[1], link.start);
-            // console.log('move: ', link.id);
+            console.log('move: ', link.id);
           }
         }
-      }
-    } else if (x && y && this.cmap === false) {
+      } // moves elements on the minimap
+    } else if ((typeof x === 'number') && (typeof y === 'number') && this.cmap === false) {
       if (this.allCME.length > 0) {
+        this.counter = 0;
         let locCMEArray0 = this.selCMEoArray.concat(this.selCMElArray);
         let borderLinks0 = [];
         let dataArray = [];
@@ -1103,7 +1316,7 @@ export class ElementService {
             let pos = locCMEArray0.indexOf(this.allCME[i].id);
             if (pos !== -1) {
               let cme = this.allCME[i];
-              console.log(cme);
+              // console.log(cme);
               cme.coor.x += x;
               cme.coor.y += y;
               cme.x0 += x;
@@ -1132,6 +1345,7 @@ export class ElementService {
           }
         }
         if (borderLinks0.length > 0) {
+          this.counter = 0;
           for (let n in borderLinks0) {
             if (borderLinks0[n]) {
               for (let j in borderLinks0[n].cmobject.links) {
@@ -1147,8 +1361,9 @@ export class ElementService {
           }
         }
         this.store.dispatch({type: 'ADD_CME_FROM_DB', payload: dataArray });
-      }
-    } else if (this.selCMEoArray.length > 0 && this.selCMElArray.length > 0 && x && y && this.cmap) {
+      } // moves multiple elements
+    } else if (this.selCMEoArray.length > 0 && this.selCMElArray.length > 0 && (typeof x === 'number') && (typeof y === 'number') && this.cmap) {
+      this.counter = 0;
       let locCMEArray = this.selCMEoArray.concat(this.selCMElArray);
       let borderLinks = [];
       this.cmelements
@@ -1156,33 +1371,35 @@ export class ElementService {
               for (let key in data) {
                 if (data[key]) {
                   // select elements within the selcted area
-                  let pos = locCMEArray.indexOf(data[key].id);
-                  if (pos !== -1) {
-                    let cme = this.CMEtoCMEol(data[key]);
-                    // console.log(cme);
-                    cme.coor.x += x;
-                    cme.coor.y += y;
-                    cme.x0 += x;
-                    cme.y0 += y;
-                    cme.x1 += x;
-                    cme.y1 += y;
-                    cme.prep = '';
-                    cme.prep1 = '';
-                    // data[key] = this.newCME(cme);
-                    locCMEArray.splice(pos, 1);
-                    if (cme.id > 0) {
-                      for (let i in cme.cmobject.links) {
-                        if (cme.cmobject.links[i]) {
-                          let link = cme.cmobject.links[i];
-                          if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
-                            // console.log(cme);
-                            borderLinks.push(cme);
+                  if (data[key]['id']) {
+                    let pos = locCMEArray.indexOf(data[key].id);
+                    if (pos !== -1) {
+                      let cme = this.CMEtoCMEol(data[key]);
+                      // console.log(cme);
+                      cme.coor.x += x;
+                      cme.coor.y += y;
+                      cme.x0 += x;
+                      cme.y0 += y;
+                      cme.x1 += x;
+                      cme.y1 += y;
+                      cme.prep = '';
+                      cme.prep1 = '';
+                      // data[key] = this.newCME(cme);
+                      locCMEArray.splice(pos, 1);
+                      if (cme.id > 0) {
+                        for (let i in cme.cmobject.links) {
+                          if (cme.cmobject.links[i]) {
+                            let link = cme.cmobject.links[i];
+                            if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
+                              // console.log(cme);
+                              borderLinks.push(cme);
+                            }
                           }
                         }
                       }
+                      let storeaction = {type: 'UPDATE_CME', payload: this.newCME(cme) };
+                      this.store.dispatch(storeaction);
                     }
-                    let storeaction = {type: 'UPDATE_CME', payload: this.newCME(cme) };
-                    this.store.dispatch(storeaction);
                   }
                 }
               }
@@ -1208,53 +1425,103 @@ export class ElementService {
 
   // changes link if object is moved
   public changeLink(id: number, x: number, y: number, start: boolean) {
-    this.cmelements
-        .subscribe((data) => {
-            for (let key in data) {
-              if (data[key]) {
-                if (data[key].id === id) {
-                  console.log(id);
-                  if (start) {
-                    data[key].x0 = x;
-                    data[key].y0 = y;
-                  } else {
-                    data[key].x1 = x;
-                    data[key].y1 = y;
-                  }
-                  if (data[key].x1 >= data[key].x0) {
-                    data[key].coor.x = data[key].x0;
-                    // console.log('x1>=x0: ', data[key].coor);
-                  } else {
-                    data[key].coor.x = data[key].x1;
-                    // console.log('x1<=x0: ', data[key].coor);
-                  }
-                  if (data[key].y1 >= data[key].y0) {
-                    data[key].coor.y = data[key].y0;
-                    // console.log('y1>=y0: ', data[key].coor);
-                  } else {
-                    data[key].coor.y = data[key].y1;
-                    // console.log('y1<=y0: ', data[key].coor);
-                  }
-                  data[key].prep = '';
-                  // console.log('link: ', data[key].id);
-                  if (this.selCMEl) {
-                    if (this.selCMEl.id === id) {
-                      this.selCMEl.x0 = data[key].x0;
-                      this.selCMEl.y0 = data[key].y0;
-                      this.selCMEl.x1 = data[key].x1;
-                      this.selCMEl.y1 = data[key].y1;
-                      this.selCMEl.coor = data[key].coor;
-                      this.selCMEl.prep = '';
-                    }
-                  }
-                  this.updateCME(data[key]);
-                  id = 0;
-                }
+    let changeData = (data) => {
+      for (let key in data) {
+        if (data[key]) {
+          if (data[key].id === id) {
+            console.log('changeData', id);
+            if (start) {
+              data[key].x0 = x;
+              data[key].y0 = y;
+            } else {
+              data[key].x1 = x;
+              data[key].y1 = y;
+            }
+            if (data[key].x1 >= data[key].x0) {
+              data[key].coor.x = data[key].x0;
+              // console.log('x1>=x0: ', data[key].coor);
+            } else {
+              data[key].coor.x = data[key].x1;
+              // console.log('x1<=x0: ', data[key].coor);
+            }
+            if (data[key].y1 >= data[key].y0) {
+              data[key].coor.y = data[key].y0;
+              // console.log('y1>=y0: ', data[key].coor);
+            } else {
+              data[key].coor.y = data[key].y1;
+              // console.log('y1<=y0: ', data[key].coor);
+            }
+            data[key].prep = '';
+            // console.log('link: ', data[key].id);
+            if (this.selCMEl) {
+              if (this.selCMEl.id === id) {
+                this.selCMEl.x0 = data[key].x0;
+                this.selCMEl.y0 = data[key].y0;
+                this.selCMEl.x1 = data[key].x1;
+                this.selCMEl.y1 = data[key].y1;
+                this.selCMEl.coor = data[key].coor;
+                this.selCMEl.prep = '';
               }
             }
-          },
-          (error) => console.log(error),
-         ).unsubscribe();
+            this.updateCME(data[key]);
+            id = 0;
+          }
+        }
+      }
+    };
+    if (this.cmap) {
+      this.cmelements
+          .subscribe((data) => {
+              if (data) {
+                changeData(data);
+              }
+            },
+            (error) => console.log(error),
+           ).unsubscribe();
+    } else {
+      changeData(this.allCME);
+    }
+  }
+
+  // hide cutted element
+  public hideCMEs() {
+    let cmsvg = Snap('#cmsvg');
+    if (this.selCMEo) {
+      if (cmsvg.select('#g' + this.selCMEo.id)) {
+        cmsvg.select('#g' + this.selCMEo.id).attr({opacity: 0});
+      }
+    } else if (this.selCMEoArray.length > 0 && this.selCMElArray.length > 0) {
+      if (cmsvg.select('#cmeselection')) {
+        cmsvg.select('#cmeselection').attr({opacity: 0});
+      }
+    } else {
+      alert('Nothing selected to cut.');
+      if (this.cmsettings.mode === 'cutting') {
+        this.cmsettings.mode = 'edit';
+        this.settingsService.updateSettings(this.cmsettings);
+      }
+    }
+  }
+
+  // move after cutting
+  public cutPaste(x: number, y: number) {
+    if (this.startPos) {
+      if (this.cmap === false) {
+        this.startPos.x /= 100;
+        this.startPos.y /= 100;
+        console.log(this.startPos);
+      }
+      let xdif = x - this.startPos.x;
+      let ydif = y - this.startPos.y;
+      if (this.allCME.length > 0) {
+        this.store.dispatch({
+          type: 'ADD_CME',
+          payload: this.allCME
+        });
+      }
+      console.log(xdif, ydif);
+      this.moveElement(xdif, ydif);
+    }
   }
 
   // handles multiple selection as one group
@@ -1270,11 +1537,23 @@ export class ElementService {
     let color = '';
     if (this.cmsettings.mode === 'dragging') {
       color = '#ff0000';
-      for (i = 0; i < CMElArray.length; i++) {
-        cmeselection.add(cmsvg.select('#g' + CMElArray[i]));
+      try {
+        for (i = 0; i < CMElArray.length; i++) {
+          if (cmsvg.select('#g' + CMElArray[i])) {
+            cmeselection.add(cmsvg.select('#g' + CMElArray[i]).clone());
+          }
+        }
+      } catch (err) {
+        console.log(err, CMElArray[i])
       }
-      for (i = 0; i < CMEoArray.length; i++) {
-        cmeselection.add(cmsvg.select('#g' + CMEoArray[i]));
+      try {
+        for (i = 0; i < CMEoArray.length; i++) {
+          if (cmsvg.select('#g' + CMEoArray[i])) {
+            cmeselection.add(cmsvg.select('#g' + CMEoArray[i]).clone());
+          }
+        }
+      } catch (err) {
+        console.log(err, CMEoArray[i])
       }
       let move = function(dx, dy) {
         this.attr({
@@ -1295,11 +1574,23 @@ export class ElementService {
     } else {
       cmeselection.undrag();
       color = '#0000ff';
-      for (i = 0; i < CMElArray.length; i++) {
-        cmeselection.add(cmsvg.select('#g' + CMElArray[i]).clone());
+      try {
+        for (i = 0; i < CMElArray.length; i++) {
+          if (cmsvg.select('#g' + CMElArray[i])) {
+            cmeselection.add(cmsvg.select('#g' + CMElArray[i]).clone());
+          }
+        }
+      } catch (err) {
+        console.log(err, CMElArray[i])
       }
-      for (i = 0; i < CMEoArray.length; i++) {
-        cmeselection.add(cmsvg.select('#g' + CMEoArray[i]).clone());
+      try {
+        for (i = 0; i < CMEoArray.length; i++) {
+          if (cmsvg.select('#g' + CMEoArray[i])) {
+            cmeselection.add(cmsvg.select('#g' + CMEoArray[i]).clone());
+          }
+        }
+      } catch (err) {
+        console.log(err, CMEoArray[i])
       }
     }
     let BBox = cmeselection.getBBox();
@@ -1372,6 +1663,31 @@ export class ElementService {
                     if (cme.cmobject.links[i]) {
                       if (cme.cmobject.links[i].id === linkid) {
                         cme.cmobject.links[i].title = title;
+                      }
+                    }
+                  }
+                  this.updateCMEol(cme);
+                  id = 0;
+                }
+              }
+            }
+          },
+          (error) => console.log(error),
+         ).unsubscribe();
+  }
+
+  // changes object link weight
+  public changeLinkWeight(id: number, linkid: number, weight: number) {
+    this.cmelements
+        .subscribe((data) => {
+            for (let key in data) {
+              if (data[key]) {
+                if (data[key].id === id) {
+                  let cme = this.CMEtoCMEol(data[key]);
+                  for (let i in cme.cmobject.links) {
+                    if (cme.cmobject.links[i]) {
+                      if (cme.cmobject.links[i].id === linkid) {
+                        cme.cmobject.links[i].weight = weight;
                       }
                     }
                   }

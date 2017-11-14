@@ -86,18 +86,42 @@ ipc.on('changeColors', function (event, arg) {
     if(colors[i]) {
       if (colors[i].id === parseInt(arg.id)) {
         colors[i] = arg;
-        event.sender.send('changedColors', colors[i])
       }
     }
   }
+  event.sender.send('changedColors', colors)
   var str_colors = JSON.stringify(colors, null, 2);
+  fs.writeFileSync('./data/colors.json', str_colors);
+})
+
+// change all colors
+ipc.on('changeAllColors', function (event, arg) {
+  colors = arg;
+  var str_colors = JSON.stringify(arg, null, 2);
+  event.sender.send('changedColors', colors);
   fs.writeFileSync('./data/colors.json', str_colors);
 })
 
 // add colors
 ipc.on('addColors', function (event, arg) {
-  arg.id = colors.length++;
+  let maxid = 0;
+  for (var i = 0; i < colors.length; i++) {
+    if (colors[i]) {
+      if (colors[i].cat === arg.cat) {
+        if (colors[i].prio === 0) {
+          colors[i].prio = 1;
+        }
+      }
+      if (colors[i].id > maxid) {
+        maxid = colors[i].id;
+      }
+      console.log(maxid, colors[i].id)
+    }
+  }
+  arg.id = maxid + 1;
+  console.log(arg.id);
   colors.push(arg);
+  event.sender.send('changedColors', colors);
   var str_colors = JSON.stringify(colors, null, 2);
   fs.writeFileSync('./data/colors.json', str_colors);
 })
@@ -113,12 +137,10 @@ ipc.on('loadSpeChars', function (event, arg) {
 
 // change colors
 ipc.on('changeSpeChars', function (event, arg) {
-  if (spechars[spechars.length - 1]) {
-    spechars[spechars.length - 1].chars = arg;
-    event.sender.send('changedSpeChars', spechars[spechars.length - 1])
-  }
+  spechars = arg;
   var str_spechars = JSON.stringify(spechars, null, 2);
   fs.writeFileSync('./data/spechars.json', str_spechars);
+  event.returnValue = 'changeSpeChars';
 })
 
 // -------------------------------------------

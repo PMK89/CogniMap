@@ -51,7 +51,6 @@ const createMediaWindow = function createMediaWindow () {
         var pngbuffer = fs.readFileSync(filepath);
         var png = PNG.sync.read(pngbuffer);
         var num = 255;
-        // console.log(png);
         if (arg.color === 'black') {
           num = 0;
         }
@@ -63,12 +62,12 @@ const createMediaWindow = function createMediaWindow () {
             if (png.data[idx] === num && png.data[idx+1] === num && png.data[idx+2] === num) {
               png.data[idx+3] = 0;
             }
-
           }
         }
-        // console.log(png);
-        pngbuffer = PNG.sync.write(png);
-        fs.writeFileSync(filepath, pngbuffer);
+        var newpngbuffer = PNG.sync.write(png);
+        var newfilename = arg.file.replace('pmk', '_pmk');
+        const newfilepath = './dist/assets/images/' + newfilename;
+        fs.writeFileSync(newfilepath, newpngbuffer);
       }
     }
   })

@@ -107,9 +107,16 @@ export class TbObjectComponent implements OnInit {
     }
   }
 
+  // change conection position
   public changeCon(con: string, start: boolean) {
     // cange connection goes here
     this.elementService.changeCon(con, start);
+  }
+
+  // select all child nodes of selected Element
+  public selectChildren() {
+    // cange connection goes here
+    this.elementService.selectChildren();
   }
 
 }

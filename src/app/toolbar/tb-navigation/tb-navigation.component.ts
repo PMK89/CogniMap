@@ -1,7 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SettingsService } from '../../shared/settings.service';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 // models and reducers
 import { CMSettings } from '../../models/CMSettings';
+import { CMStore } from '../../models/CMStore';
+import { CMButton } from '../../models/CMButton';
 
 @Component({
   selector: 'app-tb-navigation',
@@ -12,18 +16,21 @@ export class TbNavigationComponent implements OnInit {
   @Input() public cmsettings: CMSettings;
   public widget0: string;
   public widget1: string;
+  public buttons: Observable<CMButton[]>;
   public widgets: string[] = ['none', 'equation', 'formula', 'svg', 'navigator', 'codeeditor'];
 
-  constructor(private settingsService: SettingsService) {
-    this.settingsService.cmsettings
-          .subscribe((data) => {
-            if (data) {
-              this.cmsettings = data;
-              // console.log(data);
-              this.widget0 = this.cmsettings.widget0;
-              this.widget1 = this.cmsettings.widget1;
-            }
-          });
+  constructor(private store: Store<CMStore>,
+              private settingsService: SettingsService) {
+                this.buttons = store.select('buttons');
+                this.settingsService.cmsettings
+                      .subscribe((data) => {
+                        if (data) {
+                          this.cmsettings = data;
+                          // console.log(data);
+                          this.widget0 = this.cmsettings.widget0;
+                          this.widget1 = this.cmsettings.widget1;
+                        }
+                      });
   }
 
   public ngOnInit() {
