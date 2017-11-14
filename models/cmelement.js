@@ -12,7 +12,7 @@ var CMElement = {
     y: { type: Number, index: false }
   },
   cat: [String],
-  z_pos: { type: Number, index: false },
+  zPos: { type: Number, index: false },
   dragging: { type: Boolean, default: false },
   active: { type: Boolean, default: false },
   cmline: { type: String, index: false },

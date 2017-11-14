@@ -1,6 +1,6 @@
 export class CMTBFont {
-  color: string;
-  size: [string];
-  font: [string];
-  buttons: string;
+  public color: string;
+  public size: [string];
+  public font: [string];
+  public buttons: string;
 }

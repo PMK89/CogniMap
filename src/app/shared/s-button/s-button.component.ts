@@ -87,7 +87,7 @@ export class SButtonComponent implements OnInit {
         } else {
           button.active = false;
         }
-      });
+      }).unsubscribe();
     } else {
       button.active = false;
     }

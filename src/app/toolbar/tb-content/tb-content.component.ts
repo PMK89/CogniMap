@@ -99,6 +99,7 @@ export class TbContentComponent implements OnInit {
     }
   }
 
+  // changes selected content
   public changeContent(num) {
     if ((this.pos + num) < this.contentlen && (this.pos + num) >= 0) {
       this.pos += num;
@@ -114,6 +115,24 @@ export class TbContentComponent implements OnInit {
     this.elementService.makeTrans(color);
   }
 
+  // change cat of content (if possible)
+  public changeContentCat() {
+    if (this.elementService.selCMEo) {
+      try {
+        // causes the app to crash
+        if (this.selCMEo.cmobject.content[this.pos].cat === 'i') {
+          this.selCMEo.cmobject.content[this.pos].cat = 'i_100';
+          this.elementService.updateSelCMEo(this.selCMEo);
+        } else {
+          console.log('operation not possible');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+
+  // deletes selected entry from content array
   public delContent() {
     if (this.elementService.selCMEo) {
       try {

@@ -27,7 +27,7 @@ var CMStyle = {
 var CMTBObject = {
   color0: String,
   color1: String,
-  z_pos: [String],
+  zPos: [String],
   trans: [String],
   buttons: String
 }
@@ -46,7 +46,7 @@ var CMTBLine = {
   color1: String,
   size0: [String],
   size1: [String],
-  z_pos: [String],
+  zPos: [String],
   trans: [String],
   buttons: String
 }
@@ -54,7 +54,7 @@ var CMTBLine = {
 // layout object for gui elements
 var CMLayout = {
   pos: CMCoor,
-  z_pos: Number,
+  zPos: Number,
   width: Number,
   height: Number,
   trans: Number,

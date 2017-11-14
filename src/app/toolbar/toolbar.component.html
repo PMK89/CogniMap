@@ -12,17 +12,20 @@
    <td>
      <app-tb-font [cmtbfont]="cmsettings.cmtbfont"></app-tb-font>
    </td>
-   <td *ngIf="cmsettings.mode!=='typing'">
+   <td *ngIf="cmsettings.mode!=='typing'&&cmsettings.mode!=='marking'">
      <app-tb-object [cmtbobject]="cmsettings.cmtbobject"></app-tb-object>
    </td>
-   <td *ngIf="cmsettings.mode!=='typing'">
+   <td *ngIf="cmsettings.mode!=='typing'&&cmsettings.mode!=='marking'">
      <app-tb-line [cmtbline]="cmsettings.cmtbline"></app-tb-line>
    </td>
-   <td *ngIf="cmsettings.mode!=='typing'">
+   <td *ngIf="cmsettings.mode!=='typing'&&cmsettings.mode!=='marking'">
      <app-tb-content [cmsettings]="cmsettings"></app-tb-content>
    </td>
    <td *ngIf="cmsettings.mode==='typing'">
      <app-tb-spechars [cmsettings]="cmsettings"></app-tb-spechars>
+   </td>
+   <td *ngIf="cmsettings.mode==='marking'">
+     <app-tb-marking [cmsettings]="cmsettings"></app-tb-marking>
    </td>
  </tr>
 </table>

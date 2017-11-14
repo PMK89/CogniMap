@@ -8,8 +8,11 @@
   <div *ngIf="widget1==='svg'">
      <iframe #iframe1 id="iframe1" src="assets/widgets/svgeditor/svg-editor.html" [style.height]="w1height" [style.width]="w1width" (click)="cminterface1()"></iframe>
   </div>
-  <div *ngIf="widget1==='media'">
-     <iframe #iframe1 id="iframe1" src="assets/widgets/mediaviewer/index.html" [style.height]="w1height" [style.width]="w1width" (click)="cminterface1()"></iframe>
+  <div *ngIf="widget1==='navigator'">
+     <app-navigator></app-navigator>
+  </div>
+  <div *ngIf="widget1==='codeeditor'">
+     <app-codeeditor></app-codeeditor>
   </div>
   <div *ngIf="widget1==='none'">
      <iframe #iframe1 id="iframe1" src="" height="0%" width="0%" (click)="cminterface1()"></iframe>

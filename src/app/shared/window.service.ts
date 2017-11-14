@@ -13,7 +13,6 @@ export class WindowService {
   public WinYOffset: number;
   public Parameters: Boundaries;
   public Boundaries0: Boundaries;
-  public Boundaries1: Boundaries;
   public cmsettings: CMSettings;
 
   constructor(private elementService: ElementService,
@@ -47,7 +46,7 @@ export class WindowService {
   public setOffset(XOffset, YOffset) {
     this.WinXOffset = XOffset;
     this.WinYOffset = YOffset;
-    this.Boundaries1 = {
+    this.Boundaries0 = {
       l: this.WinXOffset,
       r: (this.WinXOffset + this.WinWidth),
       t: this.WinYOffset,
@@ -70,52 +69,50 @@ export class WindowService {
   }
 
   public getParameters(x: number, y: number) {
-    if ( this.Boundaries1 && this.WinWidth && this.WinHeight ) {
+    if ( this.Boundaries0 && this.WinWidth && this.WinHeight ) {
       this.WinXOffset = x;
       this.WinYOffset = y;
       let Scrolled = false;
       let xdif = x - this.Boundaries0.l;
       let ydif = y - this.Boundaries0.t;
       if (Math.abs(xdif) > this.WinWidth && xdif < 0 ) {
-        this.Boundaries0.l = x;
         // this.Boundaries0.r = x + this.WinWidth;
-        this.Parameters.l = x - 2 * this.WinWidth;
+        this.Parameters.l = x - (2 * this.WinWidth);
         this.Parameters.r = x + this.WinWidth;
-        this.Parameters.t = y - 2 * this.WinHeight;
-        this.Parameters.b = y + 2 * this.WinHeight;
+        this.Parameters.t = y - (2 * this.WinHeight);
+        this.Parameters.b = y + (2 * this.WinHeight);
         Scrolled = true;
         // console.log('- ', xdif);
       } else if (Math.abs(xdif) > this.WinWidth && xdif > 0 ) {
-        this.Boundaries0.l = x;
         // this.Boundaries0.r = x + this.WinWidth;
         this.Parameters.l = x - this.WinWidth;
-        this.Parameters.r = x + 3 * this.WinWidth;
-        this.Parameters.t = y - 2 * this.WinHeight;
-        this.Parameters.b = y + 2 * this.WinHeight;
+        this.Parameters.r = x + (3 * this.WinWidth);
+        this.Parameters.t = y - (2 * this.WinHeight);
+        this.Parameters.b = y + (2 * this.WinHeight);
         Scrolled = true;
         // console.log('+ ', xdif);
       }
       if (Math.abs(ydif) > this.WinHeight && ydif < 0 ) {
-        this.Boundaries0.t = y;
         // this.Boundaries0.b = y + this.WinHeight;
-        this.Parameters.t = y - 2 * this.WinHeight;
+        this.Parameters.t = y - (3 * this.WinHeight);
         this.Parameters.b = y + this.WinHeight;
-        this.Parameters.l = x - 2 * this.WinWidth;
-        this.Parameters.r = x + 2 * this.WinWidth;
+        this.Parameters.l = x - (2 * this.WinWidth);
+        this.Parameters.r = x + (2 * this.WinWidth);
         Scrolled = true;
         // console.log('- ', ydif);
       } else if (Math.abs(ydif) > this.WinHeight && ydif > 0 ) {
-        this.Boundaries0.t = y;
         // this.Boundaries0.b = y + this.WinHeight;
         this.Parameters.t = y - this.WinHeight;
-        this.Parameters.b = y + 3 * this.WinHeight;
-        this.Parameters.l = x - 2 * this.WinWidth;
-        this.Parameters.r = x + 2 * this.WinWidth;
+        this.Parameters.b = y + (3 * this.WinHeight);
+        this.Parameters.l = x - (2 * this.WinWidth);
+        this.Parameters.r = x + (2 * this.WinWidth);
         Scrolled = true;
         // console.log('+ ', ydif);
       }
       if (Scrolled) {
-        console.log('x: ', x, 'y: ', y, 'Parameters: ', this.Parameters);
+        // console.log('x: ', x, 'y: ', y, 'Parameters: ', this.Parameters);
+        this.Boundaries0.l = x;
+        this.Boundaries0.t = y;
         this.cmsettings.coor.x = x;
         this.cmsettings.coor.y = y;
         this.settingsService.updateSettings(this.cmsettings);

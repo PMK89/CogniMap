@@ -43,16 +43,18 @@ export class CmosvgService {
   public createText(cme, bbox, cmg: any) {
     let s = Snap('#cmsvg');
     let mrg = (cme.cmobject.style.title.size / 8);
-    let p = s.path('M' + bbox.x + ' ' + (bbox.y2 - (mrg / 2))
-     + 'L' + bbox.x2 + ' ' + (bbox.y2 - (mrg / 2)));
-    p.attr({
-      fill: 'none',
-      stroke: cme.cmobject.style.object.color0,
-      strokeWidth: mrg,
-      opacity: cme.cmobject.style.object.trans,
-      id: 'cms' + cme.id.toString(),
-    });
-    if (cme.types[2] === 'b') {
+    if (cme.types[2] === 'l') {
+      let p = s.path('M' + bbox.x + ' ' + (bbox.y2 - (mrg / 2))
+       + 'L' + bbox.x2 + ' ' + (bbox.y2 - (mrg / 2)));
+      p.attr({
+        fill: 'none',
+        stroke: cme.cmobject.style.object.color0,
+        strokeWidth: mrg,
+        opacity: cme.cmobject.style.object.trans,
+        id: 'cms' + cme.id.toString(),
+      });
+      cmg.add(p);
+    } else if (cme.types[2] === 'b') {
       let r = s.rect(bbox.x, (bbox.y - (mrg / 2)), bbox.w, (bbox.h + mrg));
       r.attr({
         fill: 'none',
@@ -62,7 +64,6 @@ export class CmosvgService {
       });
       cmg.add(r);
     }
-    cmg.add(p);
   }
 
   // test

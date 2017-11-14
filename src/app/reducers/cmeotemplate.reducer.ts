@@ -13,8 +13,6 @@ export function cmeotemplate (Cme: CMEo = null, action: Action) {
       } else {
         return Cme;
       }
-    case 'DEL_TCMEO':
-      return null;
     default:
       return Cme;
   }

@@ -87,7 +87,7 @@ export class LButtonComponent implements OnInit {
         } else {
           button.active = false;
         }
-      });
+      }).unsubscribe();
     } else {
       button.active = false;
     }

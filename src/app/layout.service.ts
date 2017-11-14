@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class LayoutService {
 
-  public toolbar0_style = {
+  public toolbar0Style = {
     'position': 'fixed',
     'left': 0,
     'top': 0,
@@ -16,7 +16,7 @@ export class LayoutService {
     'display': 'none'
   };
 
-  public toolbar1_style = {
+  public toolbar1Style = {
     'position': 'fixed',
     'left': 0,
     'top': 0,
@@ -27,19 +27,19 @@ export class LayoutService {
     'display': 'none'
   };
 
-  public cmap_style = {
+  public cmapStyle = {
     'position': 'absolute',
     'padding': 0,
     'left': 0,
     'top': 0,
-    'width': '200000px',
-    'height': '200000px',
+    'width': '500000px',
+    'height': '500000px',
     'opacity': 1,
     'background-color': '#ffffff',
     'display': 'block'
   };
 
-  public menue_style = {
+  public menueStyle = {
     'position': 'absolute',
     'padding': 0,
     'left': 0,
@@ -51,7 +51,7 @@ export class LayoutService {
     'display': 'none'
   };
 
-  public widgets0_style = {
+  public widgets0Style = {
     'position': 'fixed',
     'padding': 0,
     'left': 0,
@@ -63,7 +63,7 @@ export class LayoutService {
     'display': 'none'
   };
 
-  public widgets1_style = {
+  public widgets1Style = {
     'position': 'fixed',
     'padding': 0,
     'left': 0,
@@ -78,25 +78,25 @@ export class LayoutService {
   public startsettings: Object = {
     'cmap': {
       'display': 'block',
-      'height': 200000,
+      'height': 500000,
       'left': 0,
       'opacity': 1,
       'position': 'absolute',
       'top': 0,
-      'width': 200000,
+      'width': 500000,
       'z-index': 0
     },
     'cmtbfont': {
-      'buttons': 'tbfont',
-      'color': 'tbfont',
-      'font': [
+      buttons: 'tbfont',
+      color: 'tbfont',
+      font: [
         '"Times New Roman", Times, serif',
         'Arial, Helvetica, sans-serif',
         '"Comic Sans MS", cursive, sans-serif',
         '"Courier New", Courier, monospace',
         '"Monotype Corsiva", "Apple Chancery", "ITC Zapf Chancery", "URW Chancery L", cursive'
       ],
-      'size': [
+      size: [
         '++--',
         '1',
         'cmobject',
@@ -127,7 +127,7 @@ export class LayoutService {
         'cmline',
         'trans'
       ],
-      'z_pos': [
+      'zPos': [
         '++--',
         '1',
         'prio'
@@ -143,15 +143,15 @@ export class LayoutService {
         'cmobject',
         'trans'
       ],
-      'z_pos': [
+      'zPos': [
         '++--',
         '1',
         'prio'
       ]
     },
     'coor': {
-      'x': 5000,
-      'y': 100000
+      x: 5000,
+      y: 100000
     },
     'debug': true,
     'dev': false,
@@ -233,7 +233,7 @@ export class LayoutService {
   constructor(private http: Http) { }
 
   // reads data from JSON-File
-  getLayout() {
+  public getLayout() {
     return this.http.get('./assets/config/settings.json')
         .map((response: Response) => response.json());
   }

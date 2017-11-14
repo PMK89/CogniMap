@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 // import { Snap } from 'snapsvg';
 declare var Snap: any;
@@ -18,7 +19,7 @@ import { CMStore } from '../../models/CMStore';
   templateUrl: './cmobject.component.html',
   styleUrls: ['./cmobject.component.scss']
 })
-export class CmobjectComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public cmelement: CME;
   @ViewChild('box') public vc;
   public cmeo: CMEo;
@@ -28,10 +29,12 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   public inputtext: string = this.elementService.inputtext;
   public TextInput = false;
   public video = false;
+  public html: any;
   public videourl: string;
 
   constructor(private eventService: EventService,
               private snapsvgService: SnapsvgService,
+              private sanitizer: DomSanitizer,
               private store: Store<CMStore>,
               private elementService: ElementService) {
               }
@@ -42,27 +45,29 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     }
   }
 
-  public ngOnChanges() {
-    this.ngOnInit();
-  }
-
   public ngOnInit() {
     if (this.cmelement) {
       // let d = new Date();
       // let t0 = d.getTime();
-      // console.log(this.cmelement);
+      // console.log('cmobject start: ', this.cmelement, t0);
       let s = Snap('#cmsvg');
       let id = this.cmelement.id.toString();
       if (this.cmelement.id < 1) {
         id = id.replace('.', '_');
       }
       this.cmgroup = s.select('#cmo' + this.cmelement.prio.toString()).group();
+      if (this.cmgroup === undefined) {
+        this.cmgroup = s.select('#cmo99').group();
+      }
       this.cmgroup.attr({
         id: ('g' + id),
         title: id
       });
       if (this.cmelement.prep !== '' && this.cmelement.prep !== undefined) {
         this.cmgroup.append(Snap.parse(this.cmelement.prep));
+        if (this.cmelement.prep1 !== '' && this.cmelement.prep1 !== undefined) {
+          this.html = this.sanitizer.bypassSecurityTrustHtml(this.cmelement.prep1);
+        }
         // console.log(this.cmelement.prep);
       } else {
         let marking = s.select('#cmmark' + id);
@@ -79,16 +84,24 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         let bbox = this.cmgroup.getBBox();
         if (this.cmeo.cmobject.content.length > 0) {
           // generates content as svg
-          this.snapsvgService.makeContent(this.cmeo, this.cmgroup);
           // checks for markers with video
-          for (let i = 0; i < this.cmeo.cmobject.content.length; i++) {
+          let totwidth = 0;
+          for (let i in this.cmeo.cmobject.content) {
             if (this.cmeo.cmobject.content[i]) {
+              let content = this.cmeo.cmobject.content[i];
               if (this.cmeo.cmobject.content[i].cat === 'mp4') {
-                let content = this.cmeo.cmobject.content[i];
                 console.log(content);
                 this.video = true;
                 this.videourl = content.object;
+              } /* else if (this.cmeo.cmobject.content[i].cat === 'html') {
+                // process html
+                this.cmelement.prep1 = this.cmeo.cmobject.content[i].object;
+                this.cmeo.prep1 = this.cmeo.cmobject.content[i].object;
+                this.html = this.sanitizer.bypassSecurityTrustHtml(this.cmeo.cmobject.content[i].object);
+              } */ else {
+                this.snapsvgService.makeContent(this.cmeo, this.cmgroup, i, totwidth);
               }
+              totwidth += content.width;
             }
           }
         }
@@ -96,19 +109,31 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         if (types[0] === 'i' || types[0] === 'p') {
           // console.log(this.cmeo);
         } else {
-          let title = s.text(this.cmeo.coor.x, this.cmeo.coor.y, this.cmeo.title);
-          title.attr({
-            fontSize: this.cmeo.cmobject.style.title.size + 'px',
-            fill: this.cmeo.cmobject.style.title.color,
-            fontFamily: this.cmeo.cmobject.style.title.font,
-            opacity: this.cmeo.cmobject.style.object.trans,
-            textDecoration: this.cmeo.cmobject.style.title.deco,
-            title: id
-          });
-          if (this.cmeo.cmobject.style.title.class_array.indexOf('hidden') !== -1) {
-            title.attr({display: 'none'});
+          if (types[0] === 'm') {
+            let emptymark = s.rect(this.cmeo.coor.x, this.cmeo.coor.y, this.cmeo.x1 - this.cmeo.x0, this.cmeo.y1 - this.cmeo.y0);
+            emptymark.attr({
+              fill: 'none',
+              stroke: 'none',
+              strokeWidth: 0,
+              opacity: 0,
+              id: 'marker' + id.toString()
+            });
+            this.cmgroup.add(emptymark);
+          } else {
+            let title = s.text(this.cmeo.coor.x, this.cmeo.coor.y, this.cmeo.title);
+            title.attr({
+              fontSize: this.cmeo.cmobject.style.title.size + 'px',
+              fill: this.cmeo.cmobject.style.title.color,
+              fontFamily: this.cmeo.cmobject.style.title.font,
+              opacity: this.cmeo.cmobject.style.object.trans,
+              textDecoration: this.cmeo.cmobject.style.title.deco,
+              title: id
+            });
+            if (this.cmeo.cmobject.style.title.class_array.indexOf('hidden') !== -1) {
+              title.attr({display: 'none'});
+            }
+            this.cmgroup.add(title);
           }
-          this.cmgroup.add(title);
           bbox = this.cmgroup.getBBox();
           let content = this.cmgroup.innerSVG();
           content = content.replace(/ \\"/g, " '");
@@ -135,17 +160,13 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnChanges, OnDe
       if (this.cmelement.id < 1) {
         // console.log(this.cmelement);
         let stb = Snap('#templatesvg');
-        let TempCMEoSVG = stb.select('#tempCMEo');
-        if (TempCMEoSVG) {
-          TempCMEoSVG.remove();
-        }
         let bbox = this.cmgroup.getBBox();
         let innertcmo = this.cmgroup.innerSVG();
         let scaling = Math.min((40 / bbox.h), (100 / bbox.w));
         let stbcmo = Snap.parse(innertcmo);
         let gt = stb.group().append(stbcmo);
         gt.attr({
-          id: ('tempCMEo'),
+          id: ('gt' + id),
           title: id
         });
         gt.transform('s' + scaling);
@@ -154,6 +175,7 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         // transfers id in case of click events
         this.cmgroup.mousedown( () => {
           if (document.getElementById('TPid') !== undefined) {
+            console.log('cmobject.component: mousedown');
             document.getElementById('TPid').title = id;
             // console.log(document.getElementById('TPid').title);
           }
@@ -162,8 +184,7 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         // generates marking for different states
         if (this.cmelement.state !== '') {
           let cmBBox = this.cmgroup.getBBox();
-          let marking = s.ellipse(cmBBox.cx, cmBBox.cy,
-             (cmBBox.r0), (cmBBox.h));
+          let marking = s.ellipse(cmBBox.cx, cmBBox.cy, (cmBBox.r0), (cmBBox.h));
           marking.attr({
             fill: 'none',
             opacity: 0.5,

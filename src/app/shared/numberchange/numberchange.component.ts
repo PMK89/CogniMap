@@ -96,7 +96,7 @@ export class NumberchangeComponent implements OnInit {
               this.value = 1;
           }
         }
-      });
+      }).unsubscribe();
     }
     this.button = button;
   }

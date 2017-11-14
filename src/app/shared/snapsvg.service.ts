@@ -112,7 +112,8 @@ export class SnapsvgService {
   }
 
   // generates shape from prepared string or initiates new creation
-  public makeContent(cme: any, cmg?: any) {
+  public makeContent(cme: any, cmg: any, i: any, totwidth: number) {
+    console.log(cmg);
     if (typeof cme.cmobject === 'string') {
       cme = this.elementService.CMEtoCMEol(cme);
     }
@@ -124,14 +125,13 @@ export class SnapsvgService {
       if (cme.id < 1) {
         id = id.replace('.', '_');
       }
-      let totwidth = 0;
-      for (let i = 0; i < cme.cmobject.content.length; i++) {
-        if (cme.cmobject.content[i]) {
+      if (cme.cmobject.content[i]) {
           let content = cme.cmobject.content[i];
           let coorX = cme.coor.x + content.coor.x;
           let coorY = cme.coor.y + content.coor.y;
           switch (content.cat) {
             case 'i':
+            case 'i_100':
               // insertes images (png, jpg, gif)
               let path;
               if (content.object.indexOf('assets/') === -1) {
@@ -146,7 +146,35 @@ export class SnapsvgService {
                 id: id.toString() + '_' + i.toString(),
                 title: id
               });
-              con.transform('s' + (content.height / 100));
+              if (content.cat === 'i') {
+                con.transform('s' + (content.height / 100));
+              } else if (content.cat === 'i_100' || content.cat === 'i_50') {
+                let size;
+                if (content.cat === 'i_100') {
+                  size = '100px';
+                } else if (content.cat === 'i_50') {
+                  size = '50px';
+                }
+                let imgBBox = con.getBBox();
+                if (imgBBox.w >= imgBBox.h) {
+                  con.attr({width: size});
+                } else {
+                  con.attr({height: size});
+                }
+                con.click( () => {
+                  let conBig = s.image((path), (coorX - (imgBBox.w / 2)), (coorY) - (imgBBox.h / 2));
+                  console.log();
+                  conBig.attr({
+                    opacity: cme.cmobject.style.object.trans,
+                    id: id.toString() + '_' + i.toString() + 'Big',
+                    title: id
+                  });
+                  conBig.transform('s' + (content.height / 100));
+                  conBig.click( () => {
+                    conBig.remove();
+                  });
+                });
+              }
               break;
             case 'svg':
               // inserts svg to marker group
@@ -174,7 +202,7 @@ export class SnapsvgService {
               cmg.add(jsmesvggroup);
               cmg.transform('s' + (content.height / 100));
               break;
-            case 'xml':
+            case 'LateX':
               // do something with images
               let xmlgroup = cmg.g();
               let mjsvg = this.mathjaxService.getMjSVG(content.object);
@@ -188,6 +216,17 @@ export class SnapsvgService {
               break;
             case 'html':
               // do something with html
+              let htmlgroup = cmg.g();
+              con = Snap.parse(content.object);
+              htmlgroup.append(con);
+              let htmlbbox = htmlgroup.getBBox();
+              console.log(htmlgroup);
+              htmlgroup.selectAll('foreignObject').attr({
+                x: (coorX + totwidth - htmlbbox.x),
+                y: (coorY - htmlbbox.y)
+              });
+              content.width = htmlbbox.width;
+              cmg.add(htmlgroup);
               break;
             case 'p':
               // do something with images
@@ -204,12 +243,9 @@ export class SnapsvgService {
               break;
             default:
               // do something with images {
-              con = Snap.parse(content.object);
-              svggroup.append(con);
+              console.log('no usable content found');
               break;
           }
-          totwidth += content.width;
-        }
       }
       /*
       if (this.cmsettings.mode === 'edit') {
@@ -226,4 +262,11 @@ export class SnapsvgService {
       */
     }
   }
+
+  // creates popups for media with thumbnails
+  public displayContent(BBox) {
+    // makes picture closable by click
+    console.log('pic');
+  }
+
 }

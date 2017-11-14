@@ -1,0 +1,50 @@
+<div id="navigator">
+  <div id="treeview">
+    <table id="treeviewtable">
+      <tr>
+        <td *ngFor="let subarray of cmearray; let i = index">
+          <div *ngFor="let cme of subarray" class="subarrayDiv">
+            <u (click)="getLinkedCME(cme, i)">{{cme.title}}</u>
+            <b (click)="goTo(cme.coor.x, cme.coor.y)">⊗</b>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div id="input">
+    <table id="inputtable">
+      <tr>
+        <td>
+          X:
+        </td>
+        <td>
+          <input #xCoorInput value="0" size="5">
+        </td>
+        <td>
+          Y:
+        </td>
+        <td>
+          <input #yCoorInput value="0" size="5">
+        </td>
+        <td (click)="goTo(xCoorInput.value, yCoorInput.value)">
+          Go
+        </td>
+        <td>
+          Search:
+        </td>
+        <td>
+          <input #titleInput value="" size="10" (keyup.enter)="findTitle(titleInput.value)">
+        </td>
+        <td (click)="findTitle(titleInput.value)">
+          Find
+        </td>
+      </tr>
+    </table>
+    <div id="titlesDiv">
+      <div class="titleDiv" *ngFor="let cme of titlearray; let i = index">
+        {{cme.title}}
+        <b (click)="goTo(cme.coor.x, cme.coor.y)">⊗</b>
+      </div>
+    </div>
+  </div>
+</div>

@@ -78,7 +78,7 @@ export class ColorbarComponent implements OnInit {
         } else {
           this.value = colorbar.colors[0];
         }
-      });
+      }).unsubscribe();
     } else {
       this.value = colorbar.colors[0];
     }

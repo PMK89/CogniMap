@@ -28,12 +28,12 @@ export class AppComponent implements AfterViewInit {
   public parameters: any;
   public cmsettings: CMSettings;
   public cmaction: CMAction = new CMAction();
-  public toolbar0_style: any = this.layoutService.toolbar0_style;
-  public toolbar1_style: any = this.layoutService.toolbar1_style;
-  public cmap_style: any = this.layoutService.cmap_style;
-  public menue_style: any = this.layoutService.menue_style;
-  public widgets0_style: any = this.layoutService.widgets0_style;
-  public widgets1_style: any = this.layoutService.widgets1_style;
+  public toolbar0Style: any = this.layoutService.toolbar0Style;
+  public toolbar1Style: any = this.layoutService.toolbar1Style;
+  public cmapStyle: any = this.layoutService.cmapStyle;
+  public menueStyle: any = this.layoutService.menueStyle;
+  public widgets0Style: any = this.layoutService.widgets0Style;
+  public widgets1Style: any = this.layoutService.widgets1Style;
   @ViewChild('TPid') public tpid: ElementRef;
   @ViewChild('TPmaxid') public tpmaxid: ElementRef;
   @ViewChild('TPy') public tpy: ElementRef;
@@ -128,6 +128,10 @@ export class AppComponent implements AfterViewInit {
             this.cmsettings.mode = 'typing';
             this.settingsService.updateSettings(this.cmsettings);
           }
+        } else if (this.cmsettings.mode === 'marking') {
+          if (this.elementService.markCMEo.id !== id) {
+            this.elementService.markCMEo = this.elementService.CMEtoCMEol(this.elementService.getDBCMEbyId(id));
+          }
         } else {
           if (this.cmsettings.mode === 'connecting') {
             this.elementService.newConnector(id);
@@ -149,40 +153,40 @@ export class AppComponent implements AfterViewInit {
   public setSizes(cmsettings: CMSettings ) {
     if (this.cmsettings) {
       if (this.cmsettings.mode === 'view') {
-        if (this.toolbar0_style.display === 'none') {
+        if (this.toolbar0Style.display === 'none') {
           this.cmsettings['tblayout0'].display = 'block';
           this.cmsettings['tblayout1'].display = 'none';
           this.cmsettings['wlayout0'].display = 'none';
           this.cmsettings['wlayout1'].display = 'none';
-          this.setLayout(this.cmsettings['tblayout0'], 'toolbar0_style');
-          this.setLayout(this.cmsettings['tblayout1'], 'toolbar1_style');
-          this.setLayout(this.cmsettings['wlayout0'], 'widgets0_style');
-          this.setLayout(this.cmsettings['wlayout1'], 'widgets1_style');
+          this.setLayout(this.cmsettings['tblayout0'], 'toolbar0Style');
+          this.setLayout(this.cmsettings['tblayout1'], 'toolbar1Style');
+          this.setLayout(this.cmsettings['wlayout0'], 'widgets0Style');
+          this.setLayout(this.cmsettings['wlayout1'], 'widgets1Style');
           this.settingsService.updateSettings(this.cmsettings);
         }
       } else {
-        if (this.toolbar0_style.display === 'block') {
+        if (this.toolbar0Style.display === 'block') {
           this.cmsettings['tblayout0'].display = 'none';
           this.cmsettings['tblayout1'].display = 'block';
           if (this.cmsettings.widget0 !== 'none') {
             this.cmsettings['wlayout0'].display = 'block';
-            this.setLayout(this.cmsettings['wlayout0'], 'widgets0_style');
+            this.setLayout(this.cmsettings['wlayout0'], 'widgets0Style');
           }
           if (this.cmsettings.widget1 !== 'none') {
             this.cmsettings['wlayout1'].display = 'block';
-            this.setLayout(this.cmsettings['wlayout1'], 'widgets1_style');
+            this.setLayout(this.cmsettings['wlayout1'], 'widgets1Style');
           }
-          this.setLayout(this.cmsettings['tblayout0'], 'toolbar0_style');
-          this.setLayout(this.cmsettings['tblayout1'], 'toolbar1_style');
+          this.setLayout(this.cmsettings['tblayout0'], 'toolbar0Style');
+          this.setLayout(this.cmsettings['tblayout1'], 'toolbar1Style');
           this.settingsService.updateSettings(this.cmsettings);
         }
       }
-      if (this.cmsettings.wlayout0.display !== this.layoutService.widgets0_style.display) {
-        this.setLayout(this.cmsettings['wlayout0'], 'widgets0_style');
+      if (this.cmsettings.wlayout0.display !== this.layoutService.widgets0Style.display) {
+        this.setLayout(this.cmsettings['wlayout0'], 'widgets0Style');
         this.settingsService.updateSettings(this.cmsettings);
       }
-      if (this.cmsettings.wlayout1.display !== this.layoutService.widgets1_style.display) {
-        this.setLayout(this.cmsettings['wlayout1'], 'widgets1_style');
+      if (this.cmsettings.wlayout1.display !== this.layoutService.widgets1Style.display) {
+        this.setLayout(this.cmsettings['wlayout1'], 'widgets1Style');
         this.settingsService.updateSettings(this.cmsettings);
       }
       // console.log('setSizes');
@@ -196,9 +200,9 @@ export class AppComponent implements AfterViewInit {
         this.cmsettings['wlayout1'].height = (this.windowService.WinHeight -
           this.cmsettings['tblayout1'].height) / 2;
         this.sizesset = true;
-        this.setLayout(this.cmsettings['tblayout1'], 'toolbar1_style');
-        this.setLayout(this.cmsettings['wlayout0'], 'widgets0_style');
-        this.setLayout(this.cmsettings['wlayout1'], 'widgets1_style');
+        this.setLayout(this.cmsettings['tblayout1'], 'toolbar1Style');
+        this.setLayout(this.cmsettings['wlayout0'], 'widgets0Style');
+        this.setLayout(this.cmsettings['wlayout1'], 'widgets1Style');
         this.settingsService.updateSettings(this.cmsettings);
       }
     }

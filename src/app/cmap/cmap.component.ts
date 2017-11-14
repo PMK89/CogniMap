@@ -18,12 +18,14 @@ import { CMStore } from '../models/CMStore';
 })
 export class CmapComponent implements OnInit {
   public cmelements: Observable<any[]>;
+  public minicmap = false;
   public selection = {
-    display: 'none',
-    left: '0px',
-    top: '0px',
-    width: '0px',
-    height: '0px'
+    'display': 'none',
+    'left': '0px',
+    'top': '0px',
+    'width': '0px',
+    'z-index': 200,
+    'height': '0px'
   };
 
   constructor(private elementService: ElementService,
@@ -41,6 +43,10 @@ export class CmapComponent implements OnInit {
                         this.selection.width = data['width'] + 'px';
                         this.selection.height = data['height'] + 'px';
                         this.selection.display = 'block';
+                        if (data['background-color'] && data['opacity']) {
+                          this.selection['background-color'] = data['background-color'];
+                          this.selection['opacity'] = data['opacity'];
+                        }
                         // console.log(data);
                       } else {
                         this.selection.display = 'none';
@@ -61,7 +67,7 @@ export class CmapComponent implements OnInit {
     return  {
       'left': cmelement.coor.x + 'px',
       'top': cmelement.coor.y + 'px',
-      'z-index': cmelement.z_pos,
+      'z-index': cmelement.zPos,
       'position': 'absolute'
     };
   }

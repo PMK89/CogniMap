@@ -14,7 +14,9 @@
         </select>
       </td>
       <td>
-
+        <div (click)="changeMode('cmap')"  [ngStyle]="selectionStyle('cmap')">
+          C
+        </div>
       </td>
     </tr>
     <tr>
@@ -31,7 +33,9 @@
         </select>
       </td>
       <td>
-
+        <div (click)="changeMode('minimap')"  [ngStyle]="selectionStyle('minimap')">
+          M
+        </div>
       </td>
     </tr>
     <tr>
@@ -46,7 +50,9 @@
         </div>
       </td>
       <td>
-
+        <div (click)="changeMode('marking')" [ngStyle]="selectionStyle('marking')">
+          Mark
+        </div>
       </td>
     </tr>
   </table>

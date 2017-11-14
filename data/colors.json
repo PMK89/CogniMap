@@ -3,16 +3,16 @@
     "blocked": false,
     "cat": "tbobject0",
     "colors": [
-      "#00c02c",
-      "#0000ff",
-      "#ff00c1",
-      "#ff0000",
-      "#ffbf00",
-      "#ffff00",
-      "#40ff00",
-      "#00ff80",
-      "#00ffff",
-      "#0000ff"
+      "#ffffff",
+      "#8668f0",
+      "#95aafb",
+      "#ffcb28",
+      "#b68aff",
+      "#26a497",
+      "#24dc9d",
+      "#c42e06",
+      "#95aafb",
+      "#cfb9ea"
     ],
     "cuppled": false,
     "group": "",
@@ -31,7 +31,7 @@
     "blocked": false,
     "cat": "tbobject1",
     "colors": [
-      "#ff9397",
+      "#d0b3ff",
       "#005a1a",
       "#ff0000",
       "#ffbf00",
@@ -85,16 +85,16 @@
     "blocked": false,
     "cat": "tbline0",
     "colors": [
-      "#a5fafa",
-      "#00c02c",
-      "#ff0000",
-      "#ffbf00",
-      "#ffff00",
-      "#40ff00",
-      "#00ff80",
+      "#f10707",
+      "#a48ff0",
+      "#7f6b9e",
       "#00ffff",
-      "#0000ff",
-      "#bf00ff"
+      "#b3c1f6",
+      "#d0b3ff",
+      "#978ff6",
+      "#b3c1f6",
+      "#b3c1f6",
+      "#cbd5fa"
     ],
     "cuppled": false,
     "group": "",
@@ -108,31 +108,31 @@
     ]
   },
   {
-    "id": 5,
-    "name": "default",
-    "group": "",
-    "cat": "tbfont",
-    "prio": 0,
     "blocked": false,
-    "variable": [
-      "cmobject",
-      "style",
-      "title",
-      "color"
-    ],
+    "cat": "tbfont",
     "colors": [
+      "#ffffff",
+      "#000000",
+      "#2eb500",
       "#ff0000",
       "#ffbf00",
       "#ffff00",
       "#40ff00",
       "#00ff80",
       "#00ffff",
-      "#0000ff",
-      "#bf00ff",
-      "#ff00bf",
-      "#000000"
+      "#0000ff"
     ],
     "cuppled": false,
-    "secured": false
+    "group": "",
+    "id": 5,
+    "name": "default",
+    "prio": 0,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "style",
+      "title",
+      "color"
+    ]
   }
 ]

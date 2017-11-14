@@ -154,7 +154,7 @@ let template = [{
   role: 'window',
   submenu: [{
     label: 'Minimize',
-    accelerator: 'CmdOrCtrl+M',
+    accelerator: 'CmdOrCtrl+.',
     role: 'minimize'
   }, {
     label: 'Close',

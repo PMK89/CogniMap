@@ -57,6 +57,17 @@
         "prio"
       ]
     },
+    "cmtbmarking": {
+      "color0": "#ec3100",
+      "color1": "#ff0000",
+      "prio": 5,
+      "trans": 0.5000000000000001,
+      "types": [
+        "m",
+        "r",
+        "0"
+      ]
+    },
     "cmtbobject": {
       "buttons": "tbobject",
       "color0": "tbobject0",
@@ -73,9 +84,10 @@
         "prio"
       ]
     },
+    "cngtemp": false,
     "coor": {
-      "x": 126694,
-      "y": 100300
+      "x": 81266,
+      "y": 120796
     },
     "debug": true,
     "dev": false,
@@ -134,7 +146,7 @@
     "widget1": "none",
     "wlayout0": {
       "display": "none",
-      "height": 455,
+      "height": 533,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
@@ -144,11 +156,11 @@
     },
     "wlayout1": {
       "display": "none",
-      "height": 455,
+      "height": 533,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
-      "top": 535,
+      "top": 613,
       "width": 600,
       "z-index": 510
     }

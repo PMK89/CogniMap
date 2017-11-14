@@ -18,7 +18,6 @@ export function cmes (Cmes: CME[] = [], action: Action) {
         return cmex.id !== action.payload.id;
       });
     case 'UPDATE_CME':
-    case 'GET_CME':
       return Cmes.map((Cme) => cme(Cme, action));
     default:
       return Cmes;

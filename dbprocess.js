@@ -30,7 +30,7 @@ const createDbWindow = function createDbWindow() {
     dbwin = null
   });
 
-  // delete database
+  // save database to json file
   ipcMain.on('saveDb', function (event, arg) {
     // easy function to change elements in db
     /*
@@ -82,7 +82,17 @@ const createDbWindow = function createDbWindow() {
         fs.writeFileSync(arg, strData);
         event.returnValue = 'database saved to ' + arg
       }
-    });  
+    });
+  })
+
+  // gets all elements from db
+  ipcMain.on('getAllCME', function (event, arg) {
+    cme.find({}, function(err, data) {
+      if (err) console.log(err);
+      if (data) {
+        event.returnValue = data;
+      }
+    });
   })
 
   // load database
@@ -120,6 +130,18 @@ const createDbWindow = function createDbWindow() {
       }
     });
     event.returnValue = 'database deleted'
+  })
+
+  // get cme by title database
+  ipcMain.on('getCMETitle', function (event, arg) {
+    var regextitle = RegExp(arg);
+    cme.find({title: {$regex: regextitle}}, function(err, data) {
+		  if (err) {
+        event.returnValue = undefined;
+        console.log(err);
+      }
+      event.returnValue = data;
+	  });
   })
 
   // get cme by id database

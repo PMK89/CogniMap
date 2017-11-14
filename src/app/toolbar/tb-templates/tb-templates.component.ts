@@ -1,5 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, Input } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { SettingsService } from '../../shared/settings.service';
 import { TemplateService } from '../../shared/template.service';
 
@@ -7,7 +6,6 @@ declare var Snap: any;
 
 // models and reducers
 import { CMSettings } from '../../models/CMSettings';
-import { CMStore } from '../../models/CMStore';
 import { CMEo } from '../../models/CMEo';
 import { CMEl } from '../../models/CMEl';
 
@@ -18,22 +16,16 @@ import { CMEl } from '../../models/CMEl';
 })
 export class TbTemplatesComponent implements OnInit, AfterViewInit {
   @Input() public cmsettings: CMSettings;
-  @ViewChild('tempcmline') public tempcmline;
-  @ViewChild('tempcmobject') public tempcmobject;
-  public TempCMEo: CMEo;
-  public TempCMEl: CMEl;
-  public TempCMEoID: number;
-  public TempCMElID: number;
+  public tempCMEo: number;
+  public tempCMEl: number;
   public TempCMEos: CMEo[];
   public TempCMEls: CMEl[];
   public CMEoTextInput = false;
   public CMElTextInput = false;
-  public TempSVG = Snap('#templatesvg');
   public newTitle: string;
   public inputStyle: Object;
 
   constructor(private templateService: TemplateService,
-              private store: Store<CMStore>,
               private settingsService: SettingsService) {
                 this.templateService.getTemplates();
                 this.TempCMEos = this.templateService.getTempCMEos();
@@ -44,21 +36,6 @@ export class TbTemplatesComponent implements OnInit, AfterViewInit {
                           this.cmsettings = data;
                         }
                       });
-                this.templateService.tempCMEo
-                  .subscribe((data) => {
-                    if (data) {
-                      // this.deleteTempCMEoSVG();
-                      this.TempCMEo = data;
-                      // console.log(this.TempCMEo);
-                    }
-                  });
-                this.templateService.tempCMEl
-                  .subscribe((data) => {
-                    if (data) {
-                      // this.deleteTempCMElSVG();
-                      this.TempCMEl = data;
-                    }
-                  });
               }
 
   public ngOnInit() {
@@ -66,7 +43,6 @@ export class TbTemplatesComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit() {
-    this.TempSVG = Snap('#templatesvg');
   }
 
   // changes mode in settings
@@ -80,44 +56,42 @@ export class TbTemplatesComponent implements OnInit, AfterViewInit {
     this.settingsService.updateSettings(this.cmsettings);
   }
 
+  // changes peersistence mode in settings
+  public changePersistance() {
+    if (this.cmsettings.cngtemp) {
+      this.cmsettings.cngtemp = false;
+    } else {
+      this.cmsettings.cngtemp = true;
+    }
+    // console.log(this.cmsettings);
+    this.settingsService.updateSettings(this.cmsettings);
+  }
+
+  // mark selection
+  public persistanceStyle() {
+    if (this.cmsettings.cngtemp) {
+      let style: Object = {'background-color': '#ff0000'};
+      // console.log('selectionStyle: ', style);
+      return style;
+    } else {
+      let style: Object = {'background-color': '#ffffff'};
+      return style;
+    }
+  }
+
   // changes template
   public changeTemplate(num: number) {
     if (num === 0) {
-      if (this.TempCMEoID) {
-        this.templateService.setActiveTempCMEo(this.IDconvert(this.TempCMEoID));
-      }
-      if (this.TempCMElID) {
-        this.templateService.setActiveTempCMEl((this.IDconvert(this.TempCMElID) * -1));
-      }
+      this.templateService.setActiveTempCMEo(this.IDconvert(this.tempCMEo));
+      this.templateService.setActiveTempCMEl((this.IDconvert(this.tempCMEo) * -1));
     } else {
       // this.templateService.setActiveTempCMEl(this.IDconvert(this.tempCMEl));
     }
   }
 
-  // removes SVG representation of TempCMEo
-  public deleteTempCMEoSVG() {
-    if (this.TempSVG) {
-      let TempCMEoSVG = this.TempSVG.select('#tempCMEo');
-      if (TempCMEoSVG) {
-        TempCMEoSVG.selectAll().remove();
-      }
-    }
-  }
-
-  // removes SVG representation of TempCMEl
-  public deleteTempCMElSVG() {
-    if (this.TempSVG) {
-      let TempCMElSVG = this.TempSVG.select('#tempCMEl');
-      if (TempCMElSVG) {
-        TempCMElSVG.selectAll().remove();
-      }
-    }
-  }
-
   public clearSVG() {
-    if (this.TempSVG) {
-      this.TempSVG.clear();
-    }
+    let stb = Snap('#templatesvg');
+    stb.clear();
   }
 
   // mark selection
@@ -140,12 +114,8 @@ export class TbTemplatesComponent implements OnInit, AfterViewInit {
 
   // saves changes on template in database
   public saveCME() {
-    if (this.TempCMEoID) {
-      this.templateService.saveCMEo(this.IDconvert(this.TempCMEoID));
-    }
-    if (this.TempCMElID) {
-      this.templateService.saveCMEl((this.IDconvert(this.TempCMElID) * -1));
-    }
+    this.templateService.saveCMEo(this.IDconvert(this.tempCMEo));
+    this.templateService.saveCMEl((this.IDconvert(this.tempCMEo) * -1));
   }
 
   // saves changes on template in database

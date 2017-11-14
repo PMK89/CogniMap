@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 declare var Snap: any;
 
 import { SnapsvgService } from '../../shared/snapsvg.service';
@@ -14,17 +14,13 @@ import { CMEl } from '../../models/CMEl';
 })
 
 // generates the connection between the markers by calling snapsvg services
-export class CmlineComponent implements OnInit, OnChanges, OnDestroy {
+export class CmlineComponent implements OnInit, OnDestroy {
   @Input() public cmelement: CME;
   public cmgroup: any;
   public cmel: CMEl;
 
   constructor(private snapsvgService: SnapsvgService,
               private elementService: ElementService) { }
-
-  public ngOnChanges() {
-    this.ngOnInit();
-  }
 
   public ngOnInit() {
     if (this.cmelement) {
@@ -34,7 +30,11 @@ export class CmlineComponent implements OnInit, OnChanges, OnDestroy {
       if (this.cmelement.id < 1) {
         id = id.replace('.', '_');
       }
-      this.cmgroup = s.select('#cml' + this.cmelement.prio.toString()).group();
+      if (this.cmelement.types[0] === 'p') {
+        this.cmgroup = s.select('#cmo' + this.cmelement.prio.toString()).group();
+      } else {
+        this.cmgroup = s.select('#cml' + this.cmelement.prio.toString()).group();
+      }
       this.cmgroup.attr({
         id: ('g' + id),
         title: id
@@ -79,7 +79,7 @@ export class CmlineComponent implements OnInit, OnChanges, OnDestroy {
         let oldm = s.select('#m' + id);
         if (oldm) {
           oldm.remove();
-          console.log('removed');
+          console.log(id);
         }
         let mgroup = s.select('#cmm' + this.cmelement.prio.toString()).group();
         mgroup.attr({
@@ -120,6 +120,7 @@ export class CmlineComponent implements OnInit, OnChanges, OnDestroy {
       }
       this.cmgroup.mousedown( () => {
           if (document.getElementById('TPid') !== undefined) {
+            // console.log('cmline.component: mousedown');
             document.getElementById('TPid').title = id;
             // console.log(document.getElementById('TPid').title);
           }
@@ -176,10 +177,6 @@ export class CmlineComponent implements OnInit, OnChanges, OnDestroy {
   // projects template windows to preview window
   public projectTemplate(cmsvg, id) {
     let stb = Snap('#templatesvg');
-    let TempCMElSVG = stb.select('#tempCMEl');
-    if (TempCMElSVG) {
-      TempCMElSVG.remove();
-    }
     let bbox = cmsvg.getBBox();
     let innertcmo = cmsvg.innerSVG();
     console.log(innertcmo);
@@ -187,7 +184,7 @@ export class CmlineComponent implements OnInit, OnChanges, OnDestroy {
     let stbcmo = Snap.parse(innertcmo);
     let gt = stb.group().append(stbcmo);
     gt.attr({
-      id: ('tempCMEl'),
+      id: ('gt' + id),
       title: id
     });
     gt.transform('s' + scaling);
@@ -295,11 +292,12 @@ export class CmlineComponent implements OnInit, OnChanges, OnDestroy {
       this.cmel.prep1 = prep1;
       this.cmelement.prep1 = prep1;
       // console.log('marker update');
+      this.elementService.updateCMEol(this.cmel); /*
       if (this.cmel.state === 'selected') {
         this.elementService.updateSelCMEl(this.cmel);
       } else {
         this.elementService.updateCMEol(this.cmel);
-      }
+      }*/
     }
   }
 

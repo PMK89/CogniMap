@@ -32,6 +32,7 @@ export class EventService {
   public id: number;
   public keyPressed: string[] = [];
   public selecting = false;
+  public marking = false;
   public cmaction: CMAction = new CMAction();
   public prevSelCMEo: CMEo[] = [];
   public selCMEo: any;
@@ -122,26 +123,56 @@ export class EventService {
   // handles mouse click
   public onMouseClick(evt) {
     // executed if new elements should be created
+    if (this.cmsettings.mode !== 'dragging') {
+      // console.log('event.service: onMouseClick');
+      this.clickX = evt.clientX + this.windowService.WinXOffset;
+      this.clickY = evt.clientY + this.windowService.WinYOffset;
+      if (this.cmsettings.mode === 'new') {
+        // console.log(evt.target);
+        if (parseInt(evt.target.title, 10) < 0 || evt.target.id === 'cmap'
+         || evt.target.id === 'cmsvg') {
+          let coor = {
+            x: this.clickX,
+            y: this.clickY
+          };
+          // console.log(coor);
+          let oldcme = JSON.parse(JSON.stringify(this.elementService.selCMEo));
+          this.elementService.newCMEo(oldcme, coor);
+        } else if (parseInt(evt.target.title, 10) > 0) {
+          this.elementService.setSelectedCME(parseInt(evt.target.title, 10));
+        }
+      }
+    }
+  }
+
+  // handles mouse down
+  public onMouseDown(evt) {
+    // used in edit mode to drag
+    // console.log('event.service: onMouseDown');
     this.clickX = evt.clientX + this.windowService.WinXOffset;
     this.clickY = evt.clientY + this.windowService.WinYOffset;
-    if (this.cmsettings.mode === 'new') {
-      // console.log(evt.target);
-      if (parseInt(evt.target.title, 10) < 0 || evt.target.id === 'cmap'
-       || evt.target.id === 'cmsvg') {
-        let coor = {
-          x: this.clickX,
-          y: this.clickY
-        };
-        // console.log(coor);
-        let oldcme = JSON.parse(JSON.stringify(this.elementService.selCMEo));
-        this.elementService.newCMEo(oldcme, coor);
-      } else if (parseInt(evt.target.title, 10) > 0) {
-        this.elementService.setSelectedCME(parseInt(evt.target.title, 10));
+    if (this.cmsettings.mode === 'dragging' || this.cmsettings.mode === 'selecting'
+    || this.cmsettings.mode === 'marking' ) {
+      this.startX = this.clickX;
+      this.startY = this.clickY;
+      this.dragX = 0;
+      this.dragY = 0;
+      if (this.cmsettings.mode === 'selecting') {
+        if ((typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '')
+        || evt.target.id === 'cmap'
+        || evt.target.id === 'cmsvg') {
+          this.elementService.clearAreaSelection();
+          this.selecting = true;
+        }
+      } else if (this.cmsettings.mode === 'marking') {
+        if (typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '') {
+          this.elementService.clearAreaSelection();
+          this.marking = true;
+        }
       }
     } else if (this.cmsettings.mode === 'pointing') {
-      if (typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== ''
-      || evt.target.id === 'cmap'
-      || evt.target.id === 'cmsvg') {
+      if ((typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '')
+      || evt.target.id === 'cmap' || evt.target.id === 'cmsvg') {
           let coor = {
             x: this.clickX,
             y: this.clickY
@@ -152,27 +183,6 @@ export class EventService {
            (typeof parseInt(evt.target.title, 10) === 'number'));
            */
           this.elementService.newPointer(coor);
-      }
-    }
-  }
-
-  // handles mouse down
-  public onMouseDown(evt) {
-    // used in edit mode to drag
-    this.clickX = evt.clientX + this.windowService.WinXOffset;
-    this.clickY = evt.clientY + this.windowService.WinYOffset;
-    if (this.cmsettings.mode === 'dragging' || this.cmsettings.mode === 'selecting') {
-      this.startX = this.clickX;
-      this.startY = this.clickY;
-      this.dragX = 0;
-      this.dragY = 0;
-      if (this.cmsettings.mode === 'selecting') {
-        if (typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== ''
-        || evt.target.id === 'cmap'
-        || evt.target.id === 'cmsvg') {
-          this.elementService.clearAreaSelection();
-          this.selecting = true;
-        }
       }
     }
   }
@@ -207,7 +217,23 @@ export class EventService {
               display: 'none'
             };
           }
-
+        } else if (this.cmsettings.mode === 'marking') {
+          if (this.marking) {
+            if (this.cmsettings) {
+              return {
+                'left': Math.min(coor.x, this.startX),
+                'top': Math.min(coor.y, this.startY),
+                'width': Math.abs(coor.x - this.startX),
+                'height': Math.abs(coor.y - this.startY),
+                'opacity': this.cmsettings.cmtbmarking.trans,
+                'background-color': this.cmsettings.cmtbmarking.color0
+              };
+            }
+          } else {
+            return {
+              display: 'none'
+            };
+          }
         }
       });
   }
@@ -215,21 +241,28 @@ export class EventService {
   // handles mouse up
   public onMouseUp(evt) {
     // used in edit mode to drag
+    console.log('event.service: onMouseUp');
     if (this.cmsettings.mode === 'dragging') {
       this.dragX = evt.clientX  + this.windowService.WinXOffset - this.startX;
       this.dragY = evt.clientY + this.windowService.WinYOffset - this.startY;
       this.elementService.moveElement(this.dragX, this.dragY);
       // console.log(this.dragX, this.dragY);
-    } else if (this.cmsettings.mode === 'selecting') {
-      if (typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== ''
-      || evt.target.id === 'cmap'
+    } else if (this.cmsettings.mode === 'selecting' || this.cmsettings.mode === 'marking') {
+      console.log(evt.target);
+      if ((typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '')
+      || evt.target.id === 'cmap' || evt.target.id === 'selection'
       || evt.target.id === 'cmsvg') {
         let x0 = Math.min((evt.clientX  + this.windowService.WinXOffset), this.startX);
         let y0 = Math.min((evt.clientY  + this.windowService.WinYOffset), this.startY);
         let x1 = x0 + Math.abs((evt.clientX  + this.windowService.WinXOffset) - this.startX);
         let y1 = y0 + Math.abs((evt.clientY  + this.windowService.WinYOffset) - this.startY);
-        this.elementService.areaSelection(x0, y0, x1, y1);
-        this.selecting = false;
+        if (this.cmsettings.mode === 'selecting') {
+          this.elementService.areaSelection(x0, y0, x1, y1);
+          this.selecting = false;
+        } else if (this.cmsettings.mode === 'marking') {
+          this.elementService.newCMMarking(x0, y0, x1, y1);
+          this.marking = false;
+        }
       }
     }
   }
@@ -266,7 +299,7 @@ export class EventService {
       }
       if (content.cat !== 'r') {
         this.selCMEo.cmobject.content.push(content);
-        this.selCMEo.state = 'selected';
+        this.selCMEo.state = 'new';
         this.elementService.updateSelCMEo(this.selCMEo);
         this.cmsettings.mode = 'edit';
         this.settingsService.updateSettings(this.cmsettings);
@@ -345,7 +378,10 @@ export class EventService {
     }
     if (this.keyPressed.indexOf('Delete') !== -1) {
       // deletes latest marked object
-      // console.log('delete');
+      if (this.cmsettings.mode === 'marking') {
+        this.cmsettings.mode = 'edit';
+        this.settingsService.updateSettings(this.cmsettings);
+      }
       this.delCmd();
     }
     if (this.keyPressed.indexOf('Control') !== -1) {
@@ -395,6 +431,13 @@ export class EventService {
           this.cmsettings.mode = 'dragging';
         }
         this.settingsService.updateSettings(this.cmsettings);
+      } else if (this.keyPressed.indexOf('m') !== -1) {
+        if (this.cmsettings.mode === 'marking') {
+          this.cmsettings.mode = 'edit';
+        } else {
+          this.cmsettings.mode = 'marking';
+        }
+        this.settingsService.updateSettings(this.cmsettings);
       } else if (this.keyPressed.indexOf('s') !== -1) {
         if (this.cmsettings.mode === 'selecting') {
           this.cmsettings.mode = 'edit';
@@ -408,7 +451,7 @@ export class EventService {
           let arg = this.electronService.ipcRenderer.sendSync('getClipboard', '1');
           if (this.selCMEo) {
             if (arg['type']) {
-              if (['png', 'xml', 'html', 'svg', 'jsme-svg'].indexOf(arg.type) !== -1) {
+              if (['png', 'LateX', 'html', 'svg', 'jsme-svg'].indexOf(arg.type) !== -1) {
                 // console.log(arg);
                 let content = {
                   cat: 'r',
@@ -428,7 +471,7 @@ export class EventService {
                   content.cat = arg.type;
                 }
                 this.selCMEo.cmobject.content.push(content);
-                this.selCMEo.state = 'selected';
+                this.selCMEo.state = 'new';
                 this.elementService.updateSelCMEo(this.selCMEo);
               } else if (arg.type === 'text') {
                 console.log('text: ', arg);

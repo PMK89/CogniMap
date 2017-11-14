@@ -12,7 +12,7 @@ export class TbNavigationComponent implements OnInit {
   @Input() public cmsettings: CMSettings;
   public widget0: string;
   public widget1: string;
-  public widgets: string[] = ['none', 'equation', 'formula', 'svg', 'media'];
+  public widgets: string[] = ['none', 'equation', 'formula', 'svg', 'navigator', 'codeeditor'];
 
   constructor(private settingsService: SettingsService) {
     this.settingsService.cmsettings
