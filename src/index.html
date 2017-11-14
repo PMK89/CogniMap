@@ -1,23 +1,41 @@
-
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>CogniMap</title>
 
-  <script>
-    document.write('<base href="' + document.location + '" />');
-    // Prod: uncomment below for electron implementation
-    // window.snap = require('snapsvg');
-    // window.eve = require('eve');
-    // var electron = require('electron');
-  </script>
+  <meta name="description" content="<%= htmlWebpackPlugin.options.title %>">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <% if (webpackConfig.htmlElements.headTags) { %>
+  <!-- Configured Head Tags  -->
+  <%= webpackConfig.htmlElements.headTags %>
+  <% } %>
+
+  <!-- base url -->
+  <base href="<%= htmlWebpackPlugin.options.metadata.baseUrl %>">
+
+  <script src = "assets/snap.svg.js">  </script>
+
+
 </head>
+
 <body>
+
   <app-root>
-    loading...
+    Loading...
   </app-root>
+  <svg id="snapsvg"></svg>
+
+  <!-- Google Analytics: change UA-71073175-1 to be your site's ID -->
+
+  <% if (htmlWebpackPlugin.options.metadata.isDevServer && htmlWebpackPlugin.options.metadata.HMR !== true) { %>
+  <!-- Webpack Dev Server reload -->
+  <script src="/webpack-dev-server.js"></script>
+  <% } %>
+
+
 </body>
 </html>

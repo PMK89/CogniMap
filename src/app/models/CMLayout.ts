@@ -1,14 +1,12 @@
 import { CMCoor } from './CMCoor';
 
 export class CMLayout {
-  pos: CMCoor;
-  z_pos: number;
-  width: number;
-  height: number;
-  trans: number;
-  position: string;
-  border: boolean;
-  b_width: number;
-  b_color: string;
-  vis: boolean;
+  public left: number;
+  public top: number;
+  public 'z-index': number;
+  public width: number;
+  public height: number;
+  public opacity: number;
+  public position: string;
+  public display: string;
 }

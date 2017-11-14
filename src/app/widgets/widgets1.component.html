@@ -1,0 +1,17 @@
+<div id="widget1">
+  <div *ngIf="widget1==='equation'">
+     <iframe #iframe1 id="iframe1" src="assets/widgets/equation-editor-master/src/app/html/EquationEditor.html" [style.height]="w1height" [style.width]="w1width" (click)="cminterface1()"></iframe>
+  </div>
+  <div *ngIf="widget1==='formula'">
+     <iframe #iframe1 id="iframe1" src="assets/widgets/JSME/JSME_editor_plus_SVG.html" [style.height]="w1height" [style.width]="w1width" (click)="cminterface1()"></iframe>
+  </div>
+  <div *ngIf="widget1==='svg'">
+     <iframe #iframe1 id="iframe1" src="assets/widgets/svgeditor/svg-editor.html" [style.height]="w1height" [style.width]="w1width" (click)="cminterface1()"></iframe>
+  </div>
+  <div *ngIf="widget1==='media'">
+     <iframe #iframe1 id="iframe1" src="assets/widgets/mediaviewer/index.html" [style.height]="w1height" [style.width]="w1width" (click)="cminterface1()"></iframe>
+  </div>
+  <div *ngIf="widget1==='none'">
+     <iframe #iframe1 id="iframe1" src="" height="0%" width="0%" (click)="cminterface1()"></iframe>
+  </div>
+</div>

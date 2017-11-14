@@ -1,4 +1,4 @@
-import { Component, Renderer, ViewChild, ElementRef } from '@angular/core';
+import { Component, Renderer, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 // services 5624535178
@@ -7,34 +7,76 @@ import { WindowService } from './shared/window.service';
 import { EventService } from './shared/event.service';
 import { ElementService } from './shared/element.service';
 import { SettingsService } from './shared/settings.service';
+import { TemplateService } from './shared/template.service';
 
 // electron specific 12179045330235230182
 // declare var electron: any;
 // const ipc = electron.ipcRenderer;
 
 // models and reducers
-import { CMEStore } from './models/cmestore';
+import { CMStore } from './models/CMStore';
 import { CMSettings } from './models/CMSettings';
-
-// components
-import { CmapComponent } from './cmap/cmap.component';
+import { CMLayout } from './models/CMLayout';
+import { CMAction } from './models/CMAction';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent {
-  layout: Object;
-  parameters: Object;
-  cmsettings: Object;
-  @ViewChild('TPid') tpid: ElementRef;
+export class AppComponent implements AfterViewInit {
+  public layout: any;
+  public parameters: any;
+  public cmsettings: CMSettings;
+  public cmaction: CMAction = new CMAction();
+  public toolbar0_style: any = this.layoutService.toolbar0_style;
+  public toolbar1_style: any = this.layoutService.toolbar1_style;
+  public cmap_style: any = this.layoutService.cmap_style;
+  public menue_style: any = this.layoutService.menue_style;
+  public widgets0_style: any = this.layoutService.widgets0_style;
+  public widgets1_style: any = this.layoutService.widgets1_style;
+  @ViewChild('TPid') public tpid: ElementRef;
+  @ViewChild('TPmaxid') public tpmaxid: ElementRef;
+  @ViewChild('TPy') public tpy: ElementRef;
+  private sizesset = false;
 
-  @ViewChild(CmapComponent)
-  private cmapComponent: CmapComponent;
+  constructor(private layoutService: LayoutService,
+              private windowService: WindowService,
+              private settingsService: SettingsService,
+              private elementService: ElementService,
+              private templateService: TemplateService,
+              private eventService: EventService,
+              private store: Store<CMStore>,
+              private renderer: Renderer) {
+                this.windowService.setSize(window.innerWidth, window.innerHeight);
+                this.windowService.setOffset(window.pageXOffset, window.pageYOffset);
+                this.settingsService.getSettings();
+                console.log(this.windowService.getSize());
+                this.windowService.getParameters(window.pageXOffset, window.pageYOffset);
+                this.elementService.getMaxID();
+                this.settingsService.getButtons();
+                this.settingsService.getColors();
+                this.settingsService.cmsettings
+                  .subscribe(
+                    (data) => {
+                      if (data) {
+                        this.cmsettings = data;
+                        // console.log(data);
+                        this.setSizes(data);
+                      }
+                    },
+                    (error) => console.log(error)
+                  );
+                // Sends Window Parameters
+              }
 
-  ngAfterViewInit() {
+  // after viewinit
+  public ngAfterViewInit() {
+    console.log('cminterface');
+    this.windowService.setOffset(window.pageXOffset, window.pageYOffset);
+    window.scrollTo(this.cmsettings.coor.x, this.cmsettings.coor.y);
     this.renderer.listenGlobal('window', 'scroll', (evt) => {
-      this.cmapComponent.getData(this.windowService.getParameters(window.pageXOffset, window.pageYOffset));
+      this.elementService.getElements(this.windowService.getParameters(
+        window.pageXOffset, window.pageYOffset));
     });
     this.renderer.listenGlobal('window', 'resize', (evt) => {
       this.windowService.setSize(window.innerWidth, window.innerHeight);
@@ -49,103 +91,116 @@ export class AppComponent {
     this.renderer.listenGlobal('window', 'click', (evt) => {
       this.eventService.onMouseClick(evt);
     });
-    //  ipc.on('snap-out', function (event, arg) {
-    //   console.log(arg);
-    // });
+    this.renderer.listenGlobal('window', 'keydown', (evt) => {
+      this.eventService.onKeyDown(evt);
+      // console.log(evt.key);
+    });
+    this.renderer.listenGlobal('window', 'keyup', (evt) => {
+      this.eventService.onKeyUp(evt);
+      // console.log(evt.key);
+    });
   }
 
+  public setLayout(style: CMLayout, name: string) {
+    // console.log(style);
+    this.layoutService[name].position = style.position;
+    this.layoutService[name].left = style.left.toString() + 'px';
+    this.layoutService[name].top = style.top.toString() + 'px';
+    this.layoutService[name].width = style.width.toString() + 'px';
+    this.layoutService[name].height = style.height.toString() + 'px';
+    this.layoutService[name].opacity = style.opacity;
+    this.layoutService[name].display = style.display;
+  }
 
-  constructor(private layoutService: LayoutService,
-              private windowService: WindowService,
-              private settingsService: SettingsService,
-              private elementService: ElementService,
-              private eventService: EventService,
-              private store: Store<CMEStore>,
-              private renderer: Renderer) {
-                // Catches Data from Layout-Service
-                // Specially for Sophia: uncomment if you load new buttons, colors or settings
-                // this.settingsService.setColors(); // uncomment to load colors from JSON-File
-                // this.settingsService.setButtons(); // uncomment to load buttons from JSON-File
-                // this.settingsService.setSettings(); // uncomment to load settings from JSON-File
-                // this.elementService.setTemplates(); // uncomment to load settings from JSON-File
-                this.elementService.getTemplates();
-                this.settingsService.getSettings();
-                this.settingsService.getButtons();
-                this.settingsService.getColors();
-                /*
-                this.settingsService.cmsettings
-                    .subscribe(data => {
-                      this.cmsettings = data;
-                      // console.log(data);
-                    });
-                */
-                this.layoutService.getLayout()
-                  .subscribe(
-                    data => {
-                      this.cmsettings = data[0];
-                      this.setSizes();
-                      let action = {type: 'ADD_CMS_FROM_DB', payload: data[0] };
-                      this.store.dispatch(action);
-                    },
-                    error => console.log(error)
-                   );
-                // Sends Window Parameters
-                this.windowService.setSize(window.innerWidth, window.innerHeight);
-                this.renderer.listenGlobal('window', 'scroll', (evt) => {
-                  this.windowService.setOffset(window.pageXOffset, window.pageYOffset); });
-                console.log(this.windowService.getSize());
-                this.windowService.scrollXY(5000, 100000);
-              }
-
-  setLayout(id) {
-    if ( this.cmsettings ) {
-      let styles;
-      if ( this.cmsettings[id] ) {
-        styles = {
-          // CSS property names
-          'position': this.cmsettings[id].position,
-          'left': this.cmsettings[id].pos.x + 'px',
-          'top': this.cmsettings[id].pos.y + 'px',
-          'width': this.cmsettings[id].width + 'px',
-          'height': this.cmsettings[id].height + 'px',
-          'opacity': this.cmsettings[id].trans,
-          'background-color': this.cmsettings['style'].bgcolor,
-          'display': 'none'
-        };
-        if (this.cmsettings[id].vis === true) {
-          styles.display = 'block';
+  // detects changes in third-party controlled elements.
+  public changedetect() {
+    let tpidval = this.tpid.nativeElement.title;
+    // let tpyval = this.tpy.nativeElement.title;
+    let id = parseInt(tpidval, 10);
+    if (id >= 1) {
+      if (this.elementService.selCMEo) {
+        if (this.elementService.selCMEo.id === id) {
+          console.log(this.cmsettings.mode);
+          if (this.cmsettings.mode === 'edit') {
+            this.cmaction.variable = ['state'];
+            this.cmaction.value = 'typing';
+            this.elementService.changeCMEo(this.cmaction);
+            this.cmsettings.mode = 'typing';
+            this.settingsService.updateSettings(this.cmsettings);
+          }
+        } else {
+          if (this.cmsettings.mode === 'connecting') {
+            this.elementService.newConnector(id);
+          }
+          this.elementService.setSelectedCME(id);
         }
       } else {
-        styles = {
-          // CSS property names
-          'position': 'relative',
-          'left': 0,
-          'top': 0,
-          'width': 0,
-          'height': 0,
-          'opacity': 0,
-          'background-color': '#ffffff',
-          'display': 'none'
-        };
-        console.log('ID not known');
-      };
-      return styles;
+        this.elementService.setSelectedCME(id);
+      }
+    } else if (id < -1) {
+      this.eventService.selCMElTime = Date.now();
+      this.elementService.setSelectedCME(id);
     }
-  }
-  // detects changes in third-party controlled elements.
-  changedetect() {
-    let tpidval = this.tpid.nativeElement.title;
+    this.tpid.nativeElement.title = '0';
     // console.log('FUCK YEAH: ', tpidval);
   }
 
   // creates exact position for layout
-  setSizes() {
+  public setSizes(cmsettings: CMSettings ) {
     if (this.cmsettings) {
-      this.cmsettings['tblayout1'].width = this.windowService.Win_Width;
-      this.cmsettings['wlayout0'].pos.y = this.cmsettings['tblayout1.height'];
-      this.cmsettings['wlayout0'].height = (this.windowService.Win_Height - this.cmsettings['tblayout1'].height) / 2;
-      this.cmsettings['wlayout1'].pos.y = this.cmsettings['tblayout1'].height + this.cmsettings['wlayout0'].height;
-      this.cmsettings['wlayout1'].height = (this.windowService.Win_Height - this.cmsettings['tblayout1'].height) / 2;
+      if (this.cmsettings.mode === 'view') {
+        if (this.toolbar0_style.display === 'none') {
+          this.cmsettings['tblayout0'].display = 'block';
+          this.cmsettings['tblayout1'].display = 'none';
+          this.cmsettings['wlayout0'].display = 'none';
+          this.cmsettings['wlayout1'].display = 'none';
+          this.setLayout(this.cmsettings['tblayout0'], 'toolbar0_style');
+          this.setLayout(this.cmsettings['tblayout1'], 'toolbar1_style');
+          this.setLayout(this.cmsettings['wlayout0'], 'widgets0_style');
+          this.setLayout(this.cmsettings['wlayout1'], 'widgets1_style');
+          this.settingsService.updateSettings(this.cmsettings);
+        }
+      } else {
+        if (this.toolbar0_style.display === 'block') {
+          this.cmsettings['tblayout0'].display = 'none';
+          this.cmsettings['tblayout1'].display = 'block';
+          if (this.cmsettings.widget0 !== 'none') {
+            this.cmsettings['wlayout0'].display = 'block';
+            this.setLayout(this.cmsettings['wlayout0'], 'widgets0_style');
+          }
+          if (this.cmsettings.widget1 !== 'none') {
+            this.cmsettings['wlayout1'].display = 'block';
+            this.setLayout(this.cmsettings['wlayout1'], 'widgets1_style');
+          }
+          this.setLayout(this.cmsettings['tblayout0'], 'toolbar0_style');
+          this.setLayout(this.cmsettings['tblayout1'], 'toolbar1_style');
+          this.settingsService.updateSettings(this.cmsettings);
+        }
+      }
+      if (this.cmsettings.wlayout0.display !== this.layoutService.widgets0_style.display) {
+        this.setLayout(this.cmsettings['wlayout0'], 'widgets0_style');
+        this.settingsService.updateSettings(this.cmsettings);
+      }
+      if (this.cmsettings.wlayout1.display !== this.layoutService.widgets1_style.display) {
+        this.setLayout(this.cmsettings['wlayout1'], 'widgets1_style');
+        this.settingsService.updateSettings(this.cmsettings);
+      }
+      // console.log('setSizes');
+      if (this.sizesset === false) {
+        this.cmsettings['tblayout1'].width = this.windowService.WinWidth;
+        this.cmsettings['wlayout0'].top = this.cmsettings['tblayout1'].height;
+        this.cmsettings['wlayout0'].height = (this.windowService.WinHeight -
+          this.cmsettings['tblayout1'].height) / 2;
+        this.cmsettings['wlayout1'].top = this.cmsettings['tblayout1'].height +
+          this.cmsettings['wlayout0'].height;
+        this.cmsettings['wlayout1'].height = (this.windowService.WinHeight -
+          this.cmsettings['tblayout1'].height) / 2;
+        this.sizesset = true;
+        this.setLayout(this.cmsettings['tblayout1'], 'toolbar1_style');
+        this.setLayout(this.cmsettings['wlayout0'], 'widgets0_style');
+        this.setLayout(this.cmsettings['wlayout1'], 'widgets1_style');
+        this.settingsService.updateSettings(this.cmsettings);
+      }
     }
   }
 }

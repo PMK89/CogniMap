@@ -1,0 +1,156 @@
+[
+  {
+    "cmap": {
+      "display": "block",
+      "height": 200000,
+      "left": 0,
+      "opacity": 1,
+      "position": "absolute",
+      "top": 0,
+      "width": 200000,
+      "z-index": 0
+    },
+    "cmtbfont": {
+      "buttons": "tbfont",
+      "color": "tbfont",
+      "font": [
+        "\"Times New Roman\", Times, serif",
+        "Arial, Helvetica, sans-serif",
+        "\"Comic Sans MS\", cursive, sans-serif",
+        "\"Courier New\", Courier, monospace",
+        "\"Monotype Corsiva\", \"Apple Chancery\", \"ITC Zapf Chancery\", \"URW Chancery L\", cursive"
+      ],
+      "size": [
+        "++--",
+        "1",
+        "cmobject",
+        "style",
+        "title",
+        "size"
+      ]
+    },
+    "cmtbline": {
+      "buttons": "tbline",
+      "color0": "tbline0",
+      "color1": "tbline1",
+      "size0": [
+        "++--",
+        "1",
+        "cmline",
+        "size0"
+      ],
+      "size1": [
+        "++--",
+        "1",
+        "cmline",
+        "size1"
+      ],
+      "trans": [
+        "++--",
+        "10",
+        "cmline",
+        "trans"
+      ],
+      "z_pos": [
+        "++--",
+        "1",
+        "prio"
+      ]
+    },
+    "cmtbobject": {
+      "buttons": "tbobject",
+      "color0": "tbobject0",
+      "color1": "tbobject1",
+      "trans": [
+        "++--",
+        "10",
+        "cmobject",
+        "trans"
+      ],
+      "z_pos": [
+        "++--",
+        "1",
+        "prio"
+      ]
+    },
+    "coor": {
+      "x": 51309,
+      "y": 54430
+    },
+    "debug": true,
+    "dev": false,
+    "dirty": true,
+    "dragging": false,
+    "id": 1,
+    "menue": {
+      "display": "block",
+      "height": 400,
+      "left": 0,
+      "opacity": 0.8,
+      "position": "absolute",
+      "top": 0,
+      "width": 600,
+      "z-index": 490
+    },
+    "mode": "edit",
+    "style": {
+      "bgcolor": "#ffffff",
+      "boxclass": "boxdefault",
+      "btnbgcolor0": "#ffffff",
+      "btnbgcolor1": "#f1f1f1",
+      "btnbordercolor": "#00004d",
+      "btnclass": "btndefault",
+      "btnclickcolor": "#0099cc",
+      "btncontentcolor": "#000066",
+      "btndeactcolor": "#bfbfbf",
+      "font": "\"Lucida Grande\", Helvetica, Arial, Sans-Serif",
+      "fontcolor": "#000000",
+      "fontsize": 12,
+      "linecolor": "#0f0f0f",
+      "name": "default",
+      "shadowcolor": "#4f4f4f"
+    },
+    "tblayout0": {
+      "display": "none",
+      "height": 20,
+      "left": 0,
+      "opacity": 0.8,
+      "position": "fixed",
+      "top": 0,
+      "width": 150,
+      "z-index": 510
+    },
+    "tblayout1": {
+      "display": "block",
+      "height": 80,
+      "left": 0,
+      "opacity": 0.8,
+      "position": "fixed",
+      "top": 0,
+      "width": 1920,
+      "z-index": 515
+    },
+    "widget0": "none",
+    "widget1": "none",
+    "wlayout0": {
+      "display": "none",
+      "height": 455,
+      "left": 0,
+      "opacity": 0.8,
+      "position": "fixed",
+      "top": 80,
+      "width": 600,
+      "z-index": 510
+    },
+    "wlayout1": {
+      "display": "none",
+      "height": 455,
+      "left": 0,
+      "opacity": 0.8,
+      "position": "fixed",
+      "top": 535,
+      "width": 600,
+      "z-index": 510
+    }
+  }
+]

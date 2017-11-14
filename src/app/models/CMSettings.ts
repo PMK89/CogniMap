@@ -5,21 +5,23 @@ import { CMTBObject } from './CMTBObject';
 import { CMTBFont } from './CMTBFont';
 import { CMTBLine } from './CMTBLine';
 
-
 export class CMSettings {
-  id: number;
-  mode: string;
-  coor: CMCoor;
-  style: CMStyle;
-  debug: boolean;
-  dragging: boolean;
-  cmap: CMLayout;
-  tblayout0: CMLayout;
-  tblayout1: CMLayout;
-  wlayout0: CMLayout;
-  wlayout1: CMLayout;
-  menue: CMLayout;
-  cmtbobject: CMTBObject;
-  cmtbfont: CMTBFont;
-  cmtbline: CMTBLine;
+  public id: number;
+  public mode: string;
+  public coor: CMCoor;
+  public style: CMStyle;
+  public debug: boolean;
+  public dev: boolean;
+  public dragging: boolean;
+  public cmap: CMLayout;
+  public tblayout0: CMLayout;
+  public tblayout1: CMLayout;
+  public wlayout0: CMLayout;
+  public widget0: string;
+  public wlayout1: CMLayout;
+  public widget1: string;
+  public menue: CMLayout;
+  public cmtbobject: CMTBObject;
+  public cmtbfont: CMTBFont;
+  public cmtbline: CMTBLine;
 }

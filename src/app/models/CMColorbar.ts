@@ -1,12 +1,12 @@
 export class CMColorbar {
-  id: number;
-  name: string;
-  group: string;
-  cat: string;
-  prio: number;
-  var: [string];
-  colors: [String];
-  cuppled: boolean;
-  secured: boolean;
-  blocked: boolean;
+  public id: number;
+  public name: string;
+  public group: string;
+  public cat: string;
+  public prio: number;
+  public variable: string[];
+  public colors: string[];
+  public cuppled: boolean;
+  public secured: boolean;
+  public blocked: boolean;
 }

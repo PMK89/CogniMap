@@ -1,7 +1,14 @@
 table {
     border-collapse: collapse;
-    border: 0px;
-    padding: 0px;
+    border-spacing: 0;
+    border: 0;
+    padding: 0;
+}
+
+td, th {
+  spacing: 0px;
+  border: 0px;
+  padding: 0px;
 }
 
 .btnclass {
@@ -9,8 +16,8 @@ table {
     width: 10px;
     padding-top: 0px;
     padding-left: 0px;
-	border-width: 1px;
-	border-color: #808080;
+	  border-width: 1px;
+	  border-color: #808080;
     color: #000000;
     text-align: center;
     font-size: 10px;
@@ -19,4 +26,6 @@ table {
 .inputclass {
     height: 20px;
     width: 40px;
+    padding: 0;
+    border-spacing: 0;
 }

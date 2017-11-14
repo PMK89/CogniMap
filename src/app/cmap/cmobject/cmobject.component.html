@@ -1,14 +1,5 @@
-<div [ngStyle]="objectStyle" [ngClass]="objectClass" [title]="cmelement.id">
-  <svg [attr.id]="svgid" style="position: relative; left: 0px; top: 0px; width: 0px; height: 0px; z-index: -10"></svg>
-  <div *ngIf="!TextInput" #textfield [title]="cmelement.id" [ngStyle]="textStyle" [ngClass]="textClass">
-    {{cmelement.title}}
-  </div>
-  <div *ngIf="TextInput" [title]="cmelement.id" [ngStyle]="textStyle" [ngClass]="textClass">
-    <input #box value="{{cmelement.title}}"
-      (keyup.enter)="passText(box.value)"
-      (blur)="passText(box.value)">
-  </div>
-  <div *ngFor="let content of cmelement.cmobject.content">
-    <app-cmcontent *ngIf="content" [content]="content" [ngStyle]="contentPos(content)"></app-cmcontent>
-  </div>
+<div *ngIf="TextInput" [title]="cmelement.id" [ngStyle]="textStyle" [ngClass]="textClass">
+    <input #box [(ngModel)]="inputtext"
+      (keyup)="updateText(inputtext)"
+      (keyup.enter)="passText(inputtext)">
 </div>

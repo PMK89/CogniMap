@@ -6,9 +6,9 @@ import { SettingsService } from'../settings.service';
 
 // models and reducers
 import { CMButton } from '../../models/CMButton';
-import { CMElement } from '../../models/CMElement';
+import { CMEo } from '../../models/CMEo';
+import { CMEl } from '../../models/CMEl';
 import { CMStore } from '../../models/CMStore';
-
 
 @Component({
   selector: 'app-numberchange',
@@ -17,65 +17,83 @@ import { CMStore } from '../../models/CMStore';
 })
 
 export class NumberchangeComponent implements OnInit {
-  @Input() buttons: Observable<Array<CMButton>>;
-  @Input() selector: number;
-  value: number;
-  button: CMButton;
-  currentElement: Observable<CMElement>;
+  @Input() public buttons: Observable<CMButton[]>;
+  @Input() public selector: number;
+  public value: number;
+  public button: CMButton;
+  public selCMEo: Observable<CMEo>;
+  public selCMEl: Observable<CMEl>;
 
   constructor(private elementService: ElementService,
               private settingsService: SettingsService,
               private store: Store<CMStore>
               ) {
-                this.currentElement = store.select('selectedElement');
+                this.selCMEo = store.select('selectedcmeo');
+                this.selCMEl = store.select('selectedcmel');
                }
 
   ngOnInit() {
   }
 
   // handles changes by increase and decrease button
-  changenumber(num) {
+  public changenumber(num) {
     let action = {
       value: this.value + num,
-      var: this.button.var
+      variable: this.button.variable
     };
     this.value = this.value + num;
-    this.setnumber(action);
+    if (this.button.cat === 'tbline') {
+      this.setnumberl(action);
+    } else {
+      this.setnumbero(action);
+    }
     // console.log(action);
   }
 
   // handles changes by increase and decrease button
-  writenumber(value) {
+  public writenumber(value) {
     let num = Math.round(parseInt(value, 10) * 10 ) * 0.1;
     let action = {
       value: num,
-      var: this.button.var
+      variable: this.button.variable
     };
     this.value = num;
-    this.setnumber(action);
+    if (this.button.cat === 'tbline') {
+      this.setnumberl(action);
+    } else {
+      this.setnumbero(action);
+    }
     // console.log(action);
   }
 
   // Sets number
-  setbutton(button) {
+  public setbutton(button) {
     // console.log('button');
-    if (this.currentElement) {
-      this.currentElement.subscribe(cmelement => {
+    let selElem;
+    if (button.cat === 'tbline') {
+      selElem = this.selCMEl;
+    } else {
+      selElem = this.selCMEo;
+    }
+    if (selElem) {
+      selElem.subscribe((cmelement) => {
         if (cmelement) {
-          let n = button.var.length;
+          let n = button.variable.length;
           switch (n) {
             case 1:
-              this.value = cmelement[button.var[0]];
+              this.value = cmelement[button.variable[0]];
               break;
             case 2:
-              this.value = cmelement[button.var[0]][button.var[1]];
+              this.value = cmelement[button.variable[0]][button.variable[1]];
               break;
             case 3:
-              this.value = cmelement[button.var[0]][button.var[1]][button.var[2]];
+              this.value = cmelement[button.variable[0]][button.variable[1]][button.variable[2]];
               break;
             case 4:
-              this.value = cmelement[button.var[0]][button.var[1]][button.var[2]][button.var[3]];
+              this.value = cmelement[button.variable[0]][button.variable[1]][button.variable[2]][button.variable[3]];
               break;
+            default:
+              this.value = 1;
           }
         }
       });
@@ -83,9 +101,14 @@ export class NumberchangeComponent implements OnInit {
     this.button = button;
   }
 
-  // Sets number
-  setnumber(action) {
-    this.elementService.changeElement(action);
+  // Sets number on CMEo
+  public setnumbero(action) {
+    this.elementService.changeCMEo(action);
+  }
+
+  // Sets number on CMEl
+  public setnumberl(action) {
+    this.elementService.changeCMEl(action);
   }
 
 }

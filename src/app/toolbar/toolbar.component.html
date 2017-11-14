@@ -1,20 +1,25 @@
 <table id="toolbar">
  <tr>
    <td>
-     <app-tb-navigation></app-tb-navigation>
+     <app-tb-navigation [cmsettings]="cmsettings"></app-tb-navigation>
+   </td>
+   <td>
+     <app-tb-templates [cmsettings]="cmsettings"></app-tb-templates>
    </td>
    <td>
      <app-tb-settings [cmsettings]="cmsettings"></app-tb-settings>
    </td>
    <td>
-     <app-tb-object [cmtbobject]="cmsettings.cmtbobject"></app-tb-object>
-   </td>
-   <td>
      <app-tb-font [cmtbfont]="cmsettings.cmtbfont"></app-tb-font>
    </td>
-   <td>
+   <td *ngIf="cmsettings.mode!=='typing'">
+     <app-tb-object [cmtbobject]="cmsettings.cmtbobject"></app-tb-object>
+   </td>
+   <td *ngIf="cmsettings.mode!=='typing'">
      <app-tb-line [cmtbline]="cmsettings.cmtbline"></app-tb-line>
    </td>
-   <td>
+   <td *ngIf="cmsettings.mode==='typing'">
+     <app-tb-spechars [cmsettings]="cmsettings"></app-tb-spechars>
+   </td>
  </tr>
 </table>

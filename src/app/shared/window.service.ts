@@ -1,110 +1,130 @@
 import { Injectable } from '@angular/core';
 import { ElementService } from './element.service';
+import { SettingsService } from './settings.service';
 import { Boundaries } from '../models/boundaries';
+import { CMSettings } from '../models/CMSettings';
 
 @Injectable()
 export class WindowService {
 
-  Win_Width: number;
-  Win_Height: number;
-  Win_XOffset: number;
-  Win_YOffset: number;
-  Parameters: Boundaries;
-  Boundaries0: Boundaries;
-  Boundaries1: Boundaries;
+  public WinWidth: number;
+  public WinHeight: number;
+  public WinXOffset: number;
+  public WinYOffset: number;
+  public Parameters: Boundaries;
+  public Boundaries0: Boundaries;
+  public Boundaries1: Boundaries;
+  public cmsettings: CMSettings;
 
-  constructor(private elementService: ElementService) {
-    this.Boundaries0 = {
-      'l': 0,
-      'r': 0,
-      't': 0,
-      'b': 0
-    };
+  constructor(private elementService: ElementService,
+              private settingsService: SettingsService) {
+                this.settingsService.cmsettings
+                    .subscribe((data) => {
+                      this.cmsettings = data;
+                      // console.log('settings ', data);
+                    });
+                this.Boundaries0 = {
+                  l: 0,
+                  r: 0,
+                  t: 0,
+                  b: 0
+                };
   }
 
-  getSize() {
-    if ( this.Win_Width && this.Win_Height ) {
-      return {width: this.Win_Width, height: this.Win_Height};
+  public getSize() {
+    if ( this.WinWidth && this.WinHeight ) {
+      return {width: this.WinWidth, height: this.WinHeight};
     } else {
-      console.log('Error loading Win_Width + Win_Height');
+      console.log('Error loading WinWidth + WinHeight');
     }
   }
-  setSize(width, height) {
-    this.Win_Width = Math.round(width);
-    this.Win_Height = Math.round(height);
-    // console.log('Width: ' + this.Win_Width + 'px; Height: ' + this.Win_Heigth + 'px')
+  public setSize(width, height) {
+    this.WinWidth = width;
+    this.WinHeight = height;
+    // console.log('Width: ' + this.WinWidth + 'px; Height: ' + this.Win_Heigth + 'px')
   }
-  setOffset(XOffset, YOffset) {
-    this.Win_XOffset = Math.round(XOffset);
-    this.Win_YOffset = Math.round(YOffset);
+
+  public setOffset(XOffset, YOffset) {
+    this.WinXOffset = XOffset;
+    this.WinYOffset = YOffset;
     this.Boundaries1 = {
-      'l': this.Win_XOffset,
-      'r': (this.Win_XOffset + this.Win_Width),
-      't': this.Win_YOffset,
-      'b': (this.Win_YOffset + this.Win_Height)
+      l: this.WinXOffset,
+      r: (this.WinXOffset + this.WinWidth),
+      t: this.WinYOffset,
+      b: (this.WinYOffset + this.WinHeight)
     };
     this.Parameters = {
-      'l': this.Win_XOffset - 0.5 * this.Win_Width,
-      'r': (this.Win_XOffset + 1.5 * this.Win_Width),
-      't': this.Win_YOffset - 0.5 * this.Win_Height,
-      'b': (this.Win_YOffset + 1.5 * this.Win_Height)
+      l: this.WinXOffset - 0.5 * this.WinWidth,
+      r: (this.WinXOffset + 1.5 * this.WinWidth),
+      t: this.WinYOffset - 0.5 * this.WinHeight,
+      b: (this.WinYOffset + 1.5 * this.WinHeight)
     };
-    // console.log('XOffset: ' + this.Win_XOffset + 'px; YOffset: ' + this.Win_YOffset + 'px') Math.abs(ydif) > this.Win_Height
   }
-  getOffset() {
-    if ( this.Win_XOffset && this.Win_YOffset ) {
-      return this.Win_XOffset, this.Win_YOffset;
+
+  public getOffset() {
+    if ( this.WinXOffset && this.WinYOffset ) {
+      return this.WinXOffset, this.WinYOffset;
     } else {
-      console.log('Error loading Win_XYOffset + Win_YOffset');
+      console.log('Error loading Win_XYOffset + WinYOffset');
     }
   }
-  getParameters(x: number, y: number) {
-    if ( this.Boundaries1 && this.Win_Width && this.Win_Height ) {
+
+  public getParameters(x: number, y: number) {
+    if ( this.Boundaries1 && this.WinWidth && this.WinHeight ) {
+      this.WinXOffset = x;
+      this.WinYOffset = y;
       let Scrolled = false;
       let xdif = x - this.Boundaries0.l;
       let ydif = y - this.Boundaries0.t;
-      if (Math.abs(xdif) > this.Win_Width && xdif < 0 ) {
+      if (Math.abs(xdif) > this.WinWidth && xdif < 0 ) {
         this.Boundaries0.l = x;
-        this.Parameters.l = x - 2 * this.Win_Width;
-        this.Parameters.r = x + this.Win_Width;
+        // this.Boundaries0.r = x + this.WinWidth;
+        this.Parameters.l = x - 2 * this.WinWidth;
+        this.Parameters.r = x + this.WinWidth;
         Scrolled = true;
         // console.log('- ', xdif);
-      } else if (Math.abs(xdif) > this.Win_Width && xdif > 0 ) {
+      } else if (Math.abs(xdif) > this.WinWidth && xdif > 0 ) {
         this.Boundaries0.l = x;
-        this.Parameters.l = x - this.Win_Width;
-        this.Parameters.r = x + 3 * this.Win_Width;
+        // this.Boundaries0.r = x + this.WinWidth;
+        this.Parameters.l = x - this.WinWidth;
+        this.Parameters.r = x + 3 * this.WinWidth;
         Scrolled = true;
         // console.log('+ ', xdif);
       }
-      if (Math.abs(ydif) > this.Win_Height && ydif < 0 ) {
+      if (Math.abs(ydif) > this.WinHeight && ydif < 0 ) {
         this.Boundaries0.t = y;
-        this.Parameters.t = y - 2 * this.Win_Height;
-        this.Parameters.b = y + this.Win_Height;
+        // this.Boundaries0.b = y + this.WinHeight;
+        this.Parameters.t = y - 2 * this.WinHeight;
+        this.Parameters.b = y + this.WinHeight;
         Scrolled = true;
         // console.log('- ', ydif);
-      } else if (Math.abs(ydif) > this.Win_Height && ydif > 0 ) {
+      } else if (Math.abs(ydif) > this.WinHeight && ydif > 0 ) {
         this.Boundaries0.t = y;
-        this.Parameters.t = y - this.Win_Height;
-        this.Parameters.b = y + 3 * this.Win_Height;
+        // this.Boundaries0.b = y + this.WinHeight;
+        this.Parameters.t = y - this.WinHeight;
+        this.Parameters.b = y + 3 * this.WinHeight;
         Scrolled = true;
         // console.log('+ ', ydif);
       }
       if (Scrolled) {
-        // console.log(this.Parameters);
+        console.log('x: ', x, 'y: ', y, 'Parameters: ', this.Parameters);
+        this.cmsettings.coor.x = x;
+        this.cmsettings.coor.y = y;
+        this.settingsService.updateSettings(this.cmsettings);
         return this.Parameters;
       }
     } else {
-      console.log('Error loading Boundaries1 + Win_Width + Win_Height');
+      console.log('Error loading Boundaries1 + WinWidth + WinHeight');
       return this.Parameters = {
-        'l': 4000,
-        'r': 6000,
-        't': 90000,
-        'b': 110000
+        l: 4000,
+        r: 6000,
+        t: 90000,
+        b: 110000
       };
     }
   }
-  scrollXY(x: number, y: number) {
-    window.scrollTo((x - (this.Win_Width / 2)), (y - (this.Win_Height / 2)));
+  public scrollXY(x: number, y: number) {
+    window.scrollTo((x - (this.WinWidth / 2)), (y - (this.WinHeight / 2)));
     this.setOffset(window.pageXOffset, window.pageYOffset);
     this.elementService.getElements(this.Parameters);
     console.log(window.pageXOffset, window.pageYOffset, x, y);

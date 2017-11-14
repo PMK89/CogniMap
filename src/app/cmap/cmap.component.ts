@@ -10,7 +10,6 @@ import { EventService } from '../shared/event.service';
 
 // models and reducers
 import { CMStore } from '../models/CMStore';
-import { CMElement } from '../models/CMElement';
 
 @Component({
   selector: 'app-cmap',
@@ -18,63 +17,28 @@ import { CMElement } from '../models/CMElement';
   styleUrls: ['./cmap.component.scss']
 })
 export class CmapComponent implements OnInit {
-  cmelements: Observable<Array<CMElement>>;
+  public cmelements: Observable<any[]>;
 
   constructor(private elementService: ElementService,
               private eventService: EventService,
               private store: Store<CMStore>) {
-                this.cmelements = store.select('elements');
+                this.cmelements = store.select('cmes');
                 // this.elementService.getMaxID();
               }
 
-  ngOnInit() { }
+  public ngOnInit() {}
 
-  elementStyle(cmelement) {
+  public trackCME(index, cmelement) {
+    return cmelement ? cmelement.id : undefined;
+  }
+
+  public elementStyle(cmelement) {
     return  {
       'left': cmelement.coor.x + 'px',
       'top': cmelement.coor.y + 'px',
       'z-index': cmelement.z_pos,
-      'position': 'absolute' };
+      'position': 'absolute'
+    };
   }
 
-
-  getData(parameters) {
-    if (parameters) {
-      // Catches Data from Element-Service
-      this.elementService.getElements(parameters)
-        // Dev: handle server response
-        /*
-        .map(payload => ({ type: 'ADD_CME_FROM_DB', payload }))
-        .subscribe(action => {
-          this.store.dispatch(action);
-          // console.log(action);
-        });
-        */
-        // Prod: handle electron response
-        // /*
-        .subscribe(x => {
-          /*
-          let action = {
-            type: 'ADD_CME_FROM_DB',
-            payload: x
-          };
-          this.store.dispatch(action);
-          */
-          let temparray = [];
-          for (let i in x) {
-            if (x[i]) {
-              x[i].cmobject = JSON.parse(x[i].cmobject);
-              x[i].cmline = JSON.parse(x[i].cmline);
-              temparray.push(x[i]);
-            }
-          }
-          let action = {
-            type: 'ADD_CME_FROM_DB',
-            payload: temparray
-          };
-          this.store.dispatch(action);
-        });
-        // */
-    }
-  }
 }

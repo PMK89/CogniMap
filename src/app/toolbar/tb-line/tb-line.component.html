@@ -1,25 +1,31 @@
 <div class="tbbox">
   <table id="linetable">
     <tr>
-      <td>
+      <td colspan="2">
         <app-colorbar [colorbars]="colors" [selector]="'tbline0'"></app-colorbar>
       </td>
       <td>
-
+        <app-numberchange [buttons]="buttons" [selector]="905"></app-numberchange>
       </td>
       <td>
-
+        <app-s-button [buttons]="buttons" [selector]="103"></app-s-button>
+      </td>
+      <td>
+        <app-s-button [buttons]="buttons" [selector]="104"></app-s-button>
       </td>
     </tr>
     <tr>
-      <td>
+      <td colspan="2">
         <app-colorbar [colorbars]="colors" [selector]="'tbline1'"></app-colorbar>
       </td>
       <td>
-
+        <app-numberchange [buttons]="buttons" [selector]="906"></app-numberchange>
       </td>
       <td>
-
+        <app-s-button [buttons]="buttons" [selector]="101"></app-s-button>
+      </td>
+      <td>
+        <app-s-button [buttons]="buttons" [selector]="102"></app-s-button>
       </td>
     </tr>
     <tr>
@@ -30,7 +36,19 @@
         <app-numberchange [buttons]="buttons" [selector]="904"></app-numberchange>
       </td>
       <td>
-
+        <div (click)="delselCMEl()">
+          del
+        </div>
+      </td>
+      <td>
+        <div (click)="changeMode('connecting')"  [ngStyle]="selectionStyle('connecting')">
+          <img src="assets/images/basic/link.png" />
+        </div>
+      </td>
+      <td>
+        <div (click)="changeMode('pointing')"  [ngStyle]="selectionStyle('pointing')">
+          <img src="assets/images/basic/pointer.png" />
+        </div>
       </td>
     </tr>
   </table>

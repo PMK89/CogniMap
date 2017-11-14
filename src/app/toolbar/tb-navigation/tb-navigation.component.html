@@ -1,22 +1,17 @@
 <div class="tbbox">
   <table id="navitable">
     <tr>
-      <td (click)="scrollStart()">
-        Start
+      <td>
+        <div (click)="changeMode('view')"  [ngStyle]="selectionStyle('view')">
+          View
+        </div>
       </td>
       <td>
-
-      </td>
-      <td>
-
-      </td>
-    </tr>
-    <tr>
-      <td>
-
-      </td>
-      <td>
-
+        <select [(ngModel)]="widget0" (change)="changeWidget(0)">
+          <option *ngFor="let widget of widgets" value= {{widget}}>
+             {{widget}}
+          </option>
+        </select>
       </td>
       <td>
 
@@ -24,7 +19,26 @@
     </tr>
     <tr>
       <td>
+        <div (click)="changeMode('new')" [ngStyle]="selectionStyle('new')">
+          New
+        </div>
+      </td>
+      <td>
+        <select [(ngModel)]="widget1" (change)="changeWidget(1)">
+          <option *ngFor="let widget of widgets" value= {{widget}}>
+             {{widget}}
+          </option>
+        </select>
+      </td>
+      <td>
 
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div (click)="changeMode('dragging')" [ngStyle]="selectionStyle('dragging')">
+          Drag
+        </div>
       </td>
       <td>
 

@@ -2,8 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { CMColorbar } from '../models/CMColorbar';
 
-
-export const color = (color: CMColorbar = null, action: Action) => {
+export function color (color: CMColorbar = null, action: Action) {
   switch (action.type) {
     case 'ADD_CMC':
       return Object.assign({}, action.payload, {dirty: true});

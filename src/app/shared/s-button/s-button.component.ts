@@ -5,7 +5,8 @@ import { ElementService } from'../element.service';
 
 // models and reducers
 import { CMButton } from '../../models/CMButton';
-import { CMElement } from '../../models/CMElement';
+import { CMEo } from '../../models/CMEo';
+import { CMEl } from '../../models/CMEl';
 import { CMStore } from '../../models/CMStore';
 
 @Component({
@@ -14,57 +15,67 @@ import { CMStore } from '../../models/CMStore';
   styleUrls: ['./s-button.component.css']
 })
 export class SButtonComponent implements OnInit {
-  @Input() buttons: Observable<Array<CMButton>>;
-  @Input() selector: number;
-  currentElement: Observable<CMElement>;
+  @Input() public buttons: Observable<CMButton[]>;
+  @Input() public selector: number;
+  public selCMEo: Observable<CMEo>;
+  public selCMEl: Observable<CMEl>;
 
   constructor(private elementService: ElementService,
               private store: Store<CMStore>) {
-                this.currentElement = store.select('selectedElement');
+                this.selCMEo = store.select('selectedcmeo');
+                this.selCMEl = store.select('selectedcmel');
               }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
-  getState(button) {
-    if (this.currentElement) {
-      this.currentElement.subscribe(cmelement => {
+  public getState(button) {
+    let selElem;
+    if (button.cat === 'tbline') {
+      selElem = this.selCMEl;
+    } else {
+      selElem = this.selCMEo;
+    }
+    if (selElem) {
+      selElem.subscribe((cmelement) => {
         if (cmelement) {
-          let n = button.var.length;
+          let n = button.variable.length;
           switch (n) {
             case 1:
-              if (button.var[0] === 'types') {
-                let valuearray = button.value.split(',');
+              if (button.variable[0] === 'types') {
+                let valuearray = button.value;
                 if (cmelement.types[0] === valuearray[0] && cmelement.types[1] === valuearray[1]
                     && cmelement.types[2] === valuearray[2]) {
                   button.active = true;
                 } else {
                   button.active = false;
-                };
+                }
               } else {
-                if (cmelement[button.var[0]] === button.value) {
+                if (cmelement[button.variable[0]] === button.value) {
                   button.active = true;
                 } else {
                   button.active = false;
-                };
+                }
               }
               break;
             case 2:
-              if (cmelement[button.var[0]][button.var[1]] === button.value) {
+              if (cmelement[button.variable[0]][button.variable[1]] === button.value) {
                 button.active = true;
               } else {
                 button.active = false;
               };
               break;
             case 3:
-              if (cmelement[button.var[0]][button.var[1]][button.var[2]] === button.value) {
+              if (cmelement[button.variable[0]][button.variable[1]][button.variable[2]]
+                 === button.value) {
                 button.active = true;
               } else {
                 button.active = false;
               };
               break;
             case 4:
-              if (cmelement[button.var[0]][button.var[1]][button.var[2]][button.var[3]] === button.value) {
+              if (cmelement[button.variable[0]][button.variable[1]][button.variable[2]][button.variable[3]]
+                === button.value) {
                 button.active = true;
               } else {
                 button.active = false;
@@ -88,12 +99,16 @@ export class SButtonComponent implements OnInit {
     }
   }
 
-  clicked(button) {
+  public clicked(button) {
     let action = {
-      var: button.var,
-      value: button.value.split(',')
+      variable: button.variable,
+      value: button.value
     };
     console.log(button.value);
-    this.elementService.changeElement(action);
+    if (button.cat === 'tbline') {
+      this.elementService.changeCMEl(action);
+    } else {
+      this.elementService.changeCMEo(action);
+    }
   }
 }

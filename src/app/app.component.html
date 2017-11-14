@@ -1,22 +1,26 @@
-<div [ngStyle]="setLayout('cmap')" id="cmap" titel="cmap">
+<div [ngStyle]="cmap_style" id="cmap" titel="cmap">
 	<app-cmap></app-cmap>
 </div>
-<div style="z-index: 500" [ngStyle]="setLayout('tblayout0')" id="toolbar0">
+<div [ngStyle]="toolbar0_style" id="toolbar0">
+	<app-toolbar0></app-toolbar0>
+</div>
+<div  [ngStyle]="toolbar1_style" id="toolbar1">
 	<app-toolbar></app-toolbar>
 </div>
-<div style="z-index: 500"  [ngStyle]="setLayout('tblayout1')" id="toolbar1">
-	<app-toolbar></app-toolbar>
+<div [ngStyle]="widgets0_style" id="widgets0">
+	<app-widgets0></app-widgets0>
 </div>
-<div [ngStyle]="setLayout('wlayout0')" id="widgets0">
-	<app-widgets></app-widgets>
+<div [ngStyle]="widgets1_style" id="widgets1">
+	<app-widgets1></app-widgets1>
 </div>
-<div [ngStyle]="setLayout('wlayout1')" id="widgets1">
-	<app-widgets></app-widgets>
-</div>
-<div [ngStyle]="setLayout('menue')" id="menue">
+<div [ngStyle]="menue_style" id="menue">
 	<app-menue></app-menue>
 </div>
 <div id="TPmain" style="display:none">
 	<div #TPid value="empty" id="TPid">
+	</div>
+	<div #TPmaxid value="empty" id="TPmaxid">
+	</div>
+	<div #TPy value="empty" id="TPy">
 	</div>
 </div>

@@ -9,3 +9,7 @@ a {
 	&:hover {text-decoration: none;}
 	&.active {text-decoration: none; color: #fd8;}
 }
+@font-face {
+    font-family: 'cmFont0';
+    src: url(urw_chancery_l_medium_italic.ttf);
+}

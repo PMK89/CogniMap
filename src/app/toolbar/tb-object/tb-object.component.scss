@@ -17,13 +17,29 @@
     border-radius: 5px;
 }
 th, td {
-    height: 22px;
+    border: 0px;
+    padding: 0px;
+}
+
+.objecttable {
+    border-collapse: collapse;
     border: 0px;
     padding: 2px;
 }
 
-table {
-    border-collapse: collapse;
-    border: 0px;
-    padding: 0px;
+.connectortableclass {
+	border: 0px;
+  width: 80px;
+  height: 36px;
+	padding: 0px;
+  table-layout: fixed;
+  overflow:hidden;
+  border-spacing: 0px !important;
+}
+
+.connectortdclass {
+	border: 0px;
+	padding: 0px;
+  height: 12px  !important;
+  border-spacing: 0px !important;
 }

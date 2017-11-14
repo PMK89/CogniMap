@@ -1,4 +1,4 @@
 export class CMAction {
-  var: [string];
-  value: any;
+  public variable: string[];
+  public value: any;
 }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+// import { Snap } from 'snapsvg';
 declare var Snap: any;
 
 @Injectable()
@@ -7,66 +8,125 @@ export class CmosvgService {
   constructor() { }
 
   // creates a rectangle
-  createRectangle(cme, cmsvg) {
-    let pathstr = 'm0.99679,148.19614c0.277,-34.75176 -0.17724,-69.54997 2.27791,-104.24061c60.32762,11.41171 119.94372,30.08407 179.25477,46.87597c3.18407,-17.04019 1.68541,-31.17523 4.4519,-46.93008c38.1039,33.15254 75.86421,66.77718 112.07695,102.003c-34.74261,39.95821 -74.59364,74.65916 -113.71667,110.1933c-1.26689,-16.54773 -2.53401,-33.09534 -3.80092,-49.64307c-57.66159,16.00916 -118.64064,32.56108 -176.67504,47.19652c-3.94662,-33.77068 -3.83062,-70.54794 -3.8689,-105.45503z';
-    let p = cmsvg.path(pathstr);
-    p.attr({
-      fill: '#00ff00',
-      stroke: cme.cmobject.style.object.color0,
-      strokeWidth: 2,
-      id: 'svgp' + cme.id.toString(),
+  public createRectangle(cme, bbox, cmg: any) {
+    let s = Snap('#cmsvg');
+    let mrg = 2;
+    let r = s.rect((bbox.x - (mrg / 2)), (bbox.y - (mrg / 2)), (bbox.w + mrg), (bbox.h + mrg));
+    r.attr({
+      fill: cme.cmobject.style.object.color0,
+      opacity: cme.cmobject.style.object.trans,
+      id: 'cms' + cme.id.toString(),
     });
-    let pwidth = p.getBBox().width;
-    let pheight = p.getBBox().height;
-    let cmewidth = (cme.x1 - cme.x0) * 1.5;
-    let cmeheight = (cme.y1 - cme.y0) * 1.5;
-    let swidth = cmewidth / pwidth;
-    let sheight = cmeheight / pheight;
-    let t = 'S' + ' ' + swidth + ',' + sheight + 'T' + (cme.coor.x).toString() + ',' + (cme.coor.y - (cmeheight * 1.5)).toString();
-    console.log(t);
-    p.transform(t);
-    // let spath = 'S' + String(cme.x1 - cme.x0) + ' ' + String(cme.y1 - cme.y0);
-    // p.transform(spath);  (cme.coor.x + (width / 2)).toString() + ',' + (cme.coor.y + (height / 2)).toString() +
-    /*/ console.log('rectangle');
-    let path = this.d = 'M' + this.x1 + ' ' + this.y1 + 'L' + this.x1 + ' ' +
-    (this.height - this.y1) + 'L' + (this.width - this.x1) + ' ' + (this.height - this.y1);
-    let p = this.cmsvg.path(path);
-    p.attr({
-      fill: 'none',  + (this.width / 2)
-      stroke: cme.cmline.color0, + (this.height / 2)
-      strokeWidth: cme.cmline.size0,
+    if (cme.types[2] === 'b') {
+      r.attr({
+        stroke: cme.cmobject.style.object.color1,
+        strokeWidth: (cme.cmobject.style.title.size / 8),
+      });
+    }
+    cmg.add(r);
+  }
+
+  // creates an standart object
+  public createRounded(cme, bbox, cmg: any) {
+    let s = Snap('#cmsvg');
+    let mrg = 5;
+    let a = s.rect((bbox.x - (mrg / 2)), (bbox.y - (mrg / 2)),
+     (bbox.w + mrg), (bbox.h + mrg), 3, 3);
+    a.attr({
+      fill: cme.cmobject.style.object.color0,
+      opacity: cme.cmobject.style.object.trans,
+      id: 'cms' + cme.id.toString(),
     });
-    */
+    if (cme.types[2] === 'b') {
+      a.attr({
+        stroke: cme.cmobject.style.object.color1,
+        strokeWidth: (cme.cmobject.style.title.size / 8),
+      });
+    }
+    cmg.add(a);
+  }
+
+  // creates an ellipse
+  public createEllipse(cme, bbox, cmg: any) {
+    let s = Snap('#cmsvg');
+    let mrg = 2;
+    let e = s.ellipse(bbox.cx, bbox.cy, (bbox.r0 + mrg), (bbox.h + mrg));
+    e.attr({
+      fill: cme.cmobject.style.object.color0,
+      opacity: cme.cmobject.style.object.trans,
+      id: 'cms' + cme.id.toString(),
+    });
+    if (cme.types[2] === 'b') {
+      e.attr({
+        stroke: cme.cmobject.style.object.color1,
+        strokeWidth: (cme.cmobject.style.title.size / 8),
+      });
+    }
+    cmg.add(e);
   }
 
   // creates a circle
-  createCircle(cme, cmsvg, width, height) {
-    let cx = (cme.x0 + cme.x1) / 2;
-    let cy = (cme.y0 + cme.y1) / 2;
-    let r = Math.round(Math.max(height, width) * 0.6 );
-    // console.log('circle: ', r);
-    let c = cmsvg.circle(cx, cy, r);
+  public createCircle(cme, bbox, cmg: any) {
+    let s = Snap('#cmsvg');
+    let c = s.circle(bbox.cx, bbox.cy, bbox.r0);
     c.attr({
       fill: cme.cmobject.style.object.color0,
-      stroke: cme.cmobject.style.object.color0,
-      strokeWidth: cme.prio,
-      id: 'svgp' + cme.id.toString(),
+      opacity: cme.cmobject.style.object.trans,
+      id: 'cms' + cme.id.toString(),
     });
-    // ipc.send('snap-in', cme.id);
-    /*
-    elementController.test(cme.id)
-      .subscribe(x => {
-        if (x) {
-          console.log('snap: ', x);
-        }
+    if (cme.types[2] === 'b') {
+      c.attr({
+        stroke: cme.cmobject.style.object.color1,
+        strokeWidth: (cme.cmobject.style.title.size / 8),
       });
-    */
+    }
+    cmg.add(c);
+  }
+
+  // creates a Text
+  public createText(cme, bbox, cmg: any) {
+    let s = Snap('#cmsvg');
+    let mrg = (cme.cmobject.style.title.size / 8);
+    let p = s.path('M' + bbox.x + ' ' + (bbox.y2 - (mrg / 2))
+     + 'L' + bbox.x2 + ' ' + (bbox.y2 - (mrg / 2)));
+    p.attr({
+      fill: 'none',
+      stroke: cme.cmobject.style.object.color0,
+      strokeWidth: mrg,
+      opacity: cme.cmobject.style.object.trans,
+      id: 'cms' + cme.id.toString(),
+    });
+    if (cme.types[2] === 'b') {
+      let r = s.rect(bbox.x, (bbox.y - (mrg / 2)), bbox.w, (bbox.h + mrg));
+      r.attr({
+        fill: 'none',
+        stroke: cme.cmobject.style.object.color1,
+        strokeWidth: mrg,
+        opacity: cme.cmobject.style.object.trans,
+      });
+      cmg.add(r);
+    }
+    cmg.add(p);
   }
 
   // test
-  createTest(cme) {
-
+  public createTest(cme, bbox, cmg: any) {
+    let s = Snap('#cmsvg');
+    let mrg = 5;
+    let a = s.rect((bbox.x - (mrg / 2)), (bbox.y - (mrg / 2)),
+     (bbox.w + mrg), (bbox.h + mrg), 5, 5);
+    a.attr({
+      fill: cme.cmobject.style.object.color0,
+      opacity: cme.cmobject.style.object.trans,
+      id: 'cms' + cme.id.toString(),
+    });
+    if (cme.types[2] === 'b') {
+      a.attr({
+        stroke: cme.cmobject.style.object.color1,
+        strokeWidth: (cme.cmobject.style.title.size / 8),
+      });
+    }
+    cmg.add(a);
   }
-
 
 }

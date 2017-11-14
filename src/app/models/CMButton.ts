@@ -1,14 +1,14 @@
 export class CMButton {
-  id: number;
-  btntype: string;
-  name: string;
-  group: string;
-  cat: string;
-  prio: number;
-  var: [string];
-  value: string;
-  contenttype: string;
-  content: string;
-  blocked: boolean;
-  active: boolean;
+  public id: number;
+  public btntype: string;
+  public name: string;
+  public group: string;
+  public cat: string;
+  public prio: number;
+  public variable: [string];
+  public value: string;
+  public contenttype: string;
+  public content: string;
+  public blocked: boolean;
+  public active: boolean;
 }

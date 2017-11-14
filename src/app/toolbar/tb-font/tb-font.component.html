@@ -1,8 +1,23 @@
 <div class="tbbox">
   <table id="fonttable">
     <tr>
-      <td>
+      <td colspan="3">
         <app-colorbar [colorbars]="colors" [selector]="'tbfont'"></app-colorbar>
+      </td>
+      <td>
+
+      </td>
+      <td>
+
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        <select [(ngModel)]="cfont" (change)="changeFont()" [class]="getState()">
+          <option *ngFor="let font_ of fontarray" value={{font_}}>
+             {{font_ | slice:0:(font_.indexOf(','))}}
+          </option>
+        </select>
       </td>
       <td>
 
@@ -16,21 +31,18 @@
         <app-numberchange [buttons]="buttons" [selector]="907"></app-numberchange>
       </td>
       <td>
-
+        <app-l-button [buttons]="buttons" [selector]="201"></app-l-button>
       </td>
       <td>
-
-      </td>
-    </tr>
-    <tr>
-      <td>
-
+        <app-l-button [buttons]="buttons" [selector]="202"></app-l-button>
       </td>
       <td>
-
+        <app-l-button [buttons]="buttons" [selector]="203"></app-l-button>
       </td>
       <td>
-
+        <div (click)="getPicture()">
+          Pic
+        </div>
       </td>
     </tr>
   </table>

@@ -2,8 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { CMButton } from '../models/CMButton';
 
-
-export const button = (button: CMButton = null, action: Action) => {
+export function button (button: CMButton = null, action: Action) {
   switch (action.type) {
     case 'ADD_CMB':
       return Object.assign({}, action.payload, {dirty: true});

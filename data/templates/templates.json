@@ -1,0 +1,114 @@
+[
+  {
+    "cat": [],
+    "cmobject": {
+      "content": [],
+      "links": [
+        {
+          "id": -0.1,
+          "targetId": 0.01,
+          "title": "",
+          "peerCoor": {
+            "x": -1,
+            "y": -1
+          },
+          "weight": -1,
+          "con": "e",
+          "start": false
+        },
+        {
+          "id": -0.02,
+          "targetId": 0.02,
+          "title": "",
+          "peerCoor": {
+            "x": -1,
+            "y": -1
+          },
+          "weight": -1,
+          "con": "e",
+          "start": true
+        }
+      ],
+      "meta": [],
+      "style": {
+        "object": {
+          "class_array": [],
+          "color0": "#00ff80",
+          "color1": "#ff0000",
+          "num_array": [],
+          "str": "",
+          "trans": 1,
+          "weight": 0
+        },
+        "title": {
+          "class_array": [
+            "f1_a "
+          ],
+          "color": "#000000",
+          "deco": "underline",
+          "font": "'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive",
+          "size": 17
+        }
+      }
+    },
+    "coor": {
+      "x": -200,
+      "y": -200
+    },
+    "id": 0.1,
+    "prep": "<ellipse cx=\"-177.4375\" cy=\"-204.5546875\" rx=\"26.69512466315783\" ry=\"22.078125\" fill=\"#00ff80\" id=\"cms0.1\" stroke=\"#ff0000\" style=\"opacity: 1; stroke-width: 2.125;\"/><text x=\"-200\" y=\"-200\" fill=\"#000000\" title=\"0_1\" style=\"font-size: 17px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: underline;\">default</text>",
+    "prep1": "",
+    "prio": 0,
+    "state": "selected",
+    "title": "default",
+    "types": [
+      "a",
+      "e",
+      "b"
+    ],
+    "x0": -204.13262939453125,
+    "x1": -150.74237060546875,
+    "y0": -226.6328125,
+    "y1": -182.4765625
+  },
+  {
+    "id": -0.1,
+    "x0": -100,
+    "y0": -100,
+    "x1": -177.4375,
+    "y1": -204.5546875,
+    "prio": 0,
+    "title": "default",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "coor": {
+      "x": -200,
+      "y": -200
+    },
+    "cat": [],
+    "state": "active",
+    "cmobject": {
+      "end": "",
+      "color0": "#f1f008",
+      "color1": "#f1f008",
+      "size0": 4,
+      "size1": 4,
+      "trans": 1,
+      "id0": 0.01,
+      "title0": "",
+      "id1": 0.1,
+      "title1": "",
+      "property": [],
+      "dasharray": "",
+      "str": "",
+      "numArray": [],
+      "cmclass": [],
+      "markers": []
+    },
+    "prep": "",
+    "prep1": ""
+  }
+]

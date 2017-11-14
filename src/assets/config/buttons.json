@@ -162,7 +162,7 @@
     "name": "Monotype Corsiva",
     "var": ["cmobject", "style", "title", "font"],
     "contenttype": "f",
-    "value": "'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive",
+    "value": "Monotype Corsiva, Apple Chancery, ITC Zapf Chancery, URW Chancery L, cursive",
     "prio": 0,
     "content": "Monotype Corsiva",
     "active": false
@@ -174,9 +174,9 @@
     "blocked": false,
     "btntype": "n",
     "name": "tbobject_z_pos",
-    "var": ["z_pos"],
+    "var": ["prio"],
     "contenttype": "n",
-    "value": "300",
+    "value": "1",
     "prio": 1,
     "content": "++--",
     "active": false
@@ -202,9 +202,9 @@
     "blocked": false,
     "btntype": "n",
     "name": "tbline_z_pos",
-    "var": ["z_pos"],
+    "var": ["prio"],
     "contenttype": "n",
-    "value": "100",
+    "value": "1",
     "prio": 1,
     "content": "++--",
     "active": false

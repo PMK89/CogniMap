@@ -1,0 +1,138 @@
+[
+  {
+    "blocked": false,
+    "cat": "tbobject0",
+    "colors": [
+      "#00c02c",
+      "#0000ff",
+      "#ff00c1",
+      "#ff0000",
+      "#ffbf00",
+      "#ffff00",
+      "#40ff00",
+      "#00ff80",
+      "#00ffff",
+      "#0000ff"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 1,
+    "name": "default",
+    "prio": 0,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "style",
+      "object",
+      "color0"
+    ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbobject1",
+    "colors": [
+      "#005a1a",
+      "#ff0000",
+      "#ffbf00",
+      "#ffff00",
+      "#40ff00",
+      "#00ff80",
+      "#00ffff",
+      "#0000ff",
+      "#bf00ff",
+      "#ff00bf"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 2,
+    "name": "default",
+    "prio": 0,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "style",
+      "object",
+      "color1"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "default",
+    "group": "",
+    "cat": "tbline1",
+    "prio": 0,
+    "blocked": false,
+    "variable": [
+      "cmobject",
+      "color1"
+    ],
+    "colors": [
+      "#ff0000",
+      "#ffbf00",
+      "#ffff00",
+      "#40ff00",
+      "#00ff80",
+      "#00ffff",
+      "#0000ff",
+      "#bf00ff",
+      "#ff00bf",
+      "#000000"
+    ],
+    "cuppled": false,
+    "secured": false
+  },
+  {
+    "blocked": false,
+    "cat": "tbline0",
+    "colors": [
+      "#a5fafa",
+      "#00c02c",
+      "#ff0000",
+      "#ffbf00",
+      "#ffff00",
+      "#40ff00",
+      "#00ff80",
+      "#00ffff",
+      "#0000ff",
+      "#bf00ff"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 4,
+    "name": "default",
+    "prio": 0,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "color0"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "default",
+    "group": "",
+    "cat": "tbfont",
+    "prio": 0,
+    "blocked": false,
+    "variable": [
+      "cmobject",
+      "style",
+      "title",
+      "color"
+    ],
+    "colors": [
+      "#ff0000",
+      "#ffbf00",
+      "#ffff00",
+      "#40ff00",
+      "#00ff80",
+      "#00ffff",
+      "#0000ff",
+      "#bf00ff",
+      "#ff00bf",
+      "#000000"
+    ],
+    "cuppled": false,
+    "secured": false
+  }
+]
