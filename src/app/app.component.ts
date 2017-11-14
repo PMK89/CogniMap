@@ -4,11 +4,12 @@ import { Component, Renderer, ViewChild } from '@angular/core';
 import { LayoutService } from './layout.service';
 import { WindowService } from './shared/window.service';
 import { EventService } from './shared/event.service';
+import { ElementService } from './shared/element.service';
 import { SettingsService } from './shared/settings.service';
 
 // models and reducers
-import { CMEStore } from './models/cmestore';
-import { CMSettings } from './models/CMSettings';
+// import { CMEStore } from './models/cmestore';
+// import { CMSettings } from './models/CMSettings';
 
 // components
 import { CmapComponent } from './cmap/cmap.component';
@@ -27,11 +28,21 @@ export class AppComponent {
     this.renderer.listenGlobal('window', 'scroll', (evt) => {
       this.cmapComponent.getData(this.windowService.getParameters());
     });
+    this.renderer.listenGlobal('window', 'mousedown', (evt) => {
+      this.eventService.onMouseDown(evt);
+    });
+    this.renderer.listenGlobal('window', 'mouseup', (evt) => {
+      this.eventService.onMouseUp(evt);
+    });
+    this.renderer.listenGlobal('window', 'click', (evt) => {
+      this.eventService.onMouseClick(evt);
+    });
   }
 
   constructor(private layoutService: LayoutService,
               private windowService: WindowService,
               private settingsService: SettingsService,
+              private elementService: ElementService,
               private eventService: EventService,
               private renderer: Renderer) {
                 // Catches Data from Layout-Service
@@ -39,6 +50,7 @@ export class AppComponent {
                 // this.settingsService.setColors(); // uncomment to load colors from JSON-File
                 // this.settingsService.setButtons(); // uncomment to load buttons from JSON-File
                 // this.settingsService.setSettings(); // uncomment to load settings from JSON-File
+                this.elementService.getTemplates();
                 this.settingsService.getSettings();
                 this.settingsService.getButtons();
                 this.settingsService.getColors();
@@ -69,5 +81,11 @@ export class AppComponent {
       return styles;
     }
   }
+
+  // passes clicked element to object service
+  onClick() {
+
+  }
+
 
 }

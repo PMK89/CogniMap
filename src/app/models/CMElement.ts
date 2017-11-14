@@ -14,6 +14,9 @@ export class CMElement {
   coor: CMCoor;
   cat: [string];
   z_pos: number;
+  dragging: boolean;
+  active: boolean;
   cmline: CMLine;
   cmobject: CMObject;
+  prep: string;
 }

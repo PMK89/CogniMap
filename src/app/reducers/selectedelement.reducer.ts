@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CMElement } from '../models/element';
+import { CMElement } from '../models/CMElement';
 
 export const selectedElement = (element: CMElement = null, action: Action) => {
   switch (action.type) {

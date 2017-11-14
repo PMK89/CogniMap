@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
-// import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { CMEStore } from '../models/cmestore';
 import { CMSettings } from '../models/CMSettings';
 import { CMColorbar } from '../models/CMColorbar';
@@ -11,6 +11,7 @@ import { CMColorbar } from '../models/CMColorbar';
 
 @Injectable()
 export class SettingsService {
+  cmsettings: Observable<CMSettings> = this.store.select('settings');
 
   constructor(private http: Http,
               private store: Store<CMEStore>) { }
@@ -25,6 +26,13 @@ export class SettingsService {
           this.store.dispatch(action);
           // console.log(action);
         });
+  }
+
+  // updates settings
+  updateSettings(cmsettings: CMSettings) {
+    let action = {type: 'ADD_CMS', payload: cmsettings };
+    this.store.dispatch(action);
+    // console.log(cmelement.id);
   }
   // reads buttons from Database
   getButtons() {
@@ -73,7 +81,8 @@ export class SettingsService {
           error => console.log(error),
          );
   }
-  // reads buttons from JSON-File and puts it to database
+
+  // reads settings from JSON-File and puts it to database
   setSettings() {
     this.http.get('http://localhost:80/removesettings')
         .map((response: Response) => response.json())

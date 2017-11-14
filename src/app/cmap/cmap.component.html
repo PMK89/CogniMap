@@ -1,6 +1,7 @@
+<svg id='cmsvg' width='100%' height='100%'></svg>
 <div *ngFor="let cmelement of cmelements | async;
       trackBy: trackById">
-      <app-cmline *ngIf="cmelement.type == 'l'" [ngStyle]="{ 'left': cmelement.coor.x + 'px', 'top': cmelement.coor.y + 'px', 'z-index': cmelement.z_pos, 'position': 'absolute' }" [cmelement]="cmelement"></app-cmline>
-      <app-cmmarker *ngFor="let cmmarker of cmelement.cmline.markers" [ngStyle]="{ 'left': cmmarker.coor.x + 'px', 'top': cmmarker.coor.y + 'px', 'z-index': cmmarker.z_pos, 'position': 'absolute' }" [cmmarker]="cmmarker"></app-cmmarker>
-      <app-cmobject *ngIf="cmelement.type != 'l' && cmelement.type != 'm'" [ngStyle]="{ 'left': cmelement.coor.x + 'px', 'top': cmelement.coor.y + 'px', 'z-index': cmelement.z_pos, 'position': 'absolute' }" [cmelement]="cmelement"></app-cmobject>
+      <app-cmline *ngIf="cmelement.type == 'l'"  [ngStyle]="elementStyle(cmelement)" [cmelement]="cmelement"></app-cmline>
+      <app-cmmarker *ngFor="let cmmarker of cmelement.cmline.markers" [ngStyle]="elementStyle(cmmarker)" [cmmarker]="cmmarker"></app-cmmarker>
+      <app-cmobject *ngIf="cmelement.type != 'l' && cmelement.type != 'm'" [ngStyle]="elementStyle(cmelement)" [cmelement]="cmelement"></app-cmobject>
 </div>

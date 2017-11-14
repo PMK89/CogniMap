@@ -7,6 +7,7 @@ import { CMTBLine } from './CMTBLine';
 
 
 export class CMSettings {
+  id: number;
   mode: string;
   coor: CMCoor;
   style: CMStyle;

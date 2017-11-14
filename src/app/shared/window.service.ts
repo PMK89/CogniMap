@@ -29,13 +29,13 @@ export class WindowService {
     }
   }
   setSize(width, height) {
-    this.Win_Width = width;
-    this.Win_Height = height;
+    this.Win_Width = Math.round(width);
+    this.Win_Height = Math.round(height);
     // console.log('Width: ' + this.Win_Width + 'px; Height: ' + this.Win_Heigth + 'px')
   }
   setOffset(XOffset, YOffset) {
-    this.Win_XOffset = XOffset;
-    this.Win_YOffset = YOffset;
+    this.Win_XOffset = Math.round(XOffset);
+    this.Win_YOffset = Math.round(YOffset);
     this.Boundaries1 = {
       'l': this.Win_XOffset,
       'r': (this.Win_XOffset + this.Win_Width),
@@ -74,10 +74,10 @@ export class WindowService {
       if (Scrolled) {
         // console.log(this.Parameters);
         return this.Parameters = {
-          'l': (this.Boundaries1.l - this.Win_Width),
-          'r': (this.Boundaries1.r + this.Win_Width),
-          't': (this.Boundaries1.t - this.Win_Height),
-          'b': (this.Boundaries1.b + this.Win_Height)
+          'l': Math.round(this.Boundaries1.l - this.Win_Width),
+          'r': Math.round(this.Boundaries1.r + this.Win_Width),
+          't': Math.round(this.Boundaries1.t - this.Win_Height),
+          'b': Math.round(this.Boundaries1.b + this.Win_Height)
         };
       }
     } else {

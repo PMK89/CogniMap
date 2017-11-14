@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 // services
@@ -21,17 +21,15 @@ export class CmobjectComponent implements OnInit {
   textStyle: Object;
   textClass: Array<string>;
   hasContent: boolean;
-  dragging: boolean = false;
+  // dragging: boolean = false;
   contentStyle: Object;
   TextInput: boolean;
-  start_x: number;
-  start_y: number;
-  drag_x: number;
-  drag_y: number;
 
   constructor(private eventService: EventService,
               private store: Store<CMEStore>,
-              private elementService: ElementService) { }
+              private elementRef: ElementRef,
+              private elementService: ElementService) {
+              }
 
   ngOnInit() {
     // adds property to title-div
@@ -62,97 +60,51 @@ export class CmobjectComponent implements OnInit {
     if (this.cmelement.cmobject.content) {
       this.hasContent = true;
     }
+    if (this.cmelement.active) {
+      this.TextInput = true;
+    }
+    // console.log('title: ', this.cmelement.title, ' w: ', (this.cmelement.x1 - this.cmelement.x0), ' h: ', (this.cmelement.y1 - this.cmelement.y0))
+    if (this.cmelement.dragging === true && this.eventService.dragging === true) {
+      this.eventService.mousedif()
+        .subscribe(coor => {
+          this.cmelement.coor.x = this.cmelement.coor.x + coor.x;
+          this.cmelement.coor.y = this.cmelement.coor.y + coor.y;
+        });
+    }
   }
 
+  // gets dimensions after view is initiated
+  ngAfterViewInit() {
+    // this.getDimensions();
+  }
+
+  // set content possition
   contentPos(content) {
-    return {
-      'position': 'relative',
-      'left': content.coor.x,
-      'top': content.coor.y,
-      'z-index': content.z_pos
-    };
-  }
-  // passes clicked element to object service
-  onSelect(cmelement) {
-    console.log(cmelement);
-    this.elementService.setSelectedElement(cmelement);
-    let action = {
-      value: 's',
-      var: ['type']
-    };
-    // this.changeElement(action);
-  }
-
-  // activates dragging
-  onMouseDown() {
-    if (this.dragging === false) {
-      this.dragging = true;
-      this.eventService.mousedown()
-      .subscribe(coor => {
-        this.start_x = Math.round(coor.x);
-        this.start_y = Math.round(coor.y);
-        console.log('start_x:', this.start_x, ' start_y:', this.start_y);
-        this.drag_x = Math.round(coor.x);
-        this.drag_y = Math.round(coor.y);
-      });
+    if (content) {
+      return {
+        'position': 'relative',
+        'left': content.coor.x,
+        'top': content.coor.y,
+        'z-index': content.z_pos
+      };
     }
   }
-
-  // changes position for dragging
-  onMouseMove() {
-    if (this.dragging === true) {
-      let dif_x = 0;
-      let dif_y = 0;
-      this.eventService.mousemove()
-      .subscribe(coor => {
-        if (this.dragging === true) {
-          dif_x = Math.round((coor.x) - this.drag_x);
-          dif_y = Math.round((coor.y) - this.drag_y);
-          this.cmelement.coor.x = this.cmelement.coor.x + dif_x;
-          this.cmelement.coor.y = this.cmelement.coor.y + dif_y;
-          this.drag_x = (coor.x);
-          this.drag_y = (coor.y);
-        }
-      });
-    }
+  // get dimensions
+  getDimensions() {
+    this.cmelement.x1 = this.cmelement.x0 + this.elementRef.nativeElement.offsetWidth;
+    this.cmelement.y1 = this.cmelement.y0 + this.elementRef.nativeElement.offsetHeight;
+    this.elementService.updateDBElement(this.cmelement);
   }
 
-  // deactivates dragging
-  onMouseUp() {
-    this.dragging = false;
+  // creates an action of entered text
+  passText(text) {
+    // console.log(text);
+    this.cmelement.title = text;
     this.elementService.updateElement(this.cmelement);
-    let links = this.cmelement.cmobject.links;
-    let dif_x = Math.round(this.drag_x - this.start_x);
-    let dif_y = Math.round(this.drag_y - this.start_y);
-    console.log('dif_x:', dif_x, ' dif_y:', dif_y);
-    for (let i = 0; i < links.length; i++) {
-      if (links[i]) {
-        if (links[i].start) {
-          let posaction = {type: 'UPDATE_CME_POSITION0', payload: {
-            id: links[i].id,
-            x0: dif_x,
-            y0: dif_y
-          } };
-          this.store.dispatch(posaction);
-        } else {
-          let posaction = {type: 'UPDATE_CME_POSITION1', payload: {
-            id: links[i].id,
-            x1: dif_x,
-            y1: dif_y
-          } };
-          this.store.dispatch(posaction);
-        }
-      }
-    }
+    this.elementService.setInactive(this.cmelement.id);
   }
-
   // Sets number
   changeElement(action) {
     this.elementService.changeElement(action);
   }
-  passText(text) {
-    this.cmelement.title = text;
-    this.elementService.setSelectedElement(this.cmelement);
-  }
-
 }

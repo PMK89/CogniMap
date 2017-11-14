@@ -1,7 +1,6 @@
 import { CMMarker } from './CMMarker';
 
 export class CMLine {
-  prep: string;
   shape: string;
   end: string;
   color0: string;

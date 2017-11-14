@@ -1,3 +1,37 @@
-<p>
-  tb-settings works!
-</p>
+<div class="MenueBox">
+  <table id="btntable">
+    <tr>
+      <td>
+        <div (click)="changeMode('new')" [ngStyle]="selectionStyle('new')">
+          New
+        </div>
+      </td>
+      <td>
+        <div (click)="changeMode('edit')" [ngStyle]="selectionStyle('edit')">
+          Edit
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div (click)="changeMode('view')"  [ngStyle]="selectionStyle('view')">
+          View
+        </div>
+      </td>
+      <td>
+        <div (click)="changeDrag()"  [ngStyle]="selectionDrag()">
+          Drag
+        </div>
+      </td>
+      <td>
+
+      </td>
+      <td>
+
+      </td>
+      <td>
+
+      </td>
+    </tr>
+  </table>
+</div>

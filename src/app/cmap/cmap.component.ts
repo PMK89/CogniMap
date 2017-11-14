@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 
 // services
 import { ElementService } from '../shared/element.service';
+import { EventService } from '../shared/event.service';
 
 // models and reducers
 import { CMStore } from '../models/CMStore';
@@ -19,11 +20,20 @@ export class CmapComponent implements OnInit {
   cmelements: Observable<Array<CMElement>>;
 
   constructor(private elementService: ElementService,
+              private eventService: EventService,
               private store: Store<CMStore>) {
                 this.cmelements = store.select('elements');
+                this.elementService.getMaxID();
               }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  elementStyle(cmelement) {
+    return  {
+      'left': cmelement.coor.x + 'px',
+      'top': cmelement.coor.y + 'px',
+      'z-index': cmelement.z_pos,
+      'position': 'absolute' };
   }
 
   getData(parameters) {
@@ -37,5 +47,4 @@ export class CmapComponent implements OnInit {
         });
     }
   }
-
 }
