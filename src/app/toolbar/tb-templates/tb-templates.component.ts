@@ -1,4 +1,5 @@
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { SettingsService } from '../../shared/settings.service';
 import { TemplateService } from '../../shared/template.service';
 
@@ -6,6 +7,7 @@ declare var Snap: any;
 
 // models and reducers
 import { CMSettings } from '../../models/CMSettings';
+import { CMStore } from '../../models/CMStore';
 import { CMEo } from '../../models/CMEo';
 import { CMEl } from '../../models/CMEl';
 
@@ -16,16 +18,22 @@ import { CMEl } from '../../models/CMEl';
 })
 export class TbTemplatesComponent implements OnInit, AfterViewInit {
   @Input() public cmsettings: CMSettings;
-  public tempCMEo: number;
-  public tempCMEl: number;
+  @ViewChild('tempcmline') public tempcmline;
+  @ViewChild('tempcmobject') public tempcmobject;
+  public TempCMEo: CMEo;
+  public TempCMEl: CMEl;
+  public TempCMEoID: number;
+  public TempCMElID: number;
   public TempCMEos: CMEo[];
   public TempCMEls: CMEl[];
   public CMEoTextInput = false;
   public CMElTextInput = false;
+  public TempSVG = Snap('#templatesvg');
   public newTitle: string;
   public inputStyle: Object;
 
   constructor(private templateService: TemplateService,
+              private store: Store<CMStore>,
               private settingsService: SettingsService) {
                 this.templateService.getTemplates();
                 this.TempCMEos = this.templateService.getTempCMEos();
@@ -36,6 +44,21 @@ export class TbTemplatesComponent implements OnInit, AfterViewInit {
                           this.cmsettings = data;
                         }
                       });
+                this.templateService.tempCMEo
+                  .subscribe((data) => {
+                    if (data) {
+                      // this.deleteTempCMEoSVG();
+                      this.TempCMEo = data;
+                      // console.log(this.TempCMEo);
+                    }
+                  });
+                this.templateService.tempCMEl
+                  .subscribe((data) => {
+                    if (data) {
+                      // this.deleteTempCMElSVG();
+                      this.TempCMEl = data;
+                    }
+                  });
               }
 
   public ngOnInit() {
@@ -43,6 +66,7 @@ export class TbTemplatesComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit() {
+    this.TempSVG = Snap('#templatesvg');
   }
 
   // changes mode in settings
@@ -59,16 +83,41 @@ export class TbTemplatesComponent implements OnInit, AfterViewInit {
   // changes template
   public changeTemplate(num: number) {
     if (num === 0) {
-      this.templateService.setActiveTempCMEo(this.IDconvert(this.tempCMEo));
-      this.templateService.setActiveTempCMEl((this.IDconvert(this.tempCMEo) * -1));
+      if (this.TempCMEoID) {
+        this.templateService.setActiveTempCMEo(this.IDconvert(this.TempCMEoID));
+      }
+      if (this.TempCMElID) {
+        this.templateService.setActiveTempCMEl((this.IDconvert(this.TempCMElID) * -1));
+      }
     } else {
       // this.templateService.setActiveTempCMEl(this.IDconvert(this.tempCMEl));
     }
   }
 
+  // removes SVG representation of TempCMEo
+  public deleteTempCMEoSVG() {
+    if (this.TempSVG) {
+      let TempCMEoSVG = this.TempSVG.select('#tempCMEo');
+      if (TempCMEoSVG) {
+        TempCMEoSVG.selectAll().remove();
+      }
+    }
+  }
+
+  // removes SVG representation of TempCMEl
+  public deleteTempCMElSVG() {
+    if (this.TempSVG) {
+      let TempCMElSVG = this.TempSVG.select('#tempCMEl');
+      if (TempCMElSVG) {
+        TempCMElSVG.selectAll().remove();
+      }
+    }
+  }
+
   public clearSVG() {
-    let stb = Snap('#templatesvg');
-    stb.clear();
+    if (this.TempSVG) {
+      this.TempSVG.clear();
+    }
   }
 
   // mark selection
@@ -91,8 +140,12 @@ export class TbTemplatesComponent implements OnInit, AfterViewInit {
 
   // saves changes on template in database
   public saveCME() {
-    this.templateService.saveCMEo(this.IDconvert(this.tempCMEo));
-    this.templateService.saveCMEl((this.IDconvert(this.tempCMEo) * -1));
+    if (this.TempCMEoID) {
+      this.templateService.saveCMEo(this.IDconvert(this.TempCMEoID));
+    }
+    if (this.TempCMElID) {
+      this.templateService.saveCMEl((this.IDconvert(this.TempCMElID) * -1));
+    }
   }
 
   // saves changes on template in database

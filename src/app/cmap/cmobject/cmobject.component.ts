@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, OnDestroy, OnChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 // import { Snap } from 'snapsvg';
 declare var Snap: any;
@@ -18,7 +18,7 @@ import { CMStore } from '../../models/CMStore';
   templateUrl: './cmobject.component.html',
   styleUrls: ['./cmobject.component.scss']
 })
-export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CmobjectComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @Input() public cmelement: CME;
   @ViewChild('box') public vc;
   public cmeo: CMEo;
@@ -42,11 +42,15 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  public ngOnChanges() {
+    this.ngOnInit();
+  }
+
   public ngOnInit() {
     if (this.cmelement) {
       // let d = new Date();
       // let t0 = d.getTime();
-      // console.log('cmobject start: ', this.cmelement, t0);
+      // console.log(this.cmelement);
       let s = Snap('#cmsvg');
       let id = this.cmelement.id.toString();
       if (this.cmelement.id < 1) {
@@ -131,13 +135,17 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.cmelement.id < 1) {
         // console.log(this.cmelement);
         let stb = Snap('#templatesvg');
+        let TempCMEoSVG = stb.select('#tempCMEo');
+        if (TempCMEoSVG) {
+          TempCMEoSVG.remove();
+        }
         let bbox = this.cmgroup.getBBox();
         let innertcmo = this.cmgroup.innerSVG();
         let scaling = Math.min((40 / bbox.h), (100 / bbox.w));
         let stbcmo = Snap.parse(innertcmo);
         let gt = stb.group().append(stbcmo);
         gt.attr({
-          id: ('gt' + id),
+          id: ('tempCMEo'),
           title: id
         });
         gt.transform('s' + scaling);

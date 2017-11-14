@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
 declare var Snap: any;
 
 import { SnapsvgService } from '../../shared/snapsvg.service';
@@ -14,13 +14,17 @@ import { CMEl } from '../../models/CMEl';
 })
 
 // generates the connection between the markers by calling snapsvg services
-export class CmlineComponent implements OnInit, OnDestroy {
+export class CmlineComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public cmelement: CME;
   public cmgroup: any;
   public cmel: CMEl;
 
   constructor(private snapsvgService: SnapsvgService,
               private elementService: ElementService) { }
+
+  public ngOnChanges() {
+    this.ngOnInit();
+  }
 
   public ngOnInit() {
     if (this.cmelement) {
@@ -172,6 +176,10 @@ export class CmlineComponent implements OnInit, OnDestroy {
   // projects template windows to preview window
   public projectTemplate(cmsvg, id) {
     let stb = Snap('#templatesvg');
+    let TempCMElSVG = stb.select('#tempCMEl');
+    if (TempCMElSVG) {
+      TempCMElSVG.remove();
+    }
     let bbox = cmsvg.getBBox();
     let innertcmo = cmsvg.innerSVG();
     console.log(innertcmo);
@@ -179,7 +187,7 @@ export class CmlineComponent implements OnInit, OnDestroy {
     let stbcmo = Snap.parse(innertcmo);
     let gt = stb.group().append(stbcmo);
     gt.attr({
-      id: ('gt' + id),
+      id: ('tempCMEl'),
       title: id
     });
     gt.transform('s' + scaling);

@@ -25,8 +25,10 @@ export class ElementService {
   public cmelements: Observable<[CME]>;
   public selCMEo: CMEo;
   public selCMEl: CMEl;
-  public tempCMEo: CMEo;
-  public tempCMEl: CMEl;
+  public tempCMEo: Observable<CMEo> = this.store.select('cmeotemplate');
+  public tempCMEl: Observable<CMEl> = this.store.select('cmeltemplate');
+  public TempCMEo: CMEo;
+  public TempCMEl: CMEl;
   public inputtext: string;
   public maxID: number;
   public selCMEoArray: number[] = [];
@@ -49,6 +51,18 @@ export class ElementService {
                       // console.log('settings ', data);
                     });
                 // let store = this.store;
+                this.tempCMEo
+                  .subscribe((data) => {
+                    if (data) {
+                      this.TempCMEo = data;
+                    }
+                  });
+                this.tempCMEl
+                  .subscribe((data) => {
+                    if (data) {
+                        this.TempCMEl = data;
+                    }
+                  });
                 this.electronService.ipcRenderer.on('loadedCME', (event, arg) => {
                   ngZone.run(() => {
                     // console.log(arg);
@@ -235,38 +249,6 @@ export class ElementService {
     }
   }
 
-  // set TempCMEo
-  public setTempCMEo(cme: CMEo) {
-    cme.prep = '';
-    cme.prep1 = '';
-    if (this.tempCMEo) {
-      if (this.tempCMEo.id !== cme.id) {
-        this.store.dispatch({type: 'DEL_CME', payload: this.newCME(this.tempCMEo)});
-        this.tempCMEo = cme;
-        this.store.dispatch({type: 'ADD_CME', payload: this.newCME(this.tempCMEo)});
-      }
-    } else {
-      this.tempCMEo = cme;
-      this.store.dispatch({type: 'ADD_CME', payload: this.newCME(this.tempCMEo)});
-    }
-  }
-
-  // set TempCMEl
-  public setTempCMEl(cme: CMEl) {
-    cme.prep = '';
-    cme.prep1 = '';
-    if (this.tempCMEl) {
-      if (this.tempCMEl.id !== cme.id) {
-        this.store.dispatch({type: 'DEL_CME', payload: this.newCME(this.tempCMEl)});
-        this.tempCMEl = cme;
-        this.store.dispatch({type: 'ADD_CME', payload: this.newCME(this.tempCMEl)});
-      }
-    } else {
-      this.tempCMEl = cme;
-      this.store.dispatch({type: 'ADD_CME', payload: this.newCME(this.tempCMEl)});
-    }
-  }
-
   // updates element in database
   public updateCME(cme: CME) {
     let action = {type: 'UPDATE_CME', payload: cme };
@@ -397,24 +379,28 @@ export class ElementService {
   // returns an CMEo/l from an CMEdb
   public CMEtoCMEol(cme: CME) {
     if (cme !== undefined) {
-      let cmeol = {
-        id: cme.id,
-        x0: cme.x0,
-        y0: cme.y0,
-        x1: cme.x1,
-        y1: cme.y1,
-        prio: cme.prio,
-        title: cme.title,
-        types: cme.types,
-        coor: cme.coor,
-        cat: cme.cat,
-        state: cme.state,
-        cmobject: JSON.parse(cme.cmobject),
-        prep: cme.prep,
-        prep1: cme.prep1
-      };
-      // console.log('CMEtoCMEol: ', cmeol);
-      return cmeol;
+      if (typeof cme.cmobject === 'string') {
+        let cmeol = {
+          id: cme.id,
+          x0: cme.x0,
+          y0: cme.y0,
+          x1: cme.x1,
+          y1: cme.y1,
+          prio: cme.prio,
+          title: cme.title,
+          types: cme.types,
+          coor: cme.coor,
+          cat: cme.cat,
+          state: cme.state,
+          cmobject: JSON.parse(cme.cmobject),
+          prep: cme.prep,
+          prep1: cme.prep1
+        };
+        // console.log('CMEtoCMEol: ', cmeol);
+        return cmeol;
+      } else {
+        return cme;
+      }
     } else {
       return undefined;
     }
@@ -457,11 +443,11 @@ export class ElementService {
 
   // generates a new CMEo element
   public newCMEo(oldcme: CMEo, cmcoor: CMCoor) {
-    if (this.tempCMEo) {
+    if (this.TempCMEo) {
       console.log('newCMEo start: ', Date.now());
       let newElemObj: CMEo = new CMEo(); // maybe an error
       this.maxID++;
-      newElemObj = JSON.parse(JSON.stringify(this.tempCMEo));
+      newElemObj = JSON.parse(JSON.stringify(this.TempCMEo));
       newElemObj.cmobject.links = undefined;
       this.cmsettings.mode = 'progress';
       this.settingsService.updateSettings(this.cmsettings);
@@ -545,7 +531,7 @@ export class ElementService {
 
   // generates a new line element
   public newCMEl(oldcme: CMEo, newcme: CMEo) {
-    if (this.tempCMEl) {
+    if (this.TempCMEl) {
       let oldlink = oldcme.cmobject.links;
       let oldxy = this.conectionCoor(oldcme, oldlink[oldlink.length - 1]);
       let newlink = newcme.cmobject.links;
@@ -558,11 +544,11 @@ export class ElementService {
         y0: oldxy[1],
         x1: newxy[0],
         y1: newxy[1],
-        types: this.tempCMEl.types,
+        types: this.TempCMEl.types,
         coor: {x: 0, y: 0},
-        cat: this.tempCMEl.cat,
+        cat: this.TempCMEl.cat,
         state: 'selected',
-        cmobject: this.tempCMEl.cmobject,
+        cmobject: this.TempCMEl.cmobject,
         prep: '',
         prep1: ''
       };
@@ -633,9 +619,9 @@ export class ElementService {
         y1: coor.y,
         types: ['p', 'p', '0'],
         coor: {x: 0, y: 0},
-        cat: this.tempCMEl.cat,
+        cat: this.TempCMEl.cat,
         state: 'selected',
-        cmobject: this.tempCMEl.cmobject,
+        cmobject: this.TempCMEl.cmobject,
         prep: '',
         prep1: ''
       };
@@ -756,6 +742,7 @@ export class ElementService {
         }
       }
       if (this.cmsettings.mode === 'templateEdit') {
+        /*
         if (this.selCMEo) {
           this.updateSelCMEo(this.selCMEo);
         }
@@ -766,6 +753,7 @@ export class ElementService {
         this.setTempCMEl(this.tempCMEl);
         this.setSelectedCME(this.tempCMEo.id);
         this.setSelectedCME(this.tempCMEl.id);
+        */
       }
     }
   }
@@ -969,7 +957,7 @@ export class ElementService {
         cmeselection.remove();
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   }
 
@@ -1057,7 +1045,8 @@ export class ElementService {
 
   // changes element with input in form of CMAction
   public changeCMEo(action: CMAction) {
-    if (this.selCMEo) {
+    let activeCMEo;
+    if (activeCMEo) {
       let variable = action.variable;
       let n = variable.length;
       switch (n) {

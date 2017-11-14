@@ -13,6 +13,8 @@ export function cmeltemplate (Cme: CMEl = null, action: Action) {
       } else {
         return Cme;
       }
+    case 'DEL_TCMEL':
+      return null;
     default:
       return Cme;
   }

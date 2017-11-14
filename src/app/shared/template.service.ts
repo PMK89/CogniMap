@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Http } from '@angular/http';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 import { ElectronService } from 'ngx-electron';
 // import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -24,6 +25,8 @@ import { CMSettings } from '../models/CMSettings';
 export class TemplateService {
   public TempCMEos: CMEo[] = [];
   public TempCMEls: CMEl[] = [];
+  public tempCMEo: Observable<CMEo> = this.store.select('cmeotemplate');
+  public tempCMEl: Observable<CMEl> = this.store.select('cmeltemplate');
   public TempCMEo: CMEo;
   public TempCMEl: CMEl;
   public maxID: number;
@@ -52,57 +55,39 @@ export class TemplateService {
   M---------------------------------------------------------------------------C
   ---------------------------------------------------------------------------*/
 
+  // set TempCMEo
+  public setTempCMEo(cme: CMEo) {
+    cme.prep = '';
+    cme.prep1 = '';
+    this.TempCMEo = cme;
+    // console.log(this.TempCMEo);
+    this.store.dispatch({type: 'ADD_TCMEO', payload: this.TempCMEo});
+  }
+
+  // set TempCMEl
+  public setTempCMEl(cme: CMEl) {
+    cme.prep = '';
+    cme.prep1 = '';
+    this.TempCMEl = cme;
+    // console.log(this.TempCMEl);
+    this.store.dispatch({type: 'ADD_TCMEL', payload: this.TempCMEl});
+  }
+
   // set active CMEo template
   public setActiveTempCMEo(cmeoid: number) {
     if (this.TempCMEos) {
       for (let i in this.TempCMEos) {
         if (this.TempCMEos[i]) {
-          console.log(this.TempCMEos[i].id);
+          // console.log(this.TempCMEos[i].id);
           if (this.TempCMEos[i].id === cmeoid) {
             this.TempCMEos[i].state = 'active';
             this.TempCMEo = this.TempCMEos[i];
-            this.elementService.setTempCMEo(this.TempCMEo);
+            this.setTempCMEo(this.TempCMEo);
           } else {
             this.TempCMEos[i].state = '';
           }
         }
       }
-    }
-  }
-
-  // use selection as template
-  public useSelectedCME() {
-    if (this.elementService.selCMEo) {
-      this.elementService.tempCMEo = JSON.parse(JSON.stringify(this.elementService.selCMEo));
-    } else {
-      if (this.TempCMEo) {
-        this.elementService.tempCMEo = JSON.parse(JSON.stringify(this.TempCMEo));
-      } else {
-        this.elementService.tempCMEo = JSON.parse(JSON.stringify(this.TempCMEos[0]));
-      }
-    }
-    if (this.elementService.tempCMEo) {
-      this.elementService.tempCMEo.id = 0;
-      this.elementService.tempCMEo.cmobject.links = undefined;
-      this.elementService.tempCMEo.prep = '';
-      this.elementService.tempCMEo.prep1 = '';
-      this.elementService.tempCMEo.state = '';
-    }
-    if (this.elementService.selCMEl) {
-      this.elementService.tempCMEl = JSON.parse(JSON.stringify(this.elementService.selCMEl));
-    } else {
-      if (this.TempCMEl) {
-        this.elementService.tempCMEl = JSON.parse(JSON.stringify(this.TempCMEl));
-      } else {
-        this.elementService.tempCMEl = JSON.parse(JSON.stringify(this.TempCMEls[0]));
-      }
-    }
-    if (this.elementService.tempCMEl) {
-      this.elementService.tempCMEl.id = 0;
-      this.elementService.tempCMEl.cmobject.markers = undefined;
-      this.elementService.tempCMEl.prep = '';
-      this.elementService.tempCMEl.prep1 = '';
-      this.elementService.tempCMEl.state = '';
     }
   }
 
@@ -114,12 +99,53 @@ export class TemplateService {
           if (this.TempCMEls[i].id === cmelid) {
             this.TempCMEls[i].state = 'active';
             this.TempCMEl = this.TempCMEls[i];
-            this.elementService.setTempCMEl(this.TempCMEl);
+            this.setTempCMEl(this.TempCMEl);
           } else {
             this.TempCMEls[i].state = '';
           }
         }
       }
+    }
+  }
+
+  // use selection as template
+  public useSelectedCME() {
+    if (this.elementService.selCMEo) {
+      this.TempCMEo = JSON.parse(JSON.stringify(this.elementService.selCMEo));
+    } else {
+      if (this.TempCMEo) {
+        this.TempCMEo = JSON.parse(JSON.stringify(this.TempCMEo));
+      } else {
+        this.TempCMEo = JSON.parse(JSON.stringify(this.TempCMEos[0]));
+      }
+    }
+    if (this.TempCMEo) {
+      this.TempCMEo.id = 0.99;
+      this.TempCMEo.cmobject.links = undefined;
+      this.TempCMEo.prep = '';
+      this.TempCMEo.prep1 = '';
+      this.TempCMEo.state = 'active';
+      this.setActiveTempCMEo(0);
+      console.log(this.TempCMEo);
+      this.store.dispatch({type: 'ADD_TCMEO', payload: this.TempCMEo});
+    }
+    if (this.elementService.selCMEl) {
+      this.TempCMEl = JSON.parse(JSON.stringify(this.elementService.selCMEl));
+    } else {
+      if (this.TempCMEl) {
+        this.TempCMEl = JSON.parse(JSON.stringify(this.TempCMEl));
+      } else {
+        this.TempCMEl = JSON.parse(JSON.stringify(this.TempCMEls[0]));
+      }
+    }
+    if (this.TempCMEl) {
+      this.TempCMEl.id = -0.99;
+      this.TempCMEl.cmobject.markers = undefined;
+      this.TempCMEl.prep = '';
+      this.TempCMEl.prep1 = '';
+      this.TempCMEl.state = 'active';
+      this.setActiveTempCMEl(0);
+      this.store.dispatch({type: 'ADD_TCMEL', payload: this.TempCMEl});
     }
   }
 
@@ -208,8 +234,8 @@ export class TemplateService {
         }
       }
     }
-    this.elementService.setTempCMEo(this.TempCMEos[0]);
-    this.elementService.setTempCMEl(this.TempCMEls[0]);
+    this.setTempCMEo(this.TempCMEos[0]);
+    this.setTempCMEl(this.TempCMEls[0]);
   }
 
   // sends changed stemplate back to electron
