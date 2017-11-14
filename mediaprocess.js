@@ -2,6 +2,7 @@ const { BrowserWindow, clipboard, ipcMain, nativeImage, session } = require('ele
 const fs = require('fs');
 // const getPixels = require("get-pixels")
 const PNG = require('pngjs').PNG;
+const mjAPI = require("mathjax-node");
 
 let mediawin
 
@@ -27,6 +28,18 @@ const createMediaWindow = function createMediaWindow () {
     fs.writeFileSync(('./dist/assets/images/' + picture_link), nimg);
 
     event.returnValue = picture_link;
+  })
+
+  // makes a SVG from mathjax/TeX string
+  ipcMain.on('makeMjSVG', (event, arg) => {
+    console.log('TeX: ', arg);
+    var svg = mjAPI.typeset({
+      math: arg,
+      format: "TeX", // "inline-TeX", "MathML"
+      svg:true, //  svg:true,
+    }, function (data) {
+      if (!data.errors) {event.returnValue = data;}
+    });
   })
 
   // makes a picture transparent
@@ -60,6 +73,19 @@ const createMediaWindow = function createMediaWindow () {
     }
   })
 
+  // load file from assets folder
+  ipcMain.on('loadFile', function (event, arg) {
+    if (fs.statSync(arg)) {
+      var pos = arg.indexOf('assets/');
+      if (pos !== -1) {
+        var path = arg.slice(pos);
+        event.returnValue = path;
+      } else {
+        event.returnValue = 'please choose a file insite your /assets/!';
+      }
+    }
+  })
+
   // get clipboard content and handles it
   ipcMain.on('getClipboard', (event, arg) => {
     var type = clipboard.availableFormats();
@@ -69,22 +95,37 @@ const createMediaWindow = function createMediaWindow () {
       fs.writeFileSync(('./dist/assets/images/' + picture_link), nimg);
       const action = {
         type: 'png',
-        payload: picture_link
+        payload: picture_link,
+        info: 'png'
       }
       event.returnValue = action;
     } else if (type.indexOf('text/html') !== -1) {
       var html = clipboard.readHTML();
+      console.log('text/html', html);
       const action = {
         type: 'html',
-        payload: html
+        payload: html,
+        info: 'html'
       }
       event.returnValue = action;
     } else if (type.indexOf('text/plain') !== -1) {
       var text = clipboard.readText();
-      const action = {
-        type: 'text',
-        payload: text
+      var action;
+      try {
+        var input = JSON.parse(text);
+        action = {
+          type: input.type,
+          payload: input.object,
+          info: input.info
+        }
+      } catch (err) {
+        action = {
+          type: 'text',
+          payload: text,
+          info: err
+        }
       }
+      // console.log(action);
       event.returnValue = action;
     } else {
       console.log('no readable content');

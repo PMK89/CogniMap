@@ -8,6 +8,7 @@ declare var Snap: any;
 
 // services
 import { SettingsService } from './settings.service';
+import { MathJaxService } from './mathjax.service';
 import { ElementService } from './element.service';
 import { CmosvgService } from './shapes/cmosvg.service';
 import { CmlsvgService } from './shapes/cmlsvg.service';
@@ -25,6 +26,7 @@ export class SnapsvgService {
 
   constructor(private cmosvgService: CmosvgService,
               private settingsService: SettingsService,
+              private mathjaxService: MathJaxService,
               private elementService: ElementService,
               private cmlsvgService: CmlsvgService) {
                 this.settingsService.cmsettings
@@ -98,8 +100,130 @@ export class SnapsvgService {
       case 's':
         this.cmlsvgService.createSCurve(cme, this.cmsvg, cmg);
         break;
+      case 'w':
+        this.cmlsvgService.createWave(cme, this.cmsvg, cmg);
+        break;
+      case 'z':
+        this.cmlsvgService.createZigzag(cme, this.cmsvg, cmg);
+        break;
       default:
         this.cmlsvgService.createLine(cme, this.cmsvg, cmg);
+    }
+  }
+
+  // generates shape from prepared string or initiates new creation
+  public makeContent(cme: any, cmg?: any) {
+    if (typeof cme.cmobject === 'string') {
+      cme = this.elementService.CMEtoCMEol(cme);
+    }
+    if (cme !== undefined && this.cmsettings !== undefined) {
+      this.cmsvg = Snap('#cmsvg');
+      let con;
+      let s = this.cmsvg;
+      let id = cme.id.toString();
+      if (cme.id < 1) {
+        id = id.replace('.', '_');
+      }
+      let totwidth = 0;
+      for (let i = 0; i < cme.cmobject.content.length; i++) {
+        if (cme.cmobject.content[i]) {
+          let content = cme.cmobject.content[i];
+          let coorX = cme.coor.x + content.coor.x;
+          let coorY = cme.coor.y + content.coor.y;
+          switch (content.cat) {
+            case 'i':
+              // insertes images (png, jpg, gif)
+              let path;
+              if (content.object.indexOf('assets/') === -1) {
+                path = 'assets/images/' + content.object;
+              } else {
+                path = content.object;
+              }
+              con = s.image((path), coorX, coorY);
+              cmg.add(con);
+              con.attr({
+                opacity: cme.cmobject.style.object.trans,
+                id: id.toString() + '_' + i.toString(),
+                title: id
+              });
+              con.transform('s' + (content.height / 100));
+              break;
+            case 'svg':
+              // inserts svg to marker group
+              let svggroup = cmg.g();
+              con = Snap.parse(content.object);
+              svggroup.append(con);
+              // svggroup.selectAll('rect').remove();
+              let svgbbox = svggroup.getBBox();
+              console.log(svgbbox);
+              svggroup.transform('t' + (coorX + totwidth - svgbbox.x) + ',' + (coorY - svgbbox.y));
+              content.width = svgbbox.width;
+              cmg.add(svggroup);
+              cmg.transform('s' + (content.height / 100));
+              break;
+            case 'jsme-svg':
+              // inserts jsme-svg to marker group and removes white rect
+              let jsmesvggroup = cmg.g();
+              con = Snap.parse(content.object);
+              jsmesvggroup.append(con);
+              jsmesvggroup.selectAll('rect').remove();
+              let jsmesvgbbox = jsmesvggroup.getBBox();
+              console.log(jsmesvgbbox);
+              jsmesvggroup.transform('t' + (coorX + totwidth - jsmesvgbbox.x) + ',' + (coorY - jsmesvgbbox.y));
+              content.width = jsmesvgbbox.width;
+              cmg.add(jsmesvggroup);
+              cmg.transform('s' + (content.height / 100));
+              break;
+            case 'xml':
+              // do something with images
+              let xmlgroup = cmg.g();
+              let mjsvg = this.mathjaxService.getMjSVG(content.object);
+              con = Snap.parse(mjsvg);
+              xmlgroup.append(con);
+              let xmlbbox = xmlgroup.getBBox();
+              console.log(xmlgroup);
+              xmlgroup.transform('t' + (coorX + totwidth - xmlbbox.x) + ',' + (coorY - xmlbbox.y));
+              content.width = xmlbbox.width;
+              cmg.add(xmlgroup);
+              break;
+            case 'html':
+              // do something with html
+              break;
+            case 'p':
+              // do something with images
+              con = s.image('assets/images/basic/empty.png', coorX, coorY);
+              cmg.add(con);
+              break;
+            case 'l':
+              // do something with images
+              con = s.image('assets/images/basic/empty.png', coorX, coorY);
+              cmg.add(con);
+              break;
+            case 'mp4':
+              console.log(content.object);
+              break;
+            default:
+              // do something with images {
+              con = Snap.parse(content.object);
+              svggroup.append(con);
+              break;
+          }
+          totwidth += content.width;
+        }
+      }
+      /*
+      if (this.cmsettings.mode === 'edit') {
+        let id = cme.id.toString();
+        if (cme.id < 1) {
+          id = id.replace('.', '_');
+        }
+        let oldelem = this.cmsvg.select('#cms' + id);
+        if (oldelem) {
+          oldelem.remove();
+          console.log('removed');
+        }
+      }
+      */
     }
   }
 }

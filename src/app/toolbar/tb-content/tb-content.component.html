@@ -1,0 +1,83 @@
+<div class="tbbox" *ngIf="contentlen!==0" >
+  <table>
+    <tr>
+      <td>
+        <table id="objecttable">
+          <tr>
+            <td style="white-space: nowrap;">
+              <b (click)="changeContent(-1)">←</b>
+              {{pos + 1}} / {{contentlen}}
+              <b (click)="changeContent(1)">→</b>
+            </td>
+            <td>
+              <img src="assets/images/basic/white_trans.png" (click)="makeTrans('white')"/>
+            </td>
+            <td>
+              <div (click)="delContent()">
+                del
+              </div>
+            </td>
+            <td>
+              <app-s-button [buttons]="buttons" [selector]="8"></app-s-button>
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input #picSizeInput value="{{picsize}}" size="3"
+                (keyup.enter)="setPicSize(picSizeInput.value)">
+            </td>
+            <td>
+              <img src="assets/images/basic/black_trans.png" (click)="makeTrans('black')"/>
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+          </tr>
+          <tr>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+
+
+            </td>
+            <td>
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>

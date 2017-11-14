@@ -18,6 +18,9 @@
    <td *ngIf="cmsettings.mode!=='typing'">
      <app-tb-line [cmtbline]="cmsettings.cmtbline"></app-tb-line>
    </td>
+   <td *ngIf="cmsettings.mode!=='typing'">
+     <app-tb-content [cmsettings]="cmsettings"></app-tb-content>
+   </td>
    <td *ngIf="cmsettings.mode==='typing'">
      <app-tb-spechars [cmsettings]="cmsettings"></app-tb-spechars>
    </td>

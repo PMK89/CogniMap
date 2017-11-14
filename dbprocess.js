@@ -32,6 +32,41 @@ const createDbWindow = function createDbWindow() {
 
   // delete database
   ipcMain.on('saveDb', function (event, arg) {
+    // easy function to change elements in db
+    /*
+    cme.find({}, function(err, data) {
+      if (err) console.log(err);
+      if (data) {
+        var i;
+        var l = data.length;
+        for (i = 0; i < l; i++) {
+          if(data[i]) {
+            if (data[i].id > 0) {
+              try {
+                var cmobject = JSON.parse(data[i].cmobject);
+                if (cmobject.content) {
+                  if (cmobject.content[0]) {
+                    cmobject.content[0].height = cmobject.content[0].width;
+                    cmobject.content[0].width = 100;
+                    data[i].cmobject = JSON.stringify(cmobject);
+                    data[i].save(function (err) {
+                      if (err) {
+                        console.log(err) // #error message
+                      } else {
+                        console.log('changedCME: ')
+                      }
+            				});
+                  }
+                }
+              } catch (err) {
+                console.log(err)
+              }
+            }
+          }
+        }
+      }
+    });
+    */
     cme.find({}, function(err, data) {
       if (err) console.log(err);
       if (data) {
@@ -47,7 +82,7 @@ const createDbWindow = function createDbWindow() {
         fs.writeFileSync(arg, strData);
         event.returnValue = 'database saved to ' + arg
       }
-    });
+    });  
   })
 
   // load database

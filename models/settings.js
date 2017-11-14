@@ -81,7 +81,7 @@ var CMSettings = {
   menue: CMLayout,
   cmtbobject: CMTBObject,
   cmtbline: CMTBLine,
-  cmtbfont: CMTBFont,
+  cmtbfont: CMTBFont
 }
 
 module.exports = CMSettings;

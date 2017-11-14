@@ -18,12 +18,37 @@ import { CMStore } from '../models/CMStore';
 })
 export class CmapComponent implements OnInit {
   public cmelements: Observable<any[]>;
+  public selection = {
+    display: 'none',
+    left: '0px',
+    top: '0px',
+    width: '0px',
+    height: '0px'
+  };
 
   constructor(private elementService: ElementService,
               private eventService: EventService,
               private store: Store<CMStore>) {
                 this.cmelements = store.select('cmes');
                 // this.elementService.getMaxID();
+                this.eventService.mousedif()
+                .subscribe(
+                  (data) => {
+                    if (data) {
+                      if (data['left'] && data['top'] && data['width'] && data['height']) {
+                        this.selection.left = data['left'] + 'px';
+                        this.selection.top = data['top'] + 'px';
+                        this.selection.width = data['width'] + 'px';
+                        this.selection.height = data['height'] + 'px';
+                        this.selection.display = 'block';
+                        // console.log(data);
+                      } else {
+                        this.selection.display = 'none';
+                      }
+                    }
+                  },
+                  (error) => console.log(error)
+                );
               }
 
   public ngOnInit() {}

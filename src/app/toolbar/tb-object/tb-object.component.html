@@ -59,14 +59,11 @@
             <td>
               <app-s-button [buttons]="buttons" [selector]="11"></app-s-button>
             </td>
-            <td *ngIf="!ispic" >
-              <app-s-button [buttons]="buttons" [selector]="12"></app-s-button>
+            <td >
+              
             </td>
-            <td *ngIf="ispic" colspan="2">
-              <input #picSizeInput value="{{picsize}}" size="3"
-                (keyup.enter)="setPicSize(picSizeInput.value)">
-              <img src="assets/images/basic/white_trans.png" (click)="makeTrans('white')"/>
-              <img src="assets/images/basic/black_trans.png" (click)="makeTrans('black')"/>
+            <td colspan="2">
+
             </td>
             <td>
               <div (click)="delselCMEo()">

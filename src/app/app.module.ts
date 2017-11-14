@@ -30,6 +30,7 @@ import { TbLineComponent } from './toolbar/tb-line/tb-line.component';
 import { TbNavigationComponent } from './toolbar/tb-navigation/tb-navigation.component';
 import { TbTemplatesComponent } from './toolbar/tb-templates/tb-templates.component';
 import { TbObjectComponent } from './toolbar/tb-object/tb-object.component';
+import { TbContentComponent } from './toolbar/tb-content/tb-content.component';
 import { TbSettingsComponent } from './toolbar/tb-settings/tb-settings.component';
 import { TbSpecharsComponent } from './toolbar/tb-spechars/tb-spechars.component';
 
@@ -43,6 +44,7 @@ import { EventService } from './shared/event.service';
 import { CmlsvgService } from './shared/shapes/cmlsvg.service';
 import { CmosvgService } from './shared/shapes/cmosvg.service';
 import { SnapsvgService } from './shared/snapsvg.service';
+import { MathJaxService } from './shared/mathjax.service';
 import { settings } from './reducers/settings.reducer';
 import { buttons } from './reducers/buttons.reducer';
 import { colors } from './reducers/colors.reducer';
@@ -90,10 +92,12 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
                   TbTemplatesComponent,
                   TbNavigationComponent,
                   TbObjectComponent,
+                  TbContentComponent,
                   TbSettingsComponent,
                   TbSpecharsComponent],
   providers: [LayoutService,
               WindowService,
+              MathJaxService,
               SettingsService,
               EventService,
               CmlsvgService,

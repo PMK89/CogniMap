@@ -1,0 +1,45 @@
+.tbbox
+{
+	border-style: solid;
+	height: 80px;
+	border-width: 1px;
+	border-color: #808080;
+    cellpadding: 0;
+    cellspacing: 0;
+    /*border-top: 2px solid #96d1f8;*/
+    /* Old browsers */
+    background: #ffffff;
+    /* Chrome,Safari4+ */
+    -webkit-border-radius: 5px;
+    /* FF3.6+ */
+    -moz-border-radius: 5px;
+    /* Old browsers */
+    border-radius: 5px;
+}
+th, td {
+    border: 0px;
+    padding: 0px;
+}
+
+.objecttable {
+    border-collapse: collapse;
+    border: 0px;
+    padding: 2px;
+}
+
+.connectortableclass {
+	border: 0px;
+  width: 80px;
+  height: 36px;
+	padding: 0px;
+  table-layout: fixed;
+  overflow:hidden;
+  border-spacing: 0px !important;
+}
+
+.connectortdclass {
+	border: 0px;
+	padding: 0px;
+  height: 12px  !important;
+  border-spacing: 0px !important;
+}

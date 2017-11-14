@@ -81,6 +81,8 @@ export class WindowService {
         // this.Boundaries0.r = x + this.WinWidth;
         this.Parameters.l = x - 2 * this.WinWidth;
         this.Parameters.r = x + this.WinWidth;
+        this.Parameters.t = y - 2 * this.WinHeight;
+        this.Parameters.b = y + 2 * this.WinHeight;
         Scrolled = true;
         // console.log('- ', xdif);
       } else if (Math.abs(xdif) > this.WinWidth && xdif > 0 ) {
@@ -88,6 +90,8 @@ export class WindowService {
         // this.Boundaries0.r = x + this.WinWidth;
         this.Parameters.l = x - this.WinWidth;
         this.Parameters.r = x + 3 * this.WinWidth;
+        this.Parameters.t = y - 2 * this.WinHeight;
+        this.Parameters.b = y + 2 * this.WinHeight;
         Scrolled = true;
         // console.log('+ ', xdif);
       }
@@ -96,6 +100,8 @@ export class WindowService {
         // this.Boundaries0.b = y + this.WinHeight;
         this.Parameters.t = y - 2 * this.WinHeight;
         this.Parameters.b = y + this.WinHeight;
+        this.Parameters.l = x - 2 * this.WinWidth;
+        this.Parameters.r = x + 2 * this.WinWidth;
         Scrolled = true;
         // console.log('- ', ydif);
       } else if (Math.abs(ydif) > this.WinHeight && ydif > 0 ) {
@@ -103,6 +109,8 @@ export class WindowService {
         // this.Boundaries0.b = y + this.WinHeight;
         this.Parameters.t = y - this.WinHeight;
         this.Parameters.b = y + 3 * this.WinHeight;
+        this.Parameters.l = x - 2 * this.WinWidth;
+        this.Parameters.r = x + 2 * this.WinWidth;
         Scrolled = true;
         // console.log('+ ', ydif);
       }

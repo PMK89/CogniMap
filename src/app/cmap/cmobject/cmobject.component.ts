@@ -27,6 +27,8 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
   public textClass: string[];
   public inputtext: string = this.elementService.inputtext;
   public TextInput = false;
+  public video = false;
+  public videourl: string;
 
   constructor(private eventService: EventService,
               private snapsvgService: SnapsvgService,
@@ -56,8 +58,7 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
         title: id
       });
       if (this.cmelement.prep !== '' && this.cmelement.prep !== undefined) {
-        let o = Snap.parse(this.cmelement.prep);
-        this.cmgroup.append(o);
+        this.cmgroup.append(Snap.parse(this.cmelement.prep));
         // console.log(this.cmelement.prep);
       } else {
         let marking = s.select('#cmmark' + id);
@@ -71,44 +72,24 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
         } else if (this.cmeo.prio >= 99) {
           this.cmeo.prio = 99;
         }
-        let img;
         let bbox = this.cmgroup.getBBox();
         if (this.cmeo.cmobject.content.length > 0) {
-          for (let i in this.cmeo.cmobject.content) {
+          // generates content as svg
+          this.snapsvgService.makeContent(this.cmeo, this.cmgroup);
+          // checks for markers with video
+          for (let i = 0; i < this.cmeo.cmobject.content.length; i++) {
             if (this.cmeo.cmobject.content[i]) {
-              let content = this.cmeo.cmobject.content[i];
-              let coorX = this.cmeo.coor.x + content.coor.x;
-              let coorY = this.cmeo.coor.y + content.coor.y;
-              if (content.cat === 'i') {
-                img = s.image(('assets/images/' + content.object), coorX, coorY);
-                this.cmgroup.add(img);
-                img.attr({
-                  opacity: this.cmeo.cmobject.style.object.trans,
-                  title: id
-                });
-                img.transform('s' + (content.width / 100));
-              } else if (content.cat === 'l' || content.cat === 'p') {
-                img = s.image('assets/images/basic/empty.png', coorX, coorY);
-                this.cmgroup.add(img);
-              } else if (content.cat === 's') {
-                let svggroup = this.cmgroup.g();
-                img = Snap.parse(content.object);
-                svggroup.append(img);
-                let svgbbox = svggroup.getBBox();
-                svggroup.transform('t' + (coorX + svgbbox.x) + ',' + (coorY + svgbbox.y));
-                this.cmgroup.add(svggroup);
-              } else {
-                img = s.image(content.object, coorX, coorY);
-                this.cmgroup.add(img);
+              if (this.cmeo.cmobject.content[i].cat === 'mp4') {
+                let content = this.cmeo.cmobject.content[i];
+                console.log(content);
+                this.video = true;
+                this.videourl = content.object;
               }
             }
           }
         }
         let types = this.cmeo.types;
         if (types[0] === 'i' || types[0] === 'p') {
-          // console.log(this.cmeo);
-        } else if (types[0] === 's') {
-
           // console.log(this.cmeo);
         } else {
           let title = s.text(this.cmeo.coor.x, this.cmeo.coor.y, this.cmeo.title);
@@ -125,11 +106,11 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           this.cmgroup.add(title);
           bbox = this.cmgroup.getBBox();
+          let content = this.cmgroup.innerSVG();
+          content = content.replace(/ \\"/g, " '");
+          content = content.replace(/\\",/g, "',");
           this.snapsvgService.makeShape(this.cmeo, bbox, this.cmgroup);
-          if (img) {
-            this.cmgroup.add(img);
-          }
-          this.cmgroup.add(title);
+          this.cmgroup.add(Snap.parse(content));
         }
         bbox = this.cmgroup.getBBox();
         this.cmeo.x0 = bbox.x;
@@ -225,7 +206,6 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
             marking.remove();
           }
         }
-
         // d = new Date();
         // let t1 = d.getTime();
         // console.log('cmobject end: t', t1, 'delta_t:', (t1 - t0));
@@ -260,6 +240,7 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
   public passText(text) {
     this.TextInput = false;
     if (this.cmelement.state === 'svginput') {
+      /*
       if (this.cmeo === undefined) {
         this.cmeo = this.elementService.CMEtoCMEol(this.cmelement);
       }
@@ -282,6 +263,7 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cmeo.prep1 = '';
       // console.log(this.cmeo);
       this.elementService.updateSelCMEo(this.cmeo);
+      */
     } else if (this.cmelement.state === 'typing') {
       this.elementService.changeCMEo({variable: ['title'], value: text});
     }

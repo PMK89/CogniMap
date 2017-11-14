@@ -3,3 +3,8 @@
       (keyup)="updateText(inputtext)"
       (keyup.enter)="passText(inputtext)">
 </div>
+<div *ngIf="video" [title]="cmelement.id">
+  <video controls>
+    <source src="{{videourl}}" type="video/mp4">
+  </video>
+</div>

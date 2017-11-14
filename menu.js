@@ -55,6 +55,25 @@ let template = [{
   }, {
     type: 'separator'
   }, {
+    label: 'Load File' ,
+    click: function (item, focusedWindow) {
+      var path = dialog.showOpenDialog({
+        properties: ['openFile']
+      });
+      if (path) {
+        if (focusedWindow) {
+          console.log(path);
+          const action = {
+            type: 'loadFile',
+            payload: path[0]
+          }
+          focusedWindow.webContents.send('menuReceiver', action);
+        }
+      }
+    }
+  }, {
+    type: 'separator'
+  }, {
     label: 'Select IMG Folder',
     click: function (event) {
       var path = dialog.showOpenDialog({

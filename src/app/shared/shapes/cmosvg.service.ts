@@ -12,18 +12,7 @@ export class CmosvgService {
     let s = Snap('#cmsvg');
     let mrg = 2;
     let r = s.rect((bbox.x - (mrg / 2)), (bbox.y - (mrg / 2)), (bbox.w + mrg), (bbox.h + mrg));
-    r.attr({
-      fill: cme.cmobject.style.object.color0,
-      opacity: cme.cmobject.style.object.trans,
-      id: 'cms' + cme.id.toString(),
-    });
-    if (cme.types[2] === 'b') {
-      r.attr({
-        stroke: cme.cmobject.style.object.color1,
-        strokeWidth: (cme.cmobject.style.title.size / 8),
-      });
-    }
-    cmg.add(r);
+    this.addShape(cme, cmg, r);
   }
 
   // creates an standart object
@@ -32,18 +21,7 @@ export class CmosvgService {
     let mrg = 5;
     let a = s.rect((bbox.x - (mrg / 2)), (bbox.y - (mrg / 2)),
      (bbox.w + mrg), (bbox.h + mrg), 3, 3);
-    a.attr({
-      fill: cme.cmobject.style.object.color0,
-      opacity: cme.cmobject.style.object.trans,
-      id: 'cms' + cme.id.toString(),
-    });
-    if (cme.types[2] === 'b') {
-      a.attr({
-        stroke: cme.cmobject.style.object.color1,
-        strokeWidth: (cme.cmobject.style.title.size / 8),
-      });
-    }
-    cmg.add(a);
+    this.addShape(cme, cmg, a);
   }
 
   // creates an ellipse
@@ -51,36 +29,14 @@ export class CmosvgService {
     let s = Snap('#cmsvg');
     let mrg = 2;
     let e = s.ellipse(bbox.cx, bbox.cy, (bbox.r0 + mrg), (bbox.h + mrg));
-    e.attr({
-      fill: cme.cmobject.style.object.color0,
-      opacity: cme.cmobject.style.object.trans,
-      id: 'cms' + cme.id.toString(),
-    });
-    if (cme.types[2] === 'b') {
-      e.attr({
-        stroke: cme.cmobject.style.object.color1,
-        strokeWidth: (cme.cmobject.style.title.size / 8),
-      });
-    }
-    cmg.add(e);
+    this.addShape(cme, cmg, e);
   }
 
   // creates a circle
   public createCircle(cme, bbox, cmg: any) {
     let s = Snap('#cmsvg');
     let c = s.circle(bbox.cx, bbox.cy, bbox.r0);
-    c.attr({
-      fill: cme.cmobject.style.object.color0,
-      opacity: cme.cmobject.style.object.trans,
-      id: 'cms' + cme.id.toString(),
-    });
-    if (cme.types[2] === 'b') {
-      c.attr({
-        stroke: cme.cmobject.style.object.color1,
-        strokeWidth: (cme.cmobject.style.title.size / 8),
-      });
-    }
-    cmg.add(c);
+    this.addShape(cme, cmg, c);
   }
 
   // creates a Text
@@ -115,6 +71,10 @@ export class CmosvgService {
     let mrg = 5;
     let a = s.rect((bbox.x - (mrg / 2)), (bbox.y - (mrg / 2)),
      (bbox.w + mrg), (bbox.h + mrg), 5, 5);
+    this.addShape(cme, cmg, a);
+  }
+
+  public addShape(cme, cmg, a) {
     a.attr({
       fill: cme.cmobject.style.object.color0,
       opacity: cme.cmobject.style.object.trans,
