@@ -1,7 +1,7 @@
 <svg id="cmsvg" width="100%" height="100%"></svg>
 <div *ngFor="let cmelement of cmelements | async;
       trackBy:cmelement?.id">
-      <app-cmline *ngIf="cmelement.types[0] == 'l'"  [ngStyle]="elementStyle(cmelement)" [cmelement]="cmelement"></app-cmline>
+      <app-cmline *ngIf="cmelement.type == 'l'"  [ngStyle]="elementStyle(cmelement)" [cmelement]="cmelement"></app-cmline>
       <app-cmmarker *ngFor="let cmmarker of cmelement.cmline.markers" [ngStyle]="elementStyle(cmmarker)" [cmmarker]="cmmarker"></app-cmmarker>
-      <app-cmobject *ngIf="cmelement.types[0] != 'l' && cmelement.types[0] != 'm'" [ngStyle]="elementStyle(cmelement)" [cmelement]="cmelement"></app-cmobject>
+      <app-cmobject *ngIf="cmelement.type != 'l' && cmelement.type != 'm'" [ngStyle]="elementStyle(cmelement)" [cmelement]="cmelement"></app-cmobject>
 </div>

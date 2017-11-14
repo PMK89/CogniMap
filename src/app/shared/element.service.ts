@@ -15,7 +15,7 @@ import { SettingsService } from './settings.service';
 // models and reducers
 import { CMEStore } from '../models/CMEstore';
 import { CMElement } from '../models/CMElement';
-// import { nCMElement } from '../models/newCMElement';
+import { nCMElement } from '../models/newCMElement';
 import { CMAction } from '../models/CMAction';
 import { CMCoor } from '../models/CMCoor';
 import { CMSettings } from '../models/CMSettings';
@@ -92,6 +92,17 @@ export class ElementService {
     // */
   }
 
+  deactivateID(id) {
+    let url = 'http://localhost:80/deactivate?id=' + id;
+    return this.http.get(url)
+          .map((response: Response) => response.json())
+          .subscribe(x => {
+            if (x) {
+              console.log(x);
+            }
+          });
+  }
+
   // sets current element
   setSelectedElement(id: number) {
     this.store.select('elements')
@@ -153,7 +164,7 @@ export class ElementService {
             });
     */
     // Dev: gets data from testserver
-     /*
+    // /*
     let url = 'http://localhost:80/newcmelement';
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
@@ -194,13 +205,16 @@ export class ElementService {
       prep: ''
     };
     if (cmelement.cmobject.style.object.shape) {
-      newcmelement.type[1] = cmelement.cmobject.style.object.shape;
+      newcmelement.type.push(cmelement.cmobject.style.object.shape);
     }
     let body = JSON.stringify( newcmelement );
     this.http.post(url, body, options)
-      .subscribe(res => console.log(res));
+      .subscribe(res => {
+        this.deactivateID(cmelement.id);
+        console.log(res);
+      });
     // console.log(cmelement.id);
-     */
+    // */
   }
 
   // generates a new element
@@ -270,7 +284,7 @@ export class ElementService {
         x1: parseInt(newxy[0], 10),
         y1: parseInt(newxy[1], 10),
         title: String(oldcme.id) + '-' + String(newcme.id),
-        types: this.newElementLine.types,
+        type: this.newElementLine.type,
         coor: {x: 0, y: 0},
         cat: this.newElementLine.cat,
         dragging: false,
@@ -319,7 +333,7 @@ export class ElementService {
       y1: oldcme.y1,
       prio: oldcme.prio,
       title: oldcme.title,
-      types: oldcme.types,
+      type: oldcme.type,
       coor: oldcme.coor,
       cat: oldcme.cat,
       z_pos: oldcme.z_pos,
@@ -337,6 +351,7 @@ export class ElementService {
     let action = {type: 'ACTIVATE_CME', payload: {id: id} };
     this.store.dispatch(action);
   }
+
   // Set Element as inactive
   setInactive(id: number) {
     let action = {type: 'DEACTIVATE_CME', payload: {id: id} };

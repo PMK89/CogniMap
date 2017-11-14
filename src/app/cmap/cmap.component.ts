@@ -1,4 +1,4 @@
- import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -52,13 +52,12 @@ export class CmapComponent implements OnInit {
         // Prod: handle electron response
         // /*
         .subscribe(x => {
-          /*
           let action = {
             type: 'ADD_CME_FROM_DB',
             payload: x
           };
           this.store.dispatch(action);
-          */
+          /*
           for (let i in x) {
             if (x[i]) {
               x[i].cmobject = JSON.parse(x[i].cmobject);
@@ -70,6 +69,7 @@ export class CmapComponent implements OnInit {
               this.store.dispatch(action);
             }
           }
+          */
         });
         // */
     }

@@ -10,19 +10,22 @@ export class CMObject {
       size: number;
       font: string;
       color: string;
-      class_array: [string]
+      deco: string;
+      display: string;
+      class_array: [string];
     };
     object: {
+      shape: string;
       color0: string;
       color1: string;
       trans: number;
       weight: number;
       str: string;
       num_array: [number];
-      class_array: [string]
+      class_array: [string];
     }
   };
   links: [CMLink];
-  cdate: number;
-  vdate: number;
+  cdate: Date;
+  vdate: Date;
 }

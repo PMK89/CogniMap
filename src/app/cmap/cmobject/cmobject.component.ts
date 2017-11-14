@@ -49,13 +49,13 @@ export class CmobjectComponent implements OnInit {
       'opacity': this.cmelement.cmobject.style.object.trans
     };
     // adds attributes to standard a element
-    if (this.cmelement.types[0] === 'a') {
+    if (this.cmelement.type === 'a') {
       this.objectClass = this.cmelement.cmobject.style.object.class_array;
       this.objectStyle = {
         'background-color': this.cmelement.cmobject.style.object.color0,
         'opacity': this.cmelement.cmobject.style.object.trans
       };
-      this.objectClass = ['a' + this.cmelement.types[1]];
+      this.objectClass = ['a' + this.cmelement.cmobject.style.object.shape];
     }
     if (this.cmelement.cmobject.content) {
       this.hasContent = true;
@@ -73,7 +73,11 @@ export class CmobjectComponent implements OnInit {
 
   // gets dimensions after view is initiated
   ngAfterViewInit() {
-      // this.getDimensions();
+    if (this.cmelement.active) {
+      this.getDimensions();
+      this.elementService.setInactive(this.cmelement.id);
+      console.log('object emitted');
+    }
   }
 
   // set content possition
