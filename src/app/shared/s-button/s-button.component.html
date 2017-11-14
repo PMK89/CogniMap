@@ -1,0 +1,10 @@
+<div *ngFor="let button of buttons | async">
+  <div *ngIf="button.id == selector" style="z-index: 10">
+    <div *ngIf="button.blocked" style="z-index: 10">
+      <img src="assets/images/basic/empty.png">
+    </div>
+    <div (click)="clicked(button)" style="z-index: 0" [class]="getState(button)">
+      <img [src]="button.content">
+    </div>
+  </div>
+</div>

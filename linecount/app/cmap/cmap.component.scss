@@ -1,0 +1,23 @@
+#selection {
+  opacity: 0.5;
+  background-color: rgba(0, 0, 255, 0.5);
+  border-color: rgb(0, 0, 255);
+  border-width: medium;
+  position: absolute;
+}
+
+#position {
+  opacity: 0.5;
+  background-color: rgb(255, 0, 0);
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  z-index: 210;
+  position: absolute;
+}
+
+.point {
+  border-radius: 2px;
+  height: 4px;
+  width: 4px;
+}

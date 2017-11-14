@@ -1,0 +1,20 @@
+<div id="widget0">
+  <div *ngIf="widget0==='equation'">
+     <app-mjeditor></app-mjeditor>
+  </div>
+  <div *ngIf="widget0==='formula'">
+     <iframe #iframe0 id="iframe0" src="assets/widgets/JSME/JSME_editor_plus_SVG.html" [style.height]="w0height" [style.width]="w0width" (change)="cminterface0()"></iframe>
+  </div>
+  <div *ngIf="widget0==='svg'">
+     <iframe #iframe0 id="iframe0" src="assets/widgets/svgeditor/svg-editor.html" [style.height]="w0height" [style.width]="w0width" (click)="cminterface0()"></iframe>
+  </div>
+  <div *ngIf="widget0==='navigator'">
+     <app-navigator></app-navigator>
+  </div>
+  <div *ngIf="widget0==='codeeditor'">
+     <app-codeeditor></app-codeeditor>
+  </div>
+  <div *ngIf="widget0==='none'">
+     <iframe #iframe0 id="iframe0" src="" height="0%" width="0%" (click)="cminterface0()"></iframe>
+  </div>
+</div>

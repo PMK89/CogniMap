@@ -1,0 +1,57 @@
+<div id="mjeditor">
+  <div id="output">
+    <svg width="550px" height="60px" id="mjeditorsvg"></svg>
+  </div>
+  <table id="uppertable">
+    <tr>
+      <td>
+        <div id="save" (mousedown)="saveLateX()">
+          save
+        </div>
+      </td>
+      <td>
+        <div id="counter" >
+          {{cpos}}
+        </div>
+      </td>
+    </tr>
+  </table>
+  <div id="input">
+    <textarea #latexInput value="{{inputtext}}" rows="4" cols="40"
+    (keyup)="makeLatex(latexInput, latexInput.value)"
+    (click)="makeLatex(latexInput, latexInput.value)"
+    (change)="makeLatex(latexInput, latexInput.value)"></textarea>
+  </div>
+  <table id="uppertable">
+    <tr>
+      <td id="column1">
+        <table>
+          <tr *ngFor="let c1row of LateX.column1">
+            <td *ngFor="let cell1 of c1row">
+              <div class="LatexSvgButton" [innerHTML]="getSVG(cell1)" (mousedown)="buttonInput(cell1)">
+
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td id="column2">
+        <table>
+
+        </table>
+      </td>
+      <td id="column3">
+        <table>
+          <tr *ngFor="let c3row of LateX.column3">
+            <td *ngFor="let cell3 of c3row">
+              <div class="LatexSvgButton" [innerHTML]="getSVG(cell3)" (mousedown)="buttonInput(cell3)">
+
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</div>

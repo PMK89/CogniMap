@@ -1,0 +1,37 @@
+img {
+   height: 16px;
+   margin: auto;
+   padding: 2px;
+}
+
+.wrapper
+{
+  border: 0;
+  height: 20px;
+  padding: 0;
+}
+
+.btndefault
+{
+    border-style: solid;
+	  border-width: 1px;
+    height: 20px;
+    width: 50px;
+    margin: auto;
+    text-align: center;
+    /*border-top: 2px solid #96d1f8;*/
+    /* Old browsers */
+    background: transparent;
+    -webkit-border-radius: 2px;
+    /* FF3.6+ */
+    -moz-border-radius: 2px;
+    /* Old browsers */
+    border-radius: 2px;
+    color: #505050;
+}
+
+/* Hidden Elements */
+.hidden
+{
+	display: none;
+}

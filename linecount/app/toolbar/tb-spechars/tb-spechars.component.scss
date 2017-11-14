@@ -1,0 +1,63 @@
+.tbbox
+{
+	border-style: solid;
+	height: 80px;
+	border-width: 1px;
+	border-color: #808080;
+    cellpadding: 0;
+    cellspacing: 0;
+    /*border-top: 2px solid #96d1f8;*/
+    /* Old browsers */
+    background: transparent;
+    /* Chrome,Safari4+ */
+    -webkit-border-radius: 5px;
+    /* FF3.6+ */
+    -moz-border-radius: 5px;
+    /* Old browsers */
+    border-radius: 5px;
+}
+
+#spechartable0
+{
+	font-family: "Times New Roman", Times, serif;
+	font-size: 14px;
+    padding: 0;
+}
+
+#spechartable1
+{
+	font-family: "Times New Roman", Times, serif;
+	font-size: 14px;
+    padding: 0;
+}
+
+#spechartable2
+{
+	font-family: "Times New Roman", Times, serif;
+	font-size: 14px;
+    padding: 0;
+}
+
+#activeSpecharsDiv
+{
+	overflow-x: auto;
+    overflow-y: hidden;
+    height: 80px;
+    max-width: 400px;
+}
+
+::-webkit-scrollbar {
+      width: 5px;
+}
+
+th, td {
+    height: 22px;
+    border: 0px;
+    padding: 1px;
+}
+
+table {
+    border-collapse: collapse;
+    border: 0px;
+    padding: 0px;
+}

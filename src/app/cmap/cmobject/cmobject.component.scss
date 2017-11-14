@@ -1,0 +1,157 @@
+/* Hidden Elements */
+.hidden
+{
+	display: none;
+}
+/* standart type  */
+.aa
+{
+    padding: 0px 6px 0px 2px;
+    vertical-align: middle;
+    /* Chrome,Safari4+ */
+    -webkit-border-radius: 5px;
+    /* FF3.6+ */
+    -moz-border-radius: 5px;
+    /* Old browsers */
+    border-radius: 5px;
+    /* Chrome,Safari4+ */
+}
+    /* text only */
+.at
+{
+    padding: 0px 2px 0px 2px;
+    vertical-align: middle;
+}
+/* elypse */
+.ae
+{
+    padding: 0px 6px 0px 2px;
+    vertical-align: middle;
+    /* Chrome,Safari4+ */
+    -webkit-border-radius: 25px;
+    /* FF3.6+ */
+    -moz-border-radius: 25px;
+    /* Old browsers */
+    border-radius: 25px;
+    /* Chrome,Safari4+ */
+}
+/* Rectangle */
+.ar
+{
+    padding: 0px 6px 0px 2px;
+    vertical-align: middle;
+}
+/* Circle */
+.ac
+{
+     /* Chrome,Safari4+ */
+    -webkit-border-radius: 50%;
+    /* FF3.6+ */
+    -moz-border-radius: 50%;
+    /* Old browsers */
+    border-radius: 50%;
+    /* Chrome,Safari4+ */
+	padding: 5px;
+	text-align: center;
+	vertical-align: middle;
+}
+/*Standard text */
+.f1_a
+{
+	white-space: nowrap;
+	text-decoration: none;
+	font-family:'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive;
+}
+/* bold text */
+.f1_s{
+	white-space: nowrap;
+	text-decoration: bold;
+	font-family:'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive;
+	text-shadow: rgba(0,0,0,.4) 1px 2px 1px;
+}
+/* underline text */
+.f1_u{
+	white-space: nowrap;
+	text-decoration: underline;
+	font-family:'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive;
+}
+/* underline text */
+.f1_l{
+	white-space: nowrap;
+	text-decoration: line-through;
+	font-family:'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive;
+}
+/*Standard decoration */
+.ca
+{
+	opacity: 1.00;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+}
+/*Standard decoration image*/
+.ca1
+{
+	opacity: 1.00;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+}
+/*Transparent decoration image*/
+.ca2
+{
+	opacity: 0.90;
+    filter: alpha(opacity=90); /* For IE8 and earlier */
+}
+/*Transparent decoration image*/
+.ca3
+{
+	opacity: 0.80;
+    filter: alpha(opacity=80); /* For IE8 and earlier */
+}
+/*Transparent decoration image*/
+.ca4
+{
+	opacity: 0.70;
+    filter: alpha(opacity=70); /* For IE8 and earlier */
+}
+/*Transparent decoration image*/
+.ca5
+{
+	opacity: 0.60;
+    filter: alpha(opacity=60); /* For IE8 and earlier */
+}
+/*Transparent decoration image*/
+.ca6
+{
+	opacity: 0.50;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}
+/*Transparent decoration */
+.ct
+{
+	opacity: 0.65;
+    filter: alpha(opacity=65); /* For IE8 and earlier */
+}
+
+/* Shadow */
+.cs
+{
+	box-shadow: 6px 6px 3px #888888;
+}
+.cq
+{
+    /* transparent type beam */
+	white-space: nowrap;
+    text-decoration: none;
+    padding: 5px;
+    vertical-align: middle;
+	font-size: 12;
+	color: #000000;
+    font-family:'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive;
+    /* Chrome,Safari4+ */
+    -webkit-border-radius: 10px;
+    /* FF3.6+ */
+    -moz-border-radius: 10px;
+    /* Old browsers */
+    border-radius: 10px;
+    /* Chrome,Safari4+ */
+    opacity: 0.65;
+    filter: alpha(opacity=65); /* For IE8 and earlier */
+}

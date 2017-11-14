@@ -1,0 +1,42 @@
+2016/12/31-14:47:58.539 42d8 Recovering log #43
+2016/12/31-14:47:58.540 42d8 Level-0 table #45: started
+2016/12/31-14:47:58.547 42d8 Level-0 table #45: 60390 bytes OK
+2016/12/31-14:47:58.555 42d8 Delete type=0 #43
+2016/12/31-14:47:58.556 42d8 Delete type=3 #41
+2016/12/31-14:51:50.028 36a8 Level-0 table #48: started
+2016/12/31-14:51:50.062 36a8 Level-0 table #48: 895211 bytes OK
+2016/12/31-14:51:50.065 36a8 Delete type=0 #46
+2016/12/31-14:51:59.270 36a8 Compacting 3@0 + 0@1 files
+2016/12/31-14:51:59.285 36a8 Generated table #49@0: 230 keys, 115460 bytes
+2016/12/31-14:51:59.285 36a8 Compacted 3@0 + 0@1 files => 115460 bytes
+2016/12/31-14:51:59.286 36a8 compacted to: files[ 0 1 1 0 0 0 0 ]
+2016/12/31-14:51:59.286 36a8 Delete type=2 #42
+2016/12/31-14:51:59.287 36a8 Delete type=2 #45
+2016/12/31-14:51:59.287 36a8 Delete type=2 #48
+2016/12/31-14:51:59.498 36a8 Compacting 1@1 + 1@2 files
+2016/12/31-14:51:59.595 36a8 Generated table #50@1: 6514 keys, 2121358 bytes
+2016/12/31-14:51:59.595 36a8 Compacted 1@1 + 1@2 files => 2121358 bytes
+2016/12/31-14:51:59.597 36a8 compacted to: files[ 0 0 1 0 0 0 0 ]
+2016/12/31-14:51:59.597 36a8 Delete type=2 #18
+2016/12/31-14:51:59.598 36a8 Delete type=2 #49
+2016/12/31-14:56:28.067 36a8 Level-0 table #52: started
+2016/12/31-14:56:28.101 36a8 Level-0 table #52: 932702 bytes OK
+2016/12/31-14:56:28.104 36a8 Delete type=0 #47
+2016/12/31-14:58:20.610 36a8 Compacting 1@1 + 1@2 files
+2016/12/31-14:58:20.690 36a8 Generated table #53@1: 6224 keys, 2140069 bytes
+2016/12/31-14:58:20.697 36a8 Generated table #54@1: 290 keys, 98920 bytes
+2016/12/31-14:58:20.697 36a8 Compacted 1@1 + 1@2 files => 2238989 bytes
+2016/12/31-14:58:20.699 36a8 compacted to: files[ 0 0 2 0 0 0 0 ]
+2016/12/31-14:58:20.699 36a8 Delete type=2 #50
+2016/12/31-14:58:20.700 36a8 Delete type=2 #52
+2016/12/31-14:59:22.419 36a8 Level-0 table #56: started
+2016/12/31-14:59:22.454 36a8 Level-0 table #56: 942499 bytes OK
+2016/12/31-14:59:22.457 36a8 Delete type=0 #51
+2016/12/31-15:02:37.800 36a8 Compacting 1@1 + 2@2 files
+2016/12/31-15:02:37.883 36a8 Generated table #57@1: 6029 keys, 2138519 bytes
+2016/12/31-15:02:37.893 36a8 Generated table #58@1: 485 keys, 173081 bytes
+2016/12/31-15:02:37.893 36a8 Compacted 1@1 + 2@2 files => 2311600 bytes
+2016/12/31-15:02:37.894 36a8 compacted to: files[ 0 0 2 0 0 0 0 ]
+2016/12/31-15:02:37.895 36a8 Delete type=2 #53
+2016/12/31-15:02:37.895 36a8 Delete type=2 #54
+2016/12/31-15:02:37.895 36a8 Delete type=2 #56

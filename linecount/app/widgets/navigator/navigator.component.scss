@@ -1,0 +1,56 @@
+#treeview
+{
+	overflow-x: auto;
+  overflow-y: hidden;
+  max-height: 400px;
+  max-width: 580px;
+}
+
+.subarrayDiv
+{
+  white-space: nowrap;
+}
+
+.titleDiv
+{
+  display:inline-block;
+}
+
+.tdleft
+{
+	border-style: solid;
+	border-top-color: #666666;
+	border-left-color: #666666;
+	border-bottom-color: #666666;
+	border-top: 2px;
+	border-bottom: 2px;
+	border-left: 2px;
+	border-right: 0;
+}
+
+.tdright
+{
+	border-style: solid;
+	border-top-color: #666666;
+	border-right-color: #666666;
+	border-bottom-color: #666666;
+	border-top: 2px;
+	border-bottom: 2px;
+	border-left: 0;
+	border-right: 2px;
+}
+
+.metaview
+{
+	overflow: scroll;
+}
+
+.folder
+{
+	font-size: 14;
+}
+
+.files
+{
+	font-size: 14;
+}

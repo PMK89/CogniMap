@@ -1,0 +1,12 @@
+<div *ngIf="TextInput" [title]="cmelement.id" [ngStyle]="textStyle" [ngClass]="textClass">
+    <input #box [(ngModel)]="inputtext"
+      (keyup)="updateText(inputtext)"
+      (keyup.enter)="passText(inputtext)">
+</div>
+<div *ngIf="video" [title]="cmelement.id">
+  <video controls>
+    <source src="{{videourl}}" type="video/mp4">
+  </video>
+</div>
+<div *ngIf="html" [title]="cmelement.id" [innerHtml]="html" style="position: absolute">
+</div>

@@ -1,0 +1,143 @@
+[{
+	"id": 1,
+	"mode": "view",
+	"coor": {
+		"x": 5000, 
+		"y": 100000
+	},
+	"style": {
+		"name": "default",
+		"font": "'Lucida Grande', Helvetica, Arial, Sans-Serif",
+		"fontcolor": "#000000",
+		"fontsize": 12,
+		"bgcolor": "#ffffff",
+		"linecolor": "#0f0f0f",
+		"shadowcolor": "#4f4f4f",
+		"boxclass": "boxdefault",
+		"btnbgcolor0": "#ffffff",
+		"btnbgcolor1": "#f1f1f1",
+		"btnclickcolor": "#0099cc",
+		"btndeactcolor": "#bfbfbf",
+		"btncontentcolor": "#000066",
+		"btnbordercolor": "#00004d",
+		"btnclass": "btndefault"
+	},
+	"debug": true,
+	"dragging": false,
+	"dev": false,
+	"cmap": {
+		"pos": {
+			"x": 0,
+			"y": 0
+		},
+		"z_pos": 0,
+		"width": 200000,
+		"height": 200000,
+		"trans": 1,
+		"position": "absolute",
+		"border": false,
+		"b_width": 1,
+		"b_color": "#00004d",
+		"vis": true
+	},
+	"tblayout0": {
+		"pos": {
+			"x": 0,
+			"y": 0
+		},
+		"z_pos": 510,
+		"width": 150,
+		"height": 20,
+		"trans": 0.8,
+		"position": "fixed",
+		"border": false,
+		"b_width": 1,
+		"b_color": "#00004d",
+		"vis": false
+	},
+	"tblayout1": {
+		"pos": {
+			"x": 0,
+			"y": 0
+		},
+		"z_pos": 515,
+		"width": 100,
+		"height": 80,
+		"trans": 0.8,
+		"position": "fixed",
+		"border": false,
+		"b_width": 1,
+		"b_color": "#00004d",
+		"vis": true
+	},
+	"wlayout0": {
+		"pos": {
+			"x": 0,
+			"y": 0
+		},
+		"z_pos": 505,
+		"width": 600,
+		"height": 0,
+		"trans": 0.8,
+		"position": "fixed",
+		"border": false,
+		"b_width": 1,
+		"b_color": "#00004d",
+		"vis": false
+	},
+	"wlayout1": {
+		"pos": {
+			"x": 0,
+			"y": 0
+		},
+		"z_pos": 505,
+		"width": 600,
+		"height": 0,
+		"trans": 0.8,
+		"position": "fixed",
+		"border": false,
+		"b_width": 1,
+		"b_color": "#00004d",
+		"vis": false
+	},
+	"menue": {
+		"pos": {
+			"x": 0,
+			"y": 0
+		},
+		"z_pos": 500,
+		"width": 50,
+		"height": 150,
+		"trans": 0.8,
+		"position": "absolute",
+		"border": false,
+		"b_width": 1,
+		"b_color": "#00004d",
+		"vis": false
+	},
+	"cmtbobject": {
+		"color0": "tbobject0",
+		"color1": "tbobject1",
+		"z_pos": ["++--", "1", "z_pos"],
+		"trans": ["++--", "10", "cmobject", "trans"],
+		"buttons": "tbobject"
+	},
+	"cmtbfont": {
+		"color": "tbfont",
+		"size": ["++--", "1", "cmobject", "style", "title", "size"],
+		"font": [
+			"fontpick",
+			"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive"
+		],
+		"buttons": "tbfont"
+	},
+	"cmtbline": {
+		"color0": "tbline0",
+		"color1": "tbline1",
+		"size0": ["++--", "1", "cmline", "size0"],
+		"size1": ["++--", "1", "cmline", "size1"],
+		"z_pos": ["++--", "1", "z_pos"],
+		"trans": ["++--", "10", "cmline", "trans"],
+		"buttons": "tbline"
+	}
+}]

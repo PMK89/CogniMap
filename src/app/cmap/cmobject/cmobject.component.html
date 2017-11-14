@@ -1,0 +1,5 @@
+<div *ngIf="TextInput" [title]="cmelement.id" [ngStyle]="textStyle" [ngClass]="textClass">
+    <input #box value="{{cmelement.title}}"
+      (keyup.enter)="passText(box.value)"
+      (blur)="passText(box.value)">
+  </div>

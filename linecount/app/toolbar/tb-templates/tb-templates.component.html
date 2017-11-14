@@ -1,0 +1,60 @@
+<div class="tbbox">
+  <table id="templatetable">
+    <tr>
+      <td>
+        <div (click)="findErrors()">
+          findErr
+        </div>
+      </td>
+      <td *ngIf="CMEoTextInput===false" style="display: none">
+        <select [(ngModel)]="tempCMEo" (change)="changeTemplate(0)">
+          <option *ngFor="let TempCMEo of TempCMEos" value= {{TempCMEo.id}}>
+             {{TempCMEo.title}}
+          </option>
+        </select>
+      </td>
+      <td *ngIf="CMEoTextInput">
+        <input #CMEoInput value="{{newTitle}}"
+          (keyup.enter)="newTemplate(CMEoInput.value, 'cmo')">
+      </td>
+      <td>
+
+      </td>
+      <td rowspan="3" colspan="4" (click)="changeMode('templateEdit')"  [ngStyle]="selectionStyle('templateEdit')">
+        <svg id="templatesvg" height="70" width="160" style="display: none"></svg>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div (click)="changePersistance()"  [ngStyle]="persistanceStyle()">
+          cngTemp
+        </div>
+      </td>
+      <td>
+
+      </td>
+      <td *ngIf="CMElTextInput">
+        <input #CMElInput value="{{newTitle}}"
+          (keyup.enter)="newTemplate(CMElInput.value, 'cml')">
+      </td>
+      <td>
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div (click)="setInput('cmo')">
+          use_sel
+        </div>
+      </td>
+      <td>
+        <div (click)="clearSVG()" style="display: none">
+          clear
+        </div>
+      </td>
+      <td>
+
+      </td>
+    </tr>
+  </table>
+</div>

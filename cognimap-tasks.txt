@@ -1,0 +1,19 @@
+CogniMap tasks
+
+main:
+ - implement cmsettings everywhere X
+ - style toolbars/components X
+ - add all basic shapes /
+ - streamline loading process
+ - editor input-output
+   . pdf support
+   . screenshot/insert
+ - reimport database for special characters
+ - translate for electron
+ - 
+
+minor:
+ - improve text input
+ - image crop and thumbnails
+ - template management
+ - editing history
