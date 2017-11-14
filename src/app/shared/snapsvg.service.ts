@@ -1,47 +1,56 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+// import { Observable } from 'rxjs/Observable';
 import 'snapsvg';
 declare var Snap: any;
 
-declare var electron: any;
-const ipc = electron.ipcRenderer;
+// electron specific
+// declare var electron: any;
+// const ipc = electron.ipcRenderer;
+
+// services
+import { SettingsService } from './settings.service';
+import { CmosvgService } from './shapes/cmosvg.service';
+import { CmlsvgService } from './shapes/cmlsvg.service';
 
 // models and reducers
+import { CMSettings } from '../models/CMSettings';
 import { CMElement } from '../models/CMElement';
 
 @Injectable()
 export class SnapsvgService {
-  svgCanvas;
-  cmsvg = Snap('#cmsvg');
-  x0: number;
-  x1: number;
-  y0: number;
-  y1: number;
+  cmsvg: any;
   width: number;
   height: number;
-  stroke: string;
+  cmsettings: CMSettings;
 
-  constructor() { }
+  constructor(private cmosvgService: CmosvgService,
+              private settingsService: SettingsService,
+              private cmlsvgService: CmlsvgService) {
+                this.settingsService.cmsettings
+                    .subscribe(data => {
+                      this.cmsettings = data;
+                      // console.log(data);
+                    });
+              }
 
   // generates shape from prepared string or initiates new creation
   makeShape(cme: CMElement) {
-    this.x0 = cme.x0;
-    this.x1 = cme.x1;
-    this.y0 = cme.y0;
-    this.y1 = cme.y1;
-    this.height = cme.x1 - cme.x0;
-    /*
-    this.width = cme.y1 - cme.y0;let oldelem = this.cmsvg.select('#svg' + cme.id.toString());
-    if (oldelem) {
-      oldelem.remove();
-      console.log('removed');
+    this.width = cme.x1 - cme.x0;
+    this.height = cme.y1 - cme.y0;
+    this.cmsvg = Snap('#cmsvg');
+    if (this.cmsettings.mode === 'edit') {
+      let oldelem = this.cmsvg.select('#svg' + cme.id.toString());
+      if (oldelem) {
+        oldelem.remove();
+        console.log('removed');
+      }
     }
-    */
     if (cme.prep !== '' && cme.prep !== undefined) {
       console.log('prep');
       Snap.parse(cme.prep);
     } else {
       if (cme.id > 0) {
+        this.cmsvg = Snap('#svg' + cme.id.toString());
         this.objectSvg(cme);
       } else if (cme.id < 0) {
         this.lineSvg(cme);
@@ -54,113 +63,29 @@ export class SnapsvgService {
   // called for object elements
   objectSvg(cme: CMElement) {
     // console.log('objectsvg');
-    switch (cme.cmobject.style.object.shape) {
+    switch (cme.type) {
       case 'r':
-        this.createRectangle(cme);
+        this.cmosvgService.createRectangle(cme, this.cmsvg);
         break;
       case 'c':
-        this.createCircle(cme);
+        this.cmosvgService.createCircle(cme, this.cmsvg, this.width, this.height);
         break;
       default:
-        this.createTest(cme);
+        // this.cmosvgService.createTest(cme);
     }
   }
 
   // called for line elements
   lineSvg(cme: CMElement) {
-    switch (cme.cmline.shape) {
+    switch (cme.type) {
       case 'e':
-        this.createEdge(cme);
+        this.cmlsvgService.createEdge(cme, this.cmsvg);
         break;
       case 'c':
-        this.createCurve(cme);
+        this.cmlsvgService.createCurve(cme, this.cmsvg);
         break;
       default:
-        this.createLine(cme);
+        this.cmlsvgService.createLine(cme, this.cmsvg);
     }
   }
-
-  // creates a straigth line between two point
-  createLine(cme) {
-    let path = 'M' + cme.x0 + ' ' + cme.y0 + 'L' + cme.x1 + ' ' + cme.y1;
-    let p = this.cmsvg.path(path);
-    p.attr({
-      fill: 'none',
-      stroke: cme.cmline.color0,
-      strokeWidth: cme.cmline.size0,
-      id: 'svg' + cme.id.toString(),
-    });
-    p.mousedown(function( ){
-      document.getElementById('TPid').title = cme.id;
-      // console.log(document.getElementById('TPid').title);
-    });
-    // console.log(path);
-  }
-
-  // creates a edged line between two point
-  createEdge(cme) {
-    let path = 'M' + cme.x0 + ' ' + cme.y0 + 'L' + cme.x0 + ' ' + cme.y1 + 'L' + cme.x1 + ' ' + cme.y1;
-    let p = this.cmsvg.path(path);
-    p.attr({
-      fill: 'none',
-      stroke: cme.cmline.color0,
-      strokeWidth: cme.cmline.size0,
-      id: 'svg' + cme.id.toString(),
-    });
-    p.mousedown(function( ){
-      document.getElementById('TPid').title = cme.id;
-      // console.log(document.getElementById('TPid').title);
-    });
-    // console.log(this.svgCanvas);
-  }
-
-  // creates a straigth line between two point
-  createCurve(cme) {
-
-  }
-
-  // creates a rectangle
-  createRectangle(cme) {
-    /*/ console.log('rectangle');
-    let path = this.d = 'M' + this.x1 + ' ' + this.y1 + 'L' + this.x1 + ' ' +
-    (this.height - this.y1) + 'L' + (this.width - this.x1) + ' ' + (this.height - this.y1);
-    let p = this.cmsvg.path(path);
-    p.attr({
-      fill: 'none',  + (this.width / 2)
-      stroke: cme.cmline.color0, + (this.height / 2)
-      strokeWidth: cme.cmline.size0,
-    });
-    */
-  }
-
-  // creates a circle
-  createCircle(cme) {
-    let cx = (cme.x0 + cme.x1) / 2;
-    let cy = (cme.y0 + cme.y1) / 2;
-    let r = Math.round(Math.max(this.height, this.width) * 0.6 );
-    // console.log('circle: ', r);
-    let c = this.cmsvg.circle(cx, cy, r);
-    c.attr({
-      fill: cme.cmobject.style.object.color0,
-      stroke: cme.cmobject.style.object.color0,
-      strokeWidth: cme.prio,
-      id: 'svg' + cme.id.toString(),
-    });
-    ipc.send('snap-in', cme.id);
-    /*
-    elementController.test(cme.id)
-      .subscribe(x => {
-        if (x) {
-          console.log('snap: ', x);
-        }
-      });
-    */
-  }
-
-  // test
-  createTest(cme) {
-
-  }
-
-
 }

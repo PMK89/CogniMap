@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
-declare var electron: any;
-const ipc = electron.ipcRenderer;
+// electron specific
+// declare var electron: any;
+// const ipc = electron.ipcRenderer;
 
 @Component({
   selector: 'app-widgets',
@@ -14,9 +15,12 @@ export class WidgetsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // listens on electron ipc
+    /*
     ipc.on('snap-out', function (event, arg) {
       console.log(arg);
     });
+    */
   }
 
   cminterface() {

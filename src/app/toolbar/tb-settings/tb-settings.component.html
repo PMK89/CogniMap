@@ -1,5 +1,5 @@
-<div class="MenueBox">
-  <table id="btntable">
+<div class="tbbox">
+  <table id="fonttable">
     <tr>
       <td>
         <div (click)="changeMode('new')" [ngStyle]="selectionStyle('new')">
@@ -11,6 +11,9 @@
           Edit
         </div>
       </td>
+      <td>
+
+      </td>
     </tr>
     <tr>
       <td>
@@ -19,12 +22,17 @@
         </div>
       </td>
       <td>
-        <div (click)="changeDrag()"  [ngStyle]="selectionDrag()">
-          Drag
-        </div>
+
       </td>
       <td>
 
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div (click)="changeDrag()"  [ngStyle]="selectionDrag()">
+          Drag
+        </div>
       </td>
       <td>
 

@@ -10,7 +10,9 @@ export class CMObject {
       size: number;
       font: string;
       color: string;
-      class_array: Array<string>
+      deco: string;
+      display: string;
+      class_array: Array<string>;
     };
     object: {
       shape: string;
@@ -20,7 +22,7 @@ export class CMObject {
       weight: number;
       str: string;
       num_array: Array<number>;
-      class_array: Array<string>
+      class_array: Array<string>;
     }
   };
   links: [CMLink];

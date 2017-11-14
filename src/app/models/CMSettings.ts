@@ -13,6 +13,7 @@ export class CMSettings {
   style: CMStyle;
   debug: boolean;
   dragging: boolean;
+  cmap: CMLayout;
   tblayout0: CMLayout;
   tblayout1: CMLayout;
   wlayout0: CMLayout;

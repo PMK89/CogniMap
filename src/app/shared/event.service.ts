@@ -70,7 +70,7 @@ export class EventService {
           this.elementService.setDrag(this.id);
           // this.elementService.setSelectedElement(this.id);
         }
-        this.start_x = Math.round(evt.clientX  + this.windowService.Win_XOffset);
+        this.start_x = Math.round(evt.clientX + this.windowService.Win_XOffset);
         this.start_y = Math.round(evt.clientY + this.windowService.Win_YOffset);
         this.drag_x = Math.round(evt.clientX  + this.windowService.Win_XOffset);
         this.drag_y = Math.round(evt.clientY + this.windowService.Win_YOffset);

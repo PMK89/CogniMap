@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Store } from '@ngrx/store';
@@ -6,8 +7,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
 // electron specific
-declare var electron: any;
-const elementController = electron.remote.require('./elementController');
+// declare var electron: any;
+// const elementController = electron.remote.require('./elementController');
 
 import { SettingsService } from './settings.service';
 
@@ -31,17 +32,20 @@ export class ElementService {
   constructor(private http: Http,
               private settingsService: SettingsService,
               private store: Store<CMEStore>) {
+                this.settingsService.cmsettings
+                    .subscribe(data => {
+                      this.cmsettings = data;
+                      // console.log(data);
+                    });
+                // test for electron remote
+                /*
                 elementController.test('start')
                         .subscribe(id => {
                           if (id) {
                             console.log('ng2: ', id);
                           }
                         });
-                this.settingsService.cmsettings
-                    .subscribe(data => {
-                      this.cmsettings = data;
-                      // console.log(data);
-                    });
+                */
               }
 
   // gets data from database/server
@@ -53,7 +57,10 @@ export class ElementService {
     // Dev: gets data from testserver
     // /*
     let url = 'http://localhost:80/load?l=' + parameters.l + '&t=' + parameters.t + '&r=' + parameters.r + '&b=' + parameters.b + '&z=0';
-    return this.http.get(url)
+    let headers = new Headers({'Content-Type' : 'application/json; charset=UTF-8'});
+
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(url, options)
          .map((response: Response) => response.json());
     // */
   }
@@ -91,8 +98,8 @@ export class ElementService {
             for (let key in data) {
               if (data[key]) {
                 if (data[key].id === id) {
-                  // let action = {type: 'ADD_SCME', payload: data[key] };
-                  // his.store.dispatch(action);
+                  let action = {type: 'ADD_SCME', payload: data[key] };
+                  this.store.dispatch(action);
                   this.currentElement = data[key];
                   id = 0;
                   // console.log(this.currentElement, '!');

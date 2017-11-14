@@ -28,8 +28,6 @@ import { TbLineComponent } from './toolbar/tb-line/tb-line.component';
 import { TbNavigationComponent } from './toolbar/tb-navigation/tb-navigation.component';
 import { TbObjectComponent } from './toolbar/tb-object/tb-object.component';
 import { TbSettingsComponent } from './toolbar/tb-settings/tb-settings.component';
-import { ShapeComponent } from './shared/shape/shape.component';
-
 
 // Services and Reducers
 import { LayoutService } from './layout.service';
@@ -45,7 +43,6 @@ import { buttons } from './reducers/buttons.reducer';
 import { colors } from './reducers/colors.reducer';
 import { settings } from './reducers/settings.reducer';
 import { selectedElement } from './reducers/selectedelement.reducer';
-import { SvgeditorComponent } from './widgets/svgeditor/svgeditor.component';
 
 
 @NgModule({
@@ -77,9 +74,7 @@ import { SvgeditorComponent } from './widgets/svgeditor/svgeditor.component';
                   TbLineComponent,
                   TbNavigationComponent,
                   TbObjectComponent,
-                  TbSettingsComponent,
-                  ShapeComponent,
-                  SvgeditorComponent ],
+                  TbSettingsComponent],
   providers: [LayoutService,
               WindowService,
               SettingsService,

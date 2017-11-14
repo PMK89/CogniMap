@@ -2,7 +2,7 @@
   <table *ngIf="colorbar.cat == selector && colorbar.prio == 0">
     <tr>
       <td>
-        <input type="color" [value]="colorbar.colors[0]" #colorpick ng-model="color" (change)="changecolor(colorbar)">
+        <input type="color" [value]="getcolor(colorbar)" #colorpick ng-model="color" (change)="changecolor(colorbar)">
       </td>
       <td *ngFor="let color of colorbar.colors" [ngStyle]="{ 'background-color': color, 'width': '5px', 'height': '10px' }" (click)="setcolor(colorbar, color)">
       </td>

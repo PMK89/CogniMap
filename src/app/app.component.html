@@ -1,10 +1,16 @@
 <div [ngStyle]="setLayout('cmap')" id="cmap" titel="cmap">
 	<app-cmap></app-cmap>
 </div>
-<div [ngStyle]="setLayout('toolbar')" id="toolbar">
+<div style="z-index: 500" [ngStyle]="setLayout('tblayout0')" id="toolbar0">
 	<app-toolbar></app-toolbar>
 </div>
-<div [ngStyle]="setLayout('widget')" id="widgets">
+<div style="z-index: 500"  [ngStyle]="setLayout('tblayout1')" id="toolbar1">
+	<app-toolbar></app-toolbar>
+</div>
+<div [ngStyle]="setLayout('wlayout0')" id="widgets0">
+	<app-widgets></app-widgets>
+</div>
+<div [ngStyle]="setLayout('wlayout1')" id="widgets1">
 	<app-widgets></app-widgets>
 </div>
 <div [ngStyle]="setLayout('menue')" id="menue">

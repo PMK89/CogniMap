@@ -14,6 +14,7 @@ import { CMElement } from '../../models/CMElement';
 export class CmlineComponent implements OnInit {
   @Input() cmelement: CMElement;
 
+
   constructor(private snapsvgService: SnapsvgService) { }
 
   ngOnInit() {

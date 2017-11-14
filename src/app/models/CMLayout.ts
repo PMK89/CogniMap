@@ -6,6 +6,7 @@ export class CMLayout {
   width: number;
   height: number;
   trans: number;
+  position: string;
   border: boolean;
   b_width: number;
   b_color: string;
