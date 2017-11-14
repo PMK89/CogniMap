@@ -28,6 +28,8 @@ import { TbLineComponent } from './toolbar/tb-line/tb-line.component';
 import { TbNavigationComponent } from './toolbar/tb-navigation/tb-navigation.component';
 import { TbObjectComponent } from './toolbar/tb-object/tb-object.component';
 import { TbSettingsComponent } from './toolbar/tb-settings/tb-settings.component';
+import { ShapeComponent } from './shared/shape/shape.component';
+
 
 // Services and Reducers
 import { LayoutService } from './layout.service';
@@ -35,9 +37,6 @@ import { WindowService } from './shared/window.service';
 import { SettingsService } from './shared/settings.service';
 import { ElementService } from './shared/element.service';
 import { EventService } from './shared/event.service';
-import { CmlsvgService } from './shared/shapes/cmlsvg.service';
-import { CmosvgService } from './shared/shapes/cmosvg.service';
-import { SnapsvgService } from './shared/snapsvg.service';
 import { elements } from './reducers/elements.reducer';
 import { buttons } from './reducers/buttons.reducer';
 import { colors } from './reducers/colors.reducer';
@@ -74,14 +73,12 @@ import { selectedElement } from './reducers/selectedelement.reducer';
                   TbLineComponent,
                   TbNavigationComponent,
                   TbObjectComponent,
-                  TbSettingsComponent],
+                  TbSettingsComponent,
+                  ShapeComponent ],
   providers: [LayoutService,
               WindowService,
               SettingsService,
               EventService,
-              CmlsvgService,
-              CmosvgService,
-              SnapsvgService,
               ElementService],
   bootstrap: [ AppComponent ],
 })

@@ -9,7 +9,7 @@ export class LayoutService {
 
   // reads data from JSON-File
   getLayout() {
-    return this.http.get('./assets/config/settings.json')
+    return this.http.get('./assets/config/layout.json')
         .map((response: Response) => response.json());
   }
 

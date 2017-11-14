@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CMMarker } from '../../models/CMMarker';
-import { CMElement } from '../../models/CMElement';
+import { CMMarker } from '../../models/marker';
 import { WindowService } from '../../shared/window.service';
 
 @Component({
@@ -10,7 +9,6 @@ import { WindowService } from '../../shared/window.service';
 })
 export class CmmarkerComponent implements OnInit {
   @Input() cmmarker: CMMarker;
-  @Input() cmelement: CMElement;
 
   constructor(private windowService: WindowService) { }
 

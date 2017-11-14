@@ -7,14 +7,11 @@ import { CMTBLine } from './CMTBLine';
 
 
 export class CMSettings {
-  id: number;
   mode: string;
   coor: CMCoor;
   style: CMStyle;
   debug: boolean;
-  dev: boolean;
   dragging: boolean;
-  cmap: CMLayout;
   tblayout0: CMLayout;
   tblayout1: CMLayout;
   wlayout0: CMLayout;

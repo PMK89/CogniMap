@@ -1,6 +1,8 @@
 import { CMMarker } from './CMMarker';
 
 export class CMLine {
+  prep: string;
+  shape: string;
   end: string;
   color0: string;
   color1: string;
@@ -11,10 +13,9 @@ export class CMLine {
   title0: string;
   id1: number;
   title1: string;
-  property: [string];
-  dasharray: string;
+  property: Array<string>;
   str: string;
-  num_array: [number];
-  cmclass: string;
+  num_array: Array<number>;
+  class_array: Array<string>;
   markers: [CMMarker];
 }

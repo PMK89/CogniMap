@@ -5,12 +5,12 @@
   <table *ngIf="button.id == selector" style="z-index: 0">
     <tr>
       <td>
-        <button class="btnclass" (click)="changenumber(button.prio)">+</button><br>
-        <button class="btnclass" (click)="changenumber(-1 * button.prio)">-</button>
+        <button (click)="changenumber(button.prio)">+</button><br>
+        <button (click)="changenumber(-1 * button.prio)">-</button>
       </td>
       <td [ngStyle]="setbutton(button)">
-        <input class="inputclass"  #box value="{{value}}"
-          width="20"
+        <input #box value="{{value}}"
+          width="20" 
           (keyup.enter)="writenumber(box.value)"
           (blur)="writenumber(box.value)">
       </td>

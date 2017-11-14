@@ -1,5 +1,17 @@
-<div *ngIf="TextInput" [title]="cmelement.id" [ngStyle]="textStyle" [ngClass]="textClass">
+<div [ngStyle]="objectStyle" [ngClass]="objectClass" (click)="onSelect(cmelement)" (mousedown)="onMouseDown()"
+(mouseup)="onMouseUp()" (mousemove)="onMouseMove()">
+  <div *ngIf="cmelement.type == 's'"  style="z-index:0;position:absolute;left:0px;top:0px">
+    <app-shape></app-shape>
+  </div>
+  <div *ngIf="!TextInput"  [ngStyle]="textStyle" [ngClass]="textClass">
+    {{cmelement.title}}
+  </div>
+  <div *ngIf="TextInput"  [ngStyle]="textStyle" [ngClass]="textClass">
     <input #box value="{{cmelement.title}}"
       (keyup.enter)="passText(box.value)"
       (blur)="passText(box.value)">
   </div>
+  <div *ngFor="let content of cmelement.cmobject.content" [ngStyle]="contentPos(content)">
+    <app-cmcontent [content]="content"></app-cmcontent>
+  </div>
+</div>

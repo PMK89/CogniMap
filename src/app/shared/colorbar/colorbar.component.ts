@@ -6,7 +6,6 @@ import { ElementService } from'../element.service';
 import { SettingsService } from'../settings.service';
 
 // models and reducers
-import { CMElement } from '../../models/CMElement';
 import { CMColorbar } from'../../models/CMColorbar';
 import { CMAction } from'../../models/CMAction';
 import { CMStore } from '../../models/CMStore';
@@ -21,14 +20,11 @@ export class ColorbarComponent implements OnInit {
   @Input() colorbars: Observable<Array<CMColorbar>>;
   action: CMAction;
   color: string;
-  value: string;
-  currentElement: Observable<CMElement>;
   @ViewChild('colorpick') colorpick: ElementRef;
 
   constructor(private elementService: ElementService,
               private settingsService: SettingsService,
               private store: Store<CMStore>) {
-                this.currentElement = store.select('selectedElement');
                }
 
   ngOnInit() {
@@ -41,35 +37,6 @@ export class ColorbarComponent implements OnInit {
     }
     colorbar.colors[0] = this.color;
     this.setcolor(colorbar, this.color);
-  }
-
-  getcolor(colorbar) {
-    if (this.currentElement) {
-      this.currentElement.subscribe(cmelement => {
-        if (cmelement) {
-          let n = colorbar.var.length;
-          switch (n) {
-            case 1:
-              this.value = cmelement[colorbar.var[0]];
-              break;
-            case 2:
-              this.value = cmelement[colorbar.var[0]][colorbar.var[1]];
-              break;
-            case 3:
-              this.value = cmelement[colorbar.var[0]][colorbar.var[1]][colorbar.var[2]];
-              break;
-            case 4:
-              this.value = cmelement[colorbar.var[0]][colorbar.var[1]][colorbar.var[2]][colorbar.var[3]];
-              break;
-          }
-        } else {
-          this.value = colorbar.colors[0];
-        }
-      });
-    } else {
-      this.value = colorbar.colors[0];
-    }
-    return this.value;
   }
 
   setcolor(colorbar, color) {

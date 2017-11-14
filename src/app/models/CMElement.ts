@@ -10,13 +10,10 @@ export class CMElement {
   y1: number;
   prio: number;
   title: string;
-  types: [string];
+  type: string;
   coor: CMCoor;
   cat: [string];
   z_pos: number;
-  dragging: boolean;
-  active: boolean;
   cmline: CMLine;
   cmobject: CMObject;
-  prep: string;
 }

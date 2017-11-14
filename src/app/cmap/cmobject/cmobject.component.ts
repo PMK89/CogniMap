@@ -1,11 +1,8 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import 'snapsvg';
-declare var Snap: any;
 
 // services
 import { ElementService } from '../../shared/element.service';
-import { SnapsvgService } from '../../shared/snapsvg.service';
 import { EventService } from '../../shared/event.service';
 
 // models and reducers
@@ -19,106 +16,26 @@ import { CMEStore } from '../../models/CMEstore';
 })
 export class CmobjectComponent implements OnInit {
   @Input() cmelement: CMElement;
-  cmgroup: any;
   objectStyle: Object;
   objectClass: Array<string>;
   textStyle: Object;
   textClass: Array<string>;
   hasContent: boolean;
-  svgid: string;
-  // dragging: boolean = false;
+  dragging: boolean = false;
   contentStyle: Object;
   TextInput: boolean;
+  start_x: number;
+  start_y: number;
+  drag_x: number;
+  drag_y: number;
 
   constructor(private eventService: EventService,
-              private snapsvgService: SnapsvgService,
               private store: Store<CMEStore>,
-              private elementRef: ElementRef,
-              private elementService: ElementService) {
-              }
+              private elementService: ElementService) { }
 
   ngOnInit() {
-    if (this.cmelement.active) {
-      this.TextInput = true;
-    }
-    let s = Snap('#cmsvg');
-    let id = this.cmelement.id;
-    if (this.cmelement.prio <= 0) {
-      this.cmelement.prio = 0;
-    } else if (this.cmelement.prio >= 99) {
-      this.cmelement.prio = 99;
-    }
-    this.cmgroup = s.select('#cmo' + this.cmelement.prio.toString()).group();
-    this.cmgroup.attr({
-      id: ('g' + id.toString()),
-      title: id.toString()
-    });
-    // transfers id in case of click events
-    this.cmgroup.mousedown(function( ){
-      if (document.getElementById('TPid') !== undefined) {
-        document.getElementById('TPid').title = id.toString();
-        // console.log(document.getElementById('TPid').title);
-      }
-    });
-    let img = s.image('assets/images/basic/empty.png', (this.cmelement.coor.x),
-    (this.cmelement.coor.y));
-    if (this.cmelement.cmobject.content.length > 0) {
-      for (let i in this.cmelement.cmobject.content) {
-        if (this.cmelement.cmobject.content[i]) {
-          let content = this.cmelement.cmobject.content[i];
-          if (content.cat === 'i') {
-            img = s.image(('assets/images/' + content.object), (this.cmelement.coor.x + content.coor.x),
-            (this.cmelement.coor.y + content.coor.y));
-            this.cmgroup.add(img);
-          } else if (content.cat === 'l' || content.cat === 'p') {
-            img = s.image('assets/images/basic/empty.png', (this.cmelement.coor.x + content.coor.x),
-            (this.cmelement.coor.y + content.coor.y));
-            this.cmgroup.add(img);
-          } else {
-            img = s.image(content.object, (this.cmelement.coor.x + content.coor.x),
-            (this.cmelement.coor.y + content.coor.y));
-            this.cmgroup.add(img);
-          }
-        }
-      }
-    } else {
-      let title = s.text(this.cmelement.coor.x, this.cmelement.coor.y, this.cmelement.title);
-      title.attr({
-        fontSize: this.cmelement.cmobject.style.title.size + 'px',
-        fill: this.cmelement.cmobject.style.title.color,
-        fontFamily: this.cmelement.cmobject.style.title.font,
-        opacity: this.cmelement.cmobject.style.object.trans,
-        title: this.cmelement.id.toString()
-      });
-      this.cmgroup.add(title);
-      let bbox = this.cmgroup.getBBox();
-      this.snapsvgService.makeShape(this.cmelement, bbox, this.cmgroup);
-      this.cmgroup.add(title);
-    }
-    // enables dragging of the group
-    if (this.cmelement.dragging) {
-      let move = function(dx, dy) {
-          this.attr({
-                      transform: this.data('origTransform') + (this.data('origTransform') ? 'T' : 't') + [dx, dy]
-                  });
-                };
-
-      let start = function() {
-          this.data('origTransform', this.transform().local );
-        };
-      let stop = function() {
-          // console.log('finished dragging');
-          document.getElementById('TPid').title = '0';
-          // document.getElementById('TPy').title = this.cmgroup.attr('y');
-        };
-      this.cmgroup.drag(move, start, stop);
-    } else {
-      this.cmgroup.undrag();
-      console.log('undrag');
-    }
     // adds property to title-div
     // this.TextInput = this.objectService.TextInput;
-    /*
     this.textStyle = {
       'font-size': this.cmelement.cmobject.style.title.size + 'px',
       'font-color': this.cmelement.cmobject.style.title.color,
@@ -134,98 +51,108 @@ export class CmobjectComponent implements OnInit {
       'opacity': this.cmelement.cmobject.style.object.trans
     };
     // adds attributes to standard a element
-    if (this.cmelement.types[0] === 'a') {
+    if (this.cmelement.type === 'a') {
       this.objectClass = this.cmelement.cmobject.style.object.class_array;
       this.objectStyle = {
         'background-color': this.cmelement.cmobject.style.object.color0,
         'opacity': this.cmelement.cmobject.style.object.trans
       };
-      this.objectClass = ['a' + this.cmelement.types[1]];
-    } else if (this.cmelement.types[0] === 's') {
-      let svgid1 = document.getElementById(this.svgid);
-      console.log(svgid1);
-      this.snapsvgService.makeShape(this.cmelement);
+      this.objectClass = ['a' + this.cmelement.cmobject.style.object.shape];
     }
     if (this.cmelement.cmobject.content) {
       this.hasContent = true;
     }
-    // console.log(this.cmelement);
-    // console.log('title: ', this.cmelement.title, ' w: ', (this.cmelement.x1 -
-    this.cmelement.x0), ' h: ', (this.cmelement.y1 - this.cmelement.y0))
-    if (this.cmelement.dragging === true && this.eventService.dragging === true) {
-      this.eventService.mousedif()
-        .subscribe(coor => {
-          this.cmelement.coor.x = this.cmelement.coor.x + coor.x;
-          this.cmelement.coor.y = this.cmelement.coor.y + coor.y;
-        });
-    }
-    */
   }
 
-  // gets dimensions after view is initiated
-  ngOnDestroy() {
-
-    let s = Snap('#cmsvg');
-    let oldelem = s.select('#g' + this.cmelement.id.toString());
-    if (oldelem) {
-      oldelem.remove();
-      // console.log('removed');
-    }
-
+  contentPos(content) {
+    return {
+      'position': 'relative',
+      'left': content.coor.x,
+      'top': content.coor.y,
+      'z-index': content.z_pos
+    };
+  }
+  // passes clicked element to object service
+  onSelect(cmelement) {
+    console.log(cmelement);
+    this.elementService.setSelectedElement(cmelement);
+    let action = {
+      value: 's',
+      var: ['type']
+    };
+    // this.changeElement(action);
   }
 
-  // converts utf-8 text
-  /*
-  decode_utf8(utftext: string) {
-    let plaintext = '';
-    let i = 0;
-    let c, c1, c2 = 0;
-    while (i < utftext.length) {
-      c = utftext.charCodeAt(i);
-      if (c < 128) {
-        plaintext += String.fromCharCode(c);
-        i++;
-      } else if ((c > 191) && (c < 224)) {
-        c1 = utftext.charCodeAt(i + 1);
-        plaintext += String.fromCharCode((( c&31 ) << 6) | (c2&63));
-        i += 2;
-      } else {
-        c1 = utftext.charCodeAt(i + 1); c2 = utftext.charCodeAt(i + 2);
-        plaintext += String.fromCharCode(((c&15)<<12) | ((c1&63)<<6) | (c2&63));
-        i += 3;
+  // activates dragging
+  onMouseDown() {
+    if (this.dragging === false) {
+      this.dragging = true;
+      this.eventService.mousedown()
+      .subscribe(coor => {
+        this.start_x = Math.round(coor.x);
+        this.start_y = Math.round(coor.y);
+        console.log('start_x:', this.start_x, ' start_y:', this.start_y);
+        this.drag_x = Math.round(coor.x);
+        this.drag_y = Math.round(coor.y);
+      });
+    }
+  }
+
+  // changes position for dragging
+  onMouseMove() {
+    if (this.dragging === true) {
+      let dif_x = 0;
+      let dif_y = 0;
+      this.eventService.mousemove()
+      .subscribe(coor => {
+        if (this.dragging === true) {
+          dif_x = Math.round((coor.x) - this.drag_x);
+          dif_y = Math.round((coor.y) - this.drag_y);
+          this.cmelement.coor.x = this.cmelement.coor.x + dif_x;
+          this.cmelement.coor.y = this.cmelement.coor.y + dif_y;
+          this.drag_x = (coor.x);
+          this.drag_y = (coor.y);
+        }
+      });
+    }
+  }
+
+  // deactivates dragging
+  onMouseUp() {
+    this.dragging = false;
+    this.elementService.updateElement(this.cmelement);
+    let links = this.cmelement.cmobject.links;
+    let dif_x = Math.round(this.drag_x - this.start_x);
+    let dif_y = Math.round(this.drag_y - this.start_y);
+    console.log('dif_x:', dif_x, ' dif_y:', dif_y);
+    for (let i = 0; i < links.length; i++) {
+      if (links[i]) {
+        if (links[i].start) {
+          let posaction = {type: 'UPDATE_CME_POSITION0', payload: {
+            id: links[i].id,
+            x0: dif_x,
+            y0: dif_y
+          } };
+          this.store.dispatch(posaction);
+        } else {
+          let posaction = {type: 'UPDATE_CME_POSITION1', payload: {
+            id: links[i].id,
+            x1: dif_x,
+            y1: dif_y
+          } };
+          this.store.dispatch(posaction);
+        }
       }
     }
-    console.log(plaintext);
-    return plaintext;
-  } */
-
-  // set content possition
-  contentPos(content) {
-    if (content) {
-      return {
-        'position': 'relative',
-        'left': content.coor.x,
-        'top': content.coor.y,
-        'z-index': content.z_pos
-      };
-    }
-  }
-  // get dimensions
-  getDimensions() {
-    this.cmelement.x1 = this.cmelement.x0 + this.elementRef.nativeElement.offsetWidth;
-    this.cmelement.y1 = this.cmelement.y0 + this.elementRef.nativeElement.offsetHeight;
-    this.elementService.newDBElement(this.cmelement);
   }
 
-  // creates an action of entered text
-  passText(text) {
-    // console.log(text);
-    this.cmelement.title = text;
-    this.elementService.updateElement(this.cmelement);
-    this.elementService.setInactive(this.cmelement.id);
-  }
   // Sets number
   changeElement(action) {
     this.elementService.changeElement(action);
   }
+  passText(text) {
+    this.cmelement.title = text;
+    this.elementService.setSelectedElement(this.cmelement);
+  }
+
 }
