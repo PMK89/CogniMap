@@ -60,7 +60,7 @@
     "cmtbmarking": {
       "color0": "#ec3100",
       "color1": "#ff0000",
-      "prio": 5,
+      "prio": 6,
       "trans": 0.5000000000000001,
       "types": [
         "m",
@@ -86,8 +86,8 @@
     },
     "cngtemp": false,
     "coor": {
-      "x": 81266,
-      "y": 120796
+      "x": 59658,
+      "y": 55797
     },
     "debug": true,
     "dev": false,
@@ -105,6 +105,209 @@
       "z-index": 490
     },
     "mode": "edit",
+    "selcmeo": {
+      "cat": [],
+      "cmobject": {
+        "content": [],
+        "links": [
+          {
+            "con": "e",
+            "id": -1356,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 356,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -1355,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 355,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -1354,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 354,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -1353,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 353,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -1352,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 352,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -17,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 7,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -16,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 6,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -15,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 5,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -14,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 4,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -13,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "peer_coor": {
+              "schema": {
+                "x": 0,
+                "y": 0
+              },
+              "type": {},
+              "x": 35000,
+              "y": 30000
+            },
+            "start": true,
+            "targetId": 3,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -12,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "peer_coor": {
+              "schema": {
+                "x": 0,
+                "y": 0
+              },
+              "type": {},
+              "x": 9965,
+              "y": 9949
+            },
+            "start": true,
+            "targetId": 2,
+            "title": "",
+            "weight": -1
+          }
+        ],
+        "meta": [],
+        "style": {
+          "object": {
+            "class_array": [],
+            "color0": "#0000ff",
+            "color1": "#0000ff",
+            "num_array": [],
+            "str": "",
+            "trans": 1,
+            "weight": 0
+          },
+          "title": {
+            "class_array": [
+              "f1_a "
+            ],
+            "color": "#000000",
+            "deco": "none",
+            "font": "'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive",
+            "size": 48
+          }
+        }
+      },
+      "coor": {
+        "schema": {
+          "x": 0,
+          "y": 0
+        },
+        "type": {},
+        "x": 4950,
+        "y": 99980
+      },
+      "id": 1,
+      "prep": "<ellipse cx=\"5041.28125\" cy=\"99966.7734375\" rx=\"97.17076583914914\" ry=\"55.859375\" fill=\"#0000ff\" id=\"cms1\" style=\"stroke-width: 1; opacity: 1;\"/><text x=\"4950\" y=\"99980\" fill=\"#000000\" title=\"1\" style=\"font-size: 48px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1;\">CogniMap</text>",
+      "prep1": "",
+      "prio": 0,
+      "state": "selected",
+      "title": "CogniMap",
+      "types": [
+        "a",
+        "e",
+        "0"
+      ],
+      "x0": 4944.1103515625,
+      "x1": 5138.45166015625,
+      "y0": 99910.9140625,
+      "y1": 100022.6328125
+    },
     "style": {
       "bgcolor": "#ffffff",
       "boxclass": "boxdefault",
@@ -146,7 +349,7 @@
     "widget1": "none",
     "wlayout0": {
       "display": "none",
-      "height": 533,
+      "height": 473,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
@@ -156,11 +359,11 @@
     },
     "wlayout1": {
       "display": "none",
-      "height": 533,
+      "height": 473,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
-      "top": 613,
+      "top": 553,
       "width": 600,
       "z-index": 510
     }

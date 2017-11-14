@@ -88,6 +88,7 @@
     "@types/snapsvg": "^0.4.28",
     "codemirror": "^5.28.0",
     "core-js": "^2.4.1",
+    "dom-to-image": "^2.5.2",
     "electron": "^1.6.4",
     "electron-remote": "^1.1.2",
     "eve": "^0.4.2",

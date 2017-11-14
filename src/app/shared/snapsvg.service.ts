@@ -223,10 +223,17 @@ export class SnapsvgService {
               console.log(htmlgroup);
               htmlgroup.selectAll('foreignObject').attr({
                 x: (coorX + totwidth - htmlbbox.x),
-                y: (coorY - htmlbbox.y)
+                y: (coorY - htmlbbox.y),
+                title: id
               });
               content.width = htmlbbox.width;
-              cmg.add(htmlgroup);
+              let rect = s.rect((coorX + totwidth - htmlbbox.x), (coorY - htmlbbox.y), htmlbbox.width, htmlbbox.height);
+              rect.attr({
+                title: id,
+                opacity: 0,
+                fill: '#ffffff'
+              });
+              cmg.add(rect);
               break;
             case 'p':
               // do something with images

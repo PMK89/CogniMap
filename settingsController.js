@@ -94,6 +94,14 @@ ipc.on('changeColors', function (event, arg) {
   fs.writeFileSync('./data/colors.json', str_colors);
 })
 
+// add colors
+ipc.on('addColors', function (event, arg) {
+  arg.id = colors.length++;
+  colors.push(arg);
+  var str_colors = JSON.stringify(colors, null, 2);
+  fs.writeFileSync('./data/colors.json', str_colors);
+})
+
 // ------------------------------------
 // get special characters and handles color changes
 // ------------------------------------

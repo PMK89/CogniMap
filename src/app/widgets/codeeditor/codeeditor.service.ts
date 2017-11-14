@@ -33,9 +33,12 @@ export class CodeeditorService {
   // finds element by title
   public processCode(code) {
     // this.codeedit.instance.runMode(this.code, 'text/x-go', this.cmOutput());
-    let codestring = '<foreignObject width="' + code.lastWrapWidth
-    + 'px" height="' + code.lastWrapHeight + 'px"><body xmlns="http://www.w3.org/1999/xhtml">' + code.wrapper.outerHTML +
-    '</body></foreignObject>';
+    let codestring = '<svg><foreignObject id="fo" width="' + code.sizer.clientWidth
+    + 'px" height="' + code.sizer.clientHeight +
+     'px"><body>' +
+     '<div style="overflow: hidden; width:' + code.sizer.clientWidth
+     + 'px; height:' + code.sizer.clientHeight + 'px; z-index: -1;" class="CodeMirror cm-s-default">'
+      + code.scroller.innerHTML + '</div></body></foreignObject></svg>';
     // console.log(this.codeedit.instance);
     /*
     let codearray = code.renderedView;
@@ -46,6 +49,8 @@ export class CodeeditorService {
       }
     }
     */
+    codestring = codestring.replace('position: absolute', 'position: relative');
+    codestring = codestring.replace('z-index: 1;', '');
     console.log(codestring);
     if (this.elementService.selCMEo) {
       let content = {
@@ -55,9 +60,9 @@ export class CodeeditorService {
           y: 0
         },
         object: codestring,
-        width: code.lastWrapWidth,
+        width: code.sizer.clientWidth,
         info: 'insert corect code',
-        height: code.lastWrapHeight
+        height: code.sizer.clientHeight
       };
       this.elementService.selCMEo.cmobject.content.push(content);
       this.elementService.selCMEo.state = 'new';

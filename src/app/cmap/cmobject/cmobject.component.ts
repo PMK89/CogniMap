@@ -107,7 +107,7 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         let types = this.cmeo.types;
         if (types[0] === 'i' || types[0] === 'p') {
-          // console.log(this.cmeo);
+          // console.log(this.cmeo)
         } else {
           if (types[0] === 'm') {
             let emptymark = s.rect(this.cmeo.coor.x, this.cmeo.coor.y, this.cmeo.x1 - this.cmeo.x0, this.cmeo.y1 - this.cmeo.y0);

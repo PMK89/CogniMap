@@ -25,6 +25,7 @@ export class ColorbarComponent implements OnInit {
   public value: string;
   public selCMEo: Observable<CMEo>;
   public selCMEl: Observable<CMEl>;
+  public mode = 'colors';
   @ViewChild('colorpick') public colorpick: ElementRef;
 
   constructor(private elementService: ElementService,
@@ -37,6 +38,7 @@ export class ColorbarComponent implements OnInit {
   public ngOnInit() {
   }
 
+  // changes the selected color
   public changecolor(colorbar) {
     this.color = this.colorpick.nativeElement.value;
     for (let i = 0; i < 9; i++) {
@@ -73,7 +75,7 @@ export class ColorbarComponent implements OnInit {
               this.value = cmelement[colorbar.variable[0]][colorbar.variable[1]][colorbar.variable[2]][colorbar.variable[3]];
               break;
             default:
-              this.value = '#ffffff'
+              this.value = '#ffffff';
           }
         } else {
           this.value = colorbar.colors[0];
@@ -94,6 +96,20 @@ export class ColorbarComponent implements OnInit {
       this.elementService.changeCMEl(this.action);
     } else {
       this.elementService.changeCMEo(this.action);
+    }
+  }
+
+  // saves colorbar under entered name
+  public saveColors(name: string, colorbar) {
+    console.log(name, colorbar);
+  }
+
+  // sets colorbar mode under entered name
+  public setmode(name: string) {
+    if (this.mode === name) {
+      this.mode = 'colors';
+    } else {
+      this.mode = name;
     }
   }
 

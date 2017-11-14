@@ -1,10 +1,30 @@
 <div *ngFor="let colorbar of colorbars | async">
   <table *ngIf="colorbar.cat == selector && colorbar.prio == 0">
     <tr>
-      <td class="tbtd">
-        <input type="color" class="clrpk"[value]="getcolor(colorbar)" #colorpick ng-model="color" (change)="changecolor(colorbar)">
+      <td style="font-size: 9px" (click)="setmode('save')">
+        save
       </td>
-      <td class="tbtd" *ngFor="let color of colorbar.colors" [ngStyle]="{ 'background-color': color, 'width': '5px', 'height': '10px' }" (click)="setcolor(colorbar, color)">
+      <td rowspan="2" *ngIf="mode === 'colors'">
+        <table>
+          <tr>
+            <td class="tbtd">
+              <input type="color" class="clrpk"[value]="getcolor(colorbar)" #colorpick ng-model="color" (change)="changecolor(colorbar)">
+            </td>
+            <td class="tbtd" *ngFor="let color of colorbar.colors" [ngStyle]="{ 'background-color': color, 'width': '5px', 'height': '10px' }" (click)="setcolor(colorbar, color)">
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td rowspan="2" *ngIf="mode === 'save'">
+        <input class="inputclass" #colorbox value="{{colorbar.name}}"
+          width="20"
+          (keyup.enter)="saveColors(colorbox.value, colorbar)"
+          (blur)="saveColors(colorbox.value, colorbar)">
+      </td>
+    </tr>
+    <tr>
+      <td style="font-size: 9px" (click)="setmode('load')">
+        load
       </td>
     </tr>
   </table>
