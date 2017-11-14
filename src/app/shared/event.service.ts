@@ -41,12 +41,13 @@ export class EventService {
   onMouseClick(evt) {
     // executed if new elements should be created
     if (this.cmsettings.mode === 'new') {
-      // console.log('MouseClick');
-      if (parseInt(evt.target.title, 10) < 0 || evt.target.id === 'cmap') {
+      // console.log(evt.target);
+      if (parseInt(evt.target.title, 10) < 0 || evt.target.id === 'cmap' || evt.target.id === 'cmsvg') {
         let coor = {
-          x: Math.round(evt.clientX  + this.windowService.Win_XOffset),
+          x: Math.round(evt.clientX + this.windowService.Win_XOffset),
           y: Math.round(evt.clientY + this.windowService.Win_YOffset)
         };
+        // console.log(coor);
         this.elementService.newElementObj(this.elementService.currentElement, coor);
       } else if (parseInt(evt.target.title, 10) > 0) {
         this.elementService.setSelectedElement(parseInt(evt.target.title, 10));

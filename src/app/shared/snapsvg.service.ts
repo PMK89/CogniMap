@@ -50,7 +50,9 @@ export class SnapsvgService {
       Snap.parse(cme.prep);
     } else {
       if (cme.id > 0) {
-        this.cmsvg = Snap('#svg' + cme.id.toString());
+        let svgid = '#svg' + cme.id.toString();
+        let test = Snap(svgid);
+        console.log(test);
         this.objectSvg(cme);
       } else if (cme.id < 0) {
         this.lineSvg(cme);
@@ -62,8 +64,8 @@ export class SnapsvgService {
 
   // called for object elements
   objectSvg(cme: CMElement) {
-    // console.log('objectsvg');
-    switch (cme.type[1]) {
+    console.log(this.cmsvg);
+    switch (cme.types[1]) {
       case 'r':
         this.cmosvgService.createRectangle(cme, this.cmsvg);
         break;
@@ -77,7 +79,7 @@ export class SnapsvgService {
 
   // called for line elements
   lineSvg(cme: CMElement) {
-    switch (cme.type[1]) {
+    switch (cme.types[1]) {
       case 'e':
         this.cmlsvgService.createEdge(cme, this.cmsvg);
         break;

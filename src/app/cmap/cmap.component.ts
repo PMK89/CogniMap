@@ -37,6 +37,7 @@ export class CmapComponent implements OnInit {
       'position': 'absolute' };
   }
 
+
   getData(parameters) {
     if (parameters) {
       // Catches Data from Element-Service
@@ -52,24 +53,26 @@ export class CmapComponent implements OnInit {
         // Prod: handle electron response
         // /*
         .subscribe(x => {
+          /*
           let action = {
             type: 'ADD_CME_FROM_DB',
             payload: x
           };
           this.store.dispatch(action);
-          /*
+          */
+          let temparray = [];
           for (let i in x) {
             if (x[i]) {
               x[i].cmobject = JSON.parse(x[i].cmobject);
               x[i].cmline = JSON.parse(x[i].cmline);
-              let action = {
-                type: 'ADD_CME',
-                payload: x[i]
-              };
-              this.store.dispatch(action);
+              temparray.push(x[i]);
             }
           }
-          */
+          let action = {
+            type: 'ADD_CME_FROM_DB',
+            payload: temparray
+          };
+          this.store.dispatch(action);
         });
         // */
     }

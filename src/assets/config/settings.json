@@ -2,7 +2,7 @@
 	"id": 1,
 	"mode": "view",
 	"coor": {
-		"x": 5000, 
+		"x": 5000,
 		"y": 100000
 	},
 	"style": {
@@ -24,7 +24,6 @@
 	},
 	"debug": true,
 	"dragging": false,
-	"dev": false,
 	"cmap": {
 		"pos": {
 			"x": 0,

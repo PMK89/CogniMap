@@ -21,11 +21,7 @@ export class CmlineComponent implements OnInit {
 
   ngOnInit() {
     this.snapsvgService.makeShape(this.cmelement);
-    /*
-    if(this.cmelement.active) {
-      this.elementService.newDBElement(this.cmelement);
-      console.log('line emitted')
-    }*/
+    // this.elementService.newDBElement(this.cmelement);
   }
 
 }

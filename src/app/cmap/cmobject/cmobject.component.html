@@ -1,7 +1,5 @@
 <div [ngStyle]="objectStyle" [ngClass]="objectClass" [title]="cmelement.id">
-  <div [ngStyle]="svgStyle">
-    <svg *ngIf="cmelement.type==='s'" id="{{svgid}}"></svg>
-  </div>
+  <svg [attr.id]="svgid" style="position: relative; left: 0px; top: 0px; width: 0px; height: 0px; z-index: -10"></svg>
   <div *ngIf="!TextInput" #textfield [title]="cmelement.id" [ngStyle]="textStyle" [ngClass]="textClass">
     {{cmelement.title}}
   </div>

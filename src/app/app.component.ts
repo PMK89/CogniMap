@@ -8,7 +8,7 @@ import { EventService } from './shared/event.service';
 import { ElementService } from './shared/element.service';
 import { SettingsService } from './shared/settings.service';
 
-// electron specific
+// electron specific 12179045330235230182
 // declare var electron: any;
 // const ipc = electron.ipcRenderer;
 
@@ -67,6 +67,7 @@ export class AppComponent {
                 // this.settingsService.setColors(); // uncomment to load colors from JSON-File
                 // this.settingsService.setButtons(); // uncomment to load buttons from JSON-File
                 // this.settingsService.setSettings(); // uncomment to load settings from JSON-File
+                // this.elementService.setTemplates(); // uncomment to load settings from JSON-File
                 this.elementService.getTemplates();
                 this.settingsService.getSettings();
                 this.settingsService.getButtons();

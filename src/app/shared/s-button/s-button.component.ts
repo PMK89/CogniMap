@@ -33,11 +33,21 @@ export class SButtonComponent implements OnInit {
           let n = button.var.length;
           switch (n) {
             case 1:
-              if (cmelement[button.var[0]] === button.value) {
-                button.active = true;
+              if (button.var[0] === 'types') {
+                let valuearray = button.value.split(',');
+                if (cmelement.types[0] === valuearray[0] && cmelement.types[1] === valuearray[1]
+                    && cmelement.types[2] === valuearray[2]) {
+                  button.active = true;
+                } else {
+                  button.active = false;
+                };
               } else {
-                button.active = false;
-              };
+                if (cmelement[button.var[0]] === button.value) {
+                  button.active = true;
+                } else {
+                  button.active = false;
+                };
+              }
               break;
             case 2:
               if (cmelement[button.var[0]][button.var[1]] === button.value) {
@@ -79,6 +89,11 @@ export class SButtonComponent implements OnInit {
   }
 
   clicked(button) {
-    this.elementService.changeElement(button);
+    let action = {
+      var: button.var,
+      value: button.value.split(',')
+    };
+    console.log(button.value);
+    this.elementService.changeElement(action);
   }
 }

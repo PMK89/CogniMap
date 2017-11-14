@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 
 // services
 import { ElementService } from '../../shared/element.service';
+import { SnapsvgService } from '../../shared/snapsvg.service';
 import { EventService } from '../../shared/event.service';
 
 // models and reducers
@@ -21,11 +22,13 @@ export class CmobjectComponent implements OnInit {
   textStyle: Object;
   textClass: Array<string>;
   hasContent: boolean;
+  svgid: string;
   // dragging: boolean = false;
   contentStyle: Object;
   TextInput: boolean;
 
   constructor(private eventService: EventService,
+              private snapsvgService: SnapsvgService,
               private store: Store<CMEStore>,
               private elementRef: ElementRef,
               private elementService: ElementService) {
@@ -34,6 +37,7 @@ export class CmobjectComponent implements OnInit {
   ngOnInit() {
     // adds property to title-div
     // this.TextInput = this.objectService.TextInput;
+    this.svgid = 'svg' + this.cmelement.id.toString();
     this.textStyle = {
       'font-size': this.cmelement.cmobject.style.title.size + 'px',
       'font-color': this.cmelement.cmobject.style.title.color,
@@ -49,13 +53,17 @@ export class CmobjectComponent implements OnInit {
       'opacity': this.cmelement.cmobject.style.object.trans
     };
     // adds attributes to standard a element
-    if (this.cmelement.type === 'a') {
+    if (this.cmelement.types[0] === 'a') {
       this.objectClass = this.cmelement.cmobject.style.object.class_array;
       this.objectStyle = {
         'background-color': this.cmelement.cmobject.style.object.color0,
         'opacity': this.cmelement.cmobject.style.object.trans
       };
-      this.objectClass = ['a' + this.cmelement.cmobject.style.object.shape];
+      this.objectClass = ['a' + this.cmelement.types[1]];
+    } else if (this.cmelement.types[0] === 's') {
+      let svgid1 = document.getElementById(this.svgid);
+      console.log(svgid1);
+      this.snapsvgService.makeShape(this.cmelement);
     }
     if (this.cmelement.cmobject.content) {
       this.hasContent = true;
@@ -73,11 +81,7 @@ export class CmobjectComponent implements OnInit {
 
   // gets dimensions after view is initiated
   ngAfterViewInit() {
-    if (this.cmelement.active) {
-      this.getDimensions();
-      this.elementService.setInactive(this.cmelement.id);
-      console.log('object emitted');
-    }
+      // this.getDimensions();
   }
 
   // set content possition

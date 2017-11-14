@@ -15,7 +15,7 @@ import { SettingsService } from './settings.service';
 // models and reducers
 import { CMEStore } from '../models/CMEstore';
 import { CMElement } from '../models/CMElement';
-import { nCMElement } from '../models/newCMElement';
+// import { nCMElement } from '../models/newCMElement';
 import { CMAction } from '../models/CMAction';
 import { CMCoor } from '../models/CMCoor';
 import { CMSettings } from '../models/CMSettings';
@@ -33,6 +33,7 @@ export class ElementService {
   constructor(private http: Http,
               private settingsService: SettingsService,
               private store: Store<CMEStore>) {
+                this.cmelements = store.select('elements');
                 this.settingsService.cmsettings
                     .subscribe(data => {
                       this.cmsettings = data;
@@ -66,6 +67,35 @@ export class ElementService {
     // */
   }
 
+  // removes elements outside the view from the store
+  cleanStore(parameters) {
+    this.cmelements
+      .subscribe(x => {
+        for (let i in x) {
+          if (x[i]) {
+            if (x[i].prio > 3) {
+              if (((parameters.r + 1000) <= x[i].x0 || x[i].x0 <= (parameters.l - 1000)) &&
+              ((parameters.r + 1000) <= x[i].x1 || x[i].x1 <= (parameters.l - 1000))) {
+                let action = {
+                  type: 'DEL_CME',
+                  payload: x[i]
+                };
+                this.store.dispatch(action);
+                console.log('del: ', x[i].id);
+              } else if (((parameters.b + 1000) <= x[i].y0 || x[i].y0 <= (parameters.t - 1000)) &&
+              ((parameters.b + 1000) <= x[i].y1 || x[i].y1 <= (parameters.t - 1000))) {
+                let action = {
+                  type: 'DEL_CME',
+                  payload: x[i]
+                };
+                this.store.dispatch(action);
+                console.log('del: ', x[i].id);
+              }
+            }
+          }
+        }
+      });
+  }
   // gets data from database/server
   getMaxID() {
     // Pro: gets data from electron
@@ -90,17 +120,6 @@ export class ElementService {
             }
           });
     // */
-  }
-
-  deactivateID(id) {
-    let url = 'http://localhost:80/deactivate?id=' + id;
-    return this.http.get(url)
-          .map((response: Response) => response.json())
-          .subscribe(x => {
-            if (x) {
-              console.log(x);
-            }
-          });
   }
 
   // sets current element
@@ -164,7 +183,7 @@ export class ElementService {
             });
     */
     // Dev: gets data from testserver
-    // /*
+     /*
     let url = 'http://localhost:80/newcmelement';
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
@@ -205,21 +224,19 @@ export class ElementService {
       prep: ''
     };
     if (cmelement.cmobject.style.object.shape) {
-      newcmelement.type.push(cmelement.cmobject.style.object.shape);
+      newcmelement.type[1] = cmelement.cmobject.style.object.shape;
     }
     let body = JSON.stringify( newcmelement );
     this.http.post(url, body, options)
-      .subscribe(res => {
-        this.deactivateID(cmelement.id);
-        console.log(res);
-      });
+      .subscribe(res => console.log(res));
     // console.log(cmelement.id);
-    // */
+     */
   }
 
   // generates a new element
   newElementObj(oldcme: CMElement, cmcoor: CMCoor) {
     if (this.currentElement) {
+      console.log(oldcme);
       let newElemObj: CMElement = new CMElement;
       newElemObj = this.assignElement(this.newElementObject);
       // console.log(newElem);
@@ -284,7 +301,7 @@ export class ElementService {
         x1: parseInt(newxy[0], 10),
         y1: parseInt(newxy[1], 10),
         title: String(oldcme.id) + '-' + String(newcme.id),
-        type: this.newElementLine.type,
+        types: this.newElementLine.types,
         coor: {x: 0, y: 0},
         cat: this.newElementLine.cat,
         dragging: false,
@@ -333,7 +350,7 @@ export class ElementService {
       y1: oldcme.y1,
       prio: oldcme.prio,
       title: oldcme.title,
-      type: oldcme.type,
+      types: oldcme.types,
       coor: oldcme.coor,
       cat: oldcme.cat,
       z_pos: oldcme.z_pos,
@@ -351,7 +368,6 @@ export class ElementService {
     let action = {type: 'ACTIVATE_CME', payload: {id: id} };
     this.store.dispatch(action);
   }
-
   // Set Element as inactive
   setInactive(id: number) {
     let action = {type: 'DEACTIVATE_CME', payload: {id: id} };
@@ -380,7 +396,13 @@ export class ElementService {
       let n = action.var.length;
       switch (n) {
         case 1:
-          this.currentElement[action.var[0]] = action.value;
+          if (action.var[0] === 'types') {
+            this.currentElement.types[0] = action.value[0];
+            this.currentElement.types[1] = action.value[1];
+            this.currentElement.types[2] = action.value[2];
+          } else {
+            this.currentElement[action.var[0]] = action.value;
+          }
           break;
         case 2:
           this.currentElement[action.var[0]][action.var[1]] = action.value;
@@ -430,21 +452,19 @@ export class ElementService {
   }
   // gets templates from database
   getTemplates() {
-    let url = 'http://localhost:80/temp_load';
+    let url = './assets/config/templates.json';
     return this.http.get(url)
         .map((response: Response) => response.json())
         .subscribe( temp => {
             for (let key in temp) {
               // console.log(temp[key]);
               if (temp[key].id) {
-                if (temp[key].type === 'l') {
+                if (temp[key].types[0] === 'l') {
                   // let action = {type: 'ADD_SCME', payload: data[key] };
                   // his.store.dispatch(action);
                   this.newElementLine = this.assignElement(temp[key]);
-                  console.log(this.newElementLine);
                 } else {
                   this.newElementObject = this.assignElement(temp[key]);
-                  console.log(this.newElementObject);
                 }
               }
             }
@@ -468,6 +488,7 @@ export class ElementService {
           data => {
             for (let key in data) {
               if (data[key]) {
+                // console.log('set: ', data[key]);
                 let body = JSON.stringify( data[key] );
                 this.http.post(url, body, options)
                   .map((response: Response) => response.json())

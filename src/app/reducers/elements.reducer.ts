@@ -6,11 +6,15 @@ import { element } from './element.reducer';
 export const elements = (elements: Array<CMElement> = [], action: Action) => {
   switch (action.type) {
     case 'ADD_CME':
-      console.log(action.payload);
+      // console.log(action.payload);
       // return Object.assign({}, action.payload, {dirty: true});
       return elements.concat([Object.assign({}, action.payload, {dirty: true})]);
     case 'ADD_CME_FROM_DB':
       return action.payload;
+    case 'DEL_CME':
+      return elements.filter(cme => {
+        return cme.id !== action.payload.id;
+      });
     case 'UPDATE_CME':
     case 'GET_CME':
     case 'ACTIVATE_CME':

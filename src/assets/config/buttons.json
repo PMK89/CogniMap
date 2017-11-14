@@ -174,9 +174,9 @@
     "blocked": false,
     "btntype": "n",
     "name": "tbobject_z_pos",
-    "var": ["prio"],
+    "var": ["z_pos"],
     "contenttype": "n",
-    "value": "1",
+    "value": "300",
     "prio": 1,
     "content": "++--",
     "active": false
@@ -202,9 +202,9 @@
     "blocked": false,
     "btntype": "n",
     "name": "tbline_z_pos",
-    "var": ["prio"],
+    "var": ["z_pos"],
     "contenttype": "n",
-    "value": "1",
+    "value": "100",
     "prio": 1,
     "content": "++--",
     "active": false
