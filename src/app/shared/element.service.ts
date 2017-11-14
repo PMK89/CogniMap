@@ -5,10 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
-// Gets electron interface
-// declare var electron: any;
-// const ipc = electron.ipcRenderer;
-// const elementController = electron.remote.require('./elementController');
+// electron specific
+declare var electron: any;
+const elementController = electron.remote.require('./elementController');
 
 import { SettingsService } from './settings.service';
 
@@ -32,6 +31,12 @@ export class ElementService {
   constructor(private http: Http,
               private settingsService: SettingsService,
               private store: Store<CMEStore>) {
+                elementController.test('start')
+                        .subscribe(id => {
+                          if (id) {
+                            console.log('ng2: ', id);
+                          }
+                        });
                 this.settingsService.cmsettings
                     .subscribe(data => {
                       this.cmsettings = data;
@@ -41,13 +46,32 @@ export class ElementService {
 
   // gets data from database/server
   getElements(parameters) {
+    // Pro: gets data from electron
+    /*
+    return elementController.load(parameters);
+    */
+    // Dev: gets data from testserver
+    // /*
     let url = 'http://localhost:80/load?l=' + parameters.l + '&t=' + parameters.t + '&r=' + parameters.r + '&b=' + parameters.b + '&z=0';
     return this.http.get(url)
          .map((response: Response) => response.json());
+    // */
   }
 
   // gets data from database/server
   getMaxID() {
+    // Pro: gets data from electron
+    /*
+    return elementController.findmax()
+            .subscribe(id => {
+              if (id) {
+                this.maxID = id;
+                console.log(this.maxID);
+              }
+            });
+    */
+    // Dev: gets data from testserver
+    // /*
     let url = 'http://localhost:80/max';
     return this.http.get(url)
           .map((response: Response) => response.json())
@@ -57,6 +81,7 @@ export class ElementService {
               // console.log(this.maxID);
             }
           });
+    // */
   }
 
   // sets current element
@@ -87,6 +112,17 @@ export class ElementService {
 
   // updates element in database
   updateDBElement(cmelement: CMElement) {
+    // Pro: gets data from electron
+    /*
+    return elementController.change()
+            .subscribe(cme => {
+              if (cme) {
+                console.log(cme);
+              }
+            });
+    */
+    // Dev: gets data from testserver
+    // /*
     let url = 'http://localhost:80/change';
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
@@ -94,6 +130,7 @@ export class ElementService {
     this.http.post(url, body, options)
       .subscribe(res => console.log(res));
     // console.log(cmelement.id);
+    // */
   }
 
   // generates a new element

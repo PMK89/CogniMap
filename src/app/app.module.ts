@@ -37,11 +37,15 @@ import { WindowService } from './shared/window.service';
 import { SettingsService } from './shared/settings.service';
 import { ElementService } from './shared/element.service';
 import { EventService } from './shared/event.service';
+import { CmlsvgService } from './shared/shapes/cmlsvg.service';
+import { CmosvgService } from './shared/shapes/cmosvg.service';
+import { SnapsvgService } from './shared/snapsvg.service';
 import { elements } from './reducers/elements.reducer';
 import { buttons } from './reducers/buttons.reducer';
 import { colors } from './reducers/colors.reducer';
 import { settings } from './reducers/settings.reducer';
 import { selectedElement } from './reducers/selectedelement.reducer';
+import { SvgeditorComponent } from './widgets/svgeditor/svgeditor.component';
 
 
 @NgModule({
@@ -74,11 +78,15 @@ import { selectedElement } from './reducers/selectedelement.reducer';
                   TbNavigationComponent,
                   TbObjectComponent,
                   TbSettingsComponent,
-                  ShapeComponent ],
+                  ShapeComponent,
+                  SvgeditorComponent ],
   providers: [LayoutService,
               WindowService,
               SettingsService,
               EventService,
+              CmlsvgService,
+              CmosvgService,
+              SnapsvgService,
               ElementService],
   bootstrap: [ AppComponent ],
 })

@@ -1,4 +1,4 @@
-import { Component, Renderer, ViewChild } from '@angular/core';
+import { Component, Renderer, ViewChild, ElementRef } from '@angular/core';
 
 // services 5624535178
 import { LayoutService } from './layout.service';
@@ -6,6 +6,10 @@ import { WindowService } from './shared/window.service';
 import { EventService } from './shared/event.service';
 import { ElementService } from './shared/element.service';
 import { SettingsService } from './shared/settings.service';
+
+// electron specific
+// declare var electron: any;
+// const ipc = electron.ipcRenderer;
 
 // models and reducers
 // import { CMEStore } from './models/cmestore';
@@ -21,9 +25,11 @@ import { CmapComponent } from './cmap/cmap.component';
 export class AppComponent {
   layout: Object;
   parameters: Object;
+  @ViewChild('TPid') tpid: ElementRef;
 
   @ViewChild(CmapComponent)
   private cmapComponent: CmapComponent;
+
   ngAfterViewInit() {
     this.renderer.listenGlobal('window', 'scroll', (evt) => {
       this.cmapComponent.getData(this.windowService.getParameters());
@@ -33,11 +39,16 @@ export class AppComponent {
     });
     this.renderer.listenGlobal('window', 'mouseup', (evt) => {
       this.eventService.onMouseUp(evt);
+      this.changedetect();
     });
     this.renderer.listenGlobal('window', 'click', (evt) => {
       this.eventService.onMouseClick(evt);
     });
+    //  ipc.on('snap-out', function (event, arg) {
+    //   console.log(arg);
+    // });
   }
+
 
   constructor(private layoutService: LayoutService,
               private windowService: WindowService,
@@ -80,6 +91,11 @@ export class AppComponent {
       };
       return styles;
     }
+  }
+  // detects changes in third-party controlled elements.
+  changedetect() {
+    let tpidval = this.tpid.nativeElement.title;
+    console.log('FUCK YEAH: ', tpidval);
   }
 
   // passes clicked element to object service

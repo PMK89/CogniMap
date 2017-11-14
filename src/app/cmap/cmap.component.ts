@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -23,7 +23,7 @@ export class CmapComponent implements OnInit {
               private eventService: EventService,
               private store: Store<CMStore>) {
                 this.cmelements = store.select('elements');
-                this.elementService.getMaxID();
+                // this.elementService.getMaxID();
               }
 
   ngOnInit() { }
@@ -40,11 +40,26 @@ export class CmapComponent implements OnInit {
     if (parameters) {
       // Catches Data from Element-Service
       this.elementService.getElements(parameters)
+        // Dev: handle server response
+        /*
         .map(payload => ({ type: 'ADD_CME_FROM_DB', payload }))
         .subscribe(action => {
           this.store.dispatch(action);
           // console.log(action);
         });
+        */
+        // Prod: handle electron response
+        // /*
+        .subscribe(x => {
+          if (x) {
+            let action = {
+              type: 'ADD_CME_FROM_DB',
+              payload: x
+            };
+            this.store.dispatch(action);
+          }
+        });
+        // */
     }
   }
 }

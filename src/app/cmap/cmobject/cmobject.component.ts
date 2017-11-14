@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 
 // services
 import { ElementService } from '../../shared/element.service';
+import { SnapsvgService } from '../../shared/snapsvg.service';
 import { EventService } from '../../shared/event.service';
 
 // models and reducers
@@ -14,6 +15,8 @@ import { CMEStore } from '../../models/CMEstore';
   templateUrl: './cmobject.component.html',
   styleUrls: ['./cmobject.component.scss']
 })
+
+// generates markers, titles, places contetnt and starts generation of shapes
 export class CmobjectComponent implements OnInit {
   @Input() cmelement: CMElement;
   objectStyle: Object;
@@ -28,6 +31,7 @@ export class CmobjectComponent implements OnInit {
   constructor(private eventService: EventService,
               private store: Store<CMEStore>,
               private elementRef: ElementRef,
+              private snapsvgService: SnapsvgService,
               private elementService: ElementService) {
               }
 
@@ -57,13 +61,14 @@ export class CmobjectComponent implements OnInit {
       };
       this.objectClass = ['a' + this.cmelement.cmobject.style.object.shape];
     }
+    this.snapsvgService.makeShape(this.cmelement);
     if (this.cmelement.cmobject.content) {
       this.hasContent = true;
     }
     if (this.cmelement.active) {
       this.TextInput = true;
     }
-    // console.log('title: ', this.cmelement.title, ' w: ', (this.cmelement.x1 - this.cmelement.x0), ' h: ', (this.cmelement.y1 - this.cmelement.y0))
+
     if (this.cmelement.dragging === true && this.eventService.dragging === true) {
       this.eventService.mousedif()
         .subscribe(coor => {
@@ -73,10 +78,6 @@ export class CmobjectComponent implements OnInit {
     }
   }
 
-  // gets dimensions after view is initiated
-  ngAfterViewInit() {
-    // this.getDimensions();
-  }
 
   // set content possition
   contentPos(content) {

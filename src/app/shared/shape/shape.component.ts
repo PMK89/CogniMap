@@ -58,41 +58,10 @@ export class ShapeComponent implements OnInit {
 
   // called for line elements
   lineSvg(cme: CMElement) {
-    // defines corners of line
-    if (this.cmelement.x1 >= this.cmelement.x0) {
-      this.x0 = this.cmelement.x0;
-      this.width = this.cmelement.x1 - this.cmelement.x0;
-      this.x1 = 0;
-    } else {
-      this.x0 = this.cmelement.x1;
-      this.width = this.cmelement.x0 - this.cmelement.x1;
-      this.x1 = this.width;
-    }
-    if (this.cmelement.y1 >= this.cmelement.y0) {
-      this.y0 = this.cmelement.y0;
-      this.height = this.cmelement.y1 - this.cmelement.y0;
-      this.y1 = 0;
-    } else {
-      this.y0 = this.cmelement.y1;
-      this.height = this.cmelement.y0 - this.cmelement.y1;
-      this.y1 = this.height;
-    }
-    // handles shallow lines so they don't get cut
-    if (this.height < this.cmelement.cmline.size0) {
-      this.height = this.cmelement.cmline.size0;
-      this.y1 = Math.floor(this.height * 0.5);
-    }
-    if (this.width < this.cmelement.cmline.size0) {
-      this.width = this.cmelement.cmline.size0;
-      this.x1 = Math.floor(this.width * 0.5);
-    }
-    this.svgCanvas = Snap(this.width, this.height);
-    this.svgCanvas.attr({
-      'left': cme.coor.x + 'px',
-      'top': cme.coor.y + 'px',
-      'z-index': cme.z_pos,
-    });
-    this.svgCanvas.appendTo(this.cmsvg);
+    this.x0 = this.cmelement.x0;
+    this.x1 = this.cmelement.x1;
+    this.y0 = this.cmelement.y0;
+    this.y1 = this.cmelement.y1;
     switch (this.cmelement.cmline.shape) {
       case 'e':
         this.createEdge(this.cmelement);
@@ -108,13 +77,17 @@ export class ShapeComponent implements OnInit {
 
   // creates a straigth line between two point
   createLine(cme) {
-    let path = 'M' + this.x1 + ' ' + this.y1 + 'L' + (this.width - this.x1)
-            + ' ' + (this.height - this.y1);
-    let p = this.svgCanvas.path(path);
+    let path = 'M' + this.x0 + ' ' + this.y0 + 'L' + this.x1
+            + ' ' + this.y1;
+    let p = this.cmsvg.path(path);
     p.attr({
       fill: 'none',
       stroke: cme.cmline.color0,
       strokeWidth: cme.cmline.size0,
+    });
+    p.mousedown(function( ){
+      document.getElementById('TPid').title = cme.id;
+      // console.log(document.getElementById('TPid').title);
     });
     // console.log(path);
   }
@@ -123,7 +96,7 @@ export class ShapeComponent implements OnInit {
   createEdge(cme) {
     let path = this.d = 'M' + this.x1 + ' ' + this.y1 + 'L' + this.x1 + ' ' +
     (this.height - this.y1) + 'L' + (this.width - this.x1) + ' ' + (this.height - this.y1);
-    let p = this.svgCanvas.path(path);
+    let p = this.cmsvg.path(path);
     p.attr({
       fill: 'none',
       stroke: cme.cmline.color0,

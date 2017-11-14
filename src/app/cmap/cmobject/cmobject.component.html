@@ -1,7 +1,4 @@
 <div [ngStyle]="objectStyle" [ngClass]="objectClass" [title]="cmelement.id">
-  <div *ngIf="cmelement.type == 's'" style="z-index:0;position:absolute;left:0px;top:0px">
-    <app-shape [cmelement]="cmelement"></app-shape>
-  </div>
   <div *ngIf="!TextInput" #textfield [title]="cmelement.id" [ngStyle]="textStyle" [ngClass]="textClass">
     {{cmelement.title}}
   </div>
