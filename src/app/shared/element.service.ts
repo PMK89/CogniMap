@@ -164,13 +164,22 @@ export class ElementService {
   public makeTrans(color0, tolerance) {
     if (this.selCMEo) {
       if (this.selCMEo.cmobject.content.length > 0) {
-        if (this.selCMEo.cmobject.content[0].object.indexOf('.png')) {
-          let arg = {
-            tolerance: tolerance,
-            color: color0,
-            file: this.selCMEo.cmobject.content[0].object
-          };
-          this.electronService.ipcRenderer.send('makeTrans', arg);
+        for (let key in this.selCMEo.cmobject.content) {
+          if(this.selCMEo.cmobject.content[key]) {
+            if (this.selCMEo.cmobject.content[key].object.indexOf('.png') !== -1) {
+              let arg = {
+                tolerance: tolerance,
+                color: color0,
+                file: this.selCMEo.cmobject.content[key].object
+              };
+              let newpic = this.electronService.ipcRenderer.sendSync('makeTrans', arg);
+              if (newpic.indexOf('.png') !== -1) {
+                this.selCMEo.cmobject.content[key].object = newpic;
+              } else {
+                console.log('error: ', newpic);
+              }
+            }
+          }
         }
       }
     }

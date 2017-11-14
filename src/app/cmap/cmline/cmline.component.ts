@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-declare var Snap: any;
+declare let Snap: any;
 
 import { SnapsvgService } from '../../shared/snapsvg.service';
 import { ElementService } from '../../shared/element.service';
@@ -220,9 +220,24 @@ export class CmlineComponent implements OnInit, OnDestroy {
     });
     if (mgroup) {
       let title0 = s.text(0, 0, this.cmel.cmobject.title1);
+      let txtfill = '#000000';
+      // check if color ist to dark
+      if (this.cmel.cmobject.color0) {
+        let c = this.cmel.cmobject.color0.substring(1);      // strip #
+        let rgb = parseInt(c, 16);   // convert rrggbb to decimal
+        let r = (rgb >> 16) & 0xff;  // extract red
+        let g = (rgb >>  8) & 0xff;  // extract green
+        let b = (rgb >>  0) & 0xff;  // extract blue
+
+        let luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
+
+        if (luma < 80) {
+          txtfill = '#ffffff';
+        }
+      }
       title0.attr({
         fontSize: (20 - this.cmel.prio) + 'px',
-        fill: '#000000',
+        fill: txtfill,
         fontFamily:
          "'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive",
         opacity: 0.8,
@@ -260,7 +275,7 @@ export class CmlineComponent implements OnInit, OnDestroy {
       let title1 = s.text(0, 0, this.cmel.cmobject.title0);
       title1.attr({
         fontSize: (20 - this.cmel.prio) + 'px',
-        fill: '#000000',
+        fill: txtfill,
         fontFamily:
          "'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive",
         opacity: 0.8,

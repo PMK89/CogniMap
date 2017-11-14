@@ -198,23 +198,10 @@ const createMediaWindow = function createMediaWindow () {
           // linearray1.push(line1);
         }
         var newpngbuffer = PNG.sync.write(png);
-        console.log('original png:');
-        /*
-        for (var i = 0; i < linearray0.length; i++) {
-          if (linearray0[i]) {
-            console.log(linearray0[i]);
-          }
-        }
-        console.log('changed png:');
-        for (var i = 0; i < linearray1.length; i++) {
-          if (linearray1[i]) {
-            console.log(linearray1[i]);
-          }
-        }
-        */
-        // var newfilename = arg.file.replace('pmk', '_pmk');
-        const newfilepath = './dist/assets/images/' + newfilename;
+        var newfilepath = filepath.replace('.png', 't.png');
         fs.writeFileSync(newfilepath, newpngbuffer);
+        console.log(newfilepath);
+        event.returnValue = newfilepath;
       }
     }
   })

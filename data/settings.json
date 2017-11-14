@@ -60,7 +60,7 @@
     "cmtbmarking": {
       "color0": "#ffcb28",
       "color1": "#ffbf00",
-      "prio": 3,
+      "prio": 7,
       "trans": 0.40000000000000013,
       "types": [
         "m",
@@ -86,8 +86,8 @@
     },
     "cngtemp": false,
     "coor": {
-      "x": 255618,
-      "y": 196925
+      "x": 432227,
+      "y": 290037
     },
     "copy": {
       "num": 0,
@@ -96,7 +96,7 @@
       "strgArray": [],
       "type": "content"
     },
-    "copycolor": "#012044",
+    "copycolor": "#b061a1",
     "currentMeta": {
       "comment": "",
       "name": "Crash Course Physics: Friction",
@@ -360,14 +360,14 @@
       "opacity": 0.8,
       "position": "fixed",
       "top": 0,
-      "width": 1920,
+      "width": 1800,
       "z-index": 515
     },
     "widget0": "none",
     "widget1": "none",
     "wlayout0": {
       "display": "none",
-      "height": 454,
+      "height": 446.5,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
@@ -377,11 +377,11 @@
     },
     "wlayout1": {
       "display": "none",
-      "height": 454,
+      "height": 446.5,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
-      "top": 536,
+      "top": 528.5,
       "width": 600,
       "z-index": 510
     }
