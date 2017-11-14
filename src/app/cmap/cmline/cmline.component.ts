@@ -75,11 +75,6 @@ export class CmlineComponent implements OnInit, OnDestroy {
               // this.cmel.cmobject.markers = [];
               this.createMarker(s, p);
             } else {
-              if(this.cmel.cmobject.str === 'connector') {
-                this.elementService.changeLinkWeight(this.cmel.cmobject.id0, this.cmel.id, -1);
-                this.elementService.changeLinkWeight(this.cmel.cmobject.id1, this.cmel.id, -1);
-                this.cmel.cmobject.str = '';
-              }
               this.elementService.updateCMEol(this.cmel);
             }
           }

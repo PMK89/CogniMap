@@ -149,6 +149,13 @@ export class TbContentComponent implements OnInit {
   }
 
   // copies content of svg object
+  public copyPic() {
+    // do something
+    this.inputType = 'info';
+    this.contentStrg = this.selCMEo.cmobject.content[this.pos].object;
+  }
+
+  // copies content of svg object
   public copyInfo() {
     // do something
     this.inputType = 'info';

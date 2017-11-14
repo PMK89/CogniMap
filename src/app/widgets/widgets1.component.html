@@ -1,6 +1,6 @@
 <div id="widget1">
   <div *ngIf="widget1==='equation'">
-     <iframe #iframe1 id="iframe1" src="assets/widgets/guppy/index.html" [style.height]="w1height" [style.width]="w1width" (click)="cminterface1()"></iframe>
+     <app-mjeditor></app-mjeditor>
   </div>
   <div *ngIf="widget1==='formula'">
      <iframe #iframe1 id="iframe1" src="assets/widgets/JSME/JSME_editor_plus_SVG.html" [style.height]="w1height" [style.width]="w1width" (click)="cminterface1()"></iframe>

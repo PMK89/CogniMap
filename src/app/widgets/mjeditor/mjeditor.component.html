@@ -1,0 +1,12 @@
+<div id="mjeditor">
+  <div id="output">
+    <svg width="550px" height="60px" id="mjeditorsvg"></svg>
+  </div>
+  <div id="input">
+    <textarea #latexInput value="{{inputtext}}" rows="4" cols="40"
+    (keyup)="makeLatex(latexInput, latexInput.value)"
+    (click)="makeLatex(latexInput, latexInput.value)" 
+    (change)="makeLatex(latexInput, latexInput.value)"></textarea>
+  </div>
+  <div>{{caretPos}}</div>
+</div>

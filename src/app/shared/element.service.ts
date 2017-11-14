@@ -75,17 +75,6 @@ export class ElementService {
                     // console.log('changedCME: ', arg, Date.now());
                   }
                 });
-                this.electronService.ipcRenderer.on('selectedChildren', (event, arg) => {
-                  if (arg) {
-                    console.log('selectedChildren: ', arg);
-                    this.selCMElArray = arg.selCMElArray;
-                    this.selCMElArrayBorder = arg.selCMElArrayBorder;
-                    this.selCMEoArray = arg.selCMEoArray;
-                    this.allCME = arg.selarray;
-                    this.selCMEo = undefined;
-                    this.selectionGroup(this.selCMEoArray, this.selCMElArray);
-                  }
-                });
               }
 
   /*---------------------------------------------------------------------------
@@ -147,7 +136,7 @@ export class ElementService {
     }
   }
 
-  // gets highest id from database/server
+  // gets data from database/server
   public getMaxID() {
     // Pro: gets data from electron
     let maxID = this.electronService.ipcRenderer.sendSync('maxID', '1');
@@ -388,8 +377,6 @@ export class ElementService {
         x: this.selCMEo.coor.x,
         y: this.selCMEo.coor.y
       };
-      this.electronService.ipcRenderer.send('findChildren', this.selCMEo);
-      /*
       let selarray = this.selectLinks(this.selCMEo);
       for (let key = 0; key < selarray.length; key++) {
         if (selarray[key]) {
@@ -412,7 +399,6 @@ export class ElementService {
       this.selCMEoArray.push(this.selCMEo.id);
       this.selCMEo = undefined;
       this.selectionGroup(this.selCMEoArray, this.selCMElArray);
-      */
     } else {
       alert('please select an element.');
     }
@@ -802,21 +788,12 @@ export class ElementService {
                 if (data[key]) {
                   if (data[key].id === id) {
                     id = 0;
-                    let weight = -1;
                     let ccme = this.CMEtoCMEol(data[key]);
-                    for (let i in ccme.cmobject.links) {
-                      if (ccme.cmobject.links[i]) {
-                        if (!ccme.cmobject.links[i].start) {
-                          weight = 0;
-                          console.log('end found');
-                        }
-                      }
-                    }
                     ccme.cmobject.links.push({
                       id: 0,
                       targetId: this.selCMEo.id,
                       title: this.selCMEo.title,
-                      weight: weight,
+                      weight: -1,
                       con: 'e',
                       start: false
                     });
@@ -824,7 +801,7 @@ export class ElementService {
                       id: 0,
                       targetId: ccme.id,
                       title: ccme.title,
-                      weight: weight,
+                      weight: -1,
                       con: 'e',
                       start: true
                     });
@@ -886,10 +863,6 @@ export class ElementService {
         // console.log('y1<=y0: ', newElem.coor);
       }
       // console.log('after: ', newElem.coor);
-      // indicates an connector
-      if (this.cmsettings.mode === 'connecting') {
-        newElem.cmobject.str = 'connector';
-      }
       oldlink[oldcme.cmobject.links.length - 1].id = newElem.id;
       this.updateCMEol(oldcme);
       newcme.cmobject.links[newcme.cmobject.links.length - 1].id = newElem.id;
@@ -1537,23 +1510,15 @@ export class ElementService {
     let color = '';
     if (this.cmsettings.mode === 'dragging') {
       color = '#ff0000';
-      try {
-        for (i = 0; i < CMElArray.length; i++) {
-          if (cmsvg.select('#g' + CMElArray[i])) {
-            cmeselection.add(cmsvg.select('#g' + CMElArray[i]).clone());
-          }
+      for (i = 0; i < CMElArray.length; i++) {
+        if (cmsvg.select('#g' + CMElArray[i])) {
+          cmeselection.add(cmsvg.select('#g' + CMElArray[i]).clone());
         }
-      } catch (err) {
-        console.log(err, CMElArray[i])
       }
-      try {
-        for (i = 0; i < CMEoArray.length; i++) {
-          if (cmsvg.select('#g' + CMEoArray[i])) {
-            cmeselection.add(cmsvg.select('#g' + CMEoArray[i]).clone());
-          }
+      for (i = 0; i < CMEoArray.length; i++) {
+        if (cmsvg.select('#g' + CMEoArray[i])) {
+          cmeselection.add(cmsvg.select('#g' + CMEoArray[i]).clone());
         }
-      } catch (err) {
-        console.log(err, CMEoArray[i])
       }
       let move = function(dx, dy) {
         this.attr({
@@ -1574,23 +1539,15 @@ export class ElementService {
     } else {
       cmeselection.undrag();
       color = '#0000ff';
-      try {
-        for (i = 0; i < CMElArray.length; i++) {
-          if (cmsvg.select('#g' + CMElArray[i])) {
-            cmeselection.add(cmsvg.select('#g' + CMElArray[i]).clone());
-          }
+      for (i = 0; i < CMElArray.length; i++) {
+        if (cmsvg.select('#g' + CMElArray[i])) {
+          cmeselection.add(cmsvg.select('#g' + CMElArray[i]).clone());
         }
-      } catch (err) {
-        console.log(err, CMElArray[i])
       }
-      try {
-        for (i = 0; i < CMEoArray.length; i++) {
-          if (cmsvg.select('#g' + CMEoArray[i])) {
-            cmeselection.add(cmsvg.select('#g' + CMEoArray[i]).clone());
-          }
+      for (i = 0; i < CMEoArray.length; i++) {
+        if (cmsvg.select('#g' + CMEoArray[i])) {
+          cmeselection.add(cmsvg.select('#g' + CMEoArray[i]).clone());
         }
-      } catch (err) {
-        console.log(err, CMEoArray[i])
       }
     }
     let BBox = cmeselection.getBBox();
@@ -1676,31 +1633,6 @@ export class ElementService {
          ).unsubscribe();
   }
 
-  // changes object link weight
-  public changeLinkWeight(id: number, linkid: number, weight: number) {
-    this.cmelements
-        .subscribe((data) => {
-            for (let key in data) {
-              if (data[key]) {
-                if (data[key].id === id) {
-                  let cme = this.CMEtoCMEol(data[key]);
-                  for (let i in cme.cmobject.links) {
-                    if (cme.cmobject.links[i]) {
-                      if (cme.cmobject.links[i].id === linkid) {
-                        cme.cmobject.links[i].weight = weight;
-                      }
-                    }
-                  }
-                  this.updateCMEol(cme);
-                  id = 0;
-                }
-              }
-            }
-          },
-          (error) => console.log(error),
-         ).unsubscribe();
-  }
-
   // changes links if connections are changed
   public changeCon(con: string, start: boolean) {
     if (this.selCMEo) {
@@ -1761,7 +1693,20 @@ export class ElementService {
                   height: 100
                 };
                 this.selCMEo.cmobject.content.push(content);
-              } else {
+              } else if (action.value.indexOf('cm/pmk_') !== -1) {
+                let content = {
+                  cat: 'png',
+                  coor: {
+                    x: 0,
+                    y: 0
+                  },
+                  object: action.value,
+                  width: 100,
+                  info: action.value,
+                  height: 100
+                };
+                this.selCMEo.cmobject.content.push(content);
+              }else {
                 this.selCMEo.title = action.value;
               }
               this.selCMEo.state = 'new';

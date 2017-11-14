@@ -58,6 +58,9 @@
               <div  *ngIf="contentCat==='svg'||contentCat==='html'||contentCat==='jsme-svg'||contentCat==='LateX'">
                 <input #titleInput value="{{contentStrg}}" size="10" (keyup.enter)="readInput(titleInput.value)">
               </div>
+              <div  *ngIf="contentCat==='png'||contentCat==='i'">
+                <input #titleInput value="{{contentStrg}}" size="10" (keyup.enter)="readInput(titleInput.value)">
+              </div>
             </td>
             <td>
 
@@ -65,6 +68,9 @@
             <td>
               <div *ngIf="contentCat==='html'||contentCat==='jsme-svg'||contentCat==='LateX'" (click)="copyInfo()">
                 info
+              </div>
+              <div *ngIf="contentCat==='png'||contentCat==='i'" (click)="copyPic()">
+                pic
               </div>
 
             </td>

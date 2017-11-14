@@ -21,6 +21,7 @@ import { Toolbar0Component } from './toolbar/toolbar0.component';
 import { Widgets0Component } from './widgets/widgets0.component';
 import { Widgets1Component } from './widgets/widgets1.component';
 import { NavigatorComponent } from './widgets/navigator/navigator.component';
+import { MjEditorComponent } from './widgets/mjeditor/mjeditor.component';
 import { CodeeditorComponent } from './widgets/codeeditor/codeeditor.component';
 import { SButtonComponent } from './shared/s-button/s-button.component';
 import { PButtonComponent } from './shared/p-button/p-button.component';
@@ -53,6 +54,7 @@ import { ObjectShapesService } from './shared/shapes/objectshapes.service';
 import { SnapsvgService } from './shared/snapsvg.service';
 import { MathJaxService } from './shared/mathjax.service';
 import { NavigatorService } from './widgets/navigator/navigator.service';
+import { MjEditorService } from './widgets/mjeditor/mjeditor.service';
 import { CodeeditorService } from './widgets/codeeditor/codeeditor.service';
 import { settings } from './reducers/settings.reducer';
 import { buttons } from './reducers/buttons.reducer';
@@ -91,6 +93,7 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
                   Widgets0Component,
                   Widgets1Component,
                   NavigatorComponent,
+                  MjEditorComponent,
                   CodeeditorComponent,
                   CmlineComponent,
                   CmobjectComponent,
@@ -121,6 +124,7 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
               TemplateService,
               SnapsvgService,
               NavigatorService,
+              MjEditorService,
               CodeeditorService,
               ElementService],
   bootstrap: [ AppComponent ],
