@@ -77,11 +77,20 @@ export class MetaService {
         let res3 = this.electronService.ipcRenderer.sendSync('openBrowser', arg3);
         console.log(res3);
         break;
+      case 'picture':
+        let arg4 = {
+          type: 'picture',
+          complete: false,
+          path: '/dist/assets/images/' + ext
+        };
+        let res4 = this.electronService.ipcRenderer.sendSync('openBrowser', arg4);
+        console.log(res4);
+        break;
       case 'comment':
       case 'code':
         console.log('type: ', type);
       default:
-        alert('No valid type: ' +type + ' ' + ext + ' ' + posnumber.toString());
+        alert('No valid type: ' + type + ' ' + ext + ' ' + posnumber.toString());
     }
   }
 
@@ -106,7 +115,6 @@ export class MetaService {
   // get selected file loaded
   public openFile(path0: string, metaMode: string) {
     if (metaMode) {
-      console.log(path0);
       switch (metaMode) {
         case 'pdf':
           let arg0 = {
@@ -130,8 +138,8 @@ export class MetaService {
             complete: true,
             path: path0
           };
-            this.electronService.ipcRenderer.sendSync('openBrowser', arg2);
-            break;
+          this.electronService.ipcRenderer.sendSync('openBrowser', arg2);
+          break;
         case 'videos':
           let arg3 = {
             type: 'videos',
@@ -141,13 +149,22 @@ export class MetaService {
           this.electronService.ipcRenderer.sendSync('openBrowser', arg3);
           break;
         case 'audio':
-            let arg4 = {
-              type: 'audio',
-              complete: true,
-              path: path0
-            };
-            this.electronService.ipcRenderer.sendSync('openBrowser', arg4);
-            break;
+          let arg4 = {
+            type: 'audio',
+            complete: true,
+            path: path0
+          };
+          this.electronService.ipcRenderer.sendSync('openBrowser', arg4);
+          break;
+        case 'picture':
+          let arg5 = {
+            type: 'picture',
+            complete: false,
+            path: '/dist/assets/images/' + path0
+          };
+          let res5 = this.electronService.ipcRenderer.sendSync('openBrowser', arg5);
+          console.log(res5);
+          break;
         case 'comment':
         case 'code':
           console.log('type: ', metaMode);

@@ -4,98 +4,82 @@
       <td *ngIf="contentlen!==0">
         <table id="objecttable">
           <tr>
-            <td style="white-space: nowrap;">
+            <td style="white-space: nowrap;" colspan="2">
               <b (click)="changeContent(-1)">←</b>
               {{pos + 1}} / {{contentlen}}
               <b (click)="changeContent(1)">→</b>
             </td>
             <td *ngIf="contentCat==='png' || contentCat==='i'">
-              <img src="assets/images/basic/white_trans.png" (click)="makeTrans('white')"/>
+              <div  (click)="makeTrans('white')" class="lbtndefault">
+                <img src="assets/images/svgelements/menue/trans_white.svg" width="20px" height="20px"/>
+              </div>
+            </td>
+            <td *ngIf="contentCat==='png' || contentCat==='i'">
+              <input #toleranceInput value="{{tolerance}}" size="3" (keyup.enter)="changeTol(toleranceInput.value, true)" (keyup)="changeTol(toleranceInput.value, false)">
+            </td>
+            <td *ngIf="contentCat==='png' || contentCat==='i'">
+
             </td>
             <td>
-              <div (click)="delContent()">
+              <div *ngIf="contentCat==='html'||contentCat==='jsme-svg'||contentCat==='LateX'" (click)="copyInfo()" class="sbtndefault">
+                <img src="assets/images/svgelements/menue/info.svg" width="50px" height="20px">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div (click)="delContent()" class="lbtndefault">
                 <img src="assets/images/svgelements/menue/del.svg" width="20px" height="20px">
               </div>
             </td>
             <td>
-              <div (click)="copyContent()">
+              <div (click)="copyContent()" class="lbtndefault">
                 <img src="assets/images/svgelements/menue/upcloud.svg" width="20px" height="20px">
               </div>
             </td>
-            <td>
-
+            <td *ngIf="contentCat==='png' || contentCat==='i'">
+              <div (click)="makeTrans('black')" class="lbtndefault">
+                <img src="assets/images/svgelements/menue/trans_black.svg" width="20px" height="20px"/>
+              </div>
             </td>
-            <td>
-
-            </td>
-          </tr>
-          <tr>
-            <td>
+            <td  *ngIf="contentCat==='png' || contentCat==='i'">
               <input #picSizeInput value="{{picsize}}" size="3"
                 (keyup.enter)="setPicSize(picSizeInput.value)">
             </td>
-            <td *ngIf="contentCat==='png' || contentCat==='i'">
-              <img src="assets/images/basic/black_trans.png" (click)="makeTrans('black')"/>
-            </td>
             <td>
-              <div *ngIf="contentCat==='png' || contentCat==='i'" (click)="changeContentCat()">
-                thumb
+              <div *ngIf="contentCat==='svg'||contentCat==='jsme-svg'||contentCat==='LateX'" (click)="copySVG()" class="sbtndefault">
+                <img src="assets/images/svgelements/menue/svg.svg" width="50px" height="20px">
               </div>
-              <div *ngIf="contentCat==='svg'||contentCat==='jsme-svg'||contentCat==='LateX'" (click)="copySVG()">
-                svg
-              </div>
-            </td>
-            <td>
-
-            </td>
-            <td>
-
-            </td>
-            <td>
-
             </td>
           </tr>
           <tr>
-            <td colspan="3">
-              <div  *ngIf="contentCat==='svg'||contentCat==='html'||contentCat==='jsme-svg'||contentCat==='LateX'">
-                <input #titleInput value="{{contentStrg}}" size="10" (keyup.enter)="readInput(titleInput.value)">
+            <td>
+              <div (click)="pasteContent()" *ngIf="copy">
+                <img src="assets/images/svgelements/menue/downcloud.svg" width="20px" height="20px">
               </div>
             </td>
             <td>
-              <div  *ngIf="contentCat==='png' || contentCat==='i'">
-                <input #toleranceInput value="{{tolerance}}" size="5" (keyup.enter)="changeTol(toleranceInput.value, true)" (keyup)="changeTol(toleranceInput.value, false)">
+
+            </td>
+            <td *ngIf="contentCat==='png' || contentCat==='i'">
+              <div (click)="openPicture()" class="lbtndefault">
+                <img src="assets/images/svgelements/menue/editpic.svg" width="20px" height="20px"/>
+              </div>
+            </td>
+            <td *ngIf="contentCat==='png' || contentCat==='i'">
+              <div (click)="changeContentCat()"  class="sbtndefault">
+                <img src="assets/images/svgelements/menue/thump.svg" width="50px" height="20px">
               </div>
             </td>
             <td>
-              <div *ngIf="contentCat==='html'||contentCat==='jsme-svg'||contentCat==='LateX'" (click)="copyInfo()">
-                info
+              <div *ngIf="contentCat==='svg'||contentCat==='html'||contentCat==='jsme-svg'||contentCat==='LateX'">
+                <input #titleInput value="{{contentStrg}}" size="5" (keyup.enter)="readInput(titleInput.value)">
               </div>
-
-            </td>
-            <td>
-
-            </td>
-            <td>
-
-            </td>
-            <td>
-
-            </td>
-            <td>
-
-
-
-            </td>
-            <td>
-
             </td>
           </tr>
         </table>
       </td>
-      <td *ngIf="copy">
-        <div (click)="pasteContent()">
-          <img src="assets/images/svgelements/menue/downcloud.svg" width="20px" height="20px">
-        </div>
+      <td>
       </td>
     </tr>
   </table>

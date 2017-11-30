@@ -86,30 +86,30 @@
     },
     "cngtemp": false,
     "coor": {
-      "x": 432227,
-      "y": 290037
+      "x": 226887,
+      "y": 225912
     },
     "copy": {
       "num": 0,
       "numArray": [],
-      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1508674253186.png\",\"width\":100,\"info\":\"png\",\"height\":100}",
+      "strg": "{\"cat\":\"jsme-svg\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" version=\\\"1.1\\\" width=\\\"553\\\" height=\\\"298\\\"><style> text { cursor: default; } </style><g transform=\\\"scale(0.03333333333333333)\\\">\\n<rect x=\\\"0\\\" y=\\\"0\\\" height=\\\"8940\\\" width=\\\"16590\\\" stroke=\\\"none\\\" fill=\\\"white\\\" />\\n<line x1=\\\"3240\\\" y1=\\\"5130\\\" x2=\\\"3890\\\" y2=\\\"5505\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"3890\\\" y1=\\\"5505\\\" x2=\\\"4539\\\" y2=\\\"5130\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"4539\\\" y1=\\\"5130\\\" x2=\\\"5189\\\" y2=\\\"5505\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"5189\\\" y1=\\\"5505\\\" x2=\\\"5838\\\" y2=\\\"5130\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<rect x=\\\"3000\\\" y=\\\"4920\\\" height=\\\"450\\\" width=\\\"450\\\" stroke=\\\"none\\\" fill=\\\"white\\\" />\\n<text x=\\\"3090\\\" y=\\\"5310\\\"  font-size=\\\"390px\\\" font-family=\\\"Helvetica\\\" fill=\\\"rgb(64,64,64)\\\">R</text>\\n<rect x=\\\"4164\\\" y=\\\"4920\\\" height=\\\"450\\\" width=\\\"720\\\" stroke=\\\"none\\\" fill=\\\"white\\\" />\\n<text x=\\\"4254\\\" y=\\\"5310\\\"  font-size=\\\"390px\\\" font-family=\\\"Helvetica\\\" fill=\\\"blue\\\">NH</text>\\n<rect x=\\\"5553\\\" y=\\\"4920\\\" height=\\\"450\\\" width=\\\"540\\\" stroke=\\\"none\\\" fill=\\\"white\\\" />\\n<text x=\\\"5643\\\" y=\\\"5310\\\"  font-size=\\\"390px\\\" font-family=\\\"Helvetica\\\" fill=\\\"rgb(64,64,64)\\\">R'</text>\\n</g></svg>\",\"width\":96.96979522705078,\"info\":\"[R]CNC[R']\",\"height\":100}",
       "strgArray": [],
       "type": "content"
     },
     "copycolor": "#b061a1",
     "currentMeta": {
       "comment": "",
-      "name": "Crash Course Physics: Friction",
-      "path": "https://youtu.be/Y-QOfc2XqOk",
+      "name": "Gradients_and_Partial_Derivatives.mp4",
+      "path": "/home/pmk/cognimap/src/assets/videos/math/Gradients_and_Partial_Derivatives.mp4",
       "pos": "0",
-      "type": "link"
+      "type": "videos"
     },
     "debug": true,
     "dev": false,
     "dirty": true,
     "dragging": false,
     "id": 1,
-    "latexcolor": "#ffff00",
+    "latexcolor": "#0000ff",
     "menue": {
       "display": "block",
       "height": 400,
@@ -363,10 +363,10 @@
       "width": 1800,
       "z-index": 515
     },
-    "widget0": "none",
+    "widget0": "equation",
     "widget1": "none",
     "wlayout0": {
-      "display": "none",
+      "display": "block",
       "height": 446.5,
       "left": 0,
       "opacity": 0.8,

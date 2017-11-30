@@ -60,11 +60,16 @@ export class MjEditorService {
   // inserts a color tag
   public makeColor(color) {
     if (color) {
-      if (this.selectionStart === this.selectionEnd) {
-        this.inputtext = this.inputtext.substr(0, this.selectionStart) + '\\color{' + color + '}{' + this.inputtext.substr(this.selectionStart) + '}';
+      let colorpos = this.inputtext.slice((this.selectionStart - 20), this.selectionStart).indexOf('color{#');
+      if (colorpos !== -1) {
+        this.inputtext = this.inputtext.slice(0, ((this.selectionStart - 20) + colorpos + 7)) + color + this.inputtext.slice((this.selectionStart - 20) + colorpos + 14);
       } else {
-        this.inputtext = this.inputtext.substr(0, this.selectionStart) + '\\color{' + color + '}{'
-        + this.inputtext.substr(this.selectionStart, (this.selectionEnd - this.selectionStart)) + '}' + this.inputtext.substr(this.selectionEnd);
+        if (this.selectionStart === this.selectionEnd) {
+          this.inputtext = this.inputtext.substr(0, this.selectionStart) + '\\color{' + color + '}{' + this.inputtext.substr(this.selectionStart) + '}';
+        } else {
+          this.inputtext = this.inputtext.substr(0, this.selectionStart) + '\\color{' + color + '}{'
+          + this.inputtext.substr(this.selectionStart, (this.selectionEnd - this.selectionStart)) + '}' + this.inputtext.substr(this.selectionEnd);
+        }
       }
       this.placeSvg(this.inputtext);
       return this.inputtext;

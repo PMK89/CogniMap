@@ -43,3 +43,41 @@ th, td {
   height: 12px  !important;
   border-spacing: 0px !important;
 }
+
+.sbtndefault
+{
+    border-style: solid;
+	  border-width: 1px;
+    height: 20px;
+    width: 50px;
+    margin: auto;
+    text-align: center;
+    /*border-top: 2px solid #96d1f8;*/
+    /* Old browsers */
+    background: transparent;
+    -webkit-border-radius: 2px;
+    /* FF3.6+ */
+    -moz-border-radius: 2px;
+    /* Old browsers */
+    border-radius: 2px;
+    color: #505050;
+}
+
+.lbtndefault
+{
+    border-style: solid;
+	  border-width: 1px;
+    height: 20px;
+    width: 25px;
+    margin: auto;
+    text-align: center;
+    /*border-top: 2px solid #96d1f8;*/
+    /* Old browsers */
+    background: transparent;
+    -webkit-border-radius: 2px;
+    /* FF3.6+ */
+    -moz-border-radius: 2px;
+    /* Old browsers */
+    border-radius: 2px;
+    color: #505050;
+}

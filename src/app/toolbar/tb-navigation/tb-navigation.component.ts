@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { SettingsService } from '../../shared/settings.service';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { ElectronService } from 'ngx-electron';
 // models and reducers
 import { CMSettings } from '../../models/CMSettings';
 import { CMStore } from '../../models/CMStore';
@@ -20,6 +21,7 @@ export class TbNavigationComponent implements OnInit {
   public widgets: string[] = ['none', 'equation', 'formula', 'svg', 'navigator', 'codeeditor'];
 
   constructor(private store: Store<CMStore>,
+              private electronService: ElectronService,
               private settingsService: SettingsService) {
                 this.buttons = store.select('buttons');
                 this.settingsService.cmsettings
@@ -77,6 +79,29 @@ export class TbNavigationComponent implements OnInit {
     } else {
       let style: Object = {'background-color': '#ffffff'};
       return style;
+    }
+  }
+
+  // open widget in seperate window
+  public openWidget(widget) {
+    if (widget === 'formula') {
+      this.electronService.ipcRenderer.send(
+        'openWidget',
+        {
+          url: '//localhost:3000/assets/widgets/JSME/JSME_editor_plus_SVG.html',
+          width: 1024,
+          height: 764
+        }
+      );
+    } else if (widget === 'svg') {
+      this.electronService.ipcRenderer.send(
+        'openWidget',
+        {
+          url: '//localhost:3000/assets/widgets/svgeditor/svg-editor.html',
+          width: 1024,
+          height: 764
+        }
+      );
     }
   }
 

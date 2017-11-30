@@ -32,12 +32,13 @@ export class CodeeditorService {
               }
 
   // finds element by title
-  public processCode(code, text, change) {
+  public processCode(code, width, text, change) {
+    console.log(code);
     // this.codeedit.instance.runMode(this.code, 'text/x-go', this.cmOutput());
-    let codestring = '<svg><foreignObject id="fo" width="' + code.sizer.clientWidth
+    let codestring = '<svg><foreignObject id="fo" width="' + width
     + 'px" height="' + code.sizer.clientHeight +
      'px"><body>' +
-     '<div style="overflow: hidden; width:' + code.sizer.clientWidth
+     '<div style="overflow: hidden; width:' + width
      + 'px; height:' + code.sizer.clientHeight + 'px; z-index: -1;" class="CodeMirror cm-s-default">'
       + code.scroller.innerHTML + '</div></body></foreignObject></svg>';
     // console.log(this.codeedit.instance);
@@ -84,7 +85,13 @@ export class CodeeditorService {
         this.cmsettings.mode = 'edit';
         this.settingsService.updateSettings(this.cmsettings);
       }
-      this.elementService.selCMEo.types = ['i', 'i', '0'];
+      if (this.elementService.selCMEo.types[0] !== 'i') {
+        if (this.elementService.selCMEo.types[2] !== 'b') {
+          this.elementService.selCMEo.types[2] = 'b';
+          this.elementService.selCMEo.cmobject.style.object.color1 = JSON.parse(JSON.stringify(this.elementService.selCMEo.cmobject.style.object.color0));
+          this.elementService.selCMEo.cmobject.style.object.color0 = 'none';
+        }
+      }
       this.elementService.selCMEo.state = 'selected';
       this.elementService.updateSelCMEo(this.elementService.selCMEo);
     } else {

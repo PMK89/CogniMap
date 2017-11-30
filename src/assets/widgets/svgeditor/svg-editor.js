@@ -2283,7 +2283,7 @@ TODOS
 //					},
 					'#tools_top': {
 						'left': 50 + $('#main_button').width(),
-						'height': 72
+						'height': 120
 					},
 					'#tools_left': {
 						'width': 31,
@@ -2291,7 +2291,7 @@ TODOS
 					},
 					'div#workarea': {
 						'left': 38,
-						'top': 74
+						'top': 120
 					}
 //					'#tools_bottom': {
 //						'left': {s: '27px', l: '46px', xl: '65px'},

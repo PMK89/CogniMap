@@ -35,7 +35,16 @@ export class TbFontComponent implements OnInit {
               private store: Store<CMStore>) {
                 this.buttons = store.select('buttons');
                 this.colors = store.select('colors');
-                this.currentElement = store.select('selectedCMEo');
+                store.select('selectedcmeo').subscribe((data) => {
+                  if (typeof data === 'object') {
+                    if (data !== null) {
+                      if (data['cmobject']['style']['title']['font']) {
+                        this.cfont = data['cmobject']['style']['title']['font'];
+                      }
+                    }
+                    // console.log(data);
+                  }
+                });
               }
 
   public ngOnInit() {

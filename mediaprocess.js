@@ -24,10 +24,10 @@ const createMediaWindow = function createMediaWindow () {
   // opens url in os' default browser
   ipcMain.on('openBrowser', (event, arg) => {
     if (arg) {
-      if (arg['type'] && arg['path'] && arg['complete']) {
+      if (arg['type'] && arg['path']) {
         switch (arg.type) {
           case 'pdf':
-            var path
+            var path;
             if (arg.complete) {
               path = 'file://' + arg.path;
             } else {
@@ -37,7 +37,7 @@ const createMediaWindow = function createMediaWindow () {
             event.returnValue = 'Opened PDF: ' + path;
             break;
           case 'txt':
-            var path
+            var path;
             if (arg.complete) {
               path = arg.path;
             } else {
@@ -52,7 +52,7 @@ const createMediaWindow = function createMediaWindow () {
             break;
           case 'audio':
           case 'videos':
-            var path
+            var path;
             if (arg.complete) {
               path = 'vlc ' + arg.path;
             } else {
@@ -67,9 +67,28 @@ const createMediaWindow = function createMediaWindow () {
             });
             event.returnValue = 'Opened video: ' + path;
             break;
+          case 'picture':
+            var path;
+            if (arg.complete) {
+              path = 'kolourpaint ' + arg.path;
+            } else {
+              path = 'kolourpaint ' + __dirname + arg.path;
+            }
+            console.log(path);
+            function execute(command, callback){
+                exec(command, function(error, stdout, stderr){ callback(stdout); });
+            };
+            // call the function
+            execute(path, function(output) {
+                console.log(output);
+            });
+            event.returnValue = 'Opened picture: ' + path;
+            break;
           default:
             event.returnValue = 'Can not open: ' + arg.path + 'unknown type' + arg.type;
         }
+      } else {
+        event.returnValue = 'error: ' + JSON.stringify(arg);
       }
     }
   })
@@ -226,6 +245,11 @@ const createMediaWindow = function createMediaWindow () {
       var nimg = clipboard.readImage().toPNG();
       var picture_link = 'cm/pmk_' + Date.now().toString() + '.png';
       fs.writeFileSync(('./dist/assets/images/' + picture_link), nimg);
+      try {
+        fs.writeFileSync(('./src/assets/images/' + picture_link), nimg);
+      } catch (err) {
+        console.log(err);
+      }
       const action = {
         type: 'png',
         payload: picture_link,
@@ -278,3 +302,23 @@ const createMediaWindow = function createMediaWindow () {
 }
 
 module.exports = createMediaWindow;
+
+/*
+for (var i = 0; i < 100000; i++) {
+    	if (i % 17 === 0) {
+        	var i_str = i.toString();
+            if (i_str.slice(-2) === '17') {
+            	var i_array = i_str.split('');
+                var i_sum = 0;
+                for (var j = 0; j < i_array.length; j++) {
+                	i_sum += parseInt(i_array[j]);
+                }
+                document.getElementById("demo").innerHTML = i_str.slice(-2);
+                if (i_sum === 17) {
+                	document.getElementById("demo").innerHTML = i;
+                    break;
+                }
+            }
+        }
+    }
+    */

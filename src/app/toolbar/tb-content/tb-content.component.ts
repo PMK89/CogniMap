@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { SettingsService } from '../../shared/settings.service';
 import { ElementService } from '../../shared/element.service';
+import { MetaService } from '../../shared/meta.service';
 import { CodeeditorService } from '../../widgets/codeeditor/codeeditor.service';
 // import { SButtonComponent } from '../../shared/s-button/s-button.component';
 
@@ -34,6 +35,7 @@ export class TbContentComponent implements OnInit {
 
   constructor(private settingsService: SettingsService,
               private elementService: ElementService,
+              private metaService: MetaService,
               private codeeditorService: CodeeditorService,
               private store: Store<CMStore>) {
                 this.buttons = store.select('buttons');
@@ -156,6 +158,12 @@ export class TbContentComponent implements OnInit {
   // pastes content
   public pasteContent() {
     this.elementService.pasteContent();
+    // console.log(this.contentStrg);
+  }
+
+  // open content if it's a picture
+  public openPicture() {
+    this.metaService.openFile(this.selCMEo.cmobject.content[this.pos].object, 'picture');
     // console.log(this.contentStrg);
   }
 

@@ -287,6 +287,11 @@ export class ElementService {
         this.changeCon(cme.cmobject.links[0].con, cme.cmobject.links[0].start);
       }
     } else {
+      if (this.selCMEo) {
+        if (this.selCMEo.id !== cme.id) {
+          cme.state = '';
+        }
+      }
       let newCME = this.newCME(cme);
       let action = {type: 'UPDATE_CME', payload: newCME };
       this.store.dispatch(action);

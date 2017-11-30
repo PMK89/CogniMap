@@ -230,7 +230,6 @@ export class SnapsvgService {
                 }
                 con.click( () => {
                   let conBig = s.image((path), (coorX - (imgBBox.w / 2)), (coorY) - (imgBBox.h / 2));
-                  console.log();
                   conBig.attr({
                     opacity: cme.cmobject.style.object.trans,
                     id: id.toString() + '_' + i.toString() + 'Big',
@@ -403,7 +402,7 @@ export class SnapsvgService {
       if (polypoints) {
         polypoints.clear();
       }
-    }    
+    }
   }
 
   // creates popups for media with thumbnails

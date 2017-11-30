@@ -29,7 +29,7 @@ export class MjEditorComponent implements OnInit {
   public color = '#000000';
   public active = false;
   public selCMEo: any;
-  public key: number;
+  public key = -1;
   public cpos: number;
   public matrixX = 2;
   public matrixY = 2;
@@ -68,6 +68,7 @@ export class MjEditorComponent implements OnInit {
     this.store.select('selectedcmeo').subscribe((data) => {
       if (typeof data === 'object' && this.active) {
         this.selCMEo = data;
+        this.key = -1;
         if (this.selCMEo !== null) {
           if (this.selCMEo['cmobject']) {
             if (this.selCMEo.cmobject['content']) {
@@ -120,6 +121,8 @@ export class MjEditorComponent implements OnInit {
 
   // focus text area after click
   public focusText() {
+    let el = this.vc.nativeElement.setSelectionRange(this.cpos);
+    console.log(el);
     this.vc.nativeElement.focus();
   }
 

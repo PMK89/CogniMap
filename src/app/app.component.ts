@@ -101,6 +101,11 @@ export class AppComponent implements AfterViewInit {
     });
     this.renderer.listenGlobal('window', 'keyup', (evt) => {
       this.eventService.onKeyUp(evt);
+      if (evt['key']) {
+        if (evt['key'] === 'Control') {
+          this.strDown = false;
+        }
+      }
       // console.log(evt.key);
     });
   }
@@ -151,7 +156,7 @@ export class AppComponent implements AfterViewInit {
             this.elementService.newConnector(id);
           } else {
             this.elementService.setSelectedCME(id);
-          }          
+          }
         }
       } else {
         this.elementService.setSelectedCME(id);

@@ -416,7 +416,8 @@ const createDbWindow = function createDbWindow() {
 
   // get cme by title database
   ipcMain.on('getCMETitle', function (event, arg) {
-    var regextitle = RegExp(arg);
+    var regextitle = RegExp(arg, 'i');
+    console.log(regextitle);
     cme.find({title: {$regex: regextitle}}, function(err, data) {
 		  if (err) {
         event.returnValue = undefined;

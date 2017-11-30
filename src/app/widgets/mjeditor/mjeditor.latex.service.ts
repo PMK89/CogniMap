@@ -852,6 +852,36 @@ export class MjEditorLatexService {
       	substring: false,
       	pos: 0
       }
+    ],
+    [
+      {
+      	name: 'unicode{x212B}',
+      	svg: "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"0.944ex\" height=\"3.009ex\" style=\"vertical-align: -0.465ex; margin-bottom: -0.373ex;\" viewBox=\"0 -934.9 406.6 1295.7\" role=\"img\" focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" aria-labelledby=\"MathJax-SVG-1-Title\">\n<title id=\"MathJax-SVG-1-Title\">\\unicode{x212B}</title>\n<defs aria-hidden=\"true\"></defs>\n<g stroke=\"currentColor\" fill=\"currentColor\" stroke-width=\"0\" transform=\"matrix(1 0 0 -1 0 0)\" aria-hidden=\"true\">\n<text font-family=\"monospace\" stroke=\"none\" transform=\"scale(47.83933333333333) matrix(1 0 0 -1 0 0)\">Å</text>\n</g>\n</svg>",
+      	string: '\\unicode{x212B}',
+      	substring: false,
+      	pos: 0
+      },
+      {
+      	name: 'odot',
+      	svg: "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"1.808ex\" height=\"2.176ex\" style=\"vertical-align: -0.505ex;\" viewBox=\"0 -719.6 778.5 936.9\" role=\"img\" focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" aria-labelledby=\"MathJax-SVG-1-Title\">\n<title id=\"MathJax-SVG-1-Title\">\\odot</title>\n<defs aria-hidden=\"true\">\n<path stroke-width=\"1\" id=\"E1-MJMAIN-2299\" d=\"M56 250Q56 394 156 488T384 583Q530 583 626 485T722 250Q722 110 625 14T390 -83Q249 -83 153 14T56 250ZM682 250Q682 322 649 387T546 497T381 542Q272 542 184 459T95 250Q95 132 178 45T389 -42Q515 -42 598 45T682 250ZM311 250Q311 285 332 304T375 328Q376 328 382 328T392 329Q424 326 445 305T466 250Q466 217 445 195T389 172Q354 172 333 195T311 250Z\"></path>\n</defs>\n<g stroke=\"currentColor\" fill=\"currentColor\" stroke-width=\"0\" transform=\"matrix(1 0 0 -1 0 0)\" aria-hidden=\"true\">\n <use xlink:href=\"#E1-MJMAIN-2299\" x=\"0\" y=\"0\"></use>\n</g>\n</svg>",
+      	string: '\\odot',
+      	substring: false,
+      	pos: 0
+      },
+      {
+      	name: 'oplus',
+      	svg: "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"1.808ex\" height=\"2.176ex\" style=\"vertical-align: -0.505ex;\" viewBox=\"0 -719.6 778.5 936.9\" role=\"img\" focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" aria-labelledby=\"MathJax-SVG-1-Title\">\n<title id=\"MathJax-SVG-1-Title\">\\oplus</title>\n<defs aria-hidden=\"true\">\n<path stroke-width=\"1\" id=\"E1-MJMAIN-2295\" d=\"M56 250Q56 394 156 488T384 583Q530 583 626 485T722 250Q722 110 625 14T390 -83Q249 -83 153 14T56 250ZM364 542Q308 539 251 509T148 418T96 278V270H369V542H364ZM681 278Q675 338 650 386T592 462T522 509T458 535T412 542H409V270H681V278ZM96 222Q104 150 139 95T219 12T302 -29T366 -42H369V230H96V222ZM681 222V230H409V-42H412Q429 -42 456 -36T521 -10T590 37T649 113T681 222Z\"></path>\n</defs>\n<g stroke=\"currentColor\" fill=\"currentColor\" stroke-width=\"0\" transform=\"matrix(1 0 0 -1 0 0)\" aria-hidden=\"true\">\n <use xlink:href=\"#E1-MJMAIN-2295\" x=\"0\" y=\"0\"></use>\n</g>\n</svg>",
+      	string: '\\oplus',
+      	substring: false,
+      	pos: 0
+      },
+      {
+      	name: 'otimes',
+      	svg: "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"1.808ex\" height=\"2.176ex\" style=\"vertical-align: -0.505ex;\" viewBox=\"0 -719.6 778.5 936.9\" role=\"img\" focusable=\"false\" xmlns=\"http://www.w3.org/2000/svg\" aria-labelledby=\"MathJax-SVG-1-Title\">\n<title id=\"MathJax-SVG-1-Title\">\\otimes</title>\n<defs aria-hidden=\"true\">\n<path stroke-width=\"1\" id=\"E1-MJMAIN-2297\" d=\"M56 250Q56 394 156 488T384 583Q530 583 626 485T722 250Q722 110 625 14T390 -83Q249 -83 153 14T56 250ZM582 471Q531 510 496 523Q446 542 381 542Q324 542 272 519T196 471L389 278L485 375L582 471ZM167 442Q95 362 95 250Q95 137 167 58L359 250L167 442ZM610 58Q682 138 682 250Q682 363 610 442L418 250L610 58ZM196 29Q209 16 230 2T295 -27T388 -42Q409 -42 429 -40T465 -33T496 -23T522 -11T544 1T561 13T574 22T582 29L388 222L196 29Z\"></path>\n</defs>\n<g stroke=\"currentColor\" fill=\"currentColor\" stroke-width=\"0\" transform=\"matrix(1 0 0 -1 0 0)\" aria-hidden=\"true\">\n <use xlink:href=\"#E1-MJMAIN-2297\" x=\"0\" y=\"0\"></use>\n</g>\n</svg>",
+      	string: '\\otimes',
+      	substring: false,
+      	pos: 0
+      }
     ]
   ];
   // misc and matrix elements

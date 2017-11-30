@@ -30,7 +30,10 @@ export class CodeeditorComponent implements OnInit {
   public modes = ['text/x-sh', 'text/x-c++src', 'text/x-csrc', 'application/x-ejs', 'text/html',
   'text/x-go', 'text/javascript', 'text/x-php', 'text/x-python', 'text/x-stex', 'application/typescript'];
   public mode: string = this.modes[7];
-  public config = { lineNumbers: true, mode: this.mode };
+  public config = {
+    lineNumbers: true,
+    mode: this.mode
+  };
   public selCMEo: any;
   public isCode = false;
   @ViewChild('codeeditor') public codeedit: any;
@@ -91,8 +94,10 @@ export class CodeeditorComponent implements OnInit {
 
   // read inner html of codeeditor
   public readCode() {
-    // console.log(this.codeedit.instance);
-    this.codeeditorService.processCode(this.codeedit.instance.display, this.codeedit.instance.getValue(), this.isCode);
+    let width = (this.codeedit.instance.defaultCharWidth() * this.codeedit.instance.display.maxLineLength)
+     + this.codeedit.instance.display.lineNumWidth + 5;
+    console.log(width);
+    this.codeeditorService.processCode(this.codeedit.instance.display, width, this.codeedit.instance.getValue(), this.isCode);
   }
 
 }

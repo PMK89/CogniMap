@@ -50,6 +50,51 @@ function createWindow () {
   });
 }
 
+// ----------------------------
+// creates Widget Window with GUI
+// ----------------------------
+
+
+function createWidgetWindow (urlpath, width, height) {
+  console.log('GUI Window');
+  // Create the browser window.
+  win = new BrowserWindow({width: width, height: height, show: true})
+
+  // and load the index.html of the app.
+  // const pathname = 'file://' + path.join(__dirname, 'dist/index.html');
+  win.loadURL(url.format({
+    pathname: urlpath,
+    protocol: 'http:',
+    slashes: true
+  }))
+
+  // Modify the user agent for all requests to the following urls.
+  const filter = {
+    urls: ['//localhost:3000/assets/images/*']
+  }
+
+  // Open the DevTools.
+  win.webContents.openDevTools()
+
+  session.defaultSession.webRequest.onBeforeRequest(filter, (details, callback) => {
+    console.log(details)
+    callback({cancel: false, })
+  })
+
+  // Emitted when the window is closed.
+  win.on('closed', () => {
+    win = null
+  });
+}
+
+// opens Widget in new Window
+ipcMain.on('openWidget', (event, arg) => {
+  if (arg) {
+    if (arg['url'] && arg['width'] && arg['height']) {
+      createWidgetWindow(arg['url'], arg['width'], arg['height'])
+    }
+  }
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

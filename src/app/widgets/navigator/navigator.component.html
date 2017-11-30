@@ -27,6 +27,427 @@
             </tr>
           </table>
         </div>
+        <div id="elementview" *ngIf="state==='elementview'">
+          <table id="elementviewtable" *ngIf="selCMEo">
+            <tr>
+              <td>
+                CME:
+                <table  id="elementviewcmetable">
+                  <tr>
+                    <td>
+                      ID:
+                    </td>
+                    <td>
+                      {{selCMEo.id}}
+                    </td>
+                    <td>
+                      Title:
+                    </td>
+                    <td>
+                      <input #cmeTitle value="{{selCMEo.title}}" size="5" (keyup.enter)="cangeSelCMEo(['title'], cmeTitle.value)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      x0:
+                    </td>
+                    <td>
+                      <input #cmeX0 value="{{selCMEo.x0}}" size="5" (keyup.enter)="cangeSelCMEo(['x0'], cmeX0.value)">
+                    </td>
+                    <td>
+                      y0:
+                    </td>
+                    <td>
+                      <input #cmeY0 value="{{selCMEo.y0}}" size="5" (keyup.enter)="cangeSelCMEo(['y0'], cmeY0.value)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      x1:
+                    </td>
+                    <td>
+                      <input #cmeX1 value="{{selCMEo.x1}}" size="5" (keyup.enter)="cangeSelCMEo(['x1'], cmeX1.value)">
+                    </td>
+                    <td>
+                      y1:
+                    </td>
+                    <td>
+                      <input #cmeY1 value="{{selCMEo.y1}}" size="5" (keyup.enter)="cangeSelCMEo(['y1'], cmeY1.value)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      CoorX:
+                    </td>
+                    <td>
+                      <input #cmeCoorX value="{{selCMEo.coor.x}}" size="5" (keyup.enter)="cangeSelCMEo(['coor', 'x'], cmeCoorX.value)">
+                    </td>
+                    <td>
+                      CoorY:
+                    </td>
+                    <td>
+                      <input #cmeCoorY value="{{selCMEo.coor.y}}" size="5" (keyup.enter)="cangeSelCMEo(['coor', 'y'], cmeCoorY.value)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Prio:
+                    </td>
+                    <td>
+                      <input #cmePrio value="{{selCMEo.prio}}" size="5" (keyup.enter)="cangeSelCMEo(['prio'], cmePrio.value)">
+                    </td>
+                    <td>
+                      Types:
+                    </td>
+                    <td>
+                      <input #cmeTypes value="{{selCMEo.types.toString()}}" size="5" (keyup.enter)="cangeSelCMEo(['types'], cmeTypes.value)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      State:
+                    </td>
+                    <td>
+                      <input #cmeState value="{{selCMEo.state}}" size="5" (keyup.enter)="cangeSelCMEo(['state'], cmeState.value)">
+                    </td>
+                    <td>
+                      Cat:
+                    </td>
+                    <td>
+                      <input #cmeCat value="{{selCMEo.cat.toString()}}" size="5" (keyup.enter)="cangeSelCMEo(['cat'], cmeCat.value)">
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                CMObject:
+                <table  id="elementviewcmeobjecttable">
+                  <tr>
+                    <td>
+                      Size:
+                    </td>
+                    <td>
+                      <input #cmeTitelSize value="{{selCMEo.cmobject.style.title.size}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'style', 'title', 'size'], cmeTitelSize.value)">
+                    </td>
+                    <td>
+                      Color:
+                    </td>
+                    <td>
+                      <input #cmeTitelColor value="{{selCMEo.cmobject.style.title.color}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'style', 'title', 'color'], cmeTitelColor.value)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Font:
+                    </td>
+                    <td>
+                      <input #cmeTitelFont value="{{selCMEo.cmobject.style.title.font}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'style', 'title', 'font'], cmeTitelFont.value)">
+                    </td>
+                    <td>
+                      Deco:
+                    </td>
+                    <td>
+                      <input #cmeTitelDeco value="{{selCMEo.cmobject.style.title.deco}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'style', 'title', 'deco'], cmeTitelDeco.value)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      ClassArray:
+                    </td>
+                    <td>
+                      <input #cmeTitelClassArray value="{{selCMEo.cmobject.style.title.class_array.toString()}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'style', 'title', 'class_array'], cmeTitelClassArray.value)">
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Color0:
+                    </td>
+                    <td>
+                      <input #cmeObjectColor0 value="{{selCMEo.cmobject.style.object.color0}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'style', 'object', 'color0'], cmeObjectColor0.value)">
+                    </td>
+                    <td>
+                      Color1:
+                    </td>
+                    <td>
+                      <input #cmeObjectColor1 value="{{selCMEo.cmobject.style.object.color1}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'style', 'object', 'color1'], cmeObjectColor1.value)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Trans:
+                    </td>
+                    <td>
+                      <input #cmeObjectTrans value="{{selCMEo.cmobject.style.object.trans}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'style', 'object', 'trans'], cmeObjectTrans.value)">
+                    </td>
+                    <td>
+                      Weight:
+                    </td>
+                    <td>
+                      <input #cmeObjectWeight value="{{selCMEo.cmobject.style.object.weight}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'style', 'object', 'weight'], cmeObjectWeight.value)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Str:
+                    </td>
+                    <td>
+                      <input #cmeObjectStr value="{{selCMEo.cmobject.style.object.str}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'style', 'object', 'str'], cmeObjectStr.value)">
+                    </td>
+                    <td>
+                      ClassArray:
+                    </td>
+                    <td>
+                      <input #cmeObjectClassArray value="{{selCMEo.cmobject.style.object.class_array.toString()}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'style', 'object', 'class_array'], cmeObjectClassArray.value)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      NumArray:
+                    </td>
+                    <td>
+                      <input #cmeObjectNumArray value="{{selCMEo.cmobject.style.object.num_array.toString()}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'style', 'object', 'num_array'], cmeObjectNumArray.value)">
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr *ngIf="selCMEo['cmobject']">
+              <td *ngIf="selCMEo['cmobject']['content'].length > 0">
+                <table>
+                  <tr>
+                    <td>
+                      Content
+                    </td>
+                    <td class="iteratorTd" *ngFor="let content of selCMEo['cmobject']['content']; let i = index">
+                      <b (click)="changePosition('content', i)">{{i}}</b>
+                    </td>
+                    <td>
+                      <div (click)="delPosition('content', contentPos)">
+                        <img src="assets/images/svgelements/menue/del.svg" width="20px" height="20px">
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+                <table>
+                  <tr>
+                    <td>
+                      CoorX:
+                    </td>
+                    <td>
+                      <input #cmeContentCoorX value="{{selCMEo['cmobject']['content'][contentPos].coor.x}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'content', 'coor', 'x'], cmeContentCoorX.value, contentPos)">
+                    </td>
+                    <td>
+                      CoorY:
+                    </td>
+                    <td>
+                      <input #cmeContentCoorY value="{{selCMEo['cmobject']['content'][contentPos].coor.y}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'content', 'coor', 'y'], cmeContentCoorY.value, contentPos)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Width:
+                    </td>
+                    <td>
+                      <input #cmeContentWidth value="{{selCMEo['cmobject']['content'][contentPos].width}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'content', 'width'], cmeContentWidth.value, contentPos)">
+                    </td>
+                    <td>
+                      Height:
+                    </td>
+                    <td>
+                      <input #cmeContentHeight value="{{selCMEo['cmobject']['content'][contentPos].height}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'content', 'height'], cmeContentHeight.value, contentPos)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Cat:
+                    </td>
+                    <td>
+                      <input #cmeContentCat value="{{selCMEo['cmobject']['content'][contentPos].cat}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'content', 'cat'], cmeContentCat.value, contentPos)">
+                    </td>
+                    <td>
+                      Info:
+                    </td>
+                    <td>
+                      <input #cmeContentInfo value="{{selCMEo['cmobject']['content'][contentPos].info}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'content', 'info'], cmeContentInfo.value, contentPos)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Object:
+                    </td>
+                    <td coolspan="3">
+                      <input #cmeContentObject value="{{selCMEo['cmobject']['content'][contentPos].object}}" size="10"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'content', 'object'], cmeContentObject.value, contentPos)">
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr *ngIf="selCMEo['cmobject']">
+              <td *ngIf="selCMEo['cmobject']['links'].length > 0">
+                <table>
+                  <tr>
+                    <td>
+                      Links
+                    </td>
+                    <td class="iteratorTd" *ngFor="let content of selCMEo['cmobject']['links']; let i = index">
+                      <b (click)="changePosition('links', i)">{{i}}</b>
+                    </td>
+                    <td>
+                      <div (click)="delPosition('links', linkPos)">
+                        <img src="assets/images/svgelements/menue/del.svg" width="20px" height="20px">
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+                <table>
+                  <tr>
+                    <td>
+                      ID:
+                    </td>
+                    <td>
+                      <input #cmeLinksID value="{{selCMEo['cmobject']['links'][linkPos].id}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'links', 'id'], cmeLinksID.value, linkPos)">
+                    </td>
+                    <td>
+                      TargetID:
+                    </td>
+                    <td>
+                      <input #cmeLinksTargetID value="{{selCMEo['cmobject']['links'][linkPos].targetId}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'links', 'targetId'], cmeLinksTargetID.value, linkPos)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Title:
+                    </td>
+                    <td>
+                      <input #cmeLinksTitle value="{{selCMEo['cmobject']['links'][linkPos].title}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'links', 'title'], cmeLinksTitle.value, linkPos)">
+                    </td>
+                    <td>
+                      Weight:
+                    </td>
+                    <td>
+                      <input #cmeLinksWeight value="{{selCMEo['cmobject']['links'][linkPos].weight}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'links', 'weight'], cmeLinksWeight.value, linkPos)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Con:
+                    </td>
+                    <td>
+                      <input #cmeLinksCon value="{{selCMEo['cmobject']['links'][linkPos].con}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'links', 'con'], cmeLinksCon.value, linkPos)">
+                    </td>
+                    <td>
+                      Start:
+                    </td>
+                    <td>
+                      <input #cmeLinksStart value="{{selCMEo['cmobject']['links'][linkPos].start}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'links', 'start'], cmeLinksStart.value, linkPos)">
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr *ngIf="selCMEo['cmobject']">
+              <td *ngIf="selCMEo['cmobject']['meta'].length > 0">
+                <table>
+                  <tr>
+                    <td>
+                      Meta
+                    </td>
+                    <td class="iteratorTd" *ngFor="let content of selCMEo['cmobject']['meta']; let i = index">
+                      <b (click)="changePosition('meta', i)">{{i}}</b>
+                    </td>
+                    <td>
+                      <div (click)="delPosition('meta', metaPos)">
+                        <img src="assets/images/svgelements/menue/del.svg" width="20px" height="20px">
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+                <table>
+                  <tr>
+                    <td>
+                      Name:
+                    </td>
+                    <td>
+                      <input #cmeMetaName value="{{selCMEo['cmobject']['meta'][metaPos].name}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'meta', 'name'], cmeMetaName.value, metaPos)">
+                    </td>
+                    <td>
+                      Type:
+                    </td>
+                    <td>
+                      <input #cmeMetaType value="{{selCMEo['cmobject']['meta'][metaPos].type}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'meta', 'type'], cmeMetaType.value, metaPos)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Pos:
+                    </td>
+                    <td>
+                      <input #cmeMetaPos value="{{selCMEo['cmobject']['meta'][metaPos].pos}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'meta', 'pos'], cmeMetaPos.value, metaPos)">
+                    </td>
+                    <td>
+                      Path:
+                    </td>
+                    <td>
+                      <input #cmeMetaPath value="{{selCMEo['cmobject']['meta'][metaPos].path}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'meta', 'path'], cmeMetaPath.value, metaPos)">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Comment:
+                    </td>
+                    <td colspan="3">
+                      <input #cmeMetaComment value="{{selCMEo['cmobject']['meta'][metaPos].comment}}" size="5"
+                      (keyup.enter)="cangeSelCMEo(['cmobject', 'meta', 'comment'], cmeMetaComment.value, metaPos)">
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
         <div id="metaview" *ngIf="state==='meta'">
           <table id="metaviewtable">
             <tr>

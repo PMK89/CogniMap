@@ -61,7 +61,7 @@ export class NavigatorComponent implements OnInit {
         }
       }
       // console.log('settings ', data);
-    }).unsubscribe();
+    });
     // listens on electron ipc
     /*
     ipc.on('snap-out', function (event, arg) {
@@ -149,6 +149,7 @@ export class NavigatorComponent implements OnInit {
 
   // changes position in Link, Meta and Content
   public changePosition(list: string, pos: number) {
+    // console.log(list, pos);
     switch (list) {
       case 'links':
         this.linkPos = pos;
@@ -230,6 +231,134 @@ export class NavigatorComponent implements OnInit {
     }
     this.cmearray.push(this.navigatorService.findAll(cme));
     // console.log(this.cmearray);
+  }
+
+  // changes position in Link, Meta and Content
+  public delPosition(list: string, pos: number) {
+    // console.log(list, pos);
+    if (this.selCMEo) {
+      switch (list) {
+        case 'links':
+          this.selCMEo.cmobject.links.splice(pos, 1);
+          break;
+        case 'content':
+          this.selCMEo.cmobject.content.splice(pos, 1);
+          break;
+        case 'meta':
+          this.selCMEo.cmobject.meta.splice(pos, 1);
+          break;
+        default:
+          console.log('wrong state: ', list, pos);
+          break;
+      }
+      this.navigatorService.changeCME(this.selCMEo);
+    }
+  }
+
+  // checks in number fields if input is correct state of component
+  public checkNumber(number, object) {
+    let num = Number(number);
+    if (num !== undefined && num !== NaN && num !== null) {
+      return num;
+    } else {
+      alert(object + ' needs to be a number. Please enter a valid real number.');
+      return 'error';
+    }
+  }
+
+  // checks in number fields if input is correct state of component
+  public checkBool(bool, object) {
+    console.log(bool);
+    if (bool === 'false' || bool === '0' || bool === 0) {
+      return false;
+    } else if (bool === 'true' || bool === '1' || bool === 1) {
+      return true;
+    } else {
+      alert(object + ' needs to be a boolean. Please enter "true"/"1" or "false"/"0".');
+      return 'error';
+    }
+  }
+
+  // changes Element according to user inputtext
+  public cangeSelCMEo(objects, value, pos?) {
+    let error = false;
+    switch (objects.length) {
+      case 1:
+        if (['id', 'x0', 'y0', 'x1', 'y1', 'prio'].indexOf(objects[0]) !== -1) {
+          let numvalue = this.checkNumber(value, objects[0]);
+          if (numvalue !== 'error') {
+            this.selCMEo[objects[0]] = numvalue;
+          } else {
+            error = true;
+          }
+        } else if (objects[0] === 'types' || objects[0] === 'cat') {
+          let array = value.replace(/ /g,'').split(',');
+          this.selCMEo[objects[0]] = array;
+        } else {
+          this.selCMEo[objects[0]] = value;
+        }
+        break;
+      case 3:
+        if (['weight', 'targetId', 'id', 'width', 'height'].indexOf(objects[2]) !== -1) {
+          let numvalue = this.checkNumber(value, objects[2]);
+          if (numvalue !== 'error') {
+            if (typeof pos === 'number') {
+              this.selCMEo[objects[0]][objects[1]][pos][objects[2]] = numvalue;
+            } else {
+              this.selCMEo[objects[0]][objects[1]][objects[2]] = numvalue;
+            }
+          } else {
+            error = true;
+          }
+        } else if (objects[2] === 'start') {
+          let boolvalue = this.checkBool(value, objects[2]);
+          if (boolvalue !== 'error') {
+            if (typeof pos === 'number') {
+              this.selCMEo[objects[0]][objects[1]][pos][objects[2]] = boolvalue;
+            } else {
+              this.selCMEo[objects[0]][objects[1]][objects[2]] = boolvalue;
+            }
+          } else {
+            error = true;
+          }
+        } else {
+          if (typeof pos === 'number') {
+            this.selCMEo[objects[0]][objects[1]][pos][objects[2]] = value;
+          } else {
+            this.selCMEo[objects[0]][objects[1]][objects[2]] = value;
+          }
+        }
+        break;
+      case 4:
+        if (['size', 'trans', 'weight'].indexOf(objects[3]) !== -1) {
+          let numvalue = this.checkNumber(value, objects[3]);
+          if (numvalue !== 'error') {
+            if (typeof pos === 'number') {
+              this.selCMEo[objects[0]][objects[1]][pos][objects[2]][objects[3]] = numvalue;
+            } else {
+              this.selCMEo[objects[0]][objects[1]][objects[2]][objects[3]] = numvalue;
+            }
+          } else {
+            error = true;
+          }
+        } else if (objects[3] === 'class_array' || objects[3] === 'num_array') {
+          let array = value.replace(/ /g,'').split(',');
+          this.selCMEo[objects[0]][objects[1]][objects[2]][objects[3]] = array;
+        } else {
+          if (typeof pos === 'number') {
+            this.selCMEo[objects[0]][objects[1]][pos][objects[2]][objects[3]] = value;
+          } else {
+            this.selCMEo[objects[0]][objects[1]][objects[2]][objects[3]] = value;
+          }
+        }
+        break;
+      default:
+        console.log('wrong length: ', objects, value);
+        break;
+    }
+    if (!error) {
+      this.navigatorService.changeCME(this.selCMEo);
+    }
   }
 
 }
