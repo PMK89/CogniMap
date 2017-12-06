@@ -30,6 +30,7 @@ export class TbContentComponent implements OnInit {
   public contentCat: string;
   public inputType: string;
   public copy = false;
+  public epath = '';
   public pos = 0;
   public contentlen = 0;
 
@@ -40,6 +41,15 @@ export class TbContentComponent implements OnInit {
               private store: Store<CMStore>) {
                 this.buttons = store.select('buttons');
                 this.colors = store.select('colors');
+                this.settingsService.cmsettings
+                    .subscribe((data) => {
+                      this.cmsettings = data;
+                      if (this.cmsettings.epath) {
+                        this.epath = this.cmsettings.epath;
+                        console.log(this.epath);
+                      }
+                      // console.log('settings ', data);
+                    });
                 store.select('selectedcmeo').subscribe((data) => {
                   if (typeof data === 'object') {
                     this.selCMEo = data;
@@ -50,6 +60,9 @@ export class TbContentComponent implements OnInit {
                         }
                       } else {
                         this.copy = false;
+                      }
+                      if (this.cmsettings.epath) {
+                        this.epath = this.cmsettings.epath;
                       }
                     }
                     if (this.selCMEo !== null) {
@@ -164,6 +177,15 @@ export class TbContentComponent implements OnInit {
   // open content if it's a picture
   public openPicture() {
     this.metaService.openFile(this.selCMEo.cmobject.content[this.pos].object, 'picture');
+    // console.log(this.contentStrg);
+  }
+
+  // inserts a edited path if there is one
+  public insertPicture() {
+    this.selCMEo.cmobject.content[this.pos].object = this.epath;
+    this.elementService.updateSelCMEo(this.selCMEo);
+    this.cmsettings.epath = '';
+    this.settingsService.updateSettings(this.cmsettings);
     // console.log(this.contentStrg);
   }
 

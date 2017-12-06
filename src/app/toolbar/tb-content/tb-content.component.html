@@ -59,7 +59,9 @@
               </div>
             </td>
             <td>
-
+              <div (click)="insertPicture()" class="lbtndefault" *ngIf="(contentCat==='png' || contentCat==='i') && epath !== ''">
+                <img src="assets/images/svgelements/menue/insertpic.svg" width="20px" height="20px"/>
+              </div>
             </td>
             <td *ngIf="contentCat==='png' || contentCat==='i'">
               <div (click)="openPicture()" class="lbtndefault">
@@ -79,7 +81,10 @@
           </tr>
         </table>
       </td>
-      <td>
+      <td *ngIf="contentlen===0">
+        <div (click)="pasteContent()" *ngIf="copy">
+          <img src="assets/images/svgelements/menue/downcloud.svg" width="20px" height="20px">
+        </div>
       </td>
     </tr>
   </table>

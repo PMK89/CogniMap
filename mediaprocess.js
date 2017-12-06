@@ -70,19 +70,28 @@ const createMediaWindow = function createMediaWindow () {
           case 'picture':
             var path;
             if (arg.complete) {
-              path = 'kolourpaint ' + arg.path;
+              path =  arg.path;
             } else {
-              path = 'kolourpaint ' + __dirname + arg.path;
+              path = __dirname + arg.path;
             }
-            console.log(path);
-            function execute(command, callback){
-                exec(command, function(error, stdout, stderr){ callback(stdout); });
-            };
-            // call the function
-            execute(path, function(output) {
-                console.log(output);
-            });
-            event.returnValue = 'Opened picture: ' + path;
+            // copies the file with an 'e' on the name for edit and to avoid cache conflicts
+            var pngbuffer = fs.readFileSync(path);
+            if (pngbuffer) {
+              var newfilepath = path.replace('.png', 'e.png');
+              fs.writeFileSync(newfilepath, pngbuffer);
+              console.log(path);
+              newfilepath = 'kolourpaint ' + newfilepath;
+              function execute(command, callback){
+                  exec(command, function(error, stdout, stderr){ callback(stdout); });
+              };
+              // call the function
+              execute(newfilepath, function(output) {
+                  console.log(output);
+              });
+              event.returnValue = path.replace('.png', 'e.png');
+            } else {
+              event.returnValue = 'Can not open picture: ' + path;
+            }
             break;
           default:
             event.returnValue = 'Can not open: ' + arg.path + 'unknown type' + arg.type;
@@ -108,18 +117,31 @@ const createMediaWindow = function createMediaWindow () {
             var dir = fs.readdirSync(folders[i].path);
             if (dir) {
               for (var j = 0; j < dir.length; j++) {
-                var elementpath = folders[i].path + '/' + dir[j];
-                var stats = fs.statSync(elementpath);
-                if (stats.isDirectory()) {
-                  folder.folders.push({
-                    name: dir[j],
-                    path: elementpath
-                  })
-                } else if (stats.isFile()) {
-                  folder.files.push({
-                    name: dir[j],
-                    path: elementpath
-                  })
+                if (dir[j]) {
+                  var elementpath = folders[i].path + '/' + dir[j];
+                  var stats = fs.statSync(elementpath);
+                  if (stats.isDirectory()) {
+                    if (dir[j].indexOf(' ') !== -1) {
+                      dir[j] = '"' + dir[j] + '"';
+                    }
+                    folder.folders.push({
+                      name: dir[j],
+                      path: elementpath
+                    })
+                  } else if (stats.isFile()) {
+                    if (dir[j].indexOf(' ') !== -1) {
+                      dir[j] = '"' + dir[j];
+                      if (dir[j].indexOf('.') !== -1) {
+                        dir[j] = dir[j].replace('.', '".');
+                      } else {
+                        dir[j] += '"';
+                      }
+                    }
+                    folder.files.push({
+                      name: dir[j],
+                      path: elementpath
+                    })
+                  }
                 }
               }
               filearray.push(folder);

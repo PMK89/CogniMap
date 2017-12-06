@@ -22,6 +22,7 @@ export class CMSettings {
   public copycolor: string;
   public latexcolor: string;
   public currentMeta: CMEMeta;
+  public epath: string;
   public cmap: CMLayout;
   public tblayout0: CMLayout;
   public tblayout1: CMLayout;

@@ -166,14 +166,14 @@ export class ElementService {
       if (this.selCMEo.cmobject.content.length > 0) {
         for (let key in this.selCMEo.cmobject.content) {
           if(this.selCMEo.cmobject.content[key]) {
-            if (this.selCMEo.cmobject.content[key].object.indexOf('.png') !== -1) {
+            if (this.selCMEo.cmobject.content[key].object.indexOf('.png') !== -1 || this.selCMEo.cmobject.content[key].object.indexOf('.PNG') !== -1) {
               let arg = {
                 tolerance: tolerance,
                 color: color0,
                 file: this.selCMEo.cmobject.content[key].object
               };
               let newpic = this.electronService.ipcRenderer.sendSync('makeTrans', arg);
-              if (newpic.indexOf('.png') !== -1) {
+              if (newpic.indexOf('.png') !== -1 || newpic.indexOf('.PNG') !== -1) {
                 this.selCMEo.cmobject.content[key].object = newpic;
               } else {
                 console.log('error: ', newpic);
@@ -181,6 +181,7 @@ export class ElementService {
             }
           }
         }
+        this.updateSelCMEo(this.selCMEo);
       }
     }
   }
@@ -1668,24 +1669,27 @@ export class ElementService {
 
   // changes link titles if title of object is changed
   public changeLinkTitle(id: number, title: string, start: boolean) {
-    console.log(id);
     this.cmelements
         .subscribe((data) => {
+            let cme = undefined;
             for (let key in data) {
               if (data[key]) {
                 if (data[key].id === id) {
-                  let cme = this.CMEtoCMEol(data[key]);
-                  if (start) {
-                    cme.cmobject.title0 = title;
-                  } else {
-                    cme.cmobject.title1 = title;
-                  }
-                  console.log(cme);
-                  this.updateCMEol(cme);
+                  cme = this.CMEtoCMEol(data[key]);
                   id = 0;
                 }
               }
             }
+            if (cme = undefined && id !== 0) {
+              cme = this.getDBCMEbyId(id);
+            }
+            if (start) {
+              cme.cmobject.title0 = title;
+            } else {
+              cme.cmobject.title1 = title;
+            }
+            console.log(cme);
+            this.updateCMEol(cme);
           },
           (error) => console.log(error),
          ).unsubscribe();
@@ -1714,24 +1718,27 @@ export class ElementService {
   public changeObjectTitle(id: number, title: string, linkid: number) {
     this.cmelements
         .subscribe((data) => {
-            for (let key in data) {
-              if (data[key]) {
-                if (data[key].id === id) {
-                  let cme = this.CMEtoCMEol(data[key]);
-                  for (let i in cme.cmobject.links) {
-                    if (cme.cmobject.links[i]) {
-                      if (cme.cmobject.links[i].id === linkid) {
-                        cme.cmobject.links[i].title = title;
-                      }
-                    }
-                  }
-                  this.updateCMEol(cme);
-                  id = 0;
-                }
+          let cme = undefined;
+          for (let key in data) {
+            if (data[key]) {
+              if (data[key].id === id) {
+                cme = this.CMEtoCMEol(data[key]);
+                id = 0;
               }
             }
-          },
-          (error) => console.log(error),
+          }
+          if (cme = undefined && id !== 0) {
+            cme = this.getDBCMEbyId(id);
+          }
+          for (let i in cme.cmobject.links) {
+            if (cme.cmobject.links[i]) {
+              if (cme.cmobject.links[i].id === linkid) {
+                cme.cmobject.links[i].title = title;
+              }
+            }
+          }
+        },
+        (error) => console.log(error),
          ).unsubscribe();
   }
 
@@ -1795,7 +1802,15 @@ export class ElementService {
             this.selCMEo.types[1] = action.value[1];
             this.selCMEo.types[2] = action.value[2];
             if (this.cmsettings.cngtemp) {
-              this.tempCMEo.types[0] = action.value[0];
+              if(action.value[0] === 'm') {
+                if (action.value[1] === 't') {
+                  this.tempCMEo.types[0] = 't';
+                } else {
+                  this.tempCMEo.types[0] = 'a';
+                }
+              } else {
+                this.tempCMEo.types[0] = action.value[0];
+              }
               this.tempCMEo.types[1] = action.value[1];
               this.tempCMEo.types[2] = action.value[2];
             }

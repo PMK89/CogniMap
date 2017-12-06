@@ -8,15 +8,21 @@ import { CMStore } from '../models/CMStore';
 import { CMSettings } from '../models/CMSettings';
 // import { CMElement } from '../models/CMElement';
 
+import { SettingsService } from './settings.service';
 // const ipcRenderer = require('electron').ipcRenderer;
 
 @Injectable()
 export class MetaService {
-  public cmsettings: Observable<CMSettings> = this.store.select('settings');
+  public cmsettings: CMSettings;
 
   constructor(private store: Store<CMStore>,
+              private settingsService: SettingsService,
               private electronService: ElectronService) {
-
+                this.settingsService.cmsettings
+                    .subscribe((data) => {
+                      this.cmsettings = data;
+                      // console.log('settings ', data);
+                    });
   }
 
   // opens a pdf on a specific page
@@ -84,7 +90,6 @@ export class MetaService {
           path: '/dist/assets/images/' + ext
         };
         let res4 = this.electronService.ipcRenderer.sendSync('openBrowser', arg4);
-        console.log(res4);
         break;
       case 'comment':
       case 'code':
@@ -163,6 +168,13 @@ export class MetaService {
             path: '/dist/assets/images/' + path0
           };
           let res5 = this.electronService.ipcRenderer.sendSync('openBrowser', arg5);
+          if (this.cmsettings) {
+            let clutterindex = res5.indexOf('/dist/assets/images/')
+            res5 = res5.slice((clutterindex + 20));
+            this.cmsettings.epath = res5;
+            console.log(this.cmsettings.epath);
+            this.settingsService.updateSettings(this.cmsettings);
+          };
           console.log(res5);
           break;
         case 'comment':

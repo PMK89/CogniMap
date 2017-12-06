@@ -184,10 +184,12 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         // sets size of element
         bbox = this.cmgroup.getBBox();
-        this.cmeo.x0 = bbox.x;
-        this.cmeo.y0 = bbox.y;
-        this.cmeo.x1 = bbox.x2;
-        this.cmeo.y1 = bbox.y2;
+        if (this.cmeo.types[0] !== 'm') {
+          this.cmeo.x0 = bbox.x;
+          this.cmeo.y0 = bbox.y;
+          this.cmeo.x1 = bbox.x2;
+          this.cmeo.y1 = bbox.y2;
+        }        
         // saves prepared element to save loading time
         if (this.TextInput === false) {
           if (this.elementService.selCMEo) {

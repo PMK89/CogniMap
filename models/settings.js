@@ -92,6 +92,7 @@ var CMSettings = {
   copycolor: String,
   latexcolor: String,
   currentMeta: CurrentMeta,
+  epath: String,
   coor: CMCoor,
   pointArray: [CMCoor],
   style: CMStyle,
