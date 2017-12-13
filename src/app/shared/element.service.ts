@@ -608,9 +608,12 @@ export class ElementService {
                       // checks if selected element is a marker and changes the mode accordingly
                       if (cme.types[0] === 'm') {
                         if (cme.cmobject.links.length > 0) {
-                          this.markCMEo = this.CMEtoCMEol(this.getDBCMEbyId(cme.cmobject.links[0].targetId));
-                          this.cmsettings.mode = 'marking';
-                          this.settingsService.updateSettings(this.cmsettings);
+                          let protomark = this.getDBCMEbyId(cme.cmobject.links[0].targetId);
+                          if (protomark) {
+                            this.markCMEo = this.CMEtoCMEol(protomark);
+                            this.cmsettings.mode = 'marking';
+                            this.settingsService.updateSettings(this.cmsettings);
+                          }                          
                         }
                       }
                       this.startPos = {
@@ -1680,18 +1683,50 @@ export class ElementService {
                 }
               }
             }
-            if (cme = undefined && id !== 0) {
+            if (cme === undefined) {
               cme = this.getDBCMEbyId(id);
             }
-            if (start) {
-              cme.cmobject.title0 = title;
-            } else {
-              cme.cmobject.title1 = title;
+            if (cme) {
+              if (start) {
+                cme.cmobject.title0 = title;
+              } else {
+                cme.cmobject.title1 = title;
+              }
+              console.log(cme);
+              this.updateCMEol(cme);
             }
-            console.log(cme);
-            this.updateCMEol(cme);
           },
           (error) => console.log(error),
+         ).unsubscribe();
+  }
+
+  // changes object link titles if title of object is changed
+  public changeObjectTitle(id: number, title: string, linkid: number) {
+    this.cmelements
+        .subscribe((data) => {
+          let cme = undefined;
+          for (let key in data) {
+            if (data[key]) {
+              if (data[key].id === id) {
+                cme = this.CMEtoCMEol(data[key]);
+                id = 0;
+              }
+            }
+          }
+          if (cme === undefined) {
+            cme = this.getDBCMEbyId(id);
+          }
+          if (cme) {
+            for (let i in cme.cmobject.links) {
+              if (cme.cmobject.links[i]) {
+                if (cme.cmobject.links[i].id === linkid) {
+                  cme.cmobject.links[i].title = title;
+                }
+              }
+            }
+          }
+        },
+        (error) => console.log(error),
          ).unsubscribe();
   }
 
@@ -1712,34 +1747,6 @@ export class ElementService {
         }
       }
     }
-  }
-
-  // changes object link titles if title of object is changed
-  public changeObjectTitle(id: number, title: string, linkid: number) {
-    this.cmelements
-        .subscribe((data) => {
-          let cme = undefined;
-          for (let key in data) {
-            if (data[key]) {
-              if (data[key].id === id) {
-                cme = this.CMEtoCMEol(data[key]);
-                id = 0;
-              }
-            }
-          }
-          if (cme = undefined && id !== 0) {
-            cme = this.getDBCMEbyId(id);
-          }
-          for (let i in cme.cmobject.links) {
-            if (cme.cmobject.links[i]) {
-              if (cme.cmobject.links[i].id === linkid) {
-                cme.cmobject.links[i].title = title;
-              }
-            }
-          }
-        },
-        (error) => console.log(error),
-         ).unsubscribe();
   }
 
   // changes object link weight
