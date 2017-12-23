@@ -242,7 +242,7 @@ const createMediaWindow = function createMediaWindow () {
         var newfilepath = filepath.replace('.png', 't.png');
         fs.writeFileSync(newfilepath, newpngbuffer);
         console.log(newfilepath);
-        event.returnValue = newfilepath;
+        event.returnValue = arg.file.replace('.png', 't.png');
       }
     }
   })

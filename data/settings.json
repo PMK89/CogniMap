@@ -60,7 +60,7 @@
     "cmtbmarking": {
       "color0": "none",
       "color1": "#1200ff",
-      "prio": 7,
+      "prio": 10,
       "trans": 0.6000000000000001,
       "types": [
         "m",
@@ -86,8 +86,8 @@
     },
     "cngtemp": false,
     "coor": {
-      "x": 473665,
-      "y": 244304
+      "x": 28860,
+      "y": 443842
     },
     "copy": {
       "num": 0,
@@ -99,10 +99,10 @@
     "copycolor": "#b061a1",
     "currentMeta": {
       "comment": "",
-      "name": "02_Essence_of_calculus_The_paradox_of_the_derivative.mp4",
-      "path": "/home/pmk/cognimap/src/assets/videos/math/calculus/02_Essence_of_calculus_The_paradox_of_the_derivative.mp4",
+      "name": "\"Riedel, Erwin - Allgemeine und Anorganische Chemie\".pdf",
+      "path": "/home/pmk/cognimap/src/assets/pdf/inorganic chemistry/Riedel, Erwin - Allgemeine und Anorganische Chemie.pdf",
       "pos": "0",
-      "type": "videos"
+      "type": "pdf"
     },
     "debug": true,
     "dev": false,
@@ -364,10 +364,10 @@
       "width": 1800,
       "z-index": 515
     },
-    "widget0": "equation",
+    "widget0": "none",
     "widget1": "none",
     "wlayout0": {
-      "display": "block",
+      "display": "none",
       "height": 446.5,
       "left": 0,
       "opacity": 0.8,
