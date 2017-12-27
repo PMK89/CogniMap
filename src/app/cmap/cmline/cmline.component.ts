@@ -222,6 +222,9 @@ export class CmlineComponent implements OnInit, OnDestroy {
       let title0 = s.text(0, 0, this.cmel.cmobject.title1);
       let txtfill = '#000000';
       // check if color ist to dark
+      if (this.cmel.cmobject.numArray.length < 2) {
+        this.cmel.cmobject.numArray.unshift(0, 0);
+      }
       if (this.cmel.cmobject.color0) {
         let c = this.cmel.cmobject.color0.substring(1);      // strip #
         let rgb = parseInt(c, 16);   // convert rrggbb to decimal
@@ -247,9 +250,9 @@ export class CmlineComponent implements OnInit, OnDestroy {
       let bbox0 = title0.getBBox();
       let alpha0 = Math.sin((p.getPointAtLength(200).alpha
       * Math.PI) / 180);
-      let len0 = 100 + 200 - (Math.abs(alpha0) * 100);
+      let len0 = 100 + 200 - (Math.abs(alpha0) * 100) + this.cmel.cmobject.numArray[0];
       if (Math.abs(alpha0) > 0.8) {
-        len0 += ((Math.abs(alpha0) * 100) % 10) * 10;
+        len0 += (((Math.abs(alpha0) * 100) % 10) * 10) + this.cmel.cmobject.numArray[0];
       }
       let mxy0 = p.getPointAtLength(len0);
       title0.attr({
@@ -285,9 +288,9 @@ export class CmlineComponent implements OnInit, OnDestroy {
       let bbox1 = title1.getBBox();
       let alpha1 = Math.sin((p.getPointAtLength(length - 200).alpha
       * Math.PI) / 180);
-      let len1 = 100 + 200 - (Math.abs(alpha1) * 100);
+      let len1 = 100 + 200 - (Math.abs(alpha1) * 100) + this.cmel.cmobject.numArray[1];
       if (Math.abs(alpha1) > 0.8) {
-        len1 += ((Math.abs(alpha1) * 100) % 10) * 10;
+        len1 += (((Math.abs(alpha1) * 100) % 10) * 10) + this.cmel.cmobject.numArray[1];
       }
       let mxy1 = p.getPointAtLength(length - len1);
       title1.attr({

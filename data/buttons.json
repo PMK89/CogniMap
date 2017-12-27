@@ -504,6 +504,20 @@
     "active": false
   },
   {
+    "id": 117,
+    "group": "",
+    "cat": "tbline",
+    "blocked": false,
+    "btntype": "l",
+    "name": "transparent",
+    "variable": ["cmobject", "size0"],
+    "contenttype": "g",
+    "value": 0,
+    "prio": 0,
+    "content": "assets/images/svgelements/object/transparent.svg",
+    "active": false
+  },
+  {
     "id": 201,
     "group": "",
     "cat": "tbfont",
@@ -906,6 +920,34 @@
     "contenttype": "n",
     "value": "1",
     "prio": 0.1,
+    "content": "++--",
+    "active": false
+  },
+  {
+    "id": 910,
+    "group": "",
+    "cat": "tbline",
+    "blocked": false,
+    "btntype": "n",
+    "name": "tbline_marker_dist0",
+    "variable": ["cmobject", "numArray", 0],
+    "contenttype": "n",
+    "value": "0",
+    "prio": 25,
+    "content": "++--",
+    "active": false
+  },
+  {
+    "id": 911,
+    "group": "",
+    "cat": "tbline",
+    "blocked": false,
+    "btntype": "n",
+    "name": "tbline_marker_dist1",
+    "variable": ["cmobject", "numArray", 1],
+    "contenttype": "n",
+    "value": "0",
+    "prio": 25,
     "content": "++--",
     "active": false
   }

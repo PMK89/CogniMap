@@ -630,6 +630,16 @@ export class EventService {
           }
         }
         this.settingsService.updateSettings(this.cmsettings);
+      } else if (this.keyPressed.indexOf('c') !== -1) {
+        // turns on cutting mode
+        if (this.cmsettings.mode === 'copying') {
+          this.cmsettings.mode = 'edit';
+        } else if (this.cmsettings.mode !== 'typing') {
+          if (this.cmsettings.widget0 !== 'none' && this.cmsettings.widget1 !== 'none') {
+            this.cmsettings.mode = 'copying';
+          }
+        }
+        this.settingsService.updateSettings(this.cmsettings);
       }
       if (this.keyPressed.indexOf('v') !== -1) {
         // pastes content from clipboard
