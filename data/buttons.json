@@ -756,6 +756,20 @@
     "active": false
   },
   {
+    "id": 610,
+    "group": "",
+    "cat": "cmsettings",
+    "blocked": false,
+    "btntype": "l",
+    "name": "quiz",
+    "variable": ["mode"],
+    "contenttype": "g",
+    "value": "quiz",
+    "prio": 0,
+    "content": "assets/images/svgelements/menue/quiz.svg",
+    "active": false
+  },
+  {
     "id": 801,
     "group": "",
     "cat": "tbfont",
