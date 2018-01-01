@@ -94,7 +94,9 @@ export class SButtonComponent implements OnInit {
                 === button.value) {
                 button.active = true;
               } else if (button.variable[3] === 'class_array') {
-                if (cmelement[button.variable[0]][button.variable[1]][button.variable[2]][button.variable[3]].indexOf(button.value[0]) !== -1) {
+                if (
+                  cmelement[button.variable[0]][button.variable[1]][button.variable[2]][button.variable[3]].indexOf(button.value[0])
+                   !== -1) {
                   button.active = true;
                 }
               } else {
@@ -146,7 +148,11 @@ export class SButtonComponent implements OnInit {
           this.settingsService.updateSettings(this.cmsettings);
         }
         if (this.cmsettings.mode === button.value) {
-          this.cmsettings.mode = 'edit';
+          if (button.value === 'edit' || button.value === 'quizing') {
+            this.cmsettings.mode = 'view';
+          } else {
+            this.cmsettings.mode = 'edit';
+          }
           this.settingsService.updateSettings(this.cmsettings);
         } else {
           this.cmsettings.mode = button.value;

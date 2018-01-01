@@ -2,6 +2,11 @@
   "extends": [
     "tslint:recommended"
   ],
+  "linterOptions": {
+      "exclude": [
+          "src/app/widgets/mjeditor/mjeditor.latex.service.ts"
+      ]
+  },
   "rulesDirectory": [
     "node_modules/codelyzer"
   ],
@@ -16,6 +21,8 @@
     // "directive-selector": [true, "attribute", "my", "camelCase"],
     "import-destructuring-spacing": true,
     "invoke-injectable": true,
+    "no-bitwise": false,
+    "object-literal-shorthand": false,
     "no-access-missing-member": true,
     "no-attribute-parameter-decorator": true,
     "no-forward-ref": true,

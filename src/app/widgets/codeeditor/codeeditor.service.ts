@@ -77,7 +77,8 @@ export class CodeeditorService {
           object: codestring,
           width: code.sizer.clientWidth,
           info: text,
-          height: code.sizer.clientHeight
+          height: code.sizer.clientHeight,
+          correct: true
         };
         this.elementService.selCMEo.cmobject.content.push(content);
       }

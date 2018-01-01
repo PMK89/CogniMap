@@ -7,4 +7,5 @@ export class CMEContent {
   public info: string;
   public width: number;
   public height: number;
+  public correct: boolean;
 }

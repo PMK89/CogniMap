@@ -83,7 +83,7 @@ export class NavigatorComponent implements OnInit {
   // opens a pdf on a specific page
   public openExternal(ext: string, position: string) {
     let type = this.extType;
-    this.metaService.openExternal(ext, position, type)
+    this.metaService.openExternal(ext, position, type);
   }
 
   // get files in assets
@@ -121,7 +121,7 @@ export class NavigatorComponent implements OnInit {
             if (newfolder[0].path.indexOf(meta['path']) !== -1 || this.currentMetaArray.length === 0) {
               this.currentMetaArray.push(newfolder[0]);
             } else {
-              this.currentMetaArray[this.currentMetaArray.length -1] = newfolder[0];
+              this.currentMetaArray[this.currentMetaArray.length - 1] = newfolder[0];
             }
           } else {
             if (this.currentMetaArray[1]) {
@@ -134,7 +134,7 @@ export class NavigatorComponent implements OnInit {
         }
       }
     }
-  }2
+  }
 
   // get select folder loaded
   public openFile(meta) {
@@ -167,37 +167,37 @@ export class NavigatorComponent implements OnInit {
   }
 
   // sets current meta in settings
-  public setCurrentMeta(name: string, path: string, type: string, pos: string, comment: string) {
+  public setCurrentMeta(name0: string, path0: string, type0: string, pos0: string, comment0: string) {
     this.cmSettings.currentMeta = {
-      name: name,
-      comment: comment,
-      path: path,
-      type: type,
-      pos: pos
+      name: name0,
+      comment: comment0,
+      path: path0,
+      type: type0,
+      pos: pos0
     };
     this.navigatorService.setCurrentMeta(this.cmSettings);
   }
 
   // adds new Meta to selected Element
-  public addMeta(name: string, pos: string, path: string, comment: string) {
+  public addMeta(name0: string, pos0: string, path0: string, comment0: string) {
     if (this.cmSettings) {
-      let posnumber = parseInt(pos, 10);
+      let posnumber = parseInt(pos0, 10);
       if (typeof posnumber === 'number') {
         if (posnumber < 0) {
-          console.log('invalid position number: ', pos, ' position set to 0');
+          console.log('invalid position number: ', pos0, ' position set to 0');
           posnumber = 0;
         }
       } else if (this.cmSettings.currentMeta.type !== 'link') {
-        console.log('invalid position number: ', pos, ' position set to 0');
+        console.log('invalid position number: ', pos0, ' position set to 0');
         posnumber = 0;
       }
       let newmeta = {
-        name: name,
-        pos: pos,
+        name: name0,
+        pos: pos0,
         type: this.extType,
-        path: path,
-        comment: comment
-      }
+        path: path0,
+        comment: comment0
+      };
       this.selCMEo.cmobject.meta.push(newmeta);
       this.navigatorService.changeCME(this.selCMEo);
     }
@@ -256,9 +256,9 @@ export class NavigatorComponent implements OnInit {
   }
 
   // checks in number fields if input is correct state of component
-  public checkNumber(number, object) {
-    let num = Number(number);
-    if (num !== undefined && num !== NaN && num !== null) {
+  public checkNumber(number0, object) {
+    let num = Number(number0);
+    if (num !== undefined && !isNaN(num) && num !== null) {
       return num;
     } else {
       alert(object + ' needs to be a number. Please enter a valid real number.');
@@ -292,7 +292,7 @@ export class NavigatorComponent implements OnInit {
             error = true;
           }
         } else if (objects[0] === 'types' || objects[0] === 'cat') {
-          let array = value.replace(/ /g,'').split(',');
+          let array = value.replace(/ /g, '').split(',');
           this.selCMEo[objects[0]] = array;
         } else {
           this.selCMEo[objects[0]] = value;
@@ -342,7 +342,7 @@ export class NavigatorComponent implements OnInit {
             error = true;
           }
         } else if (objects[3] === 'class_array' || objects[3] === 'num_array') {
-          let array = value.replace(/ /g,'').split(',');
+          let array = value.replace(/ /g, '').split(',');
           this.selCMEo[objects[0]][objects[1]][objects[2]][objects[3]] = array;
         } else {
           if (typeof pos === 'number') {

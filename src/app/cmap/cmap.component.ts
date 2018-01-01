@@ -10,7 +10,6 @@ import { EventService } from '../shared/event.service';
 
 // models and reducers
 import { CMStore } from '../models/CMStore';
-import { CMCoor } from '../models/CMCoor';
 
 @Component({
   selector: 'app-cmap',
@@ -24,6 +23,7 @@ export class CmapComponent implements OnInit {
   public minicmap = false;
   public color0 = '#440000';
   public color1 = '#220000';
+  public quiz = 'q';
   public selection = {
     'display': 'none',
     'left': '0px',
@@ -47,6 +47,11 @@ export class CmapComponent implements OnInit {
                 .subscribe((data) => {
                   if (data) {
                     this.cmsettings = data;
+                    if (this.cmsettings.mode.indexOf('quiz') === -1 || this.cmsettings.mode === 'quizing') {
+                      this.quiz = 'q';
+                    } else {
+                      this.quiz = '';
+                    }
                     /*
                     if (this.cmsettings.mode === 'draw_poly') {
                       if (this.cmsettings.pointArray) {
@@ -94,6 +99,8 @@ export class CmapComponent implements OnInit {
                       } else {
                         this.selection.display = 'none';
                       }
+                    } else {
+                      this.selection.display = 'none';
                     }
                   },
                   (error) => console.log(error)
@@ -129,7 +136,7 @@ export class CmapComponent implements OnInit {
           'top': (point['y'] - 2).toString() + 'px',
           'left': (point['x'] - 2).toString() + 'px',
           'background-color': this.color0
-        }
+        };
       }
     }
   }

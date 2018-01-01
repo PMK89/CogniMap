@@ -1,5 +1,6 @@
-const {BrowserWindow, ipcMain } = require('electron')
-const path = require('path')
+const {BrowserWindow, ipcMain } = require('electron');
+const { WORST, BEST, CORRECT, calculate, getPercentOverdue } = require('sm2-plus');
+const path = require('path');
 const LinvoDB = require('linvodb3');
 const fs = require('fs');
 console.log(LinvoDB);
@@ -14,6 +15,21 @@ var cme = new LinvoDB(modelName, schema, options);
 var dbwin
 var datahistory = [];
 
+// -----------------------------------------------
+// quiz related
+// -----------------------------------------------
+
+var quizes = [];
+var quizcmes = [];
+var quizesOverdue = [];
+var quiz = '';
+
+const DAY_IN_MINISECONDS = 24 * 60 * 60 * 1000;
+const getDaysSinceEpoch = () => (
+    Math.round(new Date().getTime() / DAY_IN_MINISECONDS)
+);
+
+const TODAY = getDaysSinceEpoch();
 
 // -----------------------------------------------
 // creates background window for Database handling
@@ -361,7 +377,7 @@ const createDbWindow = function createDbWindow() {
             }
           }
         }
-        fs.writeFileSync('./dist/assets/newdb.json', JSON.stringify(data, null, 2));
+        fs.writeFileSync('./data/newdb.json', JSON.stringify(data, null, 2));
         event.returnValue = 'changed elements ' + JSON.stringify(dataArray, null, 2);
       }
     });
@@ -449,9 +465,22 @@ const createDbWindow = function createDbWindow() {
   // changes cme in database
   ipcMain.on('changeCME', (event, arg) => {
     console.log('changeCME start: ', arg.id, Date.now());
+    if (arg.types[0] === 'q') {
+      var cmo = JSON.parse(arg.cmobject);
+      if (cmo['style']['object']['weight'] && cmo['style']['object']['str']) {
+        var dif = cmo['style']['object']['weight'];
+        var int = Number(cmo['style']['object']['str']);
+        if (typeof dif === 'number' && typeof int === 'number') {
+          if (dif > 0 && dif <= 1) {
+            changeQuiz(arg.id, dif, int);
+          }
+        }
+      }
+    }
     cme.findOne({id: arg.id}, function(err, data) {
 		  if (err) console.log(err);
       if (data) {
+        datahistoryController(data, 'insert');
         data.coor = arg.coor;
         data.x0 = arg.x0;
         data.y0 = arg.y0;
@@ -466,7 +495,6 @@ const createDbWindow = function createDbWindow() {
         data.state = arg.state;
         data.prep = arg.prep;
         data.prep1 = arg.prep1;
-        datahistoryController(data, 'insert');
         // saves changes to database
 				data.save(function (err) {
           if (err) {
@@ -496,35 +524,154 @@ const createDbWindow = function createDbWindow() {
 
   // finds cmes within given boundaries
   ipcMain.on('loadCME', (event, arg) => {
-    console.log('loadCME start: ', Date.now());
-    var l = parseInt(arg.l);
-	  var t = parseInt(arg.t);
-	  var r = parseInt(arg.r);
-	  var b = parseInt(arg.b);
+    const t0 = Date.now();
+    console.log('loadCME start: ', t0);
+    const l = parseInt(arg.l);
+	  const t = parseInt(arg.t);
+	  const r = parseInt(arg.r);
+	  const b = parseInt(arg.b);
 	  // gets all elements within a expanded user view. Maybe should be made better
 	  cme.find({
-			$or: [
-				{$and: [{x0: { $gt: l, $lt: r }}, {y0: { $gt: t, $lt: b }}]},
-				{$and: [{x1: { $gt: l, $lt: r }}, {y1: { $gt: t, $lt: b }}]}
-			]
+      $or: [
+        {$and: [{x0: { $gt: l, $lt: r }}, {y0: { $gt: t, $lt: b }}]},
+        {$and: [{x1: { $gt: l, $lt: r }}, {y1: { $gt: t, $lt: b }}]}
+      ]
 		}, function(err, data) {
 		  if (err) console.log(err);
 		  event.sender.send('loadedCME', data);
-      console.log('loadCME end: ', Date.now());
+      console.log('loadCME end: ', (Date.now() - t0));
 	  });
   })
 
   // creates new CME in Database
   ipcMain.on('newCME', (event, arg) => {
+    if (arg.types[0] === 'q') {
+      var cmo = JSON.parse(arg.cmobject);
+      if (cmo['style']['object']['weight'] && cmo['style']['object']['str']) {
+        var dif = cmo['style']['object']['weight'];
+        var int = Number(cmo['style']['object']['str']);
+        if (typeof dif === 'number' && typeof int === 'number') {
+          if (dif > 0 && dif <= 1) {
+            makeQuiz(arg.id, dif, int);
+          }
+        }
+      }
+    }
     var ncme = new cme(arg);
     // console.log(ncme);
     ncme.save(function (err) {
       if (err) {
         console.log(err) // #error message
       } else {
+        ncme.state = 'new';
+        datahistoryController(ncme, 'insert');
         console.log(arg.id)
       }
 		});
+  })
+
+  // loads quizes that are due
+  ipcMain.on('loadQuizes', (event, arg) => {
+    if (quizes.length === 0) {
+      loadQuizes();
+    }
+    const today = TODAY;
+    var overduearray = [];
+    quizes.forEach((quiz) => {
+      if (quiz) {
+        var overdue = getPercentOverdue(quiz, today);
+        console.log(overdue);
+        if (overdue >= 0) {
+          overduearray.push({id: quiz.id, od: overdue});
+        }
+      }
+    })
+    if (overduearray.length > 0) {
+      overduearray.sort(function(a, b){return b.od - a.od});
+      overduearray.forEach((e) => {quizesOverdue.push(e.id)})
+      if (quizesOverdue.length > 0) {
+        cme.find({ id: quizesOverdue }, function(err, data) {
+    		  if (err) console.log(err);
+          var i;
+          const l = data.length;
+          for (i = 0; i < l; i++) {
+            if(data[i]) {
+              data[i].types[0] = 'q1';
+              data[i].save(function (err) {
+                if (err) console.log(err); // #error message
+              });
+            }
+          }
+          quizcmes = data;
+    		  event.sender.send('loadedQuizes', data);
+    	  });
+      }
+    }
+  })
+
+  // unloads quizes that are due and changes type[0] to q again
+  ipcMain.on('unQuiz', (event, arg) => {
+    if (quizcmes.length > 0) {
+      const l = quizcmes.length;
+      var i;
+      for (i = 0; i < l; i++) {
+        if (quizcmes[i]) {
+          quizcmes[i].types[0] = 'q';
+          quizcmes[i].save(function (err) {
+            if (err) console.log(err); // #error message
+          });
+        }
+      }
+      quizcmes = []
+      event.sender.send('loadedQuizes', quizcmes);
+    }
+  })
+
+
+  // answer a quiz and recalculate
+  ipcMain.on('answerQuiz', (event, arg) => {
+    if (arg['id']) {
+      if (quizes.length === 0) {
+        loadQuizes();
+      }
+      var rating = WORST;
+      if (arg['scale'] === 0) {
+        rating = BEST;
+      } else if (arg['scale'] === 1) {
+        rating = CORRECT
+      }
+      var pos = quizes.findIndex(i => i.id === arg['id']);
+      if (pos > -1) {
+        var calc = calculate(quizes[pos], rating, TODAY);
+        if (calc) {
+          quizes[pos].difficulty = calc.difficulty;
+          quizes[pos].interval = calc.interval;
+          quizes[pos].update = calc.update;
+          console.info(quizes[pos]);
+          var pos0 = quizcmes.findIndex(i => i.id === arg['id']);
+          if (pos0 > -1) {
+            if (quizcmes[pos0]) {
+              var data = quizcmes[pos0];
+              datahistoryController(data, 'insert');
+              var cmo = JSON.parse(data.cmobject);
+              if (cmo['style']['object']['weight'] && cmo['style']['object']['str']) {
+                cmo['style']['object']['str'] = String(calc.interval);
+                cmo['style']['object']['weight'] = calc.difficulty;
+                data.types[0] = 'q';
+                data.cmobject = JSON.stringify(cmo);
+                // saves changes to database
+        				data.save(function (err) {
+                  if (err) console.log(err); // #error message
+        				});
+                quizcmes.splice(pos0, 1);
+                event.sender.send('loadedQuizes', quizcmes);
+              }
+            }
+          }
+          saveQuizes();
+        }
+      }
+    }
   })
 
   // deletes CME in Database
@@ -532,6 +679,10 @@ const createDbWindow = function createDbWindow() {
     cme.findOne({id: arg}, function(err, data) {
 		  if (err) console.log(err);
       if (data) {
+        if (data.state === 'quiz') {
+          deleteQuiz(data.id);
+        }
+        data.state = 'del';
         datahistoryController(data, 'insert');
         data.remove(function (err) {
 				});
@@ -547,6 +698,72 @@ const createDbWindow = function createDbWindow() {
   });
 }
 
+// deletes a quiz element
+function makeQuiz(id , dif, int) {
+  if(id && dif && int) {
+    if (quizes.length === 0) {
+      loadQuizes();
+    }
+    if(quizes.findIndex(i => i.id === id) === -1) {
+      var newquiz = {
+        id: id,
+        update: TODAY,
+        difficulty: dif,
+        interval: int
+      };
+      quizes.push(newquiz);
+      saveQuizes()
+    }
+  }
+}
+
+// changes a quiz element
+function changeQuiz(id, dif, int) {
+  if(id && dif && int) {
+    if (quizes.length === 0) {
+      loadQuizes();
+    }
+    var pos = quizes.findIndex(i => i.id === id);
+    if (pos > -1) {
+      quizes[pos].difficulty = dif;
+      quizes[pos].interval = int;
+      saveQuizes();
+    } else {
+      makeQuiz(id , dif, int);
+    }
+  }
+}
+
+// deletes a quiz element
+function deleteQuiz(id) {
+  var pos = quizes.findIndex(i => i.id === id);
+  if (pos > -1) {
+    quizes.splice(pos, 1);
+    saveQuizes();
+  }
+}
+
+// saves quiz array
+function saveQuizes() {
+  fs.writeFileSync('./data/quizes.json', JSON.stringify(quizes, null, 2));
+}
+
+// finds overdue quizes and pushes them to quizesOverdue array
+function findOverdueQuizes(quiz, today) {
+  if (quiz) {
+    var overdue = getPercentOverdue(quiz, today);
+    if (overdue > 0) {
+      quizesOverdue.push(quiz.id);
+    }
+  }
+}
+
+// loads quiz array from json file
+function loadQuizes() {
+  if (fs.existsSync('./data/quizes.json')) {
+    quizes = JSON.parse(fs.readFileSync('./data/quizes.json'));
+  }
+}
 
 // saves and retrieves changes in the database
 function datahistoryController(data, ident) {

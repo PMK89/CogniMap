@@ -170,7 +170,7 @@ export class ColorbarComponent implements OnInit {
         for (let key in colorbar) {
           if (colorbar[key]) {
             if (colorbar[key].cat === this.selector) {
-              if (colorbar[key].id === parseInt(this.selectcolor)) {
+              if (colorbar[key].id === parseInt(this.selectcolor, 10)) {
                 colorbar[key].prio = 0;
               } else if (colorbar[key].prio === 0) {
                 colorbar[key].prio += 1;

@@ -38,7 +38,7 @@ ipc.on('changeSettings', function (event, arg) {
     if(settings[i]) {
       if (settings[i].id === parseInt(arg.id)) {
         settings[i] = arg;
-        if (settings[i].mode !== 'view') {
+        if (settings[i].mode !== 'view' && settings[i].mode !== 'quizing') {
           settings[i].mode = 'edit';
         }
         console.log(settings[i].mode);

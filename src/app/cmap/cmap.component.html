@@ -320,6 +320,6 @@
 <div style="z-index: 3; position absolute">
   <div *ngFor="let cmelement of cmelements | async">
     <app-cmline *ngIf="cmelement.id < 0"  [ngStyle]="elementStyle(cmelement)" [cmelement]="cmelement"></app-cmline>
-    <app-cmobject *ngIf="cmelement.id > 0" [ngStyle]="elementStyle(cmelement)" [cmelement]="cmelement"></app-cmobject>
+    <app-cmobject *ngIf="cmelement.id > 0 && cmelement.types[0] !== quiz" [ngStyle]="elementStyle(cmelement)" [cmelement]="cmelement"></app-cmobject>
   </div>
 </div>

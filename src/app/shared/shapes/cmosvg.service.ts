@@ -44,7 +44,7 @@ export class CmosvgService {
   public createPoly(cme, bbox, cmg: any) {
     let s = Snap('#cmsvg');
     if (cme.cmobject.style.object.str) {
-      let str = cme.cmobject.style.object.str
+      let str = cme.cmobject.style.object.str;
       let xIndex = str.indexOf('xdif:');
       let yIndex = str.indexOf('ydif:');
       if (xIndex !== -1 && yIndex !== -1) {
@@ -90,7 +90,6 @@ export class CmosvgService {
 
   // create special shapes
   public createShapes(cme, bbox, cmg: any) {
-    let s = Snap('#cmsvg');
     let source;
     let xdif = 0.5;
     let ydif = 0.5;
@@ -132,14 +131,13 @@ export class CmosvgService {
         break;
       case 'p':
         source = this.objectShapesService.Shapes['pentagon'];
-        wdif = cme.cmobject.style.title.size* 0.5;
+        wdif = cme.cmobject.style.title.size * 0.5;
         hdif = cme.cmobject.style.title.size + bbox.w * 0.2;
         ydif = 0.4;
         break;
       default:
         source = this.objectShapesService.Shapes['diamond'];
     }
-    let mrg = 5;
     let svggroup = cmg.g();
     let tsvggroup = cmg.g();
     let svg = Snap.parse(source);
@@ -153,7 +151,8 @@ export class CmosvgService {
       svgbbox = svggroup.getBBox();
       // let transformgroup = cmg.g();
       // transformgroup.add(svggroup);
-      svggroup.transform('t' + ((bbox.x - (xdif * (svgbbox.w - bbox.w))) - svgbbox.x) + ',' + ((bbox.y - (ydif * (svgbbox.h - bbox.h))) - svgbbox.y));
+      svggroup.transform('t' + ((bbox.x - (xdif * (svgbbox.w - bbox.w))) - svgbbox.x) +
+      ',' + ((bbox.y - (ydif * (svgbbox.h - bbox.h))) - svgbbox.y));
       console.log(xdif, ydif, wdif, hdif);
     }
     let a = svggroup.select('#svg_1');

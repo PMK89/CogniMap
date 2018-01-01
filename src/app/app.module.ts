@@ -36,6 +36,7 @@ import { TbNavigationComponent } from './toolbar/tb-navigation/tb-navigation.com
 import { TbTemplatesComponent } from './toolbar/tb-templates/tb-templates.component';
 import { TbObjectComponent } from './toolbar/tb-object/tb-object.component';
 import { TbMarkingComponent } from './toolbar/tb-marking/tb-marking.component';
+import { TbQuizeditComponent } from './toolbar/tb-quizedit/tb-quizedit.component';
 import { TbContentComponent } from './toolbar/tb-content/tb-content.component';
 import { TbSettingsComponent } from './toolbar/tb-settings/tb-settings.component';
 import { TbSpecharsComponent } from './toolbar/tb-spechars/tb-spechars.component';
@@ -58,6 +59,7 @@ import { NavigatorService } from './widgets/navigator/navigator.service';
 import { MjEditorService } from './widgets/mjeditor/mjeditor.service';
 import { MjEditorLatexService } from './widgets/mjeditor/mjeditor.latex.service';
 import { CodeeditorService } from './widgets/codeeditor/codeeditor.service';
+import { QuizService } from './shared/quiz.service';
 import { settings } from './reducers/settings.reducer';
 import { buttons } from './reducers/buttons.reducer';
 import { colors } from './reducers/colors.reducer';
@@ -111,6 +113,7 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
                   TbNavigationComponent,
                   TbObjectComponent,
                   TbMarkingComponent,
+                  TbQuizeditComponent,
                   TbContentComponent,
                   TbSettingsComponent,
                   TbSpecharsComponent],
@@ -130,6 +133,7 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
               MetaService,
               MjEditorLatexService,
               CodeeditorService,
+              QuizService,
               ElementService],
   bootstrap: [ AppComponent ],
 })

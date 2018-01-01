@@ -161,11 +161,11 @@ export class SnapsvgService {
         console.log(endpoint);
         layer1.transform('s' + (edgelen / svgbbox.h));
         svgbbox = svggroup.getBBox();
-        svggroup.transform('r' + (endpoint.alpha - 180) + ',' + (svgbbox.x + (svgbbox.w/2)) + ',' + (svgbbox.y + (svgbbox.w/2)));
+        svggroup.transform('r' + (endpoint.alpha - 180) + ',' + (svgbbox.x + (svgbbox.w / 2)) + ',' + (svgbbox.y + (svgbbox.w / 2)));
         svgbbox = svggroup.getBBox();
         let transformgroup = cmg.g();
         transformgroup.add(svggroup);
-        transformgroup.transform('t' + ((endpoint.x - edgelen/2) - svgbbox.x) + ',' + ((endpoint.y - edgelen/2) - svgbbox.y));
+        transformgroup.transform('t' + ((endpoint.x - edgelen  / 2) - svgbbox.x) + ',' + ((endpoint.y - edgelen / 2) - svgbbox.y));
       }
       let arrowhead = svggroup.select('#svg_1');
       if (arrowhead) {
@@ -187,6 +187,7 @@ export class SnapsvgService {
     if (cme !== undefined && this.cmsettings !== undefined) {
       this.cmsvg = Snap('#cmsvg');
       let con;
+      let concmg = cmg.g();
       let s = this.cmsvg;
       let id = cme.id.toString();
       if (cme.id < 1) {
@@ -207,10 +208,10 @@ export class SnapsvgService {
                 path = content.object;
               }
               con = s.image((path), coorX, coorY);
-              cmg.add(con);
+              concmg.add(con);
               con.attr({
                 opacity: cme.cmobject.style.object.trans,
-                id: id.toString() + '_' + i.toString(),
+                id: id.toString() + '-' + i.toString(),
                 title: id
               });
               if (content.cat === 'i') {
@@ -232,7 +233,7 @@ export class SnapsvgService {
                   let conBig = s.image((path), (coorX - (imgBBox.w / 2)), (coorY) - (imgBBox.h / 2));
                   conBig.attr({
                     opacity: cme.cmobject.style.object.trans,
-                    id: id.toString() + '_' + i.toString() + 'Big',
+                    id: id.toString() + '-' + i.toString() + 'Big',
                     title: id
                   });
                   conBig.transform('s' + (content.height / 100));
@@ -244,7 +245,7 @@ export class SnapsvgService {
               break;
             case 'svg':
               // inserts svg to marker group
-              let svggroup = cmg.g();
+              let svggroup = concmg.g();
               con = Snap.parse(content.object);
               svggroup.append(con);
               // svggroup.selectAll('rect').remove();
@@ -252,12 +253,33 @@ export class SnapsvgService {
               console.log(svgbbox);
               svggroup.transform('t' + (coorX + totwidth - svgbbox.x) + ',' + (coorY - svgbbox.y));
               content.width = svgbbox.width;
-              cmg.add(svggroup);
-              cmg.transform('s' + (content.height / 100));
+              concmg.add(svggroup);
+              concmg.transform('s' + (content.height / 100));
+              break;
+            case 'title':
+              // inserts svg to marker group
+              let titlegroup = concmg.g();
+              let titlestyle = JSON.parse(content.info);
+              let title = s.text((coorX + totwidth), coorY, content.object);
+              title.attr({
+                fontSize: titlestyle.size + 'px',
+                fill: titlestyle.color,
+                fontFamily: titlestyle.font,
+                textDecoration: titlestyle.deco,
+                id: id.toString() + '-' + i.toString(),
+                title: id
+              });
+              titlegroup.append(title);
+              // titlegroup.selectAll('rect').remove();
+              let titlebbox = titlegroup.getBBox();
+              console.log(titlebbox);
+              content.width = titlebbox.width;
+              concmg.add(titlegroup);
+              concmg.transform('s' + (content.height / 100));
               break;
             case 'jsme-svg':
               // inserts jsme-svg to marker group and removes white rect
-              let jsmesvggroup = cmg.g();
+              let jsmesvggroup = concmg.g();
               con = Snap.parse(content.object);
               jsmesvggroup.append(con);
               jsmesvggroup.selectAll('rect').remove();
@@ -265,12 +287,12 @@ export class SnapsvgService {
               console.log(jsmesvgbbox);
               jsmesvggroup.transform('t' + (coorX + totwidth - jsmesvgbbox.x) + ',' + (coorY - jsmesvgbbox.y));
               content.width = jsmesvgbbox.width;
-              cmg.add(jsmesvggroup);
-              cmg.transform('s' + (content.height / 100));
+              concmg.add(jsmesvggroup);
+              concmg.transform('s' + (content.height / 100));
               break;
             case 'LateX':
-              // do something with images
-              let xmlgroup = cmg.g();
+              // do something with latex
+              let xmlgroup = concmg.g();
               content.object = this.mathjaxService.getMjSVG(content.info);
               con = Snap.parse(content.object);
               xmlgroup.append(con);
@@ -278,11 +300,11 @@ export class SnapsvgService {
               // console.log(content.object);
               xmlgroup.transform('t' + (coorX + totwidth - xmlbbox.x) + ',' + (coorY - xmlbbox.y));
               content.width = xmlbbox.width;
-              cmg.add(xmlgroup);
+              concmg.add(xmlgroup);
               break;
             case 'html':
               // do something with html
-              let htmlgroup = cmg.g();
+              let htmlgroup = concmg.g();
               con = Snap.parse(content.object);
               htmlgroup.append(con);
               let htmlbbox = htmlgroup.getBBox();
@@ -299,17 +321,17 @@ export class SnapsvgService {
                 opacity: 0,
                 fill: '#ffffff'
               });
-              cmg.add(rect);
+              concmg.add(rect);
               break;
             case 'p':
               // do something with images
               con = s.image('assets/images/basic/empty.png', coorX, coorY);
-              cmg.add(con);
+              concmg.add(con);
               break;
             case 'l':
               // do something with images
               con = s.image('assets/images/basic/empty.png', coorX, coorY);
-              cmg.add(con);
+              concmg.add(con);
               break;
             case 'mp4':
               console.log(content.object);
@@ -319,6 +341,18 @@ export class SnapsvgService {
               console.log('no usable content found');
               break;
           }
+          concmg.attr({id: 'c' + id.toString() + '-' + i.toString()});
+          let concmgbbox = concmg.getBBox();
+          let concmgrect = s.rect(concmgbbox.x, concmgbbox.y, concmgbbox.w, concmgbbox.h);
+          concmgrect.attr({
+            id: 'cont' + id.toString() + '_' + i.toString(),
+            title: id,
+            strokeWidth: 0,
+            fill: '#ffffff',
+            opacity: 0
+          });
+          cmg.add(concmg);
+          cmg.add(concmgrect);
       }
       /*
       if (this.cmsettings.mode === 'edit') {
@@ -343,7 +377,7 @@ export class SnapsvgService {
       let polypoints = this.cmsvg.select('#polypoints');
       if (polypoints) {
         polypoints.clear();
-        let pathStrg = 'M'
+        let pathStrg = 'M';
         for (let key in coor) {
           if (coor[key]) {
             pathStrg += coor[key].x + ' ' + coor[key].y + 'L';
@@ -365,7 +399,7 @@ export class SnapsvgService {
             fill: 'none',
             id: 'pointpath',
             strokeWidth: 1
-          })
+          });
           polylines.add(path);
           return pathStrg;
         }
@@ -402,6 +436,31 @@ export class SnapsvgService {
       if (polypoints) {
         polypoints.clear();
       }
+    }
+  }
+
+  // removes points and lines
+  public markElement(id: string, groupid: string) {
+    console.log(id, groupid);
+    this.cmsvg = Snap('#cmsvg');
+    let tmrect0 = this.cmsvg.select('#cmark' + groupid);
+    if (tmrect0) {
+      tmrect0.remove();
+    }
+    let tomark = this.cmsvg.select('#' + id);
+    let grp = this.cmsvg.select('#g' + groupid);
+    if (tomark && grp) {
+      let tmbbox = tomark.getBBox();
+      let tmrect = this.cmsvg.rect(tmbbox.x, tmbbox.y, tmbbox.w, tmbbox.h);
+      tmrect.attr({
+        id: 'cmark' + groupid,
+        title: groupid,
+        stroke: '#0000ff',
+        strokeWidth: 2,
+        fill: 'none',
+        opacity: 0.7
+      });
+      grp.add(tmrect);
     }
   }
 

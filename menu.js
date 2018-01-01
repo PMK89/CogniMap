@@ -83,6 +83,7 @@ let template = [{
     }
   }, {
     label: 'Quit',
+    accelerator: 'CmdOrCtrl+Alt+q',
     role: 'quit'
   }]
 }, {

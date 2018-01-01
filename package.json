@@ -108,6 +108,7 @@
     "pngjs": "^3.2.0",
     "reflect-metadata": "^0.1.9",
     "rxjs": "^5.0.0-beta.11",
+    "sm2-plus": "^1.0.5",
     "snapsvg": "^0.5.1",
     "snapsvg-cjs": "0.0.4",
     "zone.js": "0.7.6"

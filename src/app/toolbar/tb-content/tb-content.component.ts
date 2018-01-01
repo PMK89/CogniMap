@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { SettingsService } from '../../shared/settings.service';
 import { ElementService } from '../../shared/element.service';
+import { SnapsvgService } from '../../shared/snapsvg.service';
 import { MetaService } from '../../shared/meta.service';
 import { CodeeditorService } from '../../widgets/codeeditor/codeeditor.service';
 // import { SButtonComponent } from '../../shared/s-button/s-button.component';
@@ -28,6 +29,7 @@ export class TbContentComponent implements OnInit {
   public picsize: number;
   public contentStrg: string;
   public contentCat: string;
+  public contentCorrect: boolean;
   public inputType: string;
   public copy = false;
   public epath = '';
@@ -36,6 +38,7 @@ export class TbContentComponent implements OnInit {
 
   constructor(private settingsService: SettingsService,
               private elementService: ElementService,
+              private snapsvgService: SnapsvgService,
               private metaService: MetaService,
               private codeeditorService: CodeeditorService,
               private store: Store<CMStore>) {
@@ -74,6 +77,7 @@ export class TbContentComponent implements OnInit {
                               this.pos = 0;
                               this.picsize = this.selCMEo.cmobject.content[this.pos].height;
                               this.contentCat = this.selCMEo.cmobject.content[this.pos].cat;
+                              this.contentCorrect = this.selCMEo.cmobject.content[this.pos].correct;
                             } else {
                               this.contentlen = 0;
                             }
@@ -143,7 +147,8 @@ export class TbContentComponent implements OnInit {
     }
     this.picsize = this.selCMEo.cmobject.content[this.pos].height;
     this.contentCat = this.selCMEo.cmobject.content[this.pos].cat;
-    console.log(this.pos, '/', this.contentlen);
+    this.snapsvgService.markElement(('c' + this.selCMEo.id.toString() + '-' + this.pos.toString()), this.selCMEo.id.toString());
+    // console.log(this.pos, '/', this.contentlen);
   }
 
   public makeTrans(color) {
@@ -228,6 +233,15 @@ export class TbContentComponent implements OnInit {
     }
   }
 
+  // changes correct value
+  public changeCheckbox(input) {
+    if (this.selCMEo) {
+      console.log(input);
+      this.selCMEo.cmobject.content[this.pos].correct = input;
+      this.elementService.updateSelCMEo(this.selCMEo);
+    }
+  }
+
   // deletes selected entry from content array
   public delContent() {
     if (this.elementService.selCMEo) {
@@ -248,7 +262,7 @@ export class TbContentComponent implements OnInit {
 
   // changes tollerance
   public changeTol(value: string, enter: boolean) {
-    let valueNum = parseInt(value);
+    let valueNum = parseInt(value, 10);
     if (typeof valueNum === 'number') {
       if (valueNum >= 0 && valueNum <= 255) {
         this.tolerance = valueNum;

@@ -6,6 +6,7 @@ import { LayoutService } from './layout.service';
 import { WindowService } from './shared/window.service';
 import { EventService } from './shared/event.service';
 import { MetaService } from './shared/meta.service';
+import { QuizService } from './shared/quiz.service';
 import { ElementService } from './shared/element.service';
 import { SettingsService } from './shared/settings.service';
 import { TemplateService } from './shared/template.service';
@@ -39,6 +40,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('TPid') public tpid: ElementRef;
   @ViewChild('TPmaxid') public tpmaxid: ElementRef;
   @ViewChild('TPmeta') public tpmeta: ElementRef;
+  @ViewChild('TPquiz') public tpquiz: ElementRef;
   @ViewChild('TPy') public tpy: ElementRef;
   private sizesset = false;
 
@@ -49,6 +51,7 @@ export class AppComponent implements AfterViewInit {
               private templateService: TemplateService,
               private eventService: EventService,
               private metaService: MetaService,
+              private quizService: QuizService,
               private store: Store<CMStore>,
               private renderer: Renderer) {
                 this.windowService.setSize(window.innerWidth, window.innerHeight);
@@ -75,7 +78,6 @@ export class AppComponent implements AfterViewInit {
 
   // after viewinit
   public ngAfterViewInit() {
-    console.log('cminterface');
     this.windowService.setOffset(window.pageXOffset, window.pageYOffset);
     window.scrollTo(this.cmsettings.coor.x, this.cmsettings.coor.y);
     this.renderer.listenGlobal('window', 'scroll', (evt) => {
@@ -125,47 +127,50 @@ export class AppComponent implements AfterViewInit {
   public changedetect() {
     // reads values from dom element / communication between incompatible libraries
     let tpidval = this.tpid.nativeElement.title;
-    // let tpyval = this.tpy.nativeElement.title;
-    let id = parseInt(tpidval, 10);
-    if (id >= 1) {
-      if (this.elementService.selCMEo) {
-        if (this.elementService.selCMEo.id === id) {
-          console.log(this.cmsettings.mode);
-          if (this.cmsettings.mode === 'edit' && this.strDown) {
-            if (this.elementService.selCMEo.types[0] !== 'i') {
-              this.cmaction.variable = ['state'];
-              this.cmaction.value = 'typing';
-              this.elementService.changeCMEo(this.cmaction);
-              this.cmsettings.mode = 'typing';
-              this.settingsService.updateSettings(this.cmsettings);
+    if (this.cmsettings.mode !== 'view' && this.cmsettings.mode !== 'quizing') {
+      let id = parseInt(tpidval, 10);
+      if (id >= 1) {
+        if (this.elementService.selCMEo) {
+          if (this.elementService.selCMEo.id === id) {
+            console.log(this.cmsettings.mode);
+            if ((this.cmsettings.mode === 'edit' || this.cmsettings.mode === 'quizedit') && this.strDown) {
+              if (this.elementService.selCMEo.types[0] !== 'i') {
+                this.cmaction.variable = ['state'];
+                this.cmaction.value = 'typing';
+                this.elementService.changeCMEo(this.cmaction);
+                this.cmsettings.mode = 'typing';
+                this.settingsService.updateSettings(this.cmsettings);
+              }
+            } else if (this.elementService.selCMEo.cmobject.style.object.class_array.indexOf('beam') !== -1) {
+              if (this.elementService.selCMEo.cmobject.style.object.num_array.length > 1) {
+                this.windowService.scrollXY(this.elementService.selCMEo.cmobject.style.object.num_array[0],
+                 this.elementService.selCMEo.cmobject.style.object.num_array[1]);
+              }
             }
-          } else if (this.elementService.selCMEo.cmobject.style.object.class_array.indexOf('beam') !== -1) {
-            if (this.elementService.selCMEo.cmobject.style.object.num_array.length > 1) {
-              this.windowService.scrollXY(this.elementService.selCMEo.cmobject.style.object.num_array[0],
-               this.elementService.selCMEo.cmobject.style.object.num_array[1]);
+          } else if (this.cmsettings.mode === 'marking') {
+            if (this.elementService.markCMEo.id !== id) {
+              this.elementService.markCMEo = this.elementService.CMEtoCMEol(this.elementService.getDBCMEbyId(id));
             }
-          }
-        } else if (this.cmsettings.mode === 'marking') {
-          if (this.elementService.markCMEo.id !== id) {
-            this.elementService.markCMEo = this.elementService.CMEtoCMEol(this.elementService.getDBCMEbyId(id));
-          }
-        } else if (this.cmsettings.mode === 'beam') {
-          // do nothing
-        } else {
-          if (this.cmsettings.mode === 'connecting') {
-            this.elementService.newConnector(id);
+          } else if (this.cmsettings.mode === 'beam') {
+            // do nothing
+          } else if (this.cmsettings.mode === 'quizadd') {
+            this.elementService.addQuizContent(id);
           } else {
-            this.elementService.setSelectedCME(id);
+            if (this.cmsettings.mode === 'connecting') {
+              this.elementService.newConnector(id);
+            } else {
+              this.elementService.setSelectedCME(id);
+            }
           }
+        } else {
+          this.elementService.setSelectedCME(id);
         }
-      } else {
+      } else if (id < -1) {
+        this.eventService.selCMElTime = Date.now();
         this.elementService.setSelectedCME(id);
       }
-    } else if (id < -1) {
-      this.eventService.selCMElTime = Date.now();
-      this.elementService.setSelectedCME(id);
+      this.tpid.nativeElement.title = '0';
     }
-    this.tpid.nativeElement.title = '0';
     let tpmetaval = this.tpmeta.nativeElement.title;
     if (tpmetaval) {
       tpmetaval = JSON.parse(tpmetaval);
@@ -176,12 +181,40 @@ export class AppComponent implements AfterViewInit {
         this.tpmeta.nativeElement.title = '0';
       }
     }
+    if (this.cmsettings.mode === 'quizing') {
+      let tpquizval = this.tpquiz.nativeElement.title;
+      console.log(tpquizval);
+      if (tpquizval) {
+        if (tpquizval.indexOf('_') !== -1) {
+          this.quizService.checkAnswer(tpquizval);
+          this.tpquiz.nativeElement.title = '0';
+        }
+      }
+    } else {
+      let tpquizval = this.tpquiz.nativeElement.title;
+      if (tpquizval) {
+        let id0;
+        if (typeof parseInt(tpquizval.slice(0, tpquizval.indexOf('_')), 10) === 'number') {
+          id0 = parseInt(tpquizval.slice(0, tpquizval.indexOf('_')), 10);
+        } else {
+          id0 = parseInt(tpquizval.slice(4, tpquizval.indexOf('_')), 10);
+        }
+        if (id0) {
+          if ((id0.toString() !== this.tpid.nativeElement.title)) {
+            console.log(id0, tpquizval);
+            this.tpid.nativeElement.title = id0;
+            this.tpquiz.nativeElement.title = '0';
+            this.changedetect();
+          }
+        }
+      }
+    }
   }
 
   // creates exact position for layout
   public setSizes(cmsettings: CMSettings ) {
     if (this.cmsettings) {
-      if (this.cmsettings.mode === 'view') {
+      if (this.cmsettings.mode === 'view' || this.cmsettings.mode === 'quizing') {
         if (this.toolbar0Style.display === 'none') {
           this.cmsettings['tblayout0'].display = 'block';
           this.cmsettings['tblayout1'].display = 'none';

@@ -32,7 +32,7 @@ export class NumberchangeComponent implements OnInit {
                 this.selCMEl = store.select('selectedcmel');
                }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
   // handles changes by increase and decrease button

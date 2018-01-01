@@ -29,6 +29,9 @@ export class ElementService {
   public tempCMEl: CMEl;
   public markCMEo: CMEo;
   public tempMarkCMEo: CMEo;
+  public quizCMEo: CMEo;
+  public quizmode = '';
+  public tempQuizCMEo: CMEo;
   public cmap = true;
   public allCME = [];
   public selCME = [];
@@ -138,7 +141,8 @@ export class ElementService {
         object: arg,
         info: 'png',
         width: 100,
-        height: 100
+        height: 100,
+        correct: true
       };
       this.selCMEo.title = 'Bild';
       this.selCMEo.types = ['i', '0', '0'];
@@ -161,14 +165,15 @@ export class ElementService {
   }
 
   // makes picture background transparent
-  public makeTrans(color0, tolerance) {
+  public makeTrans(color0, tolerance0) {
     if (this.selCMEo) {
       if (this.selCMEo.cmobject.content.length > 0) {
         for (let key in this.selCMEo.cmobject.content) {
-          if(this.selCMEo.cmobject.content[key]) {
-            if (this.selCMEo.cmobject.content[key].object.indexOf('.png') !== -1 || this.selCMEo.cmobject.content[key].object.indexOf('.PNG') !== -1) {
+          if (this.selCMEo.cmobject.content[key]) {
+            if (this.selCMEo.cmobject.content[key].object.indexOf('.png') !== -1
+            || this.selCMEo.cmobject.content[key].object.indexOf('.PNG') !== -1) {
               let arg = {
-                tolerance: tolerance,
+                tolerance: tolerance0,
                 color: color0,
                 file: this.selCMEo.cmobject.content[key].object
               };
@@ -588,6 +593,12 @@ export class ElementService {
                       } else {
                         this.markCMEo = cme;
                       }
+                    } else if (this.cmsettings.mode === 'quiznew') {
+                      if (cme.types[0] === 'q') {
+                        selectioncondition = true;
+                      } else {
+                        this.quizCMEo = cme;
+                      }
                     } else {
                       selectioncondition = true;
                     }
@@ -613,7 +624,16 @@ export class ElementService {
                             this.markCMEo = this.CMEtoCMEol(protomark);
                             this.cmsettings.mode = 'marking';
                             this.settingsService.updateSettings(this.cmsettings);
-                          }                          
+                          }
+                        }
+                      } else if (cme.types[0] === 'q') {
+                        if (cme.cmobject.links.length > 0) {
+                          let protoquiz = this.getDBCMEbyId(cme.cmobject.links[0].targetId);
+                          if (protoquiz && this.cmsettings.mode !== 'progress') {
+                            this.markCMEo = this.CMEtoCMEol(protoquiz);
+                            this.cmsettings.mode = 'quizedit';
+                            this.settingsService.updateSettings(this.cmsettings);
+                          }
                         }
                       }
                       this.startPos = {
@@ -761,7 +781,7 @@ export class ElementService {
       });
       this.updateCMEol(oldcme);
       this.setSelectedCME(newElemObj.id);
-      //console.log('old: ', oldcme, ' new: ', newElemObj);
+      // console.log('old: ', oldcme, ' new: ', newElemObj);
       this.newCMEl(oldcme, newElemObj);
       // console.log('Object: ', action);
     }
@@ -815,6 +835,54 @@ export class ElementService {
     }
   }
 
+  // generates a new quiz element
+  public newCMQuiz(x0: number, y0: number, x1: number, y1: number) {
+    if (this.quizCMEo && this.tempQuizCMEo) {
+      let newElemObj: CMEo = new CMEo(); // maybe an error
+      this.maxID++;
+      newElemObj = JSON.parse(JSON.stringify(this.tempQuizCMEo));
+      newElemObj.cmobject.links = undefined;
+      newElemObj.id = this.maxID;
+      newElemObj.prio = this.quizCMEo.prio - 1;
+      newElemObj.coor = {
+        x: x0,
+        y: y0
+      };
+      newElemObj.x0 = x0;
+      newElemObj.y0 = y0;
+      newElemObj.x1 = x1;
+      newElemObj.y1 = y1;
+      newElemObj.title = '';
+      newElemObj.state = 'typing';
+      newElemObj.cmobject.links = [{
+        id: 0,
+        targetId: this.quizCMEo.id,
+        title: this.quizCMEo.title,
+        weight: -1,
+        con: 'e',
+        start: false
+      }];
+      let newCME = this.newCME(newElemObj);
+      this.newDBCME(newCME);
+      let action = {type: 'ADD_CME', payload: newCME };
+      this.store.dispatch(action);
+      this.quizCMEo.cmobject.links.push({
+        id: 0,
+        targetId: newElemObj.id,
+        title: newElemObj.title,
+        weight: -1,
+        con: 'e',
+        start: true
+      });
+      console.log('quized Element: ', this.quizCMEo, ' quiz: ', newElemObj);
+      this.updateSelCMEo(this.quizCMEo);
+      this.cmsettings.mode = 'progress';
+      this.settingsService.updateSettings(this.cmsettings);
+      this.setSelectedCME(newElemObj.id);
+      // console.log('Object: ', action);
+    }
+  }
+
   // connects two CMEo elements
   public newConnector(id: number) {
     if (this.selCMEo) {
@@ -824,13 +892,13 @@ export class ElementService {
                 if (data[key]) {
                   if (data[key].id === id) {
                     id = 0;
-                    let weight = -1;
+                    let weight0 = -1;
                     let ccme = this.CMEtoCMEol(data[key]);
                     if (Math.abs(ccme.coor.x - this.selCMEo.coor.x) > 2000 || Math.abs(ccme.coor.y - this.selCMEo.coor.y) > 2000) {
                       for (let i in ccme.cmobject.links) {
                         if (ccme.cmobject.links[i]) {
                           if (!ccme.cmobject.links[i].start) {
-                            weight = 0;
+                            weight0 = 0;
                             console.log('end found');
                           }
                         }
@@ -840,7 +908,7 @@ export class ElementService {
                       id: 0,
                       targetId: this.selCMEo.id,
                       title: this.selCMEo.title,
-                      weight: weight,
+                      weight: weight0,
                       con: 'e',
                       start: false
                     });
@@ -848,7 +916,7 @@ export class ElementService {
                       id: 0,
                       targetId: ccme.id,
                       title: ccme.title,
-                      weight: weight,
+                      weight: weight0,
                       con: 'e',
                       start: true
                     });
@@ -1109,7 +1177,17 @@ export class ElementService {
   public setmode() {
     if (this.cmsettings) {
       console.log(this.cmsettings.mode);
-      if (this.cmsettings.mode === 'dragging') {
+      if (this.cmsettings.mode === 'edit') {
+        if (this.selCMEo) {
+          if (this.selCMEo.types[0] === 'q') {
+            this.cmsettings.mode = 'quizedit';
+            this.settingsService.updateSettings(this.cmsettings);
+          } else if (this.selCMEo.types[0] === 'm') {
+            this.cmsettings.mode = 'marking';
+            this.settingsService.updateSettings(this.cmsettings);
+          }
+        }
+      } else if (this.cmsettings.mode === 'dragging') {
         if (this.selCMEo) {
           // console.log(this.selCMEo);
           this.selCMEo.state = 'dragging';
@@ -1150,6 +1228,32 @@ export class ElementService {
           this.cmsettings.mode = 'edit';
           this.settingsService.updateSettings(this.cmsettings);
         }
+      } else if (this.cmsettings.mode === 'quiznew') {
+        if (this.selCMEo) {
+          if (this.selCMEo.types[0] !== 'q') {
+            this.selCMEo.state = '';
+            this.quizCMEo = JSON.parse(JSON.stringify(this.selCMEo));
+            let newCME = this.newCME(this.selCMEo);
+            this.store.dispatch({type: 'UPDATE_CME', payload: newCME });
+          }
+        }
+        if (this.quizCMEo && this.selCMEo) {
+          console.log(this.selCMEo, this.tempCMEo);
+          this.tempQuizCMEo = JSON.parse(JSON.stringify(this.tempCMEo));
+          this.tempQuizCMEo.types = this.cmsettings.cmtbquizedit.types;
+          this.tempQuizCMEo.prio = this.selCMEo.prio;
+        } else {
+          alert('Please select an Element to quiz about.');
+          this.cmsettings.mode = 'edit';
+          this.settingsService.updateSettings(this.cmsettings);
+        }
+        if (this.quizmode !== 'quiz') {
+          this.quizmode = 'quiz';
+        }
+      } else if (this.cmsettings.mode === 'quizedit') {
+        this.quizmode = 'quiz';
+      } else if (this.cmsettings.mode === 'quizing') {
+        // will initiate loading of due quizes
       } else if (this.cmsettings.mode === 'templateEdit') {
         if (this.selCMEo) {
           this.updateSelCMEo(this.selCMEo);
@@ -1174,6 +1278,12 @@ export class ElementService {
       }
       if (this.cmsettings.mode !== 'marking') {
         this.markCMEo = undefined;
+      }
+      if (this.cmsettings.mode !== 'quiznew') {
+        this.quizCMEo = undefined;
+      }
+      if (this.cmsettings.mode.indexOf('quiz') === -1 || this.cmsettings.mode === 'quizing') {
+        this.quizmode = '';
       }
       if (this.cmsettings.mode !== 'draw_poly') {
         if (this.cmsettings.pointArray.length > 0) {
@@ -1394,7 +1504,8 @@ export class ElementService {
         }
         this.store.dispatch({type: 'ADD_CME_FROM_DB', payload: dataArray });
       } // moves multiple elements
-    } else if (this.selCMEoArray.length > 0 && this.selCMElArray.length > 0 && (typeof x === 'number') && (typeof y === 'number') && this.cmap) {
+    } else if (this.selCMEoArray.length > 0 && this.selCMElArray.length > 0
+       && (typeof x === 'number') && (typeof y === 'number') && this.cmap) {
       this.counter = 0;
       let locCMEArray = this.selCMEoArray.concat(this.selCMElArray);
       let borderLinks = [];
@@ -1588,7 +1699,7 @@ export class ElementService {
             }
           }
         } catch (err) {
-          console.log(err, CMElArray[i])
+          console.log(err, CMElArray[i]);
         }
         try {
           for (i = 0; i < CMEoArray.length; i++) {
@@ -1597,7 +1708,7 @@ export class ElementService {
             }
           }
         } catch (err) {
-          console.log(err, CMEoArray[i])
+          console.log(err, CMEoArray[i]);
         }
         let move = function(dx, dy) {
           this.attr({
@@ -1624,7 +1735,7 @@ export class ElementService {
             }
           }
         } catch (err) {
-          console.log(err, CMElArray[i])
+          console.log(err, CMElArray[i]);
         }
         try {
           for (i = 0; i < CMEoArray.length; i++) {
@@ -1633,7 +1744,7 @@ export class ElementService {
             }
           }
         } catch (err) {
-          console.log(err, CMEoArray[i])
+          console.log(err, CMEoArray[i]);
         }
       }
       let BBox = cmeselection.getBBox();
@@ -1774,6 +1885,46 @@ export class ElementService {
          ).unsubscribe();
   }
 
+  // adds content from a clicked object to the selected quiz
+  public addQuizContent(id: number) {
+    if (this.selCMEo) {
+      if (this.selCMEo.types[0] === 'q') {
+        this.cmelements
+            .subscribe((data) => {
+                for (let key in data) {
+                  if (data[key]) {
+                    if (data[key].id === id) {
+                      let cme = this.CMEtoCMEol(data[key]);
+                      if (cme.cmobject.content.length > 0) {
+                        let joinedarray = cme.cmobject.content.concat(this.selCMEo.cmobject.content);
+                        this.selCMEo.cmobject.content = joinedarray;
+                      } else {
+                        this.selCMEo.cmobject.content.push({
+                          cat: 'title',
+                          coor: {
+                            x: 0,
+                            y: 0
+                          },
+                          object: cme.title,
+                          width: 100,
+                          info: JSON.stringify(cme.cmobject.style.title),
+                          height: 100,
+                          correct: true
+                        });
+                      }
+                      this.selCMEo.state = 'new';
+                      this.updateSelCMEo(this.selCMEo);
+                      id = 0;
+                    }
+                  }
+                }
+              },
+              (error) => console.log(error),
+             ).unsubscribe();
+      }
+    }
+  }
+
   // changes links if connections are changed
   public changeCon(con: string, start: boolean) {
     if (this.selCMEo) {
@@ -1805,11 +1956,28 @@ export class ElementService {
       switch (n) {
         case 1:
           if (variable[0] === 'types') {
+            if (this.selCMEo.types[0] === 'q') {
+              if (action.value[0] !== 'q') {
+                alert('A quiz element cannot be changed to another type of element!');
+                break;
+              }
+              if (this.cmsettings) {
+                this.cmsettings.cmtbquizedit.types[0] = action.value[0];
+                this.cmsettings.cmtbquizedit.types[1] = action.value[1];
+                this.cmsettings.cmtbquizedit.types[2] = action.value[2];
+              }
+            }
+            if (this.selCMEo.types[0] === 'm') {
+              if (action.value[0] !== 'm') {
+                alert('A marker cannot be changed to another type of element!');
+                break;
+              }
+            }
             this.selCMEo.types[0] = action.value[0];
             this.selCMEo.types[1] = action.value[1];
             this.selCMEo.types[2] = action.value[2];
             if (this.cmsettings.cngtemp) {
-              if(action.value[0] === 'm') {
+              if (action.value[0] === 'm') {
                 if (action.value[1] === 't') {
                   this.tempCMEo.types[0] = 't';
                 } else {
@@ -1840,7 +2008,8 @@ export class ElementService {
                   object: action.value,
                   width: 100,
                   info: action.value,
-                  height: 100
+                  height: 100,
+                  correct: true
                 };
                 this.selCMEo.cmobject.content.push(content);
               } else {
@@ -2061,14 +2230,14 @@ export class ElementService {
         weight: 0,
         con: 'e',
         start: true
-      }
+      };
       if (this.selCMEo.cmobject.style.object.class_array.indexOf('beam') === -1) {
-        this.selCMEo.cmobject.style.object.class_array.push('beam')
+        this.selCMEo.cmobject.style.object.class_array.push('beam');
         this.selCMEo.cmobject.links.push(newlink);
       } else {
         for (let key in this.selCMEo.cmobject.links) {
           if (this.selCMEo.cmobject.links[key]) {
-            if (this.selCMEo.cmobject.links[key].title = 'beam') {
+            if (this.selCMEo.cmobject.links[key].title === 'beam') {
               this.selCMEo.cmobject.links[key] = newlink;
             }
           }
@@ -2168,6 +2337,7 @@ export class ElementService {
         ).unsubscribe();
   }
 
+  // deletes link from parent element
   public delLink(cmeid: number, linkid: number) {
     if (cmeid >= 1 && linkid < -1) {
       let data = this.getDBCMEbyId(cmeid);

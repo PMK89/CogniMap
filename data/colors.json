@@ -919,5 +919,61 @@
       "object",
       "color0"
     ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbquizedit0",
+    "colors": [
+      "#ffffff",
+      "#ffe700",
+      "#1200ff",
+      "#d0b3ff",
+      "#005a1a",
+      "#ff0000",
+      "#ffbf00",
+      "#ffff00",
+      "#40ff00",
+      "#00ff80"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 35,
+    "name": "default",
+    "prio": 0,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "style",
+      "object",
+      "color0"
+    ]
+  },
+  {
+    "blocked": false,
+    "cat": "tbquizedit1",
+    "colors": [
+      "#ffe700",
+      "#1200ff",
+      "#d0b3ff",
+      "#005a1a",
+      "#ff0000",
+      "#ffbf00",
+      "#ffff00",
+      "#40ff00",
+      "#00ff80",
+      "#00ffff"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 36,
+    "name": "default",
+    "prio": 0,
+    "secured": false,
+    "variable": [
+      "cmobject",
+      "style",
+      "object",
+      "color1"
+    ]
   }
 ]

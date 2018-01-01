@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
-import { Observable } from 'rxjs/Observable';
+// import { Observable } from 'rxjs/Observable';
 import { ElectronService } from 'ngx-electron';
 import { CMStore } from '../models/CMStore';
 import { CMSettings } from '../models/CMSettings';
@@ -89,7 +89,7 @@ export class MetaService {
           complete: false,
           path: '/dist/assets/images/' + ext
         };
-        let res4 = this.electronService.ipcRenderer.sendSync('openBrowser', arg4);
+        this.electronService.ipcRenderer.sendSync('openBrowser', arg4);
         break;
       case 'comment':
       case 'code':
@@ -169,7 +169,7 @@ export class MetaService {
           };
           let res5 = this.electronService.ipcRenderer.sendSync('openBrowser', arg5);
           if (this.cmsettings) {
-            let clutterindex = res5.indexOf('/dist/assets/images/')
+            let clutterindex = res5.indexOf('/dist/assets/images/');
             res5 = res5.slice((clutterindex + 20));
             this.cmsettings.epath = res5;
             console.log(this.cmsettings.epath);

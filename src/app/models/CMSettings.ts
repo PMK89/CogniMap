@@ -5,6 +5,7 @@ import { CMCopy } from './CMCopy';
 import { CMEMeta } from './CMEMeta';
 import { CMTBObject } from './CMTBObject';
 import { CMTBMarking } from './CMTBMarking';
+import { CMTBQuizedit } from './CMTBQuizedit';
 import { CMTBFont } from './CMTBFont';
 import { CMTBLine } from './CMTBLine';
 
@@ -33,6 +34,7 @@ export class CMSettings {
   public menue: CMLayout;
   public cmtbobject: CMTBObject;
   public cmtbmarking: CMTBMarking;
+  public cmtbquizedit: CMTBQuizedit;
   public cmtbfont: CMTBFont;
   public cmtbline: CMTBLine;
 }

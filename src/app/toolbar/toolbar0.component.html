@@ -1,16 +1,18 @@
 <table id="toolbar0">
  <tr>
-   <td (click)="changeMode('edit')" width="30px">
-     Edit
+   <td>
+     <app-s-button [buttons]="buttons" [selector]="601"></app-s-button>
    </td>
    <td>
-
-   </td>
-   <td (click)="scrollStart()">
-     Start
+     <app-s-button [buttons]="buttons" [selector]="613"></app-s-button>
    </td>
    <td>
-
+     <div id="overdueDiv" *ngIf="mode==='quizing'">
+       <ng-container *ngFor="let cme of overduearray; let i = index">
+         {{cme.title}}
+         <b (click)="goTo(cme.coor.x, cme.coor.y)">⊗</b>
+       </ng-container>
+     </div>
    </td>
    <td>
 

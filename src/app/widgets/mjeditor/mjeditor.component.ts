@@ -1,5 +1,5 @@
 import { Component, OnInit,  ViewChild } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 // models and reducers
@@ -25,7 +25,7 @@ export class MjEditorComponent implements OnInit {
   public cmsettings: Observable<CMSettings> = this.store.select('settings');
   public inputtext: string = this.mjeditorService.inputtext;
   public svgoutput: Object = this.mjeditorService.svgoutput;
-  public svgStrg: string = '';
+  public svgStrg = '';
   public color = '#000000';
   public active = false;
   public selCMEo: any;

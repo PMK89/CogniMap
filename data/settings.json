@@ -58,14 +58,14 @@
       ]
     },
     "cmtbmarking": {
-      "color0": "none",
-      "color1": "#1200ff",
-      "prio": 10,
-      "trans": 0.6000000000000001,
+      "color0": "#00ff80",
+      "color1": "#ff0000",
+      "prio": 5,
+      "trans": 1,
       "types": [
         "m",
-        "t",
-        "b"
+        "r",
+        "0"
       ]
     },
     "cmtbobject": {
@@ -84,10 +84,21 @@
         "prio"
       ]
     },
+    "cmtbquizedit": {
+      "color0": "none",
+      "color1": "#1200ff",
+      "difficulty": "0.3",
+      "interval": 10,
+      "types": [
+        "q",
+        "t",
+        "b"
+      ]
+    },
     "cngtemp": false,
     "coor": {
-      "x": 426424,
-      "y": 320731
+      "x": 22824,
+      "y": 249028.5
     },
     "copy": {
       "num": 0,
@@ -364,10 +375,10 @@
       "width": 1800,
       "z-index": 515
     },
-    "widget0": "none",
+    "widget0": "navigator",
     "widget1": "none",
     "wlayout0": {
-      "display": "none",
+      "display": "block",
       "height": 446.5,
       "left": 0,
       "opacity": 0.8,

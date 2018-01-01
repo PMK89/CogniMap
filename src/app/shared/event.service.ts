@@ -36,6 +36,7 @@ export class EventService {
   public id: number;
   public keyPressed: string[] = [];
   public selecting = false;
+  public quiznew = false;
   public marking = false;
   public cmaction: CMAction = new CMAction();
   public prevSelCMEo: CMEo[] = [];
@@ -151,7 +152,7 @@ export class EventService {
           this.elementService.newCMEo(oldcme, coor);
         } else if (parseInt(evt.target.title, 10) > 0) {
           this.elementService.setSelectedCME(parseInt(evt.target.title, 10));
-        }
+        } // handles
       } else if (this.cmsettings.mode === 'cutting') {
         if (parseInt(evt.target.title, 10) < 0 || evt.target.id === 'cmap'
           || evt.target.id === 'cmsvg') {
@@ -162,14 +163,7 @@ export class EventService {
           console.log(evt.target);
           this.elementService.cutPaste(this.clickX, this.clickY);
         }
-        /*
-        if (this.elementService.selCMEo) {
-          this.cmsettings.mode = 'edit';
-          this.settingsService.updateSettings(this.cmsettings);
-        } else if (this.elementService.selCMEoArray.length > 0 && this.elementService.selCMElArray.length > 0) {
-          this.cmsettings.mode = 'selecting';
-          this.settingsService.updateSettings(this.cmsettings);
-        }*/ // collects points for svg
+        // collects points for svg
       } else if (this.cmsettings.mode === 'draw_poly') {
         if (this.selCMEo) {
           if (this.selCMEo['cmobject']['style']['object']) {
@@ -188,8 +182,8 @@ export class EventService {
             } else if (this.cmsettings.pointArray[0]) {
               if (this.clickX <= (this.cmsettings.pointArray[0].x + 3) && this.clickX >= (this.cmsettings.pointArray[0].x - 3) &&
               this.clickY <= (this.cmsettings.pointArray[0].y + 3) && this.clickY >= (this.cmsettings.pointArray[0].y - 3)) {
-                let minX = Math.min.apply(Math,this.cmsettings.pointArray.map(function(o){return o.x;}));
-                let minY = Math.min.apply(Math,this.cmsettings.pointArray.map(function(o){return o.y;}));
+                let minX = Math.min.apply(Math, this.cmsettings.pointArray.map(function(o){return o.x; }));
+                let minY = Math.min.apply(Math, this.cmsettings.pointArray.map(function(o){return o.y; }));
                 for (let key in this.cmsettings.pointArray) {
                   if (this.cmsettings.pointArray[key]) {
                     this.cmsettings.pointArray[key].x = this.cmsettings.pointArray[key].x - minX;
@@ -197,7 +191,8 @@ export class EventService {
                   }
                 }
                 this.selCMEo.cmobject.style.object.str = this.snapsvgService.closeLine(this.cmsettings.pointArray, color0, color1);
-                this.selCMEo.cmobject.style.object.str += 'xdif:' + (minX - this.selCMEo.coor.x).toString() + 'ydif:' + (minY - this.selCMEo.coor.y).toString()
+                this.selCMEo.cmobject.style.object.str += 'xdif:' + (minX - this.selCMEo.coor.x).toString()
+                + 'ydif:' + (minY - this.selCMEo.coor.y).toString();
                 this.selCMEo.types = ['s', 'p', 'b'];
                 this.elementService.updateSelCMEo(this.selCMEo);
                 this.cmsettings.pointArray = [];
@@ -217,17 +212,22 @@ export class EventService {
     this.clickX = evt.clientX + this.windowService.WinXOffset;
     this.clickY = evt.clientY + this.windowService.WinYOffset;
     if (this.cmsettings.mode === 'dragging' || this.cmsettings.mode === 'selecting'
-    || this.cmsettings.mode === 'marking' ) {
+    || this.cmsettings.mode === 'marking' || this.cmsettings.mode === 'quiznew') {
       this.startX = this.clickX;
       this.startY = this.clickY;
       this.dragX = 0;
       this.dragY = 0;
       if (this.cmsettings.mode === 'selecting') {
         if ((typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '')
-        || evt.target.id === 'cmap'
-        || evt.target.id === 'cmsvg') {
+        || evt.target.id === 'cmap' || evt.target.id === 'cmsvg') {
           this.elementService.clearAreaSelection();
           this.selecting = true;
+        }
+      } else if (this.cmsettings.mode === 'quiznew') {
+        if ((typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '')
+        || evt.target.id === 'cmap' || evt.target.id === 'cmsvg') {
+          this.elementService.clearAreaSelection();
+          this.quiznew = true;
         }
       } else if (this.cmsettings.mode === 'marking') {
         if (typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '') {
@@ -307,6 +307,23 @@ export class EventService {
               display: 'none'
             };
           }
+        } else if (this.cmsettings.mode === 'quiznew') {
+          if (this.quiznew) {
+            if (this.cmsettings) {
+              return {
+                'left': Math.min(coor.x, this.startX),
+                'top': Math.min(coor.y, this.startY),
+                'width': Math.abs(coor.x - this.startX),
+                'height': Math.abs(coor.y - this.startY),
+                'opacity': 0.8,
+                'background-color': '#666666'
+              };
+            }
+          } else {
+            return {
+              display: 'none'
+            };
+          }
         }
       });
   }
@@ -320,7 +337,8 @@ export class EventService {
       this.dragY = evt.clientY + this.windowService.WinYOffset - this.startY;
       this.elementService.moveElement(this.dragX, this.dragY);
       // console.log(this.dragX, this.dragY);
-    } else if (this.cmsettings.mode === 'selecting' || this.cmsettings.mode === 'marking') {
+    } else if (this.cmsettings.mode === 'selecting' || this.cmsettings.mode === 'marking' ||
+                this.cmsettings.mode === 'quiznew') {
       console.log(evt.target);
       if ((typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '')
       || evt.target.id === 'cmap' || evt.target.id === 'selection'
@@ -335,6 +353,9 @@ export class EventService {
         } else if (this.cmsettings.mode === 'marking') {
           this.elementService.newCMMarking(x0, y0, x1, y1);
           this.marking = false;
+        } else if (this.cmsettings.mode === 'quiznew') {
+          this.elementService.newCMQuiz(x0, y0, x1, y1);
+          this.quiznew = false;
         }
       }
     }
@@ -355,7 +376,8 @@ export class EventService {
         object: dataURL,
         width: 100,
         info: type,
-        height: 100
+        height: 100,
+        correct: true
       };
       switch (type) {
         case 'png':
@@ -578,10 +600,18 @@ export class EventService {
       }
       if (this.keyPressed.indexOf('n') !== -1) {
         // turns on new element mode
-        if (this.cmsettings.mode === 'new') {
-          this.cmsettings.mode = 'edit';
+        if (this.cmsettings.mode.indexOf('quiz') === -1) {
+          if (this.cmsettings.mode === 'new') {
+            this.cmsettings.mode = 'edit';
+          } else {
+            this.cmsettings.mode = 'new';
+          }
         } else {
-          this.cmsettings.mode = 'new';
+          if (this.cmsettings.mode === 'quiznew') {
+            this.cmsettings.mode = 'quizedit';
+          } else {
+            this.cmsettings.mode = 'quiznew';
+          }
         }
         this.settingsService.updateSettings(this.cmsettings);
       } else if (this.keyPressed.indexOf('d') !== -1) {
@@ -611,6 +641,14 @@ export class EventService {
           this.cmsettings.mode = 'selecting';
         }
         this.settingsService.updateSettings(this.cmsettings);
+      } else if (this.keyPressed.indexOf('q') !== -1) {
+        // turns on selection mode
+        if (this.cmsettings.mode === 'quizedit') {
+          this.cmsettings.mode = 'edit';
+        } else if (this.cmsettings.mode !== 'typing') {
+          this.cmsettings.mode = 'quizedit';
+        }
+        this.settingsService.updateSettings(this.cmsettings);
       } else if (this.keyPressed.indexOf('+') !== -1) {
         // turns on connecting mode
         if (this.cmsettings.mode === 'connecting') {
@@ -630,7 +668,7 @@ export class EventService {
           }
         }
         this.settingsService.updateSettings(this.cmsettings);
-      } else if (this.keyPressed.indexOf('c') !== -1) {
+      } /* else if (this.keyPressed.indexOf('c') !== -1) {
         // turns on cutting mode
         if (this.cmsettings.mode === 'copying') {
           this.cmsettings.mode = 'edit';
@@ -640,7 +678,7 @@ export class EventService {
           }
         }
         this.settingsService.updateSettings(this.cmsettings);
-      }
+      } */
       if (this.keyPressed.indexOf('v') !== -1) {
         // pastes content from clipboard
         if (['typing', 'new', 'edit'].indexOf(this.cmsettings.mode) !== -1) {
@@ -658,11 +696,12 @@ export class EventService {
                   object: arg.payload,
                   width: 100,
                   info: arg.info,
-                  height: 100
+                  height: 100,
+                  correct: true
                 };
                 if (arg.type === 'png') {
                   content.cat = 'i';
-                  this.selCMEo.types = ['i', '0', '0'];
+                  // this.selCMEo.types = ['i', '0', '0'];
                 } else {
                   content.cat = arg.type;
                 }
@@ -688,7 +727,7 @@ export class EventService {
           this.cmsettings.mode = 'edit';
           this.settingsService.updateSettings(this.cmsettings);
         }
-        if (this.cmsettings.mode === 'dragging' || this.cmsettings.mode === 'edit') {
+        if (this.cmsettings.mode === 'dragging' || this.cmsettings.mode === 'edit' || this.cmsettings.mode === 'quizedit') {
           this.delCmd();
         } else if (this.cmsettings.mode === 'selecting') {
           if (this.elementService.selCMElArray.length > 0 && this.elementService.selCMEoArray.length > 0) {

@@ -99,15 +99,38 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
                 bbox = this.cmgroup.getBBox();
                 content.width = bbox.w - oldwidth;
               }
-              totwidth += content.width;
+              totwidth += content.width + (content.width / 20);
             }
           }
+        } else if (this.cmeo.types[0].indexOf('q') !== -1) {
+          let midx = this.cmeo.x0 + ((this.cmeo.x1 - this.cmeo.x0) / 2);
+          let midy = this.cmeo.y0 + ((this.cmeo.y1 - this.cmeo.y0) / 2);
+          let anstxt = s.text((midx - 40), (midy - 10), 'Check answer');
+          anstxt.attr({
+            fontSize: this.cmeo.cmobject.style.title.size + 'px',
+            fill: this.cmeo.cmobject.style.title.color,
+            fontFamily: this.cmeo.cmobject.style.title.font,
+            opacity: this.cmeo.cmobject.style.object.trans,
+            id: 'ansbtn' + id.toString(),
+            title: id
+          });
+          let ansbbox = anstxt.getBBox();
+          let ansrect = s.rect(ansbbox.x, ansbbox.y, ansbbox.w, ansbbox.h);
+          ansrect.attr({
+            id: 'cont' + id.toString() + '_ans',
+            title: id,
+            strokeWidth: 2,
+            fill: '#ffffff',
+            opacity: 0
+          });
+          this.cmgroup.add(anstxt);
+          this.cmgroup.add(ansrect);
         }
         let types = this.cmeo.types;
         if (types[0] === 'i' || types[0] === 'p') {
           // console.log(this.cmeo)
         } else {
-          if (types[0] === 'm') {
+          if (types[0] === 'm' || this.cmeo.types[0].indexOf('q') !== -1) {
             let emptymark = s.rect(this.cmeo.coor.x, this.cmeo.coor.y, this.cmeo.x1 - this.cmeo.x0, this.cmeo.y1 - this.cmeo.y0);
             emptymark.attr({
               fill: 'none',
@@ -117,7 +140,8 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
               id: 'marker' + id.toString()
             });
             this.cmgroup.add(emptymark);
-          } else {
+          }
+          if (types[0] !== 'm') {
             let title = s.text(this.cmeo.coor.x, this.cmeo.coor.y, this.cmeo.title);
             title.attr({
               fontSize: this.cmeo.cmobject.style.title.size + 'px',
@@ -125,6 +149,7 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
               fontFamily: this.cmeo.cmobject.style.title.font,
               opacity: this.cmeo.cmobject.style.object.trans,
               textDecoration: this.cmeo.cmobject.style.title.deco,
+              id: 'title' + id.toString(),
               title: id
             });
             if (this.cmeo.cmobject.style.title.class_array.indexOf('hidden') !== -1) {
@@ -143,28 +168,35 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
                   let size = this.cmeo.cmobject.style.title.size * 1.0;
                   switch (meta.type) {
                     case 'pdf':
-                      metaImg = s.image('assets/images/svgelements/symbols/pdf.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      metaImg = s.image('assets/images/svgelements/symbols/pdf.svg',
+                      bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
                       break;
                     case 'videos':
-                      metaImg = s.image('assets/images/svgelements/symbols/video.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      metaImg = s.image('assets/images/svgelements/symbols/video.svg',
+                      bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
                       break;
                     case 'audio':
-                      metaImg = s.image('assets/images/svgelements/symbols/audio.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      metaImg = s.image('assets/images/svgelements/symbols/audio.svg',
+                      bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
                       break;
                     case 'link':
-                      metaImg = s.image('assets/images/svgelements/symbols/link.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      metaImg = s.image('assets/images/svgelements/symbols/link.svg',
+                      bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
                       break;
                     case 'txt':
-                      metaImg = s.image('assets/images/svgelements/symbols/txt.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      metaImg = s.image('assets/images/svgelements/symbols/txt.svg',
+                      bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
                       break;
                     case 'comment':
-                      metaImg = s.image('assets/images/svgelements/symbols/comment.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      metaImg = s.image('assets/images/svgelements/symbols/comment.svg',
+                      bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
                       break;
                     case 'code':
-                      metaImg = s.image('assets/images/svgelements/symbols/code.svg', bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
+                      metaImg = s.image('assets/images/svgelements/symbols/code.svg',
+                      bbox.x2, (this.cmeo.coor.y - size * 0.8), size, size);
                       break;
                     default:
-                      console.log('unknown type: ', meta.type)
+                      console.log('unknown type: ', meta.type);
                   }
                   if (metaImg) {
                     metaImg.attr({id: id + 'meta' + key.toString()});
@@ -184,12 +216,20 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         // sets size of element
         bbox = this.cmgroup.getBBox();
-        if (this.cmeo.types[0] !== 'm') {
+        if (this.cmeo.types[0] !== 'm' && this.cmeo.types[0].indexOf('q') !== -1) {
           this.cmeo.x0 = bbox.x;
           this.cmeo.y0 = bbox.y;
           this.cmeo.x1 = bbox.x2;
           this.cmeo.y1 = bbox.y2;
-        }        
+        }
+        if (this.cmeo.cmobject.meta.length === 0) {
+          let text = this.cmgroup.select('#title' + id.toString());
+          if (text) {
+            let tbbox = text.getBBox();
+            let xdif = ((bbox.x2 - bbox.x) / 2) - ((tbbox.x2 - tbbox.x) / 2);
+            text.transform('t' + xdif.toString() + ',0');
+          }
+        }
         // saves prepared element to save loading time
         if (this.TextInput === false) {
           if (this.elementService.selCMEo) {
@@ -226,16 +266,20 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
           if (document.getElementById('TPid') !== undefined) {
             if (e.target) {
               if (e.target.id) {
-                if (e.target.id.indexOf('meta') === -1) {
+                if (e.target.id.indexOf('meta') === -1 && e.target.id.indexOf('_') === -1) {
                   document.getElementById('TPid').title = id;
-                  // console.log(document.getElementById('TPid').title);
                 } else {
                   if (!this.cmeo) {
                     this.cmeo = this.elementService.CMEtoCMEol(this.cmelement);
                   }
-                  let pos = e.target.id.substr((e.target.id.indexOf('meta') + 4));
-                  let arg = JSON.stringify(this.cmeo.cmobject.meta[pos]);
-                  document.getElementById('TPmeta').title = arg;
+                  if (e.target.id.indexOf('meta') !== -1) {
+                    let pos = e.target.id.substr((e.target.id.indexOf('meta') + 4));
+                    let arg = JSON.stringify(this.cmeo.cmobject.meta[pos]);
+                    document.getElementById('TPmeta').title = arg;
+                  }
+                  if (e.target.id.indexOf('_') !== -1) {
+                    document.getElementById('TPquiz').title = e.target.id;
+                  }
                 }
               } else {
                 document.getElementById('TPid').title = id;
@@ -296,6 +340,10 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
           let marking = s.select('#cmmark' + id);
           if (marking) {
             marking.remove();
+          }
+          let tmrect0 = s.select('#cmark' + id);
+          if (tmrect0) {
+            tmrect0.remove();
           }
         }
         // d = new Date();

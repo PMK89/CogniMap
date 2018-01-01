@@ -18,8 +18,8 @@ export class MjEditorService {
   public cmsettings: CMSettings;
   public selectionStart = 0;
   public selectionEnd = 0;
-  public inputtext: string = '';
-  public svgStrg: string = '';
+  public inputtext = '';
+  public svgStrg = '';
   public svgWidth = 100;
   public inputtextarray = [];
   public inputtextarraypos: number;
@@ -50,7 +50,8 @@ export class MjEditorService {
         this.inputtext = this.inputtext.substr(0, this.selectionStart) + cell.string + this.inputtext.substr(this.selectionStart);
       } else {
         this.inputtext = this.inputtext.substr(0, this.selectionStart) + cell.string.substr(0, cell.pos)
-        + this.inputtext.substr(this.selectionStart, (this.selectionEnd - this.selectionStart)) + cell.string.substr(cell.pos) + this.inputtext.substr(this.selectionEnd);
+        + this.inputtext.substr(this.selectionStart, (this.selectionEnd - this.selectionStart))
+        + cell.string.substr(cell.pos) + this.inputtext.substr(this.selectionEnd);
       }
       this.placeSvg(this.inputtext);
       return this.inputtext;
@@ -62,13 +63,16 @@ export class MjEditorService {
     if (color) {
       let colorpos = this.inputtext.slice((this.selectionStart - 20), this.selectionStart).indexOf('color{#');
       if (colorpos !== -1) {
-        this.inputtext = this.inputtext.slice(0, ((this.selectionStart - 20) + colorpos + 7)) + color + this.inputtext.slice((this.selectionStart - 20) + colorpos + 14);
+        this.inputtext = this.inputtext.slice(0, ((this.selectionStart - 20) + colorpos + 7)) +
+        color + this.inputtext.slice((this.selectionStart - 20) + colorpos + 14);
       } else {
         if (this.selectionStart === this.selectionEnd) {
-          this.inputtext = this.inputtext.substr(0, this.selectionStart) + '\\color{' + color + '}{' + this.inputtext.substr(this.selectionStart) + '}';
+          this.inputtext = this.inputtext.substr(0, this.selectionStart) + '\\color{' + color +
+          '}{' + this.inputtext.substr(this.selectionStart) + '}';
         } else {
           this.inputtext = this.inputtext.substr(0, this.selectionStart) + '\\color{' + color + '}{'
-          + this.inputtext.substr(this.selectionStart, (this.selectionEnd - this.selectionStart)) + '}' + this.inputtext.substr(this.selectionEnd);
+          + this.inputtext.substr(this.selectionStart, (this.selectionEnd - this.selectionStart)) + '}' +
+          this.inputtext.substr(this.selectionEnd);
         }
       }
       this.placeSvg(this.inputtext);
@@ -105,7 +109,7 @@ export class MjEditorService {
           }
         }
         if (i !== (matrixY - 1)) {
-          matrixString += ' \\\\'
+          matrixString += ' \\\\';
         }
       }
       return matrixString;
@@ -219,7 +223,7 @@ export class MjEditorService {
         this.inputtextarraypos = this.inputtextarray.length - 1;
       }
     }
-    this.placeSvg(this.inputtextarray[this.inputtextarraypos], true)
+    this.placeSvg(this.inputtextarray[this.inputtextarraypos], true);
     return this.inputtextarray[this.inputtextarraypos];
   }
 
@@ -229,10 +233,10 @@ export class MjEditorService {
       if (this.inputtextarraypos < this.inputtextarray.length - 1) {
         this.inputtextarraypos++;
       }
-      this.placeSvg(this.inputtextarray[this.inputtextarraypos], true)
+      this.placeSvg(this.inputtextarray[this.inputtextarraypos], true);
       return this.inputtextarray[this.inputtextarraypos];
     } else {
-      this.placeSvg(this.inputtext, true)
+      this.placeSvg(this.inputtext, true);
       return this.inputtext;
     }
   }

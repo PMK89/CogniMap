@@ -106,7 +106,7 @@ export class LButtonComponent implements OnInit {
       }).unsubscribe();
     } else if (button.cat === 'cmsettings') {
       // do nothing
-      if (button.variable === 'mode') {
+      if (button.variable[0] === 'mode') {
         if (this.cmsettings.mode === button.value) {
           button.active = true;
         } else {
@@ -135,7 +135,17 @@ export class LButtonComponent implements OnInit {
       value: button.value
     };
     console.log(button.value);
-    if (button.cat === 'tbline') {
+    if (button.cat === 'cmsettings') {
+      if (button.variable[0] === 'mode') {
+        if (this.cmsettings.mode === button.value) {
+          this.cmsettings.mode = 'edit';
+          this.settingsService.updateSettings(this.cmsettings);
+        } else {
+          this.cmsettings.mode = button.value;
+          this.settingsService.updateSettings(this.cmsettings);
+        }
+      }
+    } else if (button.cat === 'tbline') {
       this.elementService.changeCMEl(action);
     } else {
       this.elementService.changeCMEo(action);

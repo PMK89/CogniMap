@@ -21,7 +21,7 @@ import { CMSettings } from '../../models/CMSettings';
 export class NavigatorService {
   public cmsettings: CMSettings;
   public selCMEo: any;
-  public new = false;
+  public isnew = false;
   public position = {
     disabled: true,
     left: 0,
@@ -41,7 +41,7 @@ export class NavigatorService {
                       this.position.left = this.selCMEo.coor.x;
                       this.position.top = this.selCMEo.coor.y;
                       this.position.disabled = false;
-                      this.new = false;
+                      this.isnew = false;
                     }
                   }
                   // console.log('settings ', data);
@@ -54,17 +54,17 @@ export class NavigatorService {
                         this.position.left = data['x'];
                         this.position.top = data['y'];
                         this.position.disabled = false;
-                        this.new = true;
+                        this.isnew = true;
                         // console.log(data);
                       } else {
                         if (this.selCMEo) {
                           this.position.left = this.selCMEo.coor.x;
                           this.position.top = this.selCMEo.coor.y;
                           this.position.disabled = false;
-                          this.new = false;
+                          this.isnew = false;
                         } else {
                           this.position.disabled  = true;
-                          this.new = false;
+                          this.isnew = false;
                         }
                       }
                     } else {
@@ -72,10 +72,10 @@ export class NavigatorService {
                         this.position.left = this.selCMEo.coor.x;
                         this.position.top = this.selCMEo.coor.y;
                         this.position.disabled = false;
-                        this.new = false;
+                        this.isnew = false;
                       } else {
                         this.position.disabled  = true;
-                        this.new = false;
+                        this.isnew = false;
                       }
                     }
                   },
@@ -134,12 +134,12 @@ export class NavigatorService {
       let x1 = parseFloat(x);
       let y1 = parseFloat(y);
       this.windowService.scrollXY(x1, y1);
-      if (this.new) {
+      if (this.isnew) {
         let oldcme = JSON.parse(JSON.stringify(this.selCMEo));
         let coor = {
           x: x1,
           y: y1
-        }
+        };
         this.elementService.newCMEo(oldcme, coor);
         this.eventService.position = undefined;
       } else {

@@ -11,7 +11,7 @@ export class CMEObject {
       font: string;
       color: string;
       deco: string;
-      class_array: [string]
+      class_array: [string];
     };
     object: {
       color0: string;
@@ -20,7 +20,7 @@ export class CMEObject {
       weight: number;
       str: string;
       num_array: [number];
-      class_array: [string]
+      class_array: [string];
     }
   };
   public links: [CMELink];
