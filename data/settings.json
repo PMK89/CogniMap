@@ -60,7 +60,7 @@
     "cmtbmarking": {
       "color0": "#00ff80",
       "color1": "#ff0000",
-      "prio": 5,
+      "prio": 3,
       "trans": 1,
       "types": [
         "m",
@@ -97,8 +97,8 @@
     },
     "cngtemp": false,
     "coor": {
-      "x": 22824,
-      "y": 249028.5
+      "x": 221063,
+      "y": 130212
     },
     "copy": {
       "num": 0,

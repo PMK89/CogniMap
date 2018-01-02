@@ -37,7 +37,7 @@
                     <td>
                       ID:
                     </td>
-                    <td>
+                    <td *ngIf="selCMEo">
                       {{selCMEo.id}}
                     </td>
                     <td>
@@ -254,7 +254,7 @@
                     </td>
                   </tr>
                 </table>
-                <table>
+                <table *ngIf="selCMEo['cmobject'][contentPos]">
                   <tr>
                     <td>
                       CoorX:
@@ -337,14 +337,14 @@
                     <td>
                       ID:
                     </td>
-                    <td>
+                    <td *ngIf="selCMEo['cmobject']['links'][linkPos]">
                       <input #cmeLinksID value="{{selCMEo['cmobject']['links'][linkPos].id}}" size="5"
                       (keyup.enter)="cangeSelCMEo(['cmobject', 'links', 'id'], cmeLinksID.value, linkPos)">
                     </td>
                     <td>
                       TargetID:
                     </td>
-                    <td>
+                    <td *ngIf="selCMEo['cmobject']['links'][linkPos]">
                       <input #cmeLinksTargetID value="{{selCMEo['cmobject']['links'][linkPos].targetId}}" size="5"
                       (keyup.enter)="cangeSelCMEo(['cmobject', 'links', 'targetId'], cmeLinksTargetID.value, linkPos)">
                     </td>
@@ -353,14 +353,14 @@
                     <td>
                       Title:
                     </td>
-                    <td>
+                    <td *ngIf="selCMEo['cmobject']['links'][linkPos]">
                       <input #cmeLinksTitle value="{{selCMEo['cmobject']['links'][linkPos].title}}" size="5"
                       (keyup.enter)="cangeSelCMEo(['cmobject', 'links', 'title'], cmeLinksTitle.value, linkPos)">
                     </td>
                     <td>
                       Weight:
                     </td>
-                    <td>
+                    <td *ngIf="selCMEo['cmobject']['links'][linkPos]">
                       <input #cmeLinksWeight value="{{selCMEo['cmobject']['links'][linkPos].weight}}" size="5"
                       (keyup.enter)="cangeSelCMEo(['cmobject', 'links', 'weight'], cmeLinksWeight.value, linkPos)">
                     </td>
@@ -369,14 +369,14 @@
                     <td>
                       Con:
                     </td>
-                    <td>
+                    <td *ngIf="selCMEo['cmobject']['links'][linkPos]">
                       <input #cmeLinksCon value="{{selCMEo['cmobject']['links'][linkPos].con}}" size="5"
                       (keyup.enter)="cangeSelCMEo(['cmobject', 'links', 'con'], cmeLinksCon.value, linkPos)">
                     </td>
                     <td>
                       Start:
                     </td>
-                    <td>
+                    <td *ngIf="selCMEo['cmobject']['links'][linkPos]">
                       <input #cmeLinksStart value="{{selCMEo['cmobject']['links'][linkPos].start}}" size="5"
                       (keyup.enter)="cangeSelCMEo(['cmobject', 'links', 'start'], cmeLinksStart.value, linkPos)">
                     </td>
