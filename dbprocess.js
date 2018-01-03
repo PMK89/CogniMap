@@ -219,41 +219,6 @@ const createDbWindow = function createDbWindow() {
 
     // save database to json file
     ipcMain.on('saveDb', function (event, arg) {
-      // easy function to change elements in db
-      /*
-      cme.find({}, function(err, data) {
-        if (err) console.log(err);
-        if (data) {
-          var i;
-          var l = data.length;
-          for (i = 0; i < l; i++) {
-            if(data[i]) {
-              if (data[i].id > 0) {
-                try {
-                  var cmobject = JSON.parse(data[i].cmobject);
-                  if (cmobject.content) {
-                    if (cmobject.content[0]) {
-                      cmobject.content[0].height = cmobject.content[0].width;
-                      cmobject.content[0].width = 100;
-                      data[i].cmobject = JSON.stringify(cmobject);
-                      data[i].save(function (err) {
-                        if (err) {
-                          console.log(err) // #error message
-                        } else {
-                          console.log('changedCME: ')
-                        }
-              				});
-                    }
-                  }
-                } catch (err) {
-                  console.log(err)
-                }
-              }
-            }
-          }
-        }
-      });
-      */
       cme.find({}).sort({cdate: 1}).exec(function(err, data) {
         if (err) console.log(err);
         if (data) {
@@ -274,126 +239,7 @@ const createDbWindow = function createDbWindow() {
 
   // select from database and write json file
   ipcMain.on('searchDb', function (event, arg) {
-    // easy function to change elements in db
-    var chng_array = [];
-    var data_array = [];
-    var logstr = ''
-
-    function unpackData() {
-      if (data_array.length > 0) {
-        var baddataarray = [];
-        var removeddata = [];
-        var repaireddata = [];
-        var i0;
-        const l = data_array.length;
-        for (i0 = 0; i0 < l; i0++) {
-          if (data_array[i0]) {
-            if (data_array[i0].cat.length < 1 && data_array[i0].id !== 1) {
-              var cmobject = JSON.parse(data_array[i0].cmobject);
-              var baddata = {
-                id: data_array[i0].id,
-                title: data_array[i0].title,
-                cat: data_array[i0].cat,
-                object: cmobject.links
-              };
-              if (cmobject.links.length < 1) {
-                removeddata.push(baddata);
-              } else {
-                var isbad = true
-                var j;
-                const l1 = cmobject.links.length;
-                for (j = 0; j < l1; j++) {
-                  if(cmobject.links[j]) {
-                    if(!cmobject.links[j].start) {
-                      if (cmobject.links[j].targetId) {
-                        const pos = data_array.findIndex(i => i.id === cmobject.links[j].targetId);
-                        if (pos > -1) {
-                          if (data_array[pos]) {
-                            var parent = data_array[pos];
-                            var pcmobject = JSON.parse(data_array[pos].cmobject);
-                            data_array[i0].cat = parent.cat;
-                            var pcng = false;
-                            var k;
-                            const l2 = pcmobject.links.length;
-                            for (k = 0; k < l2; k++) {
-                              if(pcmobject.links[k]) {
-                                if (pcmobject.links[k].targetId === data_array[i0].id) {
-                                  pcmobject.links[k].id = (-1) * parseInt(String(parent.id) + String(data_array[i0].id), 10);
-                                  pcmobject.links[k].start = true;
-                                  pcmobject.links[k].title = data_array[i0].title;
-                                  if (Math.abs(data_array[i0].coor.x - parent.coor.x) < 3000 && Math.abs(data_array[i0].coor.y - parent.coor.y) < 3000) {
-                                    pcmobject.links[k].weight = -1;
-                                  }
-                                  data_array[pos].cmobject = JSON.stringify(pcmobject);
-                                  isbad = false;
-                                  repaireddata.push(baddata);
-                                } else if (pcmobject.links[k].id === (-1) * parseInt(String(parent.id) + String(data_array[i0].id), 10)) {
-                                  isbad = false;
-                                  repaireddata.push(baddata);
-                                } else {
-                                  if (isbad && k === l2 - 1) {
-                                    if (Math.abs(data_array[i0].coor.x - parent.coor.x) < 3000 && Math.abs(data_array[i0].coor.y - parent.coor.y) < 3000) {
-                                      isbad = false;
-                                      repaireddata.push(baddata);
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-                if (isbad) {
-                  baddataarray.push(baddata);
-                }
-              }
-            }
-          }
-        }
-        for (i = 0; i < l; i++) {
-          if (data_array[i]) {
-            data_array[i].save(function (err) {
-              if (err) {
-                console.log(err) // #error message
-              }
-            });
-          }
-        }
-        for (i = 0; i < removeddata.length; i++) {
-          if (removeddata[i]) {
-            cme.findOne({id: removeddata[i].id}, function(err, data) {
-              if (err) console.log(err);
-              if (data) {
-                data.remove(function (err) {
-                });
-              }
-            });
-          }
-        }
-        var strData = 'Removed elements ' + removeddata.length + '\n';
-        strData += JSON.stringify(removeddata, null, 2);
-        strData += '\n\n\n\n\n\n\n\n Repaired elements ' + repaireddata.length + '\n\n\n\n\n\n\n\n\n ';
-        strData += JSON.stringify(repaireddata, null, 2);
-        strData += '\n\n\n\n\n\n\n\n Bad elements ' + baddataarray.length + '\n\n\n\n\n\n\n';
-        strData += JSON.stringify(baddataarray, null, 2);
-        fs.writeFileSync('./data/baddata.json', strData);
-        event.returnValue = 'Removed Elements: ' + removeddata.length +
-        ' Repaired Elements: ' + repaireddata.length + ' Bad Elements: '
-        + baddataarray.length;
-      }
-    }
-
-    cme.find({id: { $gte: 1}}).sort({ id: 1 }).exec(function(err, data) {
-      if (err) console.log(err);
-      if (data) {
-          data_array = data;
-          unpackData();
-      }
-    });
-
+    event.returnValue = 'Not valid';
   })
 
   // gets all elements from db
@@ -465,14 +311,6 @@ const createDbWindow = function createDbWindow() {
       event.returnValue = data;
 	  });
   })
-  /*
-  ipcMain.on('getCME', (event, arg) => {
-    // console.log('Parameters: ', arg);
-    cme.findOne({id: arg.id}, function(err, data) {
-		  if (err) console.log(err);
-      event.sender.send('gotCME', data);
-	  });
-  })*/
 
   // changes cme in database
   ipcMain.on('changeCME', (event, arg) => {
