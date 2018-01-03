@@ -58,10 +58,10 @@
       ]
     },
     "cmtbmarking": {
-      "color0": "#00ff80",
-      "color1": "#ff0000",
+      "color0": "#83ad83",
+      "color1": "#ffbf00",
       "prio": 3,
-      "trans": 1,
+      "trans": 0.40000000000000013,
       "types": [
         "m",
         "r",
@@ -97,8 +97,8 @@
     },
     "cngtemp": false,
     "coor": {
-      "x": 221063,
-      "y": 130212
+      "x": 211830,
+      "y": 181338.5
     },
     "copy": {
       "num": 0,

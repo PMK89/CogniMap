@@ -278,6 +278,7 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
                     document.getElementById('TPmeta').title = arg;
                   }
                   if (e.target.id.indexOf('_') !== -1) {
+                    console.log(e.target.id);
                     document.getElementById('TPquiz').title = e.target.id;
                   }
                 }

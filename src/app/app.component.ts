@@ -194,7 +194,8 @@ export class AppComponent implements AfterViewInit {
       let tpquizval = this.tpquiz.nativeElement.title;
       if (tpquizval) {
         let id0;
-        if (typeof parseInt(tpquizval.slice(0, tpquizval.indexOf('_')), 10) === 'number') {
+        if (typeof parseInt(tpquizval.slice(0, tpquizval.indexOf('_')), 10) === 'number' &&
+        !isNaN(parseInt(tpquizval.slice(0, tpquizval.indexOf('_')), 10))) {
           id0 = parseInt(tpquizval.slice(0, tpquizval.indexOf('_')), 10);
         } else {
           id0 = parseInt(tpquizval.slice(4, tpquizval.indexOf('_')), 10);

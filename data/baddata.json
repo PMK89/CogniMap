@@ -1,244 +1,87 @@
-Removed elements 40
-[
+Removed elements 0
+[]
+
+
+
+
+
+
+
+ Repaired elements 3
+
+
+
+
+
+
+
+
+ [
   {
-    "id": 83,
+    "id": 579,
     "title": "Bild",
     "cat": [],
-    "object": []
+    "object": [
+      {
+        "id": -552579,
+        "targetId": 552,
+        "title": "",
+        "peerCoor": {
+          "x": -1,
+          "y": -1
+        },
+        "weight": -1,
+        "con": "e",
+        "start": false,
+        "peer_coor": {
+          "schema": {
+            "x": 0,
+            "y": 0
+          },
+          "type": {},
+          "x": 54493,
+          "y": 47189
+        }
+      }
+    ]
   },
   {
-    "id": 86,
-    "title": "Gewichtsmittelwert",
+    "id": 6907,
+    "title": "υ(r): external potential",
     "cat": [],
-    "object": []
+    "object": [
+      {
+        "id": -69066907,
+        "targetId": 6906,
+        "title": "marking",
+        "weight": -1,
+        "con": "e",
+        "start": false
+      },
+      {
+        "id": 0,
+        "targetId": 6963,
+        "title": "marking",
+        "weight": -1,
+        "con": "e",
+        "start": true
+      }
+    ]
   },
   {
-    "id": 168,
-    "title": "Bild",
+    "id": 6935,
+    "title": "energy eigenvalue",
     "cat": [],
-    "object": []
-  },
-  {
-    "id": 240,
-    "title": "Bild",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 770,
-    "title": "Bild",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 1070,
-    "title": "Bild",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 1141,
-    "title": "Produktionsverbund",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 1142,
-    "title": "Transportwege",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 1143,
-    "title": "Energie/Wasserversorgung",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 1176,
-    "title": "flexibel",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 1982,
-    "title": "Enter Text",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 2257,
-    "title": "<img src=\"img/basic/empty.png\" id=\"2252\" width=\"100px\" height=\"100px\">",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 2498,
-    "title": "minimal?",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 5149,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 5151,
-    "title": "π-Komplex",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 5152,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 5714,
-    "title": "strong oszilations",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 6991,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 8107,
-    "title": "DNA",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 8291,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 8292,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 8297,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 8396,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 8810,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 8856,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 8994,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 9177,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 9641,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 10067,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 10265,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 10280,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 10425,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 10486,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 10682,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 10684,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 10685,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 10893,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 11149,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 11191,
-    "title": "",
-    "cat": [],
-    "object": []
-  },
-  {
-    "id": 11192,
-    "title": "",
-    "cat": [],
-    "object": []
+    "object": [
+      {
+        "id": -69336935,
+        "targetId": 6933,
+        "title": "marking",
+        "weight": -1,
+        "con": "e",
+        "start": false
+      }
+    ]
   }
 ]
 
@@ -248,7 +91,7 @@ Removed elements 40
 
 
 
- Bad elements 19
+ Bad elements 6
 
 
 
@@ -313,34 +156,6 @@ Removed elements 40
     ]
   },
   {
-    "id": 2497,
-    "title": "freies Volumen",
-    "cat": [],
-    "object": [
-      {
-        "id": -24972499,
-        "targetId": 2499,
-        "title": "Gegenbeweis",
-        "peerCoor": {
-          "x": -1,
-          "y": -1
-        },
-        "weight": -1,
-        "con": "e",
-        "start": true,
-        "peer_coor": {
-          "schema": {
-            "x": 0,
-            "y": 0
-          },
-          "type": {},
-          "x": 63129,
-          "y": 58731
-        }
-      }
-    ]
-  },
-  {
     "id": 3826,
     "title": "Bild",
     "cat": [],
@@ -360,240 +175,6 @@ Removed elements 40
     ]
   },
   {
-    "id": 3830,
-    "title": "Punktgruppen",
-    "cat": [],
-    "object": [
-      {
-        "id": -38293830,
-        "targetId": 3829,
-        "title": "",
-        "peerCoor": {
-          "x": 78363,
-          "y": 45183
-        },
-        "weight": -1,
-        "con": "e",
-        "start": false
-      },
-      {
-        "id": -38303831,
-        "targetId": 3831,
-        "title": "chiral?",
-        "peerCoor": {
-          "x": 78614,
-          "y": 44792
-        },
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": -38303833,
-        "targetId": 3833,
-        "title": "C1",
-        "peerCoor": {
-          "x": 78601,
-          "y": 44868
-        },
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": -38303835,
-        "targetId": 3835,
-        "title": "Cn",
-        "peerCoor": {
-          "x": 78575,
-          "y": 44965
-        },
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": -38303838,
-        "targetId": 3838,
-        "title": "Dn",
-        "peerCoor": {
-          "x": 78548,
-          "y": 45423
-        },
-        "weight": -1,
-        "con": "e",
-        "start": true
-      }
-    ]
-  },
-  {
-    "id": 4244,
-    "title": "",
-    "cat": [],
-    "object": [
-      {
-        "id": -42444246,
-        "targetId": 4246,
-        "title": "",
-        "peerCoor": {
-          "x": 72405,
-          "y": 44033
-        },
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": -42444250,
-        "targetId": 4250,
-        "title": "m-w 3380-3270",
-        "peerCoor": {
-          "x": 72312,
-          "y": 43978
-        },
-        "weight": -1,
-        "con": "e",
-        "start": true
-      }
-    ]
-  },
-  {
-    "id": 4290,
-    "title": "C=O ca. 1700 cm-¹",
-    "cat": [],
-    "object": [
-      {
-        "id": -42894290,
-        "targetId": 4289,
-        "title": "",
-        "peerCoor": {
-          "x": 73378,
-          "y": 44442
-        },
-        "weight": -1,
-        "con": "e",
-        "start": false
-      }
-    ]
-  },
-  {
-    "id": 4976,
-    "title": "",
-    "cat": [],
-    "object": [
-      {
-        "id": -49764935,
-        "targetId": 4935,
-        "title": "Sigmatrope Reaktionen",
-        "peerCoor": {
-          "x": 104301,
-          "y": 45251
-        },
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": -49764969,
-        "targetId": 4969,
-        "title": "[1,3]",
-        "peerCoor": {
-          "x": 104972,
-          "y": 45082
-        },
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": -49764970,
-        "targetId": 4970,
-        "title": "[1,5]",
-        "peerCoor": {
-          "x": 104958,
-          "y": 45212
-        },
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": -49764971,
-        "targetId": 4971,
-        "title": "[1,7]",
-        "peerCoor": {
-          "x": 104972,
-          "y": 45359
-        },
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": -49764972,
-        "targetId": 4972,
-        "title": "[3,3]",
-        "peerCoor": {
-          "x": 105016,
-          "y": 45533
-        },
-        "weight": -1,
-        "con": "e",
-        "start": true
-      }
-    ]
-  },
-  {
-    "id": 5150,
-    "title": "σ-Komplex",
-    "cat": [],
-    "object": [
-      {
-        "id": -51505154,
-        "targetId": 5154,
-        "title": "isolierbar",
-        "peerCoor": {
-          "x": 103846,
-          "y": 48190
-        },
-        "weight": -1,
-        "con": "e",
-        "start": true
-      }
-    ]
-  },
-  {
-    "id": 6277,
-    "title": "= eigenstates",
-    "cat": [],
-    "object": [
-      {
-        "id": -62776278,
-        "targetId": 6278,
-        "title": "eigenstates",
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": -62776279,
-        "targetId": 6279,
-        "title": "symetrie operator",
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": -62776284,
-        "targetId": 6284,
-        "title": "by superposition",
-        "weight": -1,
-        "con": "e",
-        "start": true
-      }
-    ]
-  },
-  {
     "id": 6888,
     "title": "marking",
     "cat": [],
@@ -609,68 +190,6 @@ Removed elements 40
       {
         "id": 0,
         "targetId": 6981,
-        "title": "marking",
-        "weight": -1,
-        "con": "e",
-        "start": true
-      }
-    ]
-  },
-  {
-    "id": 6906,
-    "title": "marking",
-    "cat": [],
-    "object": [
-      {
-        "id": -69066907,
-        "targetId": 6907,
-        "title": "υ(r): external potential",
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": 0,
-        "targetId": 6930,
-        "title": "marking",
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": 0,
-        "targetId": 6931,
-        "title": "marking",
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": 0,
-        "targetId": 6961,
-        "title": "marking",
-        "weight": -1,
-        "con": "e",
-        "start": true
-      }
-    ]
-  },
-  {
-    "id": 6927,
-    "title": "marking",
-    "cat": [],
-    "object": [
-      {
-        "id": -69276915,
-        "targetId": 6915,
-        "title": "exchange-correlation potential",
-        "weight": -1,
-        "con": "e",
-        "start": true
-      },
-      {
-        "id": 0,
-        "targetId": 6964,
         "title": "marking",
         "weight": -1,
         "con": "e",
@@ -702,60 +221,6 @@ Removed elements 40
     ]
   },
   {
-    "id": 7357,
-    "title": "Reinstoffe",
-    "cat": [],
-    "object": [
-      {
-        "con": "e",
-        "id": -73577359,
-        "start": true,
-        "targetId": 7359,
-        "title": "Reinheit",
-        "weight": -1
-      },
-      {
-        "con": "e",
-        "id": -73577384,
-        "start": true,
-        "targetId": 7384,
-        "title": "Elemente",
-        "weight": -1
-      },
-      {
-        "con": "e",
-        "id": -73577389,
-        "start": true,
-        "targetId": 7389,
-        "title": "Verbindungen",
-        "weight": -1
-      },
-      {
-        "con": "e",
-        "id": -73578071,
-        "start": true,
-        "targetId": 8071,
-        "title": "Compounds",
-        "weight": 0
-      }
-    ]
-  },
-  {
-    "id": 7624,
-    "title": "marking",
-    "cat": [],
-    "object": [
-      {
-        "id": -76245922,
-        "targetId": 5922,
-        "title": "non-degenerate",
-        "weight": -1,
-        "con": "e",
-        "start": true
-      }
-    ]
-  },
-  {
     "id": 7652,
     "title": "marking",
     "cat": [],
@@ -764,36 +229,6 @@ Removed elements 40
         "id": -76527653,
         "targetId": 7653,
         "title": "#",
-        "weight": -1,
-        "con": "e",
-        "start": true
-      }
-    ]
-  },
-  {
-    "id": 7684,
-    "title": "marking",
-    "cat": [],
-    "object": [
-      {
-        "id": -76847685,
-        "targetId": 7685,
-        "title": "same densities",
-        "weight": -1,
-        "con": "e",
-        "start": true
-      }
-    ]
-  },
-  {
-    "id": 7686,
-    "title": "marking",
-    "cat": [],
-    "object": [
-      {
-        "id": -76867687,
-        "targetId": 7687,
-        "title": "pick wf",
         "weight": -1,
         "con": "e",
         "start": true

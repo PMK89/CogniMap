@@ -293,6 +293,7 @@ export class NavigatorComponent implements OnInit {
           }
         } else if (objects[0] === 'types' || objects[0] === 'cat') {
           let array = value.split(','); // .replace(/ /g, '') old version
+          console.log(array);
           this.selCMEo[objects[0]] = array;
         } else {
           this.selCMEo[objects[0]] = value;

@@ -442,24 +442,34 @@ export class EventService {
           case 1:
             if (this.selCMEoLinkPos >= (this.selCMEo.cmobject.links.length - 1)) {
               this.selCMEoLinkPos = 0;
-              this.elementService.setSelectedCME(this.selCMEo.cmobject.links[0].id);
+              if (this.selCMEo.cmobject.links[0]) {
+                this.elementService.setSelectedCME(this.selCMEo.cmobject.links[0].id);
+              }
             } else {
               this.selCMEoLinkPos += 1;
-              this.elementService.setSelectedCME(this.selCMEo.cmobject.links[this.selCMEoLinkPos].id);
+              if (this.selCMEo.cmobject.links[this.selCMEoLinkPos]) {
+                this.elementService.setSelectedCME(this.selCMEo.cmobject.links[this.selCMEoLinkPos].id);
+              }
             }
             break;
           case -1:
             if (this.selCMEoLinkPos === 0) {
               this.selCMEoLinkPos = (this.selCMEo.cmobject.links.length - 1);
-              this.elementService.setSelectedCME(this.selCMEo.cmobject.links[this.selCMEoLinkPos].id);
+              if (this.selCMEo.cmobject.links[this.selCMEoLinkPos]) {
+                this.elementService.setSelectedCME(this.selCMEo.cmobject.links[this.selCMEoLinkPos].id);
+              }
             } else {
               this.selCMEoLinkPos -= 1;
-              this.elementService.setSelectedCME(this.selCMEo.cmobject.links[this.selCMEoLinkPos].id);
+              if (this.selCMEo.cmobject.links[this.selCMEoLinkPos]) {
+                this.elementService.setSelectedCME(this.selCMEo.cmobject.links[this.selCMEoLinkPos].id);
+              }
             }
             break;
           default:
             this.selCMEoLinkPos = (this.selCMEo.cmobject.links.length - 1);
-            this.elementService.setSelectedCME(this.selCMEo.cmobject.links[this.selCMEoLinkPos].id);
+            if (this.selCMEo.cmobject.links[this.selCMEoLinkPos]) {
+              this.elementService.setSelectedCME(this.selCMEo.cmobject.links[this.selCMEoLinkPos].id);
+            }
             break;
         }
       }

@@ -753,6 +753,7 @@ export class ElementService {
       newElemObj.id = this.maxID;
       newElemObj.prio = oldcme.prio + 1;
       newElemObj.coor = cmcoor;
+      newElemObj.cat = oldcme.cat;
       newElemObj.x0 = cmcoor.x;
       newElemObj.y0 = cmcoor.y;
       newElemObj.x1 = cmcoor.x + 50;
@@ -767,6 +768,9 @@ export class ElementService {
         con: 'e',
         start: false
       }];
+      if (newElemObj.cat.length < 8 && oldcme.title !== '' && oldcme.title !== ' ') {
+        newElemObj.cat.push(oldcme.title);
+      }
       let newCME = this.newCME(newElemObj);
       this.newDBCME(newCME);
       let action = {type: 'ADD_CME', payload: newCME };
@@ -797,6 +801,7 @@ export class ElementService {
       newElemObj.cmobject.links = undefined;
       newElemObj.id = this.maxID;
       newElemObj.prio = this.markCMEo.prio - 1;
+      newElemObj.cat = this.markCMEo.cat;
       newElemObj.coor = {
         x: x0,
         y: y0
@@ -816,6 +821,9 @@ export class ElementService {
         con: 'e',
         start: false
       }];
+      if (newElemObj.cat.length < 8 && this.markCMEo.title !== '' && this.markCMEo.title !== ' ') {
+        newElemObj.cat.push(this.markCMEo.title);
+      }
       let newCME = this.newCME(newElemObj);
       this.newDBCME(newCME);
       let action = {type: 'ADD_CME', payload: newCME };
@@ -844,6 +852,7 @@ export class ElementService {
       newElemObj.cmobject.links = undefined;
       newElemObj.id = this.maxID;
       newElemObj.prio = this.quizCMEo.prio - 1;
+      newElemObj.cat = this.quizCMEo.cat;
       newElemObj.coor = {
         x: x0,
         y: y0
@@ -862,6 +871,9 @@ export class ElementService {
         con: 'e',
         start: false
       }];
+      if (newElemObj.cat.length < 8 && this.quizCMEo.title !== '' && this.quizCMEo.title !== ' ') {
+        newElemObj.cat.push(this.quizCMEo.title);
+      }
       let newCME = this.newCME(newElemObj);
       this.newDBCME(newCME);
       let action = {type: 'ADD_CME', payload: newCME };
@@ -905,7 +917,7 @@ export class ElementService {
                       }
                     }
                     ccme.cmobject.links.push({
-                      id: 0,
+                      id: (-1) * parseInt(String(this.selCMEo.id) + String(ccme.id), 10),
                       targetId: this.selCMEo.id,
                       title: this.selCMEo.title,
                       weight: weight0,
@@ -913,7 +925,7 @@ export class ElementService {
                       start: false
                     });
                     this.selCMEo.cmobject.links.push({
-                      id: 0,
+                      id: (-1) * parseInt(String(this.selCMEo.id) + String(ccme.id), 10),
                       targetId: ccme.id,
                       title: ccme.title,
                       weight: weight0,
@@ -1181,9 +1193,6 @@ export class ElementService {
         if (this.selCMEo) {
           if (this.selCMEo.types[0] === 'q') {
             this.cmsettings.mode = 'quizedit';
-            this.settingsService.updateSettings(this.cmsettings);
-          } else if (this.selCMEo.types[0] === 'm') {
-            this.cmsettings.mode = 'marking';
             this.settingsService.updateSettings(this.cmsettings);
           }
         }

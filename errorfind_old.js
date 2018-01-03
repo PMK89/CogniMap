@@ -389,7 +389,7 @@ ipcMain.on('searchDb', function (event, arg) {
               id: data_array[i0].id,
               title: data_array[i0].title,
               cat: data_array[i0].cat,
-              object: cmobject
+              object: cmobject.links
             };
             if (cmobject.links.length < 1) {
               removeddata.push(baddata);
@@ -413,13 +413,25 @@ ipcMain.on('searchDb', function (event, arg) {
                           for (k = 0; k < l2; k++) {
                             if(pcmobject.links[k]) {
                               if (pcmobject.links[k].targetId === data_array[i0].id) {
+                                pcmobject.links[k].id = (-1) * parseInt(String(parent.id) + String(data_array[i0].id), 10);
+                                pcmobject.links[k].start = true;
+                                pcmobject.links[k].title = data_array[i0].title;
+                                if (Math.abs(data_array[i0].coor.x - parent.coor.x) < 3000 && Math.abs(data_array[i0].coor.y - parent.coor.y) < 3000) {
+                                  pcmobject.links[k].weight = -1;
+                                }
+                                data_array[pos].cmobject = JSON.stringify(pcmobject);
                                 isbad = false;
                                 repaireddata.push(baddata);
                               } else if (pcmobject.links[k].id === (-1) * parseInt(String(parent.id) + String(data_array[i0].id), 10)) {
                                 isbad = false;
                                 repaireddata.push(baddata);
                               } else {
-                                //
+                                if (isbad && k === l2 - 1) {
+                                  if (Math.abs(data_array[i0].coor.x - parent.coor.x) < 3000 && Math.abs(data_array[i0].coor.y - parent.coor.y) < 3000) {
+                                    isbad = false;
+                                    repaireddata.push(baddata);
+                                  }
+                                }
                               }
                             }
                           }
@@ -436,8 +448,30 @@ ipcMain.on('searchDb', function (event, arg) {
           }
         }
       }
+      for (i = 0; i < l; i++) {
+        if (data_array[i]) {
+          data_array[i].save(function (err) {
+            if (err) {
+              console.log(err) // #error message
+            }
+          });
+        }
+      }
+      for (i = 0; i < removeddata.length; i++) {
+        if (removeddata[i]) {
+          cme.findOne({id: removeddata[i].id}, function(err, data) {
+            if (err) console.log(err);
+            if (data) {
+              data.remove(function (err) {
+              });
+            }
+          });
+        }
+      }
       var strData = 'Removed elements ' + removeddata.length + '\n';
       strData += JSON.stringify(removeddata, null, 2);
+      strData += '\n\n\n\n\n\n\n\n Repaired elements ' + repaireddata.length + '\n\n\n\n\n\n\n\n\n ';
+      strData += JSON.stringify(repaireddata, null, 2);
       strData += '\n\n\n\n\n\n\n\n Bad elements ' + baddataarray.length + '\n\n\n\n\n\n\n';
       strData += JSON.stringify(baddataarray, null, 2);
       fs.writeFileSync('./data/baddata.json', strData);
