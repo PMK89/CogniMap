@@ -202,7 +202,6 @@ export class AppComponent implements AfterViewInit {
         }
         if (id0) {
           if ((id0.toString() !== this.tpid.nativeElement.title)) {
-            console.log(id0, tpquizval);
             this.tpid.nativeElement.title = id0;
             this.tpquiz.nativeElement.title = '0';
             this.changedetect();

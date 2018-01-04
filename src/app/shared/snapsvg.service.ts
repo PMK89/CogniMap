@@ -202,13 +202,14 @@ export class SnapsvgService {
             case 'i_100':
               // insertes images (png, jpg, gif)
               let path;
+              let imggroup = concmg.g();
               if (content.object.indexOf('assets/') === -1) {
                 path = 'assets/images/' + content.object;
               } else {
                 path = content.object;
               }
               con = s.image((path), coorX, coorY);
-              concmg.add(con);
+              imggroup.append(con);
               con.attr({
                 opacity: cme.cmobject.style.object.trans,
                 id: id.toString() + '-' + i.toString(),
@@ -242,6 +243,10 @@ export class SnapsvgService {
                   });
                 });
               }
+              let imgbbox = imggroup.getBBox();
+              content.width = imgbbox.w;
+              imggroup.transform('t' + (coorX + totwidth - imgbbox.x) + ',' + (coorY - imgbbox.y));
+              concmg.add(imggroup);
               break;
             case 'svg':
               // inserts svg to marker group
@@ -274,6 +279,7 @@ export class SnapsvgService {
               let titlebbox = titlegroup.getBBox();
               console.log(titlebbox);
               content.width = titlebbox.width;
+              titlegroup.transform('t' + (coorX + totwidth - titlebbox.x) + ',' + (coorY - titlebbox.y));
               concmg.add(titlegroup);
               concmg.transform('s' + (content.height / 100));
               break;

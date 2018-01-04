@@ -216,7 +216,7 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         // sets size of element
         bbox = this.cmgroup.getBBox();
-        if (this.cmeo.types[0] !== 'm' && this.cmeo.types[0].indexOf('q') !== -1) {
+        if (this.cmeo.types[0] !== 'm' && this.cmeo.types[0].indexOf('q') === -1) {
           this.cmeo.x0 = bbox.x;
           this.cmeo.y0 = bbox.y;
           this.cmeo.x1 = bbox.x2;
@@ -278,7 +278,6 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
                     document.getElementById('TPmeta').title = arg;
                   }
                   if (e.target.id.indexOf('_') !== -1) {
-                    console.log(e.target.id);
                     document.getElementById('TPquiz').title = e.target.id;
                   }
                 }

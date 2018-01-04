@@ -530,7 +530,7 @@ const createDbWindow = function createDbWindow() {
     cme.findOne({id: arg}, function(err, data) {
 		  if (err) console.log(err);
       if (data) {
-        if (data.state === 'quiz') {
+        if (data.types[0] === 'q' || data.types[0] === 'q1') {
           deleteQuiz(data.id);
         }
         data.state = 'del';

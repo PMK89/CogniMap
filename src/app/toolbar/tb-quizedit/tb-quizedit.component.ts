@@ -156,6 +156,10 @@ export class TbQuizeditComponent implements OnInit {
         variable: ['cmobject', 'style', 'object', 'str'],
         value: this.int
       };
+      if (this.cmsettings) {
+        this.cmsettings.cmtbquizedit.interval = this.int.toString();
+        this.settingsService.changeSetting(this.cmsettings);
+      }
       this.elementService.changeCMEo(action);
     }
   }
@@ -190,6 +194,10 @@ export class TbQuizeditComponent implements OnInit {
       variable: ['cmobject', 'style', 'object', 'weight'],
       value: this.difnum
     };
+    if (this.cmsettings) {
+      this.cmsettings.cmtbquizedit.difficulty = this.difnum;
+      this.settingsService.changeSetting(this.cmsettings);
+    }
     this.elementService.changeCMEo(action);
   }
 

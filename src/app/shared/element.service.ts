@@ -411,30 +411,6 @@ export class ElementService {
         y: this.selCMEo.coor.y
       };
       this.electronService.ipcRenderer.send('findChildren', this.selCMEo);
-      /*
-      let selarray = this.selectLinks(this.selCMEo);
-      for (let key = 0; key < selarray.length; key++) {
-        if (selarray[key]) {
-          selarray[key] = this.CMEtoCMEol(selarray[key]);
-          if (selarray[key].id >= 1) {
-            if (this.selCMEoArray.indexOf(selarray[key].id) === -1) {
-              this.selCMEoArray.push(selarray[key].id);
-              selarray = selarray.concat(this.selectLinks(selarray[key]));
-            }
-          } else if (selarray[key].id < 0) {
-            if (this.selCMElArray.indexOf(selarray[key].id) === -1) {
-              this.selCMElArray.push(selarray[key].id);
-              // selarray = selarray.concat(this.selectLinks(selarray[key]));
-            }
-          }
-        }
-        // console.log(selarray);
-      }
-      this.allCME = selarray;
-      this.selCMEoArray.push(this.selCMEo.id);
-      this.selCMEo = undefined;
-      this.selectionGroup(this.selCMEoArray, this.selCMElArray);
-      */
     } else {
       alert('please select an element.');
     }
@@ -768,7 +744,8 @@ export class ElementService {
         con: 'e',
         start: false
       }];
-      if (newElemObj.cat.length < 8 && oldcme.title !== '' && oldcme.title !== ' ') {
+      if (newElemObj.cat.length < 8 && oldcme.title !== '' &&
+      oldcme.title !== ' ' && newElemObj.cat.indexOf(oldcme.title) === -1) {
         newElemObj.cat.push(oldcme.title);
       }
       let newCME = this.newCME(newElemObj);
@@ -821,7 +798,8 @@ export class ElementService {
         con: 'e',
         start: false
       }];
-      if (newElemObj.cat.length < 8 && this.markCMEo.title !== '' && this.markCMEo.title !== ' ') {
+      if (newElemObj.cat.length < 8 && this.markCMEo.title !== '' &&
+       this.markCMEo.title !== ' ' && newElemObj.cat.indexOf(this.markCMEo.title) === -1) {
         newElemObj.cat.push(this.markCMEo.title);
       }
       let newCME = this.newCME(newElemObj);
@@ -871,7 +849,8 @@ export class ElementService {
         con: 'e',
         start: false
       }];
-      if (newElemObj.cat.length < 8 && this.quizCMEo.title !== '' && this.quizCMEo.title !== ' ') {
+      if (newElemObj.cat.length < 8 && this.quizCMEo.title !== '' &&
+      this.quizCMEo.title !== ' ' && newElemObj.cat.indexOf(this.quizCMEo.title) === -1) {
         newElemObj.cat.push(this.quizCMEo.title);
       }
       let newCME = this.newCME(newElemObj);
@@ -1079,54 +1058,6 @@ export class ElementService {
     }
   }
 
-  // generates a new CMEo element
-  public newMarker(oldcme: CMEo, x0: number, y0: number, x1: number, y1: number) {
-    if (this.tempCMEo) {
-      console.log('newCMEo start: ', Date.now());
-      let newElemObj: CMEo = new CMEo(); // maybe an error
-      this.maxID++;
-      // newElemObj = JSON.parse(JSON.stringify(this.tempCMEo));
-      newElemObj.cmobject.links = undefined;
-      this.cmsettings.mode = 'progress';
-      this.settingsService.updateSettings(this.cmsettings);
-      newElemObj.id = this.maxID;
-      newElemObj.prio = oldcme.prio - 1;
-      newElemObj.coor.x = x0;
-      newElemObj.coor.y = y0;
-      newElemObj.x0 = x0;
-      newElemObj.y0 = y0;
-      newElemObj.x1 = x1;
-      newElemObj.y1 = y1;
-      newElemObj.title = 'marker';
-      newElemObj.state = 'typing';
-      newElemObj.cmobject.links = [{
-        id: 0,
-        targetId: oldcme.id,
-        title: oldcme.title,
-        weight: -1,
-        con: 'e',
-        start: false
-      }];
-      let newCME = this.newCME(newElemObj);
-      this.newDBCME(newCME);
-      let action = {type: 'ADD_CME', payload: newCME };
-      this.store.dispatch(action);
-      oldcme.cmobject.links.push({
-        id: 0,
-        targetId: newElemObj.id,
-        title: newElemObj.title,
-        weight: -1,
-        con: 'e',
-        start: true
-      });
-      this.updateCMEol(oldcme);
-      this.setSelectedCME(newElemObj.id);
-      console.log('old: ', oldcme, ' new: ', newElemObj);
-      // this.newCMEl(oldcme, newElemObj);
-      // console.log('Object: ', action);
-    }
-  }
-
   // generates connection coordinates
   public conectionCoor(cmelement, link) {
     let width = cmelement.x1 - cmelement.x0;
@@ -1251,6 +1182,8 @@ export class ElementService {
           this.tempQuizCMEo = JSON.parse(JSON.stringify(this.tempCMEo));
           this.tempQuizCMEo.types = this.cmsettings.cmtbquizedit.types;
           this.tempQuizCMEo.prio = this.selCMEo.prio;
+          this.tempQuizCMEo.cmobject.style.object.str = this.cmsettings.cmtbquizedit.interval;
+          this.tempQuizCMEo.cmobject.style.object.weight = this.cmsettings.cmtbquizedit.difficulty;
         } else {
           alert('Please select an Element to quiz about.');
           this.cmsettings.mode = 'edit';
@@ -1904,6 +1837,7 @@ export class ElementService {
                   if (data[key]) {
                     if (data[key].id === id) {
                       let cme = this.CMEtoCMEol(data[key]);
+                      console.info(cme);
                       if (cme.cmobject.content.length > 0) {
                         let joinedarray = cme.cmobject.content.concat(this.selCMEo.cmobject.content);
                         this.selCMEo.cmobject.content = joinedarray;
@@ -1921,9 +1855,9 @@ export class ElementService {
                           correct: true
                         });
                       }
+                      id = 0;
                       this.selCMEo.state = 'new';
                       this.updateSelCMEo(this.selCMEo);
-                      id = 0;
                     }
                   }
                 }

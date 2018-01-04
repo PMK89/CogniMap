@@ -925,6 +925,7 @@
     "cat": "tbquizedit0",
     "colors": [
       "#ffffff",
+      "#ffffff",
       "#ffe700",
       "#1200ff",
       "#d0b3ff",
@@ -932,8 +933,7 @@
       "#ff0000",
       "#ffbf00",
       "#ffff00",
-      "#40ff00",
-      "#00ff80"
+      "#40ff00"
     ],
     "cuppled": false,
     "group": "",
@@ -952,6 +952,7 @@
     "blocked": false,
     "cat": "tbquizedit1",
     "colors": [
+      "#ffffff",
       "#ffe700",
       "#1200ff",
       "#d0b3ff",
@@ -960,8 +961,7 @@
       "#ffbf00",
       "#ffff00",
       "#40ff00",
-      "#00ff80",
-      "#00ffff"
+      "#00ff80"
     ],
     "cuppled": false,
     "group": "",

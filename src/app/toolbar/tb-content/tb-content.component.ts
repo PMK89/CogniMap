@@ -147,6 +147,7 @@ export class TbContentComponent implements OnInit {
     }
     this.picsize = this.selCMEo.cmobject.content[this.pos].height;
     this.contentCat = this.selCMEo.cmobject.content[this.pos].cat;
+    this.contentCorrect = this.selCMEo.cmobject.content[this.pos].correct;
     this.snapsvgService.markElement(('c' + this.selCMEo.id.toString() + '-' + this.pos.toString()), this.selCMEo.id.toString());
     // console.log(this.pos, '/', this.contentlen);
   }
@@ -234,10 +235,13 @@ export class TbContentComponent implements OnInit {
   }
 
   // changes correct value
-  public changeCheckbox(input) {
+  public changeCheckbox() {
     if (this.selCMEo) {
-      console.log(input);
-      this.selCMEo.cmobject.content[this.pos].correct = input;
+      if (this.selCMEo.cmobject.content[this.pos].correct) {
+        this.selCMEo.cmobject.content[this.pos].correct = false;
+      } else {
+        this.selCMEo.cmobject.content[this.pos].correct = true;
+      }
       this.elementService.updateSelCMEo(this.selCMEo);
     }
   }
