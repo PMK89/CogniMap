@@ -76,7 +76,15 @@ export class ElementService {
                 });
                 this.electronService.ipcRenderer.on('changedCME', (event, arg) => {
                   if (arg) {
-                    // console.log('changedCME: ', arg, Date.now());
+                    if (arg.isArray()) {
+                      store.dispatch({
+                        type: 'UPDATE_CME',
+                        payload: arg
+                      });
+                      console.log('changedCME: ', arg);
+                    } else {
+                      console.log('changedCME: ', arg);
+                    }
                   }
                 });
                 this.electronService.ipcRenderer.on('selectedChildren', (event, arg) => {
@@ -474,7 +482,7 @@ export class ElementService {
       x1 *= 100;
       y0 *= 100;
       y1 *= 100;
-      console.log(x0, x1, y0, y1);
+      // console.log(x0, x1, y0, y1);
       for (let key in this.allCME) {
         if (this.allCME[key]) {
           // select elements within the selcted area
@@ -616,6 +624,13 @@ export class ElementService {
                         x: cme.coor.x,
                         y: cme.coor.y
                       };
+                      if (cme.cmobject.content.length > 0) {
+                        this.cmsettings.contentPos = 0;
+                        this.settingsService.updateSettings(this.cmsettings);
+                      } else {
+                        this.cmsettings.contentPos = -1;
+                        this.settingsService.updateSettings(this.cmsettings);
+                      }
                       this.store.dispatch({type: 'ADD_SCMEO', payload: cme });
                       this.store.dispatch({type: 'UPDATE_CME', payload: data[key] });
                       this.selCMEo = cme;
@@ -1839,8 +1854,12 @@ export class ElementService {
                       let cme = this.CMEtoCMEol(data[key]);
                       console.info(cme);
                       if (cme.cmobject.content.length > 0) {
-                        let joinedarray = cme.cmobject.content.concat(this.selCMEo.cmobject.content);
-                        this.selCMEo.cmobject.content = joinedarray;
+                        if (cme.cmobject.content.length === 1) {
+                          this.selCMEo.cmobject.content.push(cme.cmobject.content[0]);
+                        } else {
+                          let joinedarray = cme.cmobject.content.concat(this.selCMEo.cmobject.content);
+                          this.selCMEo.cmobject.content = joinedarray;
+                        }
                       } else {
                         this.selCMEo.cmobject.content.push({
                           cat: 'title',

@@ -1,5 +1,8 @@
 [Dolphin]
 SortOrder=1
-Timestamp=2017,8,29,10,59,46
+Timestamp=2018,1,4,15,21,58
 Version=3
 ViewMode=1
+
+[Settings]
+HiddenFilesShown=true

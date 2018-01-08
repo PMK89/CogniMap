@@ -26,7 +26,7 @@
     "ci": "npm run ci:testall",
     "clean:dll": "npm run rimraf -- dll",
     "clean:aot": "npm run rimraf -- compiled",
-    "clean:dist": "npm run rimraf -- dist",
+    "clean:dist": "rsync -a -v --ignore-existing dist/assets src/ && npm run rimraf -- dist",
     "clean:install": "npm set progress=false && npm install",
     "clean": "npm cache clean && npm run rimraf -- node_modules doc coverage dist compiled dll",
     "docker": "docker",

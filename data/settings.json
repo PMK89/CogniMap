@@ -96,24 +96,25 @@
       ]
     },
     "cngtemp": false,
+    "contentPos": -1,
     "coor": {
-      "x": 265563,
-      "y": 95688
+      "x": 277059,
+      "y": 119930
     },
     "copy": {
       "num": 0,
       "numArray": [],
-      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1514999245150.png\",\"width\":160,\"info\":\"png\",\"height\":100,\"correct\":true}",
+      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"assets/images/chem/oc/Namensreaktionen-Modell/simmons-smith-reaktion.gif\",\"width\":362,\"info\":\"gif\",\"height\":100,\"correct\":true}",
       "strgArray": [],
       "type": "content"
     },
     "copycolor": "#b061a1",
     "currentMeta": {
-      "comment": "",
-      "name": "\"Riedel, Erwin - Allgemeine und Anorganische Chemie\".pdf",
-      "path": "/home/pmk/cognimap/src/assets/pdf/inorganic chemistry/Riedel, Erwin - Allgemeine und Anorganische Chemie.pdf",
-      "pos": "0",
-      "type": "pdf"
+      "comment": " Addition of Halogens",
+      "name": "Addition of boron hydride to alkenes",
+      "path": "http://www.chemtube3d.com/OrganoMainGroupChem(Boron)-Hydroboration(AddnBoronHydridesToAlkenes).html",
+      "pos": "",
+      "type": "link"
     },
     "debug": true,
     "dev": false,

@@ -288,7 +288,10 @@ export class SnapsvgService {
               let jsmesvggroup = concmg.g();
               con = Snap.parse(content.object);
               jsmesvggroup.append(con);
-              jsmesvggroup.selectAll('rect').remove();
+              let rectgrp = jsmesvggroup.selectAll('rect');
+              if (rectgrp[0]) {
+                rectgrp[0].remove();
+              }
               let jsmesvgbbox = jsmesvggroup.getBBox();
               console.log(jsmesvgbbox);
               jsmesvggroup.transform('t' + (coorX + totwidth - jsmesvgbbox.x) + ',' + (coorY - jsmesvgbbox.y));

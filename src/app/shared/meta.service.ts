@@ -143,6 +143,7 @@ export class MetaService {
             complete: true,
             path: path0
           };
+          console.log(arg2);
           this.electronService.ipcRenderer.sendSync('openBrowser', arg2);
           break;
         case 'videos':

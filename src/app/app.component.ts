@@ -174,7 +174,8 @@ export class AppComponent implements AfterViewInit {
     let tpmetaval = this.tpmeta.nativeElement.title;
     if (tpmetaval) {
       tpmetaval = JSON.parse(tpmetaval);
-      if (tpmetaval['type'] && tpmetaval['path'] && tpmetaval['name'] && tpmetaval['pos']) {
+      if (tpmetaval['type'] && tpmetaval['path'] && tpmetaval['name']) {
+        console.log(tpmetaval);
         this.cmsettings.currentMeta = tpmetaval;
         this.settingsService.updateSettings(this.cmsettings);
         this.metaService.openFile(tpmetaval['path'], tpmetaval['type']);

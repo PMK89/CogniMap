@@ -275,6 +275,7 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
                   if (e.target.id.indexOf('meta') !== -1) {
                     let pos = e.target.id.substr((e.target.id.indexOf('meta') + 4));
                     let arg = JSON.stringify(this.cmeo.cmobject.meta[pos]);
+                    console.log(arg);
                     document.getElementById('TPmeta').title = arg;
                   }
                   if (e.target.id.indexOf('_') !== -1) {

@@ -145,6 +145,9 @@ export class TbContentComponent implements OnInit {
     } else {
       this.pos = this.contentlen - 1;
     }
+    // this.elementService.setContentPos(this.pos);
+    this.cmsettings.contentPos = this.pos;
+    this.settingsService.updateSettings(this.cmsettings);
     this.picsize = this.selCMEo.cmobject.content[this.pos].height;
     this.contentCat = this.selCMEo.cmobject.content[this.pos].cat;
     this.contentCorrect = this.selCMEo.cmobject.content[this.pos].correct;

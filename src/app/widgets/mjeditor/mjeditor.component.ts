@@ -31,6 +31,7 @@ export class MjEditorComponent implements OnInit {
   public selCMEo: any;
   public key = -1;
   public cpos: number;
+  public contentPos = -1;
   public matrixX = 2;
   public matrixY = 2;
 
@@ -54,6 +55,22 @@ export class MjEditorComponent implements OnInit {
             this.active = false;
           }
         }
+        if (data.contentPos > -1) {
+          this.contentPos = data.contentPos;
+          if (this.selCMEo) {
+            if (this.selCMEo.cmobject.content !== undefined) {
+              if (this.selCMEo.cmobject.content[this.contentPos]) {
+                if (this.selCMEo.cmobject.content[this.contentPos].cat === 'LateX') {
+                  this.key = this.contentPos;
+                  this.inputtext = this.selCMEo.cmobject.content[this.contentPos].info;
+                  this.mjeditorService.placeSvg(this.inputtext);
+                }
+              }
+            }
+          }
+        } else {
+          this.contentPos = -1;
+        }
         if (data.latexcolor) {
           if (this.active) {
             if (this.color !== data.latexcolor) {
@@ -74,17 +91,24 @@ export class MjEditorComponent implements OnInit {
             if (this.selCMEo.cmobject['content']) {
               if (this.selCMEo.cmobject.content !== undefined) {
                 if (this.selCMEo.cmobject.content.length > 0) {
-                  let counter = 0;
-                  for (let key in this.selCMEo.cmobject.content) {
-                    if (this.selCMEo.cmobject.content[key]) {
-                      let content = this.selCMEo.cmobject.content[key];
-                      if (content.cat === 'LateX') {
-                        this.key = counter;
-                        this.inputtext = content.info;
-                        this.mjeditorService.placeSvg(this.inputtext);
-                        // console.log(this.code, key);
+                  if (this.contentPos > -1 && this.selCMEo.cmobject.content[this.contentPos]
+                    && this.selCMEo.cmobject.content[this.contentPos].cat === 'LateX') {
+                      this.key = this.contentPos;
+                      this.inputtext = this.selCMEo.cmobject.content[this.contentPos].info;
+                      this.mjeditorService.placeSvg(this.inputtext);
+                  } else {
+                    let counter = 0;
+                    for (let key in this.selCMEo.cmobject.content) {
+                      if (this.selCMEo.cmobject.content[key]) {
+                        let content = this.selCMEo.cmobject.content[key];
+                        if (content.cat === 'LateX') {
+                          this.key = counter;
+                          this.inputtext = content.info;
+                          this.mjeditorService.placeSvg(this.inputtext);
+                          // console.log(this.code, key);
+                        }
+                        counter++;
                       }
-                      counter++;
                     }
                   }
                 }

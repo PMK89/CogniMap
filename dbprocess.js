@@ -331,6 +331,19 @@ const createDbWindow = function createDbWindow() {
 		  if (err) console.log(err);
       if (data) {
         datahistoryController(data, 'insert');
+        var catdata = [];
+        if (data.title !== arg.title) {
+          var catpos = data.cat.indexOf(data.title);
+          if (catpos > -1) {
+            data.cat = arg.cat.splice(catpos, 1, arg.title);
+          }
+          catdata = getByCat(data.cat);
+          if (catdata) {
+            catdata = changeCat(catdata, data.title, arg.title);
+            catdata.push(data);
+          }
+          data.title = arg.title;
+        }
         data.coor = arg.coor;
         data.x0 = arg.x0;
         data.y0 = arg.y0;
@@ -354,7 +367,11 @@ const createDbWindow = function createDbWindow() {
             console.log('changeCME end: ', arg.id, Date.now())
           }
 				});
-        event.sender.send('changedCME', data.id);
+        if (catdata && catdata.length > 0) {
+          event.sender.send('changedCME', catdata);
+        } else {
+          event.sender.send('changedCME', data.id);
+        }
       }
 	  });
   })
@@ -615,6 +632,43 @@ function loadQuizes() {
     quizes = JSON.parse(fs.readFileSync('./data/quizes.json'));
   }
 }
+
+// gets all elements with same category
+function getByCat(cat0) {
+  console.log(cat0);
+  cme.find({cat: {
+    $elemMatch: cat0
+  }}, function(err, data) {
+    if (err) {
+      console.log(err);
+      return [];
+    }  else {
+      console.log(data);
+      return data;
+    }
+  });
+}
+
+// gets all elements with same category
+function changeCat(data, title0, title1) {
+  const l = data.length;
+  var i;
+  for (i = 0; i < l; i++) {
+    if (data[i]) {
+      var catpos = data[i].cat.indexOf(title0);
+      if (catpos > -1) {
+        console.log(data[i].cat);
+        data[i].cat = data[i].cat.splice(catpos, 1, title1)
+        console.log(data[i].cat);
+        data[i].save(function (err) {
+          if (err) console.log(err); // #error message
+        });
+      }
+    }
+  }
+  return data;
+}
+
 
 // saves and retrieves changes in the database
 function datahistoryController(data, ident) {

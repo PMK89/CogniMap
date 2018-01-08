@@ -6,17 +6,17 @@ export interface Action {
 }
 
 export class Dispatcher extends BehaviorSubject<Action> {
-  static INIT = '@ngrx/store/init';
+  public static INIT = '@ngrx/store/init';
 
   constructor() {
     super({ type: Dispatcher.INIT });
   }
 
-  dispatch(action: Action): void {
+  public dispatch(action: Action): void {
     this.next(action);
   }
 
-  complete() {
+    public complete() {
     // noop
   }
 }
