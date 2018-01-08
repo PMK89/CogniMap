@@ -331,18 +331,8 @@ const createDbWindow = function createDbWindow() {
 		  if (err) console.log(err);
       if (data) {
         datahistoryController(data, 'insert');
-        var catdata = [];
         if (data.title !== arg.title) {
-          var catpos = data.cat.indexOf(data.title);
-          if (catpos > -1) {
-            data.cat = arg.cat.splice(catpos, 1, arg.title);
-          }
-          catdata = getByCat(data.cat);
-          if (catdata) {
-            catdata = changeCat(catdata, data.title, arg.title);
-            catdata.push(data);
-          }
-          data.title = arg.title;
+          findCatChildren(data, data.title, arg.title, event);
         }
         data.coor = arg.coor;
         data.x0 = arg.x0;
@@ -367,11 +357,7 @@ const createDbWindow = function createDbWindow() {
             console.log('changeCME end: ', arg.id, Date.now())
           }
 				});
-        if (catdata && catdata.length > 0) {
-          event.sender.send('changedCME', catdata);
-        } else {
-          event.sender.send('changedCME', data.id);
-        }
+        event.sender.send('changedCME', data.id);
       }
 	  });
   })
@@ -667,6 +653,109 @@ function changeCat(data, title0, title1) {
     }
   }
   return data;
+}
+
+// finds child elements with the same category
+function findCatChildren(arg, title0, title1, event) {
+  // variables to store different types of objects ids
+  var selCMEoArray = [];
+  var cmeArray = [];
+  var endcounter = 0;
+  const catl = arg.cat.length;
+  waiting = false;
+  selectLinks(arg);
+  // triggers a timeout to check if new elements were added
+  function waitingTime() {
+    if (!waiting) {
+      waiting = true;
+      setTimeout(function() {
+        waiting = false;
+        checkEnd();
+      }, 100);
+      return;
+    }
+  }
+  // function to check if the iteration is still in progress
+  function checkEnd() {
+    if (endcounter === 0) {
+      endcounter = Date.now();
+    } else {
+      if ((Date.now() - endcounter) >= 100) {
+        // console.info(cmeArray);
+        event.sender.send('changedCME', cmeArray);
+      } else if (!waiting) {
+        endcounter = Date.now();
+        waitingTime();
+      } else {
+        endcounter = Date.now();
+      }
+    }
+  }
+  // function to find elements from links
+  function selectLinks(cme0) {
+    if (cme0) {
+      if (typeof cme0.id === 'number') {
+        if (cme0.id >= 1) {
+          if (selCMEoArray.indexOf(cme0.id) === -1) {
+            var iscat = false;
+            for (var i = 0; i < catl; i++) {
+              if (arg.cat[i] && cme0.cat[i]) {
+                if (arg.cat[i] === cme0.cat[i] || title0 === cme0.cat[i]) {
+                  iscat = true;
+                } else {
+                  iscat = false
+                }
+              } else {
+                iscat = false
+              }
+            }
+            if (iscat) {
+              var catpos = cme0.cat.indexOf(title0);
+              if (catpos > -1) {
+                cme0.cat[catpos] = title1;
+                cme0.save(function (err) {
+                  if (err) console.log(err); // #error message
+                });
+                cmeArray.push(cme0);
+                var cmobject;
+                if (typeof cme0.cmobject === 'string') {
+                  cmobject = JSON.parse(cme0.cmobject);
+                } else {
+                  cmobject = cme0.cmobject;
+                }
+                if (cmobject.links) {
+                  selCMEoArray.push(cme0.id);
+                  if (cmobject.links.length > 1) {
+                    for (var key in cmobject.links) {
+                      if (cmobject.links[key]) {
+                        var link = cmobject.links[key];
+                        var targetIdIndex = selCMEoArray.indexOf(link.targetId);
+                        if (targetIdIndex === -1) {
+                          cme.findOne({id: link.targetId}, function(err, data) {
+                            if (err) {
+                              console.log(err);
+                            } else {
+                              if (data) {
+                                selectLinks(data);
+                              } else {
+                                console.log("Error (Child) at ParentID: ", cme0.id, " ChildId: ", link.targetId, " LinkId: ", link.id);
+                              }
+                            }
+                          });
+                        }
+                      }
+                    }
+                  } else {
+                    checkEnd();
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 

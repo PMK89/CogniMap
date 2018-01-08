@@ -76,11 +76,12 @@ export class ElementService {
                 });
                 this.electronService.ipcRenderer.on('changedCME', (event, arg) => {
                   if (arg) {
-                    if (arg.isArray()) {
-                      store.dispatch({
-                        type: 'UPDATE_CME',
-                        payload: arg
-                      });
+                    if (Array.isArray(arg)) {
+                      for (let key in arg) {
+                        if (arg[key]) {
+                          this.updateCME(arg[key]);
+                        }
+                      }
                       console.log('changedCME: ', arg);
                     } else {
                       console.log('changedCME: ', arg);
@@ -1975,6 +1976,10 @@ export class ElementService {
                 };
                 this.selCMEo.cmobject.content.push(content);
               } else {
+                let catpos = this.selCMEo.cat.indexOf(this.selCMEo.title);
+                if (catpos > -1) {
+                  this.selCMEo.cat[catpos] = action.value;
+                }
                 this.selCMEo.title = action.value;
               }
               this.selCMEo.state = 'new';
