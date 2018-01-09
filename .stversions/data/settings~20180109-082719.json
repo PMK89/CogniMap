@@ -96,9 +96,10 @@
       ]
     },
     "cngtemp": false,
+    "contentPos": -1,
     "coor": {
-      "x": 273304,
-      "y": 95551
+      "x": 260171,
+      "y": 110033
     },
     "copy": {
       "num": 0,
@@ -109,11 +110,11 @@
     },
     "copycolor": "#b061a1",
     "currentMeta": {
-      "comment": "",
-      "name": "\"Bruice - 2006 - Organic Chemistry - 5th\".pdf",
-      "path": "/home/pmk/cognimap/src/assets/pdf/organic chemistry/Bruice - 2006 - Organic Chemistry - 5th.pdf",
-      "pos": "147",
-      "type": "pdf"
+      "comment": " Addition of Halogens",
+      "name": "Addition of boron hydride to alkenes",
+      "path": "http://www.chemtube3d.com/OrganoMainGroupChem(Boron)-Hydroboration(AddnBoronHydridesToAlkenes).html",
+      "pos": "",
+      "type": "link"
     },
     "debug": true,
     "dev": false,

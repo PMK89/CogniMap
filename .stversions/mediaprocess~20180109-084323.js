@@ -34,7 +34,7 @@ const createMediaWindow = function createMediaWindow () {
               } else {
                 var cognimappos = arg.path.indexOf('/cognimap');
                 if (cognimappos > -1) {
-                  var pathstring = arg.path.slice(cognimappos + 9);
+                  var pathstring = arg.path.slice(cognimappos);
                   path = 'file://' + __dirname + pathstring;
                 }
               }
@@ -52,7 +52,7 @@ const createMediaWindow = function createMediaWindow () {
               } else {
                 var cognimappos = arg.path.indexOf('/cognimap');
                 if (cognimappos > -1) {
-                  var pathstring = arg.path.slice(cognimappos + 9);
+                  var pathstring = arg.path.slice(cognimappos);
                   path = 'file://' + __dirname + pathstring;
                 }
               }
@@ -75,7 +75,7 @@ const createMediaWindow = function createMediaWindow () {
               } else {
                 var cognimappos = arg.path.indexOf('/cognimap');
                 if (cognimappos > -1) {
-                  var pathstring = arg.path.slice(cognimappos + 9);
+                  var pathstring = arg.path.slice(cognimappos);
                   path = 'vlc' + __dirname + pathstring;
                 }
               }
@@ -99,7 +99,7 @@ const createMediaWindow = function createMediaWindow () {
               } else {
                 var cognimappos = arg.path.indexOf('/cognimap');
                 if (cognimappos > -1) {
-                  var pathstring = arg.path.slice(cognimappos + 9);
+                  var pathstring = arg.path.slice(cognimappos);
                   path = __dirname + pathstring;
                 }
               }

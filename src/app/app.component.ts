@@ -178,7 +178,15 @@ export class AppComponent implements AfterViewInit {
         console.log(tpmetaval);
         this.cmsettings.currentMeta = tpmetaval;
         this.settingsService.updateSettings(this.cmsettings);
-        this.metaService.openFile(tpmetaval['path'], tpmetaval['type']);
+        if (tpmetaval['type'] === 'pdf' && tpmetaval['pos']) {
+          this.metaService.openPdfPage(tpmetaval['path'], parseInt(tpmetaval['pos'], 10));
+        } else if (tpmetaval['type'] === 'link' && tpmetaval['pos']) {
+          this.metaService.openLinkPosition(tpmetaval['path'], tpmetaval['pos']);
+        } else if ((tpmetaval['type'] === 'audio' || tpmetaval['type'] === 'videos') && tpmetaval['pos']) {
+          this.metaService.openVideoTime(tpmetaval['path'], parseInt(tpmetaval['pos'], 10));
+        } else {
+          this.metaService.openFile(tpmetaval['path'], tpmetaval['type']);
+        }
         this.tpmeta.nativeElement.title = '0';
       }
     }

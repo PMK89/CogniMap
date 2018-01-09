@@ -98,23 +98,23 @@
     "cngtemp": false,
     "contentPos": -1,
     "coor": {
-      "x": 277609,
-      "y": 119884
+      "x": 274921,
+      "y": 97994
     },
     "copy": {
       "num": 0,
       "numArray": [],
-      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"assets/images/chem/oc/Namensreaktionen-Modell/simmons-smith-reaktion.gif\",\"width\":362,\"info\":\"gif\",\"height\":100,\"correct\":true}",
+      "strg": "{\"cat\":\"jsme-svg\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" version=\\\"1.1\\\" width=\\\"553\\\" height=\\\"298\\\"><style> text { cursor: default; } </style><g transform=\\\"scale(0.03333333333333333)\\\">\\n<rect x=\\\"0\\\" y=\\\"0\\\" height=\\\"8940\\\" width=\\\"16590\\\" stroke=\\\"none\\\" fill=\\\"white\\\" />\\n<line x1=\\\"6735\\\" y1=\\\"6156\\\" x2=\\\"6967\\\" y2=\\\"5443\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"6967\\\" y1=\\\"5443\\\" x2=\\\"6360\\\" y2=\\\"5002\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"6360\\\" y1=\\\"5002\\\" x2=\\\"5753\\\" y2=\\\"5443\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"5810\\\" y1=\\\"5424\\\" x2=\\\"6042\\\" y2=\\\"6138\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"5696\\\" y1=\\\"5461\\\" x2=\\\"5928\\\" y2=\\\"6175\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"5985\\\" y1=\\\"6156\\\" x2=\\\"6735\\\" y2=\\\"6156\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"6967\\\" y1=\\\"5443\\\" x2=\\\"7680\\\" y2=\\\"5211\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"6967\\\" y1=\\\"5443\\\" x2=\\\"7199\\\" y2=\\\"4730\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"5985\\\" y1=\\\"6156\\\" x2=\\\"5544\\\" y2=\\\"6763\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<rect x=\\\"5319\\\" y=\\\"6553\\\" height=\\\"450\\\" width=\\\"420\\\" stroke=\\\"none\\\" fill=\\\"white\\\" />\\n<text x=\\\"5409\\\" y=\\\"6943\\\"  font-size=\\\"390px\\\" font-family=\\\"Helvetica\\\" fill=\\\"rgb(64,64,64)\\\">X</text>\\n</g></svg>\",\"width\":78.6875,\"info\":\"CC1(C)CC=C([X])C1\",\"height\":100,\"correct\":true}",
       "strgArray": [],
       "type": "content"
     },
     "copycolor": "#b061a1",
     "currentMeta": {
-      "comment": " Addition of Halogens",
-      "name": "Addition of boron hydride to alkenes",
-      "path": "http://www.chemtube3d.com/OrganoMainGroupChem(Boron)-Hydroboration(AddnBoronHydridesToAlkenes).html",
-      "pos": "",
-      "type": "link"
+      "comment": "3Blue1Brown",
+      "name": "5_The_determinant.mp4",
+      "path": "/home/pmk/cognimap/src/assets/videos/math/linear_algebra/5_The_determinant.mp4",
+      "pos": "120",
+      "type": "videos"
     },
     "debug": true,
     "dev": false,

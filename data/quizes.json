@@ -1,122 +1,122 @@
 [
   {
     "id": 12121,
-    "update": 17539,
-    "difficulty": 0.2647058823529411,
-    "interval": 1
+    "update": 17540,
+    "difficulty": 0.2058823529411764,
+    "interval": 3
   },
   {
     "id": 12122,
-    "update": 17539,
-    "difficulty": 0.911764705882353,
-    "interval": 2
+    "update": 17540,
+    "difficulty": 0.9882352941176472,
+    "interval": 1
   },
   {
     "id": 12399,
-    "update": 17539,
-    "difficulty": 0.6089411764705883,
-    "interval": 1
+    "update": 17540,
+    "difficulty": 0.7618823529411766,
+    "interval": 2
   },
   {
     "id": 12440,
-    "update": 17539,
-    "difficulty": 0.6074117647058824,
-    "interval": 1
+    "update": 17540,
+    "difficulty": 0.7603529411764707,
+    "interval": 2
   },
   {
     "id": 12441,
-    "update": 17539,
-    "difficulty": 0.6074117647058824,
-    "interval": 1
+    "update": 17540,
+    "difficulty": 0.7603529411764707,
+    "interval": 2
   },
   {
     "id": 12442,
-    "update": 17539,
-    "difficulty": 0.6074117647058824,
-    "interval": 1
+    "update": 17540,
+    "difficulty": 0.7603529411764707,
+    "interval": 2
   },
   {
     "id": 12443,
-    "update": 17539,
+    "update": 17540,
     "difficulty": 1,
     "interval": 1
   },
   {
     "id": 12444,
-    "update": 17539,
-    "difficulty": 0.6074117647058824,
-    "interval": 3
-  },
-  {
-    "id": 12445,
-    "update": 17539,
-    "difficulty": 0.6074117647058824,
-    "interval": 3
-  },
-  {
-    "id": 12446,
-    "update": 17539,
-    "difficulty": 0.6074117647058824,
-    "interval": 3
-  },
-  {
-    "id": 12447,
-    "update": 17539,
-    "difficulty": 0.6074117647058824,
+    "update": 17540,
+    "difficulty": 0.5878039215686275,
     "interval": 1
   },
   {
+    "id": 12445,
+    "update": 17540,
+    "difficulty": 0.5878039215686275,
+    "interval": 1
+  },
+  {
+    "id": 12446,
+    "update": 17540,
+    "difficulty": 0.5878039215686275,
+    "interval": 1
+  },
+  {
+    "id": 12447,
+    "update": 17540,
+    "difficulty": 0.7603529411764707,
+    "interval": 2
+  },
+  {
     "id": 12476,
-    "update": 17539,
-    "difficulty": 0.6074117647058824,
-    "interval": 3
+    "update": 17540,
+    "difficulty": 0.6583921568627452,
+    "interval": 1
   },
   {
     "id": 12477,
-    "update": 17539,
-    "difficulty": 0.6105882352941177,
-    "interval": 3
+    "update": 17540,
+    "difficulty": 0.5909803921568627,
+    "interval": 1
   },
   {
     "id": 12483,
-    "update": 17539,
-    "difficulty": 0.6074117647058824,
-    "interval": 3
+    "update": 17540,
+    "difficulty": 0.5878039215686275,
+    "interval": 1
   },
   {
     "id": 12494,
-    "update": 17539,
-    "difficulty": 0.6074117647058824,
-    "interval": 3
+    "update": 17540,
+    "difficulty": 0.6583921568627452,
+    "interval": 1
   },
   {
     "id": 12495,
-    "update": 17539,
-    "difficulty": 0.6105882352941177,
-    "interval": 3
+    "update": 17540,
+    "difficulty": 0.6615686274509804,
+    "interval": 1
   },
   {
     "id": 12496,
-    "update": 17539,
-    "difficulty": 0.6074117647058824,
-    "interval": 3
+    "update": 17540,
+    "difficulty": 0.5878039215686275,
+    "interval": 1
   },
   {
     "id": 12507,
-    "update": 17539,
+    "update": 17540,
     "difficulty": 1,
     "interval": 1
   },
   {
     "id": 12529,
-    "update": 17539,
-    "difficulty": 0.6058823529411765,
-    "interval": 3
+    "update": 17540,
+    "difficulty": 0.6568627450980393,
+    "interval": 1
   },
   {
     "id": 12530,
-    "update": 17539,
-    "difficulty": 0.6058823529411765,
-    "interval": 3
+    "update": 17540,
+    "difficulty": 0.6568627450980393,
+    "interval": 1
   }
 ]
