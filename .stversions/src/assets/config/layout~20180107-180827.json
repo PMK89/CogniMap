@@ -1,0 +1,46 @@
+[{
+	"toolbar": {
+		"left": "0px",
+		"top": "0px",
+    "z-index": 500,
+    "position": "fixed",
+		"width": "100%",
+		"height": "10%",
+		"border": "0px",
+		"border-color": "#000000",
+		"display": "block"
+	},
+  "cmap": {
+		"left": "0px",
+		"top": "0px",
+    "z-index": 0,
+    "position": "absolute",
+		"width": "500000px",
+		"height": "500000px",
+		"border": "0px",
+		"border-color": "#000000",
+		"display": "block"
+	},
+  "menue": {
+		"left": "400px",
+		"top": "400px",
+    "z-index": 450,
+    "position": "relative",
+		"width": "50px",
+		"height": "50px",
+		"border": "0px",
+		"border-color": "#000000",
+		"display": "none"
+	},
+	"widget": {
+		"left": "0px",
+		"top": "10%",
+    "z-index": 500,
+    "position": "fixed",
+		"width": "600px",
+		"height": "800px",
+		"border": "0px",
+		"border-color": "#000000",
+		"display": "none"
+	}
+}]

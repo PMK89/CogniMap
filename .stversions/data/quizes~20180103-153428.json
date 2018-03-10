@@ -1,0 +1,50 @@
+[
+  {
+    "id": 12121,
+    "update": 17535,
+    "difficulty": 0.5,
+    "interval": 100
+  },
+  {
+    "id": 12122,
+    "update": 17535,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 12123,
+    "update": 17535,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 12124,
+    "update": 17535,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 12125,
+    "update": 17535,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 12127,
+    "update": 17535,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 12128,
+    "update": 17535,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 12129,
+    "update": 17535,
+    "difficulty": 0.3,
+    "interval": 100
+  }
+]

@@ -58,14 +58,14 @@
       ]
     },
     "cmtbmarking": {
-      "color0": "#83ad83",
-      "color1": "#ffbf00",
-      "prio": 3,
-      "trans": 0.40000000000000013,
+      "color0": "#1200ff",
+      "color1": "#1200ff",
+      "prio": 9,
+      "trans": 0.6000000000000001,
       "types": [
         "m",
-        "r",
-        "0"
+        "t",
+        "b"
       ]
     },
     "cmtbobject": {
@@ -88,7 +88,7 @@
       "color0": "none",
       "color1": "#1200ff",
       "difficulty": 0.3,
-      "interval": "100",
+      "interval": "3",
       "types": [
         "q",
         "a",
@@ -96,25 +96,25 @@
       ]
     },
     "cngtemp": false,
-    "contentPos": -1,
+    "contentPos": 0,
     "coor": {
-      "x": 274921,
-      "y": 97994
+      "x": 338962,
+      "y": 337206
     },
     "copy": {
       "num": 0,
       "numArray": [],
-      "strg": "{\"cat\":\"jsme-svg\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" version=\\\"1.1\\\" width=\\\"553\\\" height=\\\"298\\\"><style> text { cursor: default; } </style><g transform=\\\"scale(0.03333333333333333)\\\">\\n<rect x=\\\"0\\\" y=\\\"0\\\" height=\\\"8940\\\" width=\\\"16590\\\" stroke=\\\"none\\\" fill=\\\"white\\\" />\\n<line x1=\\\"6735\\\" y1=\\\"6156\\\" x2=\\\"6967\\\" y2=\\\"5443\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"6967\\\" y1=\\\"5443\\\" x2=\\\"6360\\\" y2=\\\"5002\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"6360\\\" y1=\\\"5002\\\" x2=\\\"5753\\\" y2=\\\"5443\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"5810\\\" y1=\\\"5424\\\" x2=\\\"6042\\\" y2=\\\"6138\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"5696\\\" y1=\\\"5461\\\" x2=\\\"5928\\\" y2=\\\"6175\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"5985\\\" y1=\\\"6156\\\" x2=\\\"6735\\\" y2=\\\"6156\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"6967\\\" y1=\\\"5443\\\" x2=\\\"7680\\\" y2=\\\"5211\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"6967\\\" y1=\\\"5443\\\" x2=\\\"7199\\\" y2=\\\"4730\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"5985\\\" y1=\\\"6156\\\" x2=\\\"5544\\\" y2=\\\"6763\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<rect x=\\\"5319\\\" y=\\\"6553\\\" height=\\\"450\\\" width=\\\"420\\\" stroke=\\\"none\\\" fill=\\\"white\\\" />\\n<text x=\\\"5409\\\" y=\\\"6943\\\"  font-size=\\\"390px\\\" font-family=\\\"Helvetica\\\" fill=\\\"rgb(64,64,64)\\\">X</text>\\n</g></svg>\",\"width\":78.6875,\"info\":\"CC1(C)CC=C([X])C1\",\"height\":100,\"correct\":true}",
+      "strg": "{\"cat\":\"jsme-svg\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" version=\\\"1.1\\\" width=\\\"553\\\" height=\\\"298\\\"><style> text { cursor: default; } </style><g transform=\\\"scale(0.03333333333333333)\\\">\\n<rect x=\\\"0\\\" y=\\\"0\\\" height=\\\"8940\\\" width=\\\"16590\\\" stroke=\\\"none\\\" fill=\\\"white\\\" />\\n<line x1=\\\"4275\\\" y1=\\\"2467\\\" x2=\\\"3900\\\" y2=\\\"1817\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"3900\\\" y1=\\\"1817\\\" x2=\\\"3525\\\" y2=\\\"2467\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<line x1=\\\"3525\\\" y1=\\\"2467\\\" x2=\\\"4275\\\" y2=\\\"2467\\\" stroke=\\\"black\\\" stroke-width=\\\"30\\\" />\\n<rect x=\\\"3660\\\" y=\\\"1607\\\" height=\\\"450\\\" width=\\\"450\\\" stroke=\\\"none\\\" fill=\\\"white\\\" />\\n<text x=\\\"3750\\\" y=\\\"1997\\\"  font-size=\\\"390px\\\" font-family=\\\"Helvetica\\\" fill=\\\"red\\\">O</text>\\n</g></svg>\",\"width\":25,\"info\":\"C1CO1\",\"height\":100,\"correct\":true}",
       "strgArray": [],
       "type": "content"
     },
-    "copycolor": "#b061a1",
+    "copycolor": "#b693b3",
     "currentMeta": {
-      "comment": "3Blue1Brown",
-      "name": "5_The_determinant.mp4",
-      "path": "/home/pmk/cognimap/src/assets/videos/math/linear_algebra/5_The_determinant.mp4",
-      "pos": "120",
-      "type": "videos"
+      "comment": "Anwendung Lagrange",
+      "name": "\"Nolting - Grundkurs Theoretische Physik 2 Analytische Mechanik\".pdf",
+      "path": "/home/pmk/cognimap/src/assets/pdf/physics/Nolting - Grundkurs Theoretische Physik 2 Analytische Mechanik.pdf",
+      "pos": "32",
+      "type": "pdf"
     },
     "debug": true,
     "dev": false,
@@ -122,7 +122,7 @@
     "dragging": false,
     "epath": "",
     "id": 1,
-    "latexcolor": "#ffff00",
+    "latexcolor": "#0000ff",
     "menue": {
       "display": "block",
       "height": 400,

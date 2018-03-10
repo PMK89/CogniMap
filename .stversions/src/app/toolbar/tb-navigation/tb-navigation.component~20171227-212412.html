@@ -1,0 +1,59 @@
+<div class="tbbox">
+  <table id="navitable">
+    <tr>
+      <td>
+        <app-s-button [buttons]="buttons" [selector]="600"></app-s-button>
+      </td>
+      <td colspan="2">
+        <select [(ngModel)]="widget0" (change)="changeWidget(0)">
+          <option *ngFor="let widget of widgets" value= {{widget}}>
+             {{widget}}
+          </option>
+        </select>
+      </td>
+      <td *ngIf="widget0 === 'svg' || widget0 === 'formula'">
+        <div (click)="openWidget(widget0)"  [ngStyle]="selectionStyle('minimap')" class="lbtndefault">
+          <img src="assets/images/svgelements/menue/widget_big.svg" width="20px" height="20px">
+        </div>
+      </td>
+      <td>
+        <div (click)="changeMode('cmap')"  [ngStyle]="selectionStyle('cmap')">
+          C
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <app-s-button [buttons]="buttons" [selector]="602"></app-s-button>
+      </td>
+      <td colspan="2">
+        <select [(ngModel)]="widget1" (change)="changeWidget(1)">
+          <option *ngFor="let widget of widgets" value={{widget}}>
+             {{widget}}
+          </option>
+        </select>
+      </td>
+      <td *ngIf="widget1 === 'svg' || widget1 === 'formula'">
+        <div (click)="openWidget(widget1)" [ngStyle]="selectionStyle('minimap')" class="lbtndefault">
+          <img src="assets/images/svgelements/menue/widget_big.svg" width="20px" height="20px">
+        </div>
+      </td>
+      <td>
+        <div (click)="changeMode('minimap')"  [ngStyle]="selectionStyle('minimap')">
+          M
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <app-s-button [buttons]="buttons" [selector]="603"></app-s-button>
+      </td>
+      <td>
+        <app-s-button [buttons]="buttons" [selector]="605"></app-s-button>
+      </td>
+      <td>
+        <app-s-button [buttons]="buttons" [selector]="604"></app-s-button>
+      </td>
+    </tr>
+  </table>
+</div>

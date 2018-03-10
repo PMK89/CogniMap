@@ -50,7 +50,7 @@ export class QuizService {
                 if (quizcme.cmobject.content[pos]) {
                   this.showAnswer(quizcme, tpquizval);
                   if (quizcme.cmobject.content[pos].correct) {
-                    this.electronService.ipcRenderer.send('answerQuiz', {id: id0, scale: 1});
+                    this.electronService.ipcRenderer.send('answerQuiz', {id: id0, scale: 0});
                   } else {
                     this.electronService.ipcRenderer.send('answerQuiz', {id: id0, scale: 2});
                   }

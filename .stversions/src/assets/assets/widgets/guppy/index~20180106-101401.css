@@ -1,0 +1,54 @@
+body {
+    padding-left: 10px;
+    padding-top:10px;
+    font-size: 12px;
+
+    background-color: #ececec;
+}
+
+#guppy1 {
+    width: 550px;
+    border: 2px solid black;
+    height: 100px;
+    padding: 3px;
+    box-shadow: 1px 1px 1px 0 lightgray inset;
+    cursor: text;
+}
+
+#result {
+    width: 550px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+#help_card {
+    width: 550px;
+    float: left;
+    border: 1px solid black;
+    padding: 3px;
+}
+
+#stuff {
+    padding-top:3px;
+}
+
+.guppy_active {
+    background-color: #ffffff;
+}
+
+.guppy_inactive {
+    background-color: #fafafa;
+}
+
+.guppy_active .main_cursor {
+  animation: blink-animation 1s steps(2, start) infinite;
+  -webkit-animation: blink-animation 1s steps(2, start) infinite;
+}
+
+@keyframes blink-animation {
+  to { visibility: hidden; }
+}
+
+@-webkit-keyframes blink-animation {
+  to { visibility: hidden; }
+}

@@ -1,0 +1,662 @@
+[
+  {
+    "id": 12121,
+    "update": 17566,
+    "difficulty": 0,
+    "interval": 3
+  },
+  {
+    "id": 12122,
+    "update": 17567,
+    "difficulty": 0.7647058823529411,
+    "interval": 2
+  },
+  {
+    "id": 12399,
+    "update": 17569,
+    "difficulty": 0.676470588235294,
+    "interval": 2
+  },
+  {
+    "id": 12440,
+    "update": 17569,
+    "difficulty": 0.0843137254901961,
+    "interval": 3
+  },
+  {
+    "id": 12441,
+    "update": 17569,
+    "difficulty": 0.676470588235294,
+    "interval": 2
+  },
+  {
+    "id": 12442,
+    "update": 17569,
+    "difficulty": 0.7058823529411764,
+    "interval": 2
+  },
+  {
+    "id": 12443,
+    "update": 17569,
+    "difficulty": 0.6588235294117647,
+    "interval": 2
+  },
+  {
+    "id": 12444,
+    "update": 17569,
+    "difficulty": 0,
+    "interval": 3
+  },
+  {
+    "id": 12445,
+    "update": 17567,
+    "difficulty": 0.32701960784313727,
+    "interval": 2
+  },
+  {
+    "id": 12446,
+    "update": 17569,
+    "difficulty": 0.26819607843137255,
+    "interval": 3
+  },
+  {
+    "id": 12447,
+    "update": 17569,
+    "difficulty": 0.6470588235294117,
+    "interval": 2
+  },
+  {
+    "id": 12476,
+    "update": 17567,
+    "difficulty": 0.7647058823529411,
+    "interval": 2
+  },
+  {
+    "id": 12477,
+    "update": 17568,
+    "difficulty": 0.16745098039215678,
+    "interval": 3
+  },
+  {
+    "id": 12483,
+    "update": 17566,
+    "difficulty": 0,
+    "interval": 3
+  },
+  {
+    "id": 12494,
+    "update": 17567,
+    "difficulty": 0.8054509803921569,
+    "interval": 2
+  },
+  {
+    "id": 12495,
+    "update": 17567,
+    "difficulty": 0.6705882352941177,
+    "interval": 2
+  },
+  {
+    "id": 12496,
+    "update": 17568,
+    "difficulty": 0.888235294117647,
+    "interval": 1
+  },
+  {
+    "id": 12507,
+    "update": 17567,
+    "difficulty": 0.7176470588235294,
+    "interval": 2
+  },
+  {
+    "id": 12529,
+    "update": 17567,
+    "difficulty": 0.5137254901960784,
+    "interval": 2
+  },
+  {
+    "id": 12530,
+    "update": 17567,
+    "difficulty": 0.7529411764705882,
+    "interval": 2
+  },
+  {
+    "id": 13305,
+    "update": 17568,
+    "difficulty": 0.5235294117647059,
+    "interval": 2
+  },
+  {
+    "id": 13306,
+    "update": 17568,
+    "difficulty": 0.40588235294117636,
+    "interval": 2
+  },
+  {
+    "id": 13307,
+    "update": 17565,
+    "difficulty": 0,
+    "interval": 4
+  },
+  {
+    "id": 13308,
+    "update": 17567,
+    "difficulty": 0,
+    "interval": 2
+  },
+  {
+    "id": 13309,
+    "update": 17567,
+    "difficulty": 0,
+    "interval": 2
+  },
+  {
+    "id": 13310,
+    "update": 17567,
+    "difficulty": 0.34858823529411764,
+    "interval": 2
+  },
+  {
+    "id": 13311,
+    "update": 17567,
+    "difficulty": 0.7647058823529411,
+    "interval": 2
+  },
+  {
+    "id": 13312,
+    "update": 17566,
+    "difficulty": 0.23486274509803928,
+    "interval": 3
+  },
+  {
+    "id": 13313,
+    "update": 17568,
+    "difficulty": 0.173921568627451,
+    "interval": 3
+  },
+  {
+    "id": 13314,
+    "update": 17568,
+    "difficulty": 0.21509803921568627,
+    "interval": 3
+  },
+  {
+    "id": 13315,
+    "update": 17566,
+    "difficulty": 0,
+    "interval": 3
+  },
+  {
+    "id": 13316,
+    "update": 17565,
+    "difficulty": 0,
+    "interval": 4
+  },
+  {
+    "id": 13317,
+    "update": 17565,
+    "difficulty": 0,
+    "interval": 4
+  },
+  {
+    "id": 13332,
+    "update": 17567,
+    "difficulty": 0.5254901960784314,
+    "interval": 2
+  },
+  {
+    "id": 13333,
+    "update": 17567,
+    "difficulty": 0.7352941176470588,
+    "interval": 2
+  },
+  {
+    "id": 13348,
+    "update": 17568,
+    "difficulty": 0.5058823529411764,
+    "interval": 2
+  },
+  {
+    "id": 13698,
+    "update": 17568,
+    "difficulty": 0.4647058823529412,
+    "interval": 2
+  },
+  {
+    "id": 13699,
+    "update": 17566,
+    "difficulty": 0.14901960784313723,
+    "interval": 3
+  },
+  {
+    "id": 13700,
+    "update": 17568,
+    "difficulty": 0,
+    "interval": 3
+  },
+  {
+    "id": 13701,
+    "update": 17567,
+    "difficulty": 0.5705882352941176,
+    "interval": 2
+  },
+  {
+    "id": 13702,
+    "update": 17567,
+    "difficulty": 0.403921568627451,
+    "interval": 2
+  },
+  {
+    "id": 13703,
+    "update": 17567,
+    "difficulty": 0.2725490196078431,
+    "interval": 3
+  },
+  {
+    "id": 13704,
+    "update": 17567,
+    "difficulty": 0.33921568627450976,
+    "interval": 2
+  },
+  {
+    "id": 13705,
+    "update": 17569,
+    "difficulty": 0.10980392156862741,
+    "interval": 3
+  },
+  {
+    "id": 13706,
+    "update": 17567,
+    "difficulty": 0.3784313725490196,
+    "interval": 2
+  },
+  {
+    "id": 13707,
+    "update": 17567,
+    "difficulty": 0.03333333333333333,
+    "interval": 2
+  },
+  {
+    "id": 13708,
+    "update": 17567,
+    "difficulty": 0.5705882352941176,
+    "interval": 2
+  },
+  {
+    "id": 13963,
+    "update": 17567,
+    "difficulty": 0.7235294117647061,
+    "interval": 2
+  },
+  {
+    "id": 13983,
+    "update": 17567,
+    "difficulty": 0.7235294117647061,
+    "interval": 2
+  },
+  {
+    "id": 14014,
+    "update": 17568,
+    "difficulty": 0.2052941176470588,
+    "interval": 3
+  },
+  {
+    "id": 14045,
+    "update": 17567,
+    "difficulty": 0.7034901960784314,
+    "interval": 2
+  },
+  {
+    "id": 14050,
+    "update": 17567,
+    "difficulty": 0.7329019607843138,
+    "interval": 2
+  },
+  {
+    "id": 14088,
+    "update": 17567,
+    "difficulty": 0.7313725490196079,
+    "interval": 2
+  },
+  {
+    "id": 14089,
+    "update": 17567,
+    "difficulty": 0.392156862745098,
+    "interval": 2
+  },
+  {
+    "id": 14179,
+    "update": 17567,
+    "difficulty": 0.8823529411764706,
+    "interval": 2
+  },
+  {
+    "id": 14181,
+    "update": 17566,
+    "difficulty": 0.03529411764705878,
+    "interval": 3
+  },
+  {
+    "id": 14182,
+    "update": 17567,
+    "difficulty": 0.24509803921568624,
+    "interval": 3
+  },
+  {
+    "id": 14183,
+    "update": 17567,
+    "difficulty": 0.49607843137254903,
+    "interval": 2
+  },
+  {
+    "id": 14184,
+    "update": 17567,
+    "difficulty": 0.45686274509803915,
+    "interval": 2
+  },
+  {
+    "id": 14185,
+    "update": 17567,
+    "difficulty": 0.45686274509803915,
+    "interval": 2
+  },
+  {
+    "id": 14186,
+    "update": 17566,
+    "difficulty": 0.03529411764705878,
+    "interval": 3
+  },
+  {
+    "id": 14593,
+    "update": 17568,
+    "difficulty": 0.33529411764705885,
+    "interval": 2
+  },
+  {
+    "id": 14594,
+    "update": 17567,
+    "difficulty": 0.32352941176470584,
+    "interval": 2
+  },
+  {
+    "id": 14624,
+    "update": 17567,
+    "difficulty": 0.33529411764705885,
+    "interval": 2
+  },
+  {
+    "id": 14625,
+    "update": 17568,
+    "difficulty": 0.33529411764705885,
+    "interval": 2
+  },
+  {
+    "id": 14626,
+    "update": 17566,
+    "difficulty": 0.18235294117647055,
+    "interval": 3
+  },
+  {
+    "id": 14641,
+    "update": 17568,
+    "difficulty": 0.33529411764705885,
+    "interval": 2
+  },
+  {
+    "id": 14642,
+    "update": 17568,
+    "difficulty": 0.33529411764705885,
+    "interval": 2
+  },
+  {
+    "id": 14684,
+    "update": 17567,
+    "difficulty": 0.33529411764705885,
+    "interval": 2
+  },
+  {
+    "id": 14685,
+    "update": 17567,
+    "difficulty": 0.33529411764705885,
+    "interval": 2
+  },
+  {
+    "id": 15000,
+    "update": 17566,
+    "difficulty": 0.24117647058823527,
+    "interval": 3
+  },
+  {
+    "id": 15003,
+    "update": 17566,
+    "difficulty": 0.24117647058823527,
+    "interval": 3
+  },
+  {
+    "id": 15004,
+    "update": 17566,
+    "difficulty": 0.24117647058823527,
+    "interval": 3
+  },
+  {
+    "id": 15005,
+    "update": 17566,
+    "difficulty": 0.24117647058823527,
+    "interval": 3
+  },
+  {
+    "id": 15006,
+    "update": 17566,
+    "difficulty": 0.24117647058823527,
+    "interval": 3
+  },
+  {
+    "id": 15008,
+    "update": 17566,
+    "difficulty": 0.24117647058823527,
+    "interval": 3
+  },
+  {
+    "id": 15009,
+    "update": 17566,
+    "difficulty": 0.24117647058823527,
+    "interval": 3
+  },
+  {
+    "id": 15010,
+    "update": 17568,
+    "difficulty": 0.6058823529411765,
+    "interval": 2
+  },
+  {
+    "id": 15011,
+    "update": 17566,
+    "difficulty": 0.24117647058823527,
+    "interval": 3
+  },
+  {
+    "id": 15012,
+    "update": 17568,
+    "difficulty": 0.6058823529411765,
+    "interval": 2
+  },
+  {
+    "id": 15013,
+    "update": 17566,
+    "difficulty": 0.24117647058823527,
+    "interval": 3
+  },
+  {
+    "id": 15017,
+    "update": 17568,
+    "difficulty": 0.3941176470588236,
+    "interval": 2
+  },
+  {
+    "id": 15024,
+    "update": 17566,
+    "difficulty": 0.24117647058823527,
+    "interval": 3
+  },
+  {
+    "id": 15026,
+    "update": 17566,
+    "difficulty": 0.24117647058823527,
+    "interval": 3
+  },
+  {
+    "id": 15030,
+    "update": 17566,
+    "difficulty": 0.24117647058823527,
+    "interval": 3
+  },
+  {
+    "id": 15031,
+    "update": 17566,
+    "difficulty": 0.24117647058823527,
+    "interval": 3
+  },
+  {
+    "id": 15032,
+    "update": 17564,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15043,
+    "update": 17564,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15045,
+    "update": 17565,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15053,
+    "update": 17565,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15062,
+    "update": 17565,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15069,
+    "update": 17565,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15070,
+    "update": 17565,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15074,
+    "update": 17565,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15075,
+    "update": 17565,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15085,
+    "update": 17565,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15095,
+    "update": 17565,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15163,
+    "update": 17566,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15164,
+    "update": 17566,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15165,
+    "update": 17566,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15166,
+    "update": 17566,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15167,
+    "update": 17566,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15187,
+    "update": 17566,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15209,
+    "update": 17566,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15227,
+    "update": 17566,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15228,
+    "update": 17566,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15242,
+    "update": 17566,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15250,
+    "update": 17567,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15296,
+    "update": 17567,
+    "difficulty": 0.3,
+    "interval": 100
+  },
+  {
+    "id": 15297,
+    "update": 17567,
+    "difficulty": 0.3,
+    "interval": 100
+  }
+]
