@@ -1,0 +1,17 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+
+ <g class="layer">
+  <title>Layer 1</title>
+  <line id="svg_1" y2="190" x2="33.93748" y1="9" x1="33.93748" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="7" stroke="#666666" fill="none"/>
+  <line id="svg_2" y2="190" x2="14.93748" y1="189" x1="52.93748" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="7" stroke="#666666" fill="none"/>
+  <line id="svg_4" y2="159.125" x2="14.93748" y1="158.125" x1="52.93748" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="7" stroke="#666666" fill="none"/>
+  <line id="svg_6" y2="131.28125" x2="14.93748" y1="130.28125" x1="52.93748" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="7" stroke="#666666" fill="none"/>
+  <line id="svg_7" y2="102.34375" x2="14.93748" y1="101.34375" x1="52.93748" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="7" stroke="#666666" fill="none"/>
+  <line id="svg_8" y2="73.65624" x2="14.93748" y1="72.65624" x1="52.93748" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="7" stroke="#666666" fill="none"/>
+  <line id="svg_9" y2="41.21874" x2="14.93748" y1="40.21874" x1="52.93748" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="7" stroke="#666666" fill="none"/>
+  <line id="svg_10" y2="13.21873" x2="14.93748" y1="12.21873" x1="52.93748" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="7" stroke="#666666" fill="none"/>
+  <text transform="matrix(3.40544, 0, 0, 3.40544, -123.724, -284.194)" font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_11" y="121.9484" x="73.04634" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#666666" fill="#666666">lin</text>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_12" y="101.50002" x="73.00002" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#666666" fill="#666666"/>
+ </g>
+</svg>

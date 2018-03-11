@@ -29,7 +29,7 @@ export class CmlsvgService {
       let path = 'M' + cme.x0 + ' ' + cme.y0 + 'L' + cme.x1 + ' ' + cme.y1;
       p = cmsvg.path(path);
       let p0len = p.getTotalLength();
-      path = 'M' + cme.x0 + ' ' + cme.y0
+      path = 'M' + cme.x0 + ' ' + cme.y0;
       for (let i = 0; i < 10; i++) {
         let point = p.getPointAtLength(i * p0len / 10);
         let point1 = p.getPointAtLength((i + 1) * p0len / 10);
@@ -75,7 +75,6 @@ export class CmlsvgService {
     public createRoundedEdge(cme, cmsvg, cmg) {
       let p;
       let id = cme.id.toString();
-      let radius = cme.cmobject.size0 * 2;
       if (cme.id > -1) {
         id = id.replace('.', '_');
       }

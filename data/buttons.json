@@ -518,6 +518,34 @@
     "active": false
   },
   {
+    "id": 118,
+    "group": "",
+    "cat": "tbline",
+    "blocked": false,
+    "btntype": "l",
+    "name": "linscale",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["l", "i", "0"],
+    "prio": 0,
+    "content": "assets/images/svgelements/line/linscale.svg",
+    "active": false
+  },
+  {
+    "id": 119,
+    "group": "",
+    "cat": "tbline",
+    "blocked": false,
+    "btntype": "l",
+    "name": "logscale",
+    "variable": ["types"],
+    "contenttype": "g",
+    "value": ["l", "o", "0"],
+    "prio": 0,
+    "content": "assets/images/svgelements/line/logscale.svg",
+    "active": false
+  },
+  {
     "id": 201,
     "group": "",
     "cat": "tbfont",

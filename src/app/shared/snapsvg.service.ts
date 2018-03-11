@@ -120,6 +120,12 @@ export class SnapsvgService {
       case 'r':
         this.cmlsvgService.createRoundedEdge(cme, this.cmsvg, cmg);
         break;
+      case 'i':
+        this.cmlsvgService.createLinLine(cme, this.cmsvg, cmg);
+        break;
+      case 'o':
+        this.cmlsvgService.createLogLine(cme, this.cmsvg, cmg);
+        break;
       default:
         this.cmlsvgService.createLine(cme, this.cmsvg, cmg);
     }
