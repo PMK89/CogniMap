@@ -46,7 +46,7 @@ export class MjEditorService {
       this.inputtext = inputtext;
     }
     if (cell.string) {
-      if (!cell.substring || this.selectionStart === this.selectionEnd) {
+      if ((!cell.substring && cell.substring !== 0) || this.selectionStart === this.selectionEnd) {
         this.inputtext = this.inputtext.substr(0, this.selectionStart) + cell.string + this.inputtext.substr(this.selectionStart);
       } else {
         this.inputtext = this.inputtext.substr(0, this.selectionStart) + cell.string.substr(0, cell.pos)

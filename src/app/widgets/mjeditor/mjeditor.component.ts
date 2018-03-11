@@ -30,7 +30,7 @@ export class MjEditorComponent implements OnInit {
   public active = false;
   public selCMEo: any;
   public key = -1;
-  public cpos: number;
+  public cpos = 0;
   public contentPos = -1;
   public matrixX = 2;
   public matrixY = 2;
@@ -145,7 +145,7 @@ export class MjEditorComponent implements OnInit {
 
   // focus text area after click
   public focusText() {
-    let el = this.vc.nativeElement.setSelectionRange(this.cpos);
+    let el = this.vc.nativeElement.setSelectionRange(this.cpos, 0);
     console.log(el);
     this.vc.nativeElement.focus();
   }
