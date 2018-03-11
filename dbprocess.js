@@ -21,7 +21,6 @@ var datahistory = [];
 
 var quizes = [];
 var quizcmes = [];
-var quizesOverdue = [];
 var quiz = '';
 
 const DAY_IN_MINISECONDS = 24 * 60 * 60 * 1000;
@@ -317,9 +316,10 @@ const createDbWindow = function createDbWindow() {
     console.log('changeCME start: ', arg.id, Date.now());
     if (arg.types[0] === 'q') {
       var cmo = JSON.parse(arg.cmobject);
-      if (cmo['style']['object']['weight'] && cmo['style']['object']['str']) {
+      if (cmo['style']['object']['weight'] > -1 && cmo['style']['object']['str']) {
         var dif = cmo['style']['object']['weight'];
         var int = Number(cmo['style']['object']['str']);
+        console.log('weight: ' + cmo['style']['object']['weight'] + ' interval: ' + cmo['style']['object']['str']);
         if (typeof dif === 'number' && typeof int === 'number') {
           if (dif > 0 && dif <= 1) {
             changeQuiz(arg.id, dif, int);
@@ -401,7 +401,7 @@ const createDbWindow = function createDbWindow() {
   ipcMain.on('newCME', (event, arg) => {
     if (arg.types[0] === 'q') {
       var cmo = JSON.parse(arg.cmobject);
-      if (cmo['style']['object']['weight'] && cmo['style']['object']['str']) {
+      if (cmo['style']['object']['weight'] > -1 && cmo['style']['object']['str']) {
         var dif = cmo['style']['object']['weight'];
         var int = Number(cmo['style']['object']['str']);
         if (typeof dif === 'number' && typeof int === 'number') {
@@ -434,32 +434,18 @@ const createDbWindow = function createDbWindow() {
     quizes.forEach((quiz) => {
       if (quiz) {
         var overdue = getPercentOverdue(quiz, today);
-        console.log(overdue);
-        if (overdue >= 0) {
-          overduearray.push({id: quiz.id, od: overdue});
+        //console.log(overdue);
+        if (overdue >= 2) {
+          console.log(quiz);
+          overduearray.push({id: quiz.id, od: overdue, interval: quiz.interval, dif: quiz.difficulty});
         }
       }
     })
-    if (overduearray.length > 0) {
+    const l = overduearray.length;
+    console.log(l);
+    if (l > 0) {
       overduearray.sort(function(a, b){return b.od - a.od});
-      overduearray.forEach((e) => {quizesOverdue.push(e.id)})
-      if (quizesOverdue.length > 0) {
-        cme.find({ id: quizesOverdue }, function(err, data) {
-    		  if (err) console.log(err);
-          var i;
-          const l = data.length;
-          for (i = 0; i < l; i++) {
-            if(data[i]) {
-              data[i].types[0] = 'q1';
-              data[i].save(function (err) {
-                if (err) console.log(err); // #error message
-              });
-            }
-          }
-          quizcmes = data;
-    		  event.sender.send('loadedQuizes', data);
-    	  });
-      }
+      getOverdueQuizes(overduearray, event);
     }
   })
 
@@ -494,10 +480,12 @@ const createDbWindow = function createDbWindow() {
       } else if (arg['scale'] === 1) {
         rating = CORRECT
       }
+      console.log(rating);
       var pos = quizes.findIndex(i => i.id === arg['id']);
       if (pos > -1) {
         var calc = calculate(quizes[pos], rating, TODAY);
         if (calc) {
+          console.info(quizes[pos]);
           quizes[pos].difficulty = calc.difficulty;
           quizes[pos].interval = calc.interval;
           quizes[pos].update = calc.update;
@@ -508,7 +496,7 @@ const createDbWindow = function createDbWindow() {
               var data = quizcmes[pos0];
               datahistoryController(data, 'insert');
               var cmo = JSON.parse(data.cmobject);
-              if (cmo['style']['object']['weight'] && cmo['style']['object']['str']) {
+              if (cmo['style']['object']['str']) {
                 cmo['style']['object']['str'] = String(calc.interval);
                 cmo['style']['object']['weight'] = calc.difficulty;
                 data.types[0] = 'q';
@@ -554,7 +542,7 @@ const createDbWindow = function createDbWindow() {
 
 // deletes a quiz element
 function makeQuiz(id , dif, int) {
-  if(id && dif && int) {
+  if(id) {
     if (quizes.length === 0) {
       loadQuizes();
     }
@@ -573,7 +561,7 @@ function makeQuiz(id , dif, int) {
 
 // changes a quiz element
 function changeQuiz(id, dif, int) {
-  if(id && dif && int) {
+  if(id) {
     if (quizes.length === 0) {
       loadQuizes();
     }
@@ -602,21 +590,38 @@ function saveQuizes() {
   fs.writeFileSync('./data/quizes.json', JSON.stringify(quizes, null, 2));
 }
 
-// finds overdue quizes and pushes them to quizesOverdue array
-function findOverdueQuizes(quiz, today) {
-  if (quiz) {
-    var overdue = getPercentOverdue(quiz, today);
-    if (overdue > 0) {
-      quizesOverdue.push(quiz.id);
-    }
-  }
-}
-
 // loads quiz array from json file
 function loadQuizes() {
   if (fs.existsSync('./data/quizes.json')) {
     quizes = JSON.parse(fs.readFileSync('./data/quizes.json'));
   }
+}
+
+// gets overdue quizzes and sends them to frontend
+function getOverdueQuizes(overduearray0, event) {
+  overduequiz = overduearray0.shift()
+  cme.find({ id: overduequiz.id}, function(err, data0) {
+      if (err) console.log(err);
+      data = data0[0];
+      if (data) {
+        data.types[0] = 'q1';
+        var cmo = JSON.parse(data.cmobject);
+        if (cmo['style']['object']['str']) {
+          cmo['style']['object']['str'] = String(overduequiz.interval);
+          cmo['style']['object']['weight'] = overduequiz.dif;
+          data.cmobject = JSON.stringify(cmo);
+          quizcmes.push(data)
+          data.save(function (err) {
+            if (err) console.log(err); // #error message
+          });
+          if (overduearray0.length === 0) {
+            event.sender.send('loadedQuizes', quizcmes);
+          } else {
+            getOverdueQuizes(overduearray0, event)
+          }
+        }
+      }
+   });
 }
 
 // gets all elements with same category

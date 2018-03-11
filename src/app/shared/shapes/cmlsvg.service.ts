@@ -19,6 +19,45 @@ export class CmlsvgService {
       this.addLine(p, id, cmg, cme, cmsvg);
     }
 
+    // creates a straigth line between two point
+    public createLinLine(cme, cmsvg, cmg) {
+      let p;
+      let id = cme.id.toString();
+      if (cme.id > -1) {
+        id = id.replace('.', '_');
+      }
+      let path = 'M' + cme.x0 + ' ' + cme.y0 + 'L' + cme.x1 + ' ' + cme.y1;
+      p = cmsvg.path(path);
+      let p0len = p.getTotalLength();
+      path = 'M' + cme.x0 + ' ' + cme.y0
+      for (let i = 0; i < 10; i++) {
+        let point = p.getPointAtLength(i * p0len / 10);
+        let point1 = p.getPointAtLength((i + 1) * p0len / 10);
+        let rad = (point.alpha / 180) * Math.PI;
+        path += 'L' + point.x + Math.sin(rad) * 10 + ' ' + point.y + Math.cos(rad) * 10 +
+        'L' + (point.x - Math.sin(rad) * 10) + ' ' + (point.y - Math.cos(rad)) + 'L' +
+        point.x + ' ' + point.y + 'L' +  point1.x + ' ' + point1.y;
+      }
+      let point2  = p.getPointAtLength(p0len);
+      let rad1 = (point2.alpha / 180) * Math.PI;
+      path += 'L' + point2.x + Math.sin(rad1) * 10 + ' ' + point2.y + Math.cos(rad1) * 10 +
+      'L' + (point2.x - Math.sin(rad1) * 10) + ' ' + (point2.y - Math.cos(rad1)) + 'L' +
+      point2.x + ' ' + point2.y;
+      p = cmsvg.path(path);
+      this.addLine(p, id, cmg, cme, cmsvg);
+
+    }// creates a straigth line between two point
+    public createLogLine(cme, cmsvg, cmg) {
+      let p;
+      let id = cme.id.toString();
+      if (cme.id > -1) {
+        id = id.replace('.', '_');
+      }
+      let path = 'M' + cme.x0 + ' ' + cme.y0 + 'L' + cme.x1 + ' ' + cme.y1;
+      p = cmsvg.path(path);
+      this.addLine(p, id, cmg, cme, cmsvg);
+    }
+
     // creates a edged line between two point
     public createEdge(cme, cmsvg, cmg) {
       let p;
