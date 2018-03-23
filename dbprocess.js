@@ -1,5 +1,4 @@
 const {BrowserWindow, ipcMain } = require('electron');
-const { WORST, BEST, CORRECT, calculate, getPercentOverdue } = require('sm2-plus');
 const path = require('path');
 const LinvoDB = require('linvodb3');
 const fs = require('fs');
@@ -23,12 +22,55 @@ var quizes = [];
 var quizcmes = [];
 var quiz = '';
 
+const WORST = 0;
+const CORRECT = 0.6;
+const BEST = 1;
+
 const DAY_IN_MINISECONDS = 24 * 60 * 60 * 1000;
 const getDaysSinceEpoch = () => (
     Math.round(new Date().getTime() / DAY_IN_MINISECONDS)
 );
 
 const TODAY = getDaysSinceEpoch();
+
+const limitNumber = (number, min, max) => {
+  let ret = number;
+  if (number < min) {
+    ret = min;
+  } else if (number > max) {
+    ret = max;
+  }
+
+  return ret;
+};
+
+const getPercentOverdue = (word, today) => {
+  const calculated = (today - word.update) / word.interval;
+  return calculated > 2 ? 2 : calculated;
+};
+
+const calculate = (word, performanceRating, today) => {
+  const percentOverDue = getPercentOverdue(word, today);
+  const difficulty = limitNumber(
+    word.difficulty + (8 - 9 * performanceRating) * percentOverDue / 17,
+                                 0, 1);
+  const difficultyWeight = 3 - 1.7 * difficulty;
+  let interval;
+  if (performanceRating === WORST) {
+    interval = Math.round(1 / difficultyWeight / difficultyWeight) || 1;
+  } else {
+    interval = Math.ceil(Math.pow((1 - difficulty), 3) * word.interval) + Math.round((difficultyWeight - 1) * percentOverDue);
+    // console.log(Math.ceil(Math.pow((1 - difficulty), 3) * word.interval), Math.round((difficultyWeight - 1) * percentOverDue), percentOverDue, interval);
+  }
+
+  return {
+    difficulty,
+    interval,
+    dueDate: today + interval,
+    update: today,
+    word: word.word,
+  };
+};
 
 // -----------------------------------------------
 // creates background window for Database handling
@@ -429,14 +471,25 @@ const createDbWindow = function createDbWindow() {
     if (quizes.length === 0) {
       loadQuizes();
     }
-    const today = TODAY;
+    var quizid = [0];
+    quizes.forEach((quiz) => {
+      if (quiz) {
+        var qpos = quizid.indexOf(quiz.id);
+        if (qpos > -1) {
+          console.log(quiz.id);
+        } else {
+          quizid.push(quiz.id);
+        }
+      }
+    })
+    const today0 = TODAY;
     var overduearray = [];
     quizes.forEach((quiz) => {
       if (quiz) {
-        var overdue = getPercentOverdue(quiz, today);
-        //console.log(overdue);
+        var overdue = getPercentOverdue(quiz, today0);
+        // console.log(overdue);
         if (overdue >= 2) {
-          console.log(quiz);
+          // console.log(quiz);
           overduearray.push({id: quiz.id, od: overdue, interval: quiz.interval, dif: quiz.difficulty});
         }
       }
@@ -462,7 +515,7 @@ const createDbWindow = function createDbWindow() {
           });
         }
       }
-      quizcmes = []
+      quizcmes = [];
       event.sender.send('loadedQuizes', quizcmes);
     }
   })
@@ -480,18 +533,17 @@ const createDbWindow = function createDbWindow() {
       } else if (arg['scale'] === 1) {
         rating = CORRECT
       }
-      console.log(rating);
       var pos = quizes.findIndex(i => i.id === arg['id']);
       if (pos > -1) {
-        var calc = calculate(quizes[pos], rating, TODAY);
-        if (calc) {
-          console.info(quizes[pos]);
-          quizes[pos].difficulty = calc.difficulty;
-          quizes[pos].interval = calc.interval;
-          quizes[pos].update = calc.update;
-          console.info(quizes[pos]);
-          var pos0 = quizcmes.findIndex(i => i.id === arg['id']);
-          if (pos0 > -1) {
+        var pos0 = quizcmes.findIndex(i => i.id === arg['id']);
+        if (pos0 > -1) {
+          var calc = calculate(quizes[pos], rating, TODAY);
+          if (calc) {
+            console.info(quizes[pos]);
+            quizes[pos].difficulty = calc.difficulty;
+            quizes[pos].interval = calc.interval;
+            quizes[pos].update = calc.update;
+            console.info(quizes[pos]);
             if (quizcmes[pos0]) {
               var data = quizcmes[pos0];
               datahistoryController(data, 'insert');
@@ -509,8 +561,8 @@ const createDbWindow = function createDbWindow() {
                 event.sender.send('loadedQuizes', quizcmes);
               }
             }
+            saveQuizes();
           }
-          saveQuizes();
         }
       }
     }
@@ -561,6 +613,7 @@ function makeQuiz(id , dif, int) {
 
 // changes a quiz element
 function changeQuiz(id, dif, int) {
+  console.log(id, dif, int);
   if(id) {
     if (quizes.length === 0) {
       loadQuizes();
