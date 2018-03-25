@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SButtonComponent } from '../../shared/s-button/s-button.component';
 
 import { SettingsService } from '../../shared/settings.service';
 // models and reducers

@@ -1,0 +1,13 @@
+<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+ <defs>
+  <marker refY="50" refX="50" markerHeight="5" markerWidth="5" viewBox="0 0 100 100" se_type="rightarrow" orient="auto" markerUnits="strokeWidth" id="se_marker_end_svg_1">
+   <path stroke-width="10" stroke="#666666" fill="#666666" d="m100,50l-100,40l30,-40l-30,-40z"/>
+  </marker>
+ </defs>
+ <g class="layer">
+  <title>Layer 1</title>
+  <line marker-end="url(#se_marker_end_svg_1)" id="svg_1" y2="49.88086" x2="85.68381" y1="50.11914" x1="4.824" stroke-width="4" stroke="#666666" fill="none"/>
+  <path id="svg_2" d="m50.54347,40.56348l-9.17656,9.88565l9.06326,3.39624l-8.37708,10.61317l-3.38242,-1.79218l2.39906,10.2299l9.53301,-4.46326l-4.02489,-1.86565l10.92979,-15.24388l-9.99099,-2.763l9.64789,-10.30095l-5.5033,-1.54668l5.99379,-6.54672l-2.20168,-0.09425l-9.30154,8.98169l4.39164,1.50991l0,0z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke="#666666" fill="#666666"/>
+ </g>
+</svg>

@@ -68,7 +68,7 @@ export class ColorbarComponent implements OnInit {
     let selElem;
     if (colorbar.cat === 'tbline0' || colorbar.cat === 'tbline1') {
       selElem = this.selCMEl;
-    } else if (colorbar.cat !== 'latex') {
+    } else if (colorbar.cat !== 'latex' && colorbar.cat !== 'mnemo') {
       selElem = this.selCMEo;
     }
     // console.log(selElem);
@@ -101,6 +101,10 @@ export class ColorbarComponent implements OnInit {
         if (this.elementService.cmsettings) {
           this.value = this.elementService.cmsettings.latexcolor;
         }
+      } else if (colorbar.cat === 'mnemo') {
+        if (this.elementService.cmsettings) {
+          this.value = this.elementService.cmsettings.mnemocolor;
+        }
       } else {
         this.value = colorbar.colors[0];
       }
@@ -118,7 +122,10 @@ export class ColorbarComponent implements OnInit {
     } else if (colorbar.cat === 'latex') {
       let settings = this.elementService.cmsettings;
       settings.latexcolor = color;
-      // this.mjEditorService.makeColor(color);
+      this.settingsService.updateSettings(settings);
+    } else if (colorbar.cat === 'mnemo') {
+      let settings = this.elementService.cmsettings;
+      settings.mnemocolor = color;
       this.settingsService.updateSettings(settings);
     } else {
       this.elementService.changeCMEo(this.action);

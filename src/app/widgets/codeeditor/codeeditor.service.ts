@@ -89,7 +89,8 @@ export class CodeeditorService {
       if (this.elementService.selCMEo.types[0] !== 'i') {
         if (this.elementService.selCMEo.types[2] !== 'b') {
           this.elementService.selCMEo.types[2] = 'b';
-          this.elementService.selCMEo.cmobject.style.object.color1 = JSON.parse(JSON.stringify(this.elementService.selCMEo.cmobject.style.object.color0));
+          this.elementService.selCMEo.cmobject.style.object.color1 = JSON.parse(
+            JSON.stringify(this.elementService.selCMEo.cmobject.style.object.color0));
           this.elementService.selCMEo.cmobject.style.object.color0 = 'none';
         }
       }

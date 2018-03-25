@@ -96,10 +96,10 @@
       ]
     },
     "cngtemp": false,
-    "contentPos": -1,
+    "contentPos": 0,
     "coor": {
-      "x": 28260,
-      "y": 443566
+      "x": 249729,
+      "y": 149429
     },
     "copy": {
       "num": 0,
@@ -133,6 +133,7 @@
       "width": 600,
       "z-index": 490
     },
+    "mnemocolor": "#ff05ee",
     "mode": "edit",
     "pointArray": [],
     "selcmeo": {
@@ -373,14 +374,14 @@
       "opacity": 0.8,
       "position": "fixed",
       "top": 0,
-      "width": 1800,
+      "width": 1920,
       "z-index": 515
     },
     "widget0": "none",
     "widget1": "none",
     "wlayout0": {
       "display": "none",
-      "height": 446.5,
+      "height": 454,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
@@ -390,11 +391,11 @@
     },
     "wlayout1": {
       "display": "none",
-      "height": 446.5,
+      "height": 454,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
-      "top": 528.5,
+      "top": 536,
       "width": 600,
       "z-index": 510
     }

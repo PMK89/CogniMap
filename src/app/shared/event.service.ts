@@ -148,8 +148,12 @@ export class EventService {
             y: this.clickY
           };
           // console.log(coor);
-          let oldcme = JSON.parse(JSON.stringify(this.elementService.selCMEo));
-          this.elementService.newCMEo(oldcme, coor);
+          if (this.elementService.selCMEo) {
+            let oldcme = JSON.parse(JSON.stringify(this.elementService.selCMEo));
+            this.elementService.newCMEo(oldcme, coor);
+          } else {
+            alert('Please select a parent element!');
+          }
         } else if (parseInt(evt.target.title, 10) > 0) {
           this.elementService.setSelectedCME(parseInt(evt.target.title, 10));
         } // handles

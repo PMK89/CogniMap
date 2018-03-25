@@ -94,6 +94,11 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.video = true;
                 this.videourl = content.object;
               } else {
+                if (this.cmeo.cmobject.content[i].cat === 'im') {
+                  if (this.cmeo.state === 'typing') {
+                    this.cmeo.state = 'selected';
+                  }
+                }
                 let oldwidth = bbox.w - bbox0.w;
                 this.snapsvgService.makeContent(this.cmeo, this.cmgroup, i, totwidth);
                 bbox = this.cmgroup.getBBox();
@@ -232,6 +237,33 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         // saves prepared element to save loading time
         if (this.TextInput === false) {
+          // performes a matrix transformation
+          if (this.cmeo.cmobject.style.object.str) {
+            if (['q', 'q1', 's'].indexOf(this.cmeo.types[0]) === -1) {
+              let matrixstr = this.cmeo.cmobject.style.object.str;
+              try {
+                let tmo = JSON.parse(matrixstr);
+                // console.log(tmo);
+                let transformmatrix = Snap.matrix(tmo.a, tmo.b, tmo.c, tmo.d, tmo.e, tmo.f);
+                let translatematrix0 = Snap.matrix().translate(-this.cmeo.x0, -this.cmeo.y0);
+                let translatematrix1 = Snap.matrix().translate(this.cmeo.x0, this.cmeo.y0);
+                let transformgroup0 = this.cmgroup.clone();
+                this.cmgroup.clear();
+                transformgroup0.transform(translatematrix0);
+                let transformgroup1 = s.group(transformgroup0).transform(transformmatrix);
+                let transformgroup2 = s.group(transformgroup1).transform(translatematrix1);
+                this.cmgroup.add(transformgroup2);
+                // console.log(this.cmgroup);
+                bbox = this.cmgroup.getBBox();
+                this.cmeo.x0 = bbox.x;
+                this.cmeo.y0 = bbox.y;
+                this.cmeo.x1 = bbox.x2;
+                this.cmeo.y1 = bbox.y2;
+              } catch (err) {
+                console.log('Error at Matrix transform', this.cmeo.id, err);
+              }
+            }
+          }
           if (this.elementService.selCMEo) {
             if (this.elementService.selCMEo.id === this.cmeo.id) {
               this.elementService.updateSelCMEo(this.cmeo);

@@ -975,5 +975,30 @@
       "object",
       "color1"
     ]
+  },
+  {
+    "blocked": false,
+    "cat": "mnemo",
+    "colors": [
+      "#05ff6d",
+      "#000000",
+      "#666666",
+      "#ffff00",
+      "#ff9605",
+      "#ff0000",
+      "#10cc00",
+      "#0000ff",
+      "#ff05ee",
+      "#05b4ff"
+    ],
+    "cuppled": false,
+    "group": "",
+    "id": 37,
+    "name": "default",
+    "prio": 0,
+    "secured": false,
+    "variable": [
+      "mnemocolor"
+    ]
   }
 ]

@@ -90,6 +90,66 @@
         </table>
       </td>
       <td>
+        <table id="transformtable" *ngIf="transformable">
+          <tr>
+            <td style="font-size: 14px;">
+              sX
+            </td>
+            <td>
+              <input #MscaleXinput value="{{MscaleX}}" size="1" width="30px"
+                (keyup.enter)="changeMatrix('sx', MscaleXinput.value)">
+            </td>
+            <td style="font-size: 14px;">
+              SkX
+            </td>
+            <td colspan="2">
+              <input #MskewXinput value="{{MskewX}}" size="1" width="30px"
+                (keyup.enter)="changeMatrix('skx', MskewXinput.value)">
+            </td>
+          </tr>
+          <tr>
+            <td style="font-size: 14px;">
+              sY
+            </td>
+            <td>
+              <input #MscaleYinput value="{{MscaleY}}" size="1" width="30px"
+                (keyup.enter)="changeMatrix('sy', MscaleYinput.value)">
+            </td>
+            <td style="font-size: 14px;">
+              SkY
+            </td>
+            <td colspan="2">
+              <input #MskewYinput value="{{MskewY}}" size="1" width="30px"
+                (keyup.enter)="changeMatrix('sky', MskewYinput.value)">
+            </td>
+          </tr>
+          <tr>
+            <td style="font-size: 14px;">
+              Rot
+            </td>
+            <td>
+              <input #Mrotateinput value="{{Mrotate}}" size="1" width="30px"
+                (keyup.enter)="changeMatrix('rot', Mrotateinput.value)">
+            </td>
+            <td>
+              <div  (click)="changeMatrix('reset', '1')" class="lbtndefault">
+                <img src="assets/images/svgelements/object/reset.svg" width="20px" height="20px"/>
+              </div>
+            </td>
+            <td>
+              <div  (click)="changeMatrix('mh', '1')" class="lbtndefault">
+                <img src="assets/images/mnemo/actions/mirrorh.svg" width="20px" height="20px"/>
+              </div>
+            </td>
+            <td>
+              <div  (click)="changeMatrix('mv', '1')" class="lbtndefault">
+                <img src="assets/images/mnemo/actions/mirrorv.svg" width="20px" height="20px"/>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td>
         <table [ngStyle]="{'border-spacing': '0px'}">
           <tr>
             <td>

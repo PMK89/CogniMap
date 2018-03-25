@@ -205,6 +205,7 @@ export class SnapsvgService {
           let coorY = cme.coor.y + content.coor.y;
           switch (content.cat) {
             case 'i':
+            case 'im':
             case 'i_100':
               // insertes images (png, jpg, gif)
               let path;
@@ -223,6 +224,52 @@ export class SnapsvgService {
               });
               if (content.cat === 'i') {
                 con.transform('s' + (content.height / 100));
+              } else if (content.cat === 'im' ) {
+                con.attr({width: content.height});
+                // changes color if not standard #666666
+                if (content.object.indexOf('actions') !== -1) {
+                  if (content.info !== '#666666') {
+                    let svg1 = con.select('#svg_1');
+                    let markerSvg1 = con.select('#se_marker_end_svg_1');
+                    let svg2 = con.select('#svg_2');
+                    if (svg1) {
+                      if (svg1.attr('fill') !== 'none') {
+                        svg1.attr({
+                          fill: content.info,
+                          stroke: content.info
+                        });
+                      } else {
+                        svg1.attr({
+                          stroke: content.info
+                        });
+                      }
+                    }
+                    if (svg2) {
+                      if (svg2.attr('fill') !== 'none') {
+                        svg2.attr({
+                          fill: content.info,
+                          stroke: content.info
+                        });
+                      } else {
+                        svg2.attr({
+                          stroke: content.info
+                        });
+                      }
+                    }
+                    if (markerSvg1) {
+                      if (markerSvg1.attr('fill') !== 'none') {
+                        markerSvg1.attr({
+                          fill: content.info,
+                          stroke: content.info
+                        });
+                      } else {
+                        markerSvg1.attr({
+                          stroke: content.info
+                        });
+                      }
+                    }
+                  }
+                }
               } else if (content.cat === 'i_100' || content.cat === 'i_50') {
                 let size;
                 if (content.cat === 'i_100') {

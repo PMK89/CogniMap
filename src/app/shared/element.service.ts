@@ -27,6 +27,8 @@ export class ElementService {
   public selCMEl: CMEl;
   public tempCMEo: CMEo;
   public tempCMEl: CMEl;
+  public tempCMEo0: CMEo;
+  public tempCMEl0: CMEl;
   public markCMEo: CMEo;
   public tempMarkCMEo: CMEo;
   public quizCMEo: CMEo;
@@ -43,6 +45,11 @@ export class ElementService {
   public selCMElArray: number[] = [];
   public selCMElArrayBorder: number[] = [];
   public cmsettings: CMSettings;
+  public mPmnemo = false;
+  public mPdx = 0.5;
+  public mPdy = 0.5;
+  public mPsize = 50;
+  public mPpath = '';
 
   constructor(private http: Http,
               private electronService: ElectronService,
@@ -760,6 +767,14 @@ export class ElementService {
         con: 'e',
         start: false
       }];
+      // handles placement of mnemo objects
+      if (this.mPmnemo) {
+        newElemObj.x0 = cmcoor.x - (this.mPsize * this.mPdx);
+        newElemObj.y0 = cmcoor.y - (this.mPsize * this.mPdy);
+        newElemObj.x1 = cmcoor.x + (this.mPsize * (1 - this.mPdx));
+        newElemObj.y1 = cmcoor.y + (this.mPsize * (1 - this.mPdy));
+        newElemObj.cmobject.style.object.str = '';
+      }
       if (newElemObj.cat.length < 8 && oldcme.title !== '' &&
       oldcme.title !== ' ' && newElemObj.cat.indexOf(oldcme.title) === -1) {
         newElemObj.cat.push(oldcme.title);
@@ -1003,6 +1018,20 @@ export class ElementService {
       if (this.cmsettings.mode === 'progress') {
         this.cmsettings.mode = 'typing';
         this.settingsService.updateSettings(this.cmsettings);
+      }
+      // changes everything back to normal after a mnemo object is placed
+      if (this.mPmnemo) {
+        if (this.tempCMEo0) {
+          let tempo0str = JSON.stringify(this.tempCMEo0);
+          this.tempCMEo = JSON.parse(tempo0str);
+        }
+        if (this.tempCMEl0) {
+          let templ0str = JSON.stringify(this.tempCMEl0);
+          this.tempCMEl = JSON.parse(templ0str);
+        }
+        this.cmsettings.mode = 'edit';
+        this.settingsService.updateSettings(this.cmsettings);
+        this.mPmnemo = false;
       }
       this.setSelectedCME(newElem.id);
       // console.log('after dispatch: ', newElem.coor);

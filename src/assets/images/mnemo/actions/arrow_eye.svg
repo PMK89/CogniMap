@@ -1,0 +1,13 @@
+<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+ <defs>
+  <marker id="se_marker_end_svg_1" markerUnits="strokeWidth" orient="auto" viewBox="0 0 100 100" markerWidth="5" markerHeight="5" refX="50" refY="50">
+   <path id="svg_2" d="m100,50l-100,40l30,-40l-30,-40l100,40z" fill="#666666" stroke="#666666" stroke-width="10"/>
+  </marker>
+ </defs>
+ <g class="layer">
+  <title>Layer 1</title>
+  <line fill="none" stroke="#666666" stroke-dasharray="5, 5" stroke-width="4" x1="4.824" y1="50.11914" x2="85.68381" y2="49.88086" id="svg_1" marker-end="url(#se_marker_end_svg_1)"/>
+  <path id="svg_2" d="m47.99971,38.43206c-12.21381,0 -21.8514,11.39026 -21.8514,11.39026s9.63759,11.39099 21.8514,11.39099c9.34113,0 21.85141,-11.39099 21.85141,-11.39099s-12.51027,-11.39026 -21.85141,-11.39026zm0,18.48706c-4.28751,0 -7.78048,-3.18457 -7.78048,-7.0968s3.49296,-7.09827 7.78048,-7.09827s7.78078,3.18567 7.78078,7.09827s-3.49295,7.0968 -7.78078,7.0968zm0,-11.24011c-2.50729,0 -4.54183,1.85413 -4.54183,4.14331c0,2.28772 2.03313,4.14185 4.54183,4.14185c2.50906,0 4.54214,-1.85413 4.54214,-4.14185c0,-2.28809 -2.03309,-4.14331 -4.54214,-4.14331z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" stroke="#666666" fill="none"/>
+ </g>
+</svg>

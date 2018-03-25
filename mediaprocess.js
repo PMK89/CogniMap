@@ -279,6 +279,60 @@ const createMediaWindow = function createMediaWindow () {
     }
   })
 
+  // makes a picture transparent
+  ipcMain.on('makeTransBulk', (event, arg) => {
+    console.log('makeTransBulk: ', arg);
+    var filelist = fs.readdirSync('/home/pmk/cognimap/dist/mnemo/raw');
+    for (var i = 1; i < filelist.length; i++) {
+      if (filelist[i]) {
+        const filepath = '/home/pmk/cognimap/dist/mnemo/raw/' + filelist[i];
+        var pngbuffer = fs.readFileSync(filepath);
+        var png = PNG.sync.read(pngbuffer);
+        var num = 255;
+        if (arg.color === 'black') {
+          num = 0;
+        }
+        if (arg.tolerance) {
+          num = Math.abs(num - arg.tolerance)
+        }
+        // var linearray0 = [];
+        // var linearray1 = [];
+        const nx = png.width;
+        const ny = png.height;
+        for (var y = 0; y < ny; y++) {
+          // var line0 = '';
+          // var line1 = '';
+          for (var x = 0; x < nx; x++) {
+            var idx = (nx * y * 4 + x * 4);
+            // line0 += '(R:' + png.data[idx] + 'G:' + png.data[idx+1] + 'B:' + png.data[idx+2] + 'T:' + png.data[idx+3] + ')';
+            if (arg.color === 'black') {
+              if (png.data[idx] <= num && png.data[idx+1] <= num && png.data[idx+2] <= num) {
+                png.data[idx+3] = 0;
+                // line1 += '(R:' + png.data[idx] + 'G:' + png.data[idx+1] + 'B:' + png.data[idx+2] + 'T:' + png.data[idx+3] + ')';
+              } else {
+                // line1 += '(R:' + png.data[idx] + 'G:' + png.data[idx+1] + 'B:' + png.data[idx+2] + 'T:' + png.data[idx+3] + ')';
+              }
+            } else {
+              if (png.data[idx] >= num && png.data[idx+1] >= num && png.data[idx+2] >= num) {
+                png.data[idx+3] = 0;
+                // line1 += '(R:' + png.data[idx] + 'G:' + png.data[idx+1] + 'B:' + png.data[idx+2] + 'T:' + png.data[idx+3] + ')';
+              } else {
+                // line1 += '(R:' + png.data[idx] + 'G:' + png.data[idx+1] + 'B:' + png.data[idx+2] + 'T:' + png.data[idx+3] + ')';
+              }
+            }
+          }
+          // linearray0.push(line0);
+          // linearray1.push(line1);
+        }
+        var newpngbuffer = PNG.sync.write(png);
+        var newfilepath = filepath.replace('raw', 'trans');
+        fs.writeFileSync(newfilepath, newpngbuffer);
+        console.log(newfilepath);
+      }
+    }
+    event.returnValue = 'success';
+  })
+
   // load file from assets folder
   ipcMain.on('loadFile', function (event, arg) {
     if (fs.statSync(arg)) {
