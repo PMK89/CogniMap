@@ -204,7 +204,6 @@ const createMediaWindow = function createMediaWindow () {
 
   // makes a SVG from mathjax/TeX string
   ipcMain.on('makeMjSVG', (event, arg) => {
-    console.log('TeX: ', arg);
     mjAPI.config({
       MathJax: {
         SVG: {
@@ -212,6 +211,7 @@ const createMediaWindow = function createMediaWindow () {
         }
       }
     });
+    console.log('TeX: ', arg);
     var svg = mjAPI.typeset({
       math: arg,
       format: "TeX", // "inline-TeX", "MathML"

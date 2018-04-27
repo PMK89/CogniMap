@@ -31,6 +31,8 @@
     "blocked": false,
     "cat": "tbobject1",
     "colors": [
+      "#565656",
+      "#23bf30",
       "#ff0000",
       "#b6b6b6",
       "#b693b3",
@@ -38,9 +40,7 @@
       "#4025f5",
       "#b061a1",
       "#9b4ffe",
-      "#915384",
-      "#915384",
-      "#2eb500"
+      "#915384"
     ],
     "cuppled": false,
     "group": "",
@@ -115,6 +115,7 @@
     "blocked": false,
     "cat": "tbline1",
     "colors": [
+      "#4025f5",
       "#e3bbb2",
       "#b061a1",
       "#ff0000",
@@ -123,8 +124,7 @@
       "#40ff00",
       "#00ff80",
       "#00ffff",
-      "#0000ff",
-      "#bf00ff"
+      "#0000ff"
     ],
     "cuppled": false,
     "group": "",
@@ -141,6 +141,8 @@
     "blocked": false,
     "cat": "tbline0",
     "colors": [
+      "#23bf30",
+      "#4025f5",
       "#e44bcc",
       "#2927f9",
       "#ff0000",
@@ -148,9 +150,7 @@
       "#966085",
       "#001a3d",
       "#001730",
-      "#021b33",
-      "#011f4a",
-      "#01193a"
+      "#021b33"
     ],
     "cuppled": false,
     "group": "",
@@ -167,6 +167,7 @@
     "blocked": false,
     "cat": "tbfont",
     "colors": [
+      "#919191",
       "#0b1aca",
       "#faaeae",
       "#ffffff",
@@ -175,8 +176,7 @@
       "#ff0000",
       "#ffbf00",
       "#ffff00",
-      "#40ff00",
-      "#00ff80"
+      "#40ff00"
     ],
     "cuppled": false,
     "group": "",

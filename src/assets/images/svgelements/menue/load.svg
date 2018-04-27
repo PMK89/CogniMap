@@ -1,8 +1,29 @@
-<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
- <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+eqEd.LeftBracket = function(parent) {
+	eqEd.Bracket.call(this, parent); // call super constructor.
+	this.className = "eqEd.LeftBracket";
 
- <g class="layer">
-  <title>Layer 1</title>
-  <path id="svg_1" d="m192.32906,67.76772c-0.0278,-15.24646 -12.37428,-27.59839 -27.61293,-27.61949l0,-0.00657l-84.63138,0c-3.48592,-11.19946 -13.88486,-19.38854 -26.27225,-19.40947l-19.85083,0c-15.24521,0.01437 -27.59837,12.37285 -27.62604,27.6195l0,97.96423c0.02767,15.23218 12.38083,27.58406 27.62604,27.61165l130.76222,0c15.22432,-0.02759 27.58411,-12.37947 27.61172,-27.61165l0,-78.54819l-0.00656,0zm-158.36739,-33.23244l19.85083,0c7.22234,-0.02767 13.23688,5.75787 13.69256,12.95254l0.40035,6.47025l96.81848,0c7.5463,0.01312 13.78871,6.25561 13.80186,13.80966l0,3.41763c-4.07993,-2.38242 -8.75511,-3.84547 -13.80963,-3.85348l-130.761,0c-5.05455,0.008 -9.73641,1.47763 -13.80968,3.86006l0,-22.84824c0.02093,-7.55281 6.26219,-13.79529 13.81622,-13.80842zm130.75446,125.58244l-130.75446,0c-7.54748,-0.01306 -13.78855,-6.26872 -13.81622,-13.80966l0,-51.35667l0.00657,0c0.01435,-7.56064 6.25561,-13.80312 13.80965,-13.81624l130.76222,0c7.5463,0.01312 13.74657,6.22137 13.80841,13.74776l0,51.41868c-0.02754,7.56059 -6.26862,13.80307 -13.81618,13.81613z" stroke-width="5" stroke="#000000" fill="#666666"/>
- </g>
-</svg>
+    // Set up the desiredHeight calculation
+    var desiredHeight = 0;
+    this.properties.push(new Property(this, "desiredHeight", desiredHeight, {
+        get: function() {
+            return desiredHeight;
+        },
+        set: function(value) {
+            desiredHeight = value;
+        },
+        compute: function() {
+            var desiredHeightVal = 0;
+            if (this.parent instanceof eqEd.BracketWrapper) {
+                var sameBracketTypeCounter = 0;
+                var matchingBracketIndex = null;
+                var maxTopAlign = 0;
+                var maxBottomAlign = 0;
+                for (var i = (this.parent.index + 1); i < this.parent.parent.wrappers.length; i++) {
+                    var wrapper = this.parent.parent.wrappers[i];
+                    if (wrapper instanceof eqEd.BracketWrapper) {
+                        if (wrapper.bracket instanceof this.constructor) {
+                            sameBracketTypeCounter++;
+                        } else if (wrapper.bracket instanceof this.matchingBracketCtor 
+                                    && sameBracketTypeCounter === 0) {
+                            matchingBracketIndex = i;
+                       

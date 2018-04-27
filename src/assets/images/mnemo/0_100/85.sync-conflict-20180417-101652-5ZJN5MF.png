@@ -1,0 +1,1969 @@
+"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":65747,\"y\":52596}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 285599,
+      "y": 134795
+    },
+    "id": 1217,
+    "prep": "<image href=\"assets/images/chem/tc/78.PNG\" preserveAspectRatio=\"none\" x=\"285599\" y=\"134795\" id=\"1217_0\" title=\"1217\" transform=\"matrix(1,0,0,1,0,0)\" style=\"opacity: 1;\"/>",
+    "prep1": "",
+    "prio": 9,
+    "state": "",
+    "title": "Bild",
+    "types": [
+      "i",
+      "0",
+      "0"
+    ],
+    "vdate": 1502447925723,
+    "x0": 285599,
+    "x1": 285906,
+    "y0": 134795,
+    "y1": 134849
+  },
+  {
+    "cat": [],
+    "cdate": 1504254953852,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#b3c1f6\",\"color1\":\"#1a09f1\",\"size0\":3,\"size1\":12,\"trans\":1,\"id0\":6270,\"title0\":\"matrix diagonalization\",\"id1\":6275,\"title1\":\"1 big matrix ⇒ many small ones\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 324752.6484375,
+      "y": 168703
+    },
+    "id": -62706275,
+    "prep": "<path d=\"M324752.6484375 168703C324752.6484375 168707 324831.66796875 168711 324910.6875 168711\" fill=\"none\" stroke=\"#b3c1f6\" id=\"cms-62706275\" style=\"opacity: 1; stroke-width: 3;\"/>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "6270-6275",
+    "types": [
+      "l",
+      "c",
+      "0"
+    ],
+    "vdate": 1504254953852,
+    "x0": 324752.6484375,
+    "x1": 324910.6875,
+    "y0": 168703,
+    "y1": 168711,
+    "_id": "6d5dc134"
+  },
+  {
+    "cat": [],
+    "cdate": 1504254953871,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#bfdeff\",\"color1\":\"#bfdeff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-55735574,\"targetId\":5573,\"title\":\"no deformation cost\",\"weight\":-1,\"con\":\"e\",\"start\":false},{\"id\":-55745575,\"targetId\":5575,\"title\":\"e- in center\",\"weight\":-1,\"con\":\"e\",\"start\":true},{\"id\":-55745576,\"targetId\":5576,\"title\":\"radius by sum rule\",\"weight\":-1,\"con\":\"e\",\"start\":true}]}",
+    "coor": {
+      "x": 309589.171875,
+      "y": 164424
+    },
+    "id": 5574,
+    "prep": "<text x=\"309589.171875\" y=\"164424\" fill=\"#000000\" title=\"5574\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">spheres</text><circle cx=\"309609.96875\" cy=\"164420.5\" r=\"22.093219583449127\" fill=\"#bfdeff\" id=\"cms5574\" stroke=\"#bfdeff\" style=\"opacity: 1; stroke-width: 2;\"/><text x=\"309589.171875\" y=\"164424\" fill=\"#000000\" title=\"5574\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">spheres</text>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "spheres",
+    "types": [
+      "s",
+      "c",
+      "b"
+    ],
+    "vdate": 1504254953871,
+    "x0": 309587.875,
+    "x1": 309632.0625,
+    "y0": 164398.40625,
+    "y1": 164442.59375,
+    "_id": "6d64fab7"
+  },
+  {
+    "cat": [],
+    "cdate": 1502444890040,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#46dd42\",\"color1\":\"#46dd42\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":908,\"title0\":\"Ubichinon\",\"id1\":913,\"title1\":\"Bild\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 240755.5,
+      "y": 93437.234375
+    },
+    "id": -908913,
+    "prep": "<path d=\"M240973 93871.046875L240755.5 93437.234375\" fill=\"none\" stroke=\"#46dd42\" id=\"cms-908913\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 4,
+    "state": "",
+    "title": "908-913",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1502444890040,
+    "x0": 240973,
+    "x1": 240755.5,
+    "y0": 93871.046875,
+    "y1": 93437.234375,
+    "_id": "6d65f472"
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307605,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":18,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#cff5ff\",\"color1\":\"#cff5ff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-48564870,\"targetId\":4856,\"title\":\"1,3 dipolare Cycloaddition\",\"peerCoor\":{\"x\":105000,\"y\":43624},\"weight\":-1,\"con\":\"e\",\"start\":false},{\"id\":-48704871,\"targetId\":4871,\"title\":\"\",\"peerCoor\":{\"x\":105691,\"y\":43690},\"weight\":-1,\"con\":\"e\",\"start\":true}]}",
+    "coor": {
+      "x": 296235.1328125,
+      "y": 94964.5
+    },
+    "id": 4870,
+    "prep": "<text x=\"296235.1328125\" y=\"94964.5\" fill=\"#000000\" title=\"4870\" style=\"font-size: 18px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Sydnone</text><rect x=\"296232.625\" y=\"94949\" width=\"59.15625\" height=\"23\" rx=\"5\" ry=\"5\" fill=\"#cff5ff\" id=\"cms4870\" style=\"opacity: 1;\"/><text x=\"296235.1328125\" y=\"94964.5\" fill=\"#000000\" title=\"4870\" style=\"font-size: 18px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Sydnone</text>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "Sydnone",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1502445307605,
+    "x0": 296232.625,
+    "x1": 296291.78125,
+    "y0": 94949,
+    "y1": 94972,
+    "_id": "6d7582a7"
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307622,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":18,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#ff0000\",\"deco\":\"underline\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#cff5ff\",\"color1\":\"#cff5ff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-42574263,\"targetId\":4257,\"title\":\"\",\"peerCoor\":{\"x\":70381,\"y\":44289},\"weight\":-1,\"con\":\"e\",\"start\":false}]}",
+    "coor": {
+      "x": 282266.1328125,
+      "y": 108211.5
+    },
+    "id": 4263,
+    "prep": "<text x=\"282266.1328125\" y=\"108211.5\" fill=\"#ff0000\" title=\"4263\" style=\"font-size: 18px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: underline;\">m 3100-3000</text><rect x=\"282263.625\" y=\"108197\" width=\"87.265625\" height=\"21\" rx=\"5\" ry=\"5\" fill=\"#cff5ff\" id=\"cms4263\" style=\"opacity: 1;\"/><text x=\"282266.1328125\" y=\"108211.5\" fill=\"#ff0000\" title=\"4263\" style=\"font-size: 18px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: underline;\">m 3100-3000</text>",
+    "prep1": "",
+    "prio": 9,
+    "state": "",
+    "title": "m 3100-3000",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1502445307622,
+    "x0": 282263.625,
+    "x1": 282350.875,
+    "y0": 108197,
+    "y1": 108218,
+    "_id": "6d79deda"
+  },
+  {
+    "_id": "6d7b7df9",
+    "cat": [],
+    "cdate": 1502356738722,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#060000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#d1bbec\",\"color1\":\"#d1bbec\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-19972001,\"targetId\":1997,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":89047,\"y\":72009}},{\"id\":-20012106,\"targetId\":2106,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":true,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":90196,\"y\":71940}},{\"id\":-20012102,\"targetId\":2102,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":true,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":90259,\"y\":71682}},{\"id\":-20012095,\"targetId\":2095,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":true,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":90227,\"y\":71463}},{\"id\":-20012004,\"targetId\":2004,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":true,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":89591,\"y\":72037}},{\"id\":-20012003,\"targetId\":2003,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":true,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":89548,\"y\":72089}},{\"id\":-20012002,\"targetId\":2002,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":true,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":89550,\"y\":71988}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 359767,
+      "y": 192037
+    },
+    "id": 2001,
+    "prep": "<text x=\"359767\" y=\"192037\" fill=\"#060000\" title=\"2001\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Wellencharakter</text><rect x=\"359764.5\" y=\"192022.5\" width=\"98.84375\" height=\"21\" rx=\"5\" ry=\"5\" fill=\"#d1bbec\" id=\"cms2001\" style=\"opacity: 1;\"/><text x=\"359767\" y=\"192037\" fill=\"#060000\" title=\"2001\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Wellencharakter</text>",
+    "prep1": "",
+    "prio": 5,
+    "state": "",
+    "title": "Wellencharakter",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1502356738722,
+    "x0": 359764.5,
+    "x1": 359863.34375,
+    "y0": 192022.5,
+    "y1": 192043.5
+  },
+  {
+    "cat": [],
+    "cdate": 1504254953879,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#b3c1f6\",\"color1\":\"#1a09f1\",\"size0\":3,\"size1\":12,\"trans\":1,\"id0\":5983,\"title0\":\"chains\",\"id1\":5985,\"title1\":\"model\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 328588.16796875,
+      "y": 165110
+    },
+    "id": -59835985,
+    "prep": "<path d=\"M328588.16796875 165110C328588.16796875 165131.25 328617.216796875 165152.5 328646.265625 165152.5\" fill=\"none\" stroke=\"#b3c1f6\" id=\"cms-59835985\" style=\"opacity: 1; stroke-width: 3;\"/>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "5983-5985",
+    "types": [
+      "l",
+      "c",
+      "0"
+    ],
+    "vdate": 1504254953879,
+    "x0": 328588.16796875,
+    "x1": 328646.265625,
+    "y0": 165110,
+    "y1": 165152.5,
+    "_id": "6d800acc"
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307629,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#2312ff\",\"color1\":\"#2312ff\",\"size0\":2,\"size1\":4,\"trans\":1,\"id0\":4520,\"title0\":\"abhängig\",\"id1\":4522,\"title1\":\"Relaxationszeiten\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 281795.1328125,
+      "y": 107403
+    },
+    "id": -45204522,
+    "prep": "<path d=\"M281795.1328125 107428C281795.1328125 107415.5 281843.9609375 107403 281892.7890625 107403\" fill=\"none\" stroke=\"#2312ff\" id=\"cms-45204522\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "4520-4522",
+    "types": [
+      "l",
+      "c",
+      "0"
+    ],
+    "vdate": 1502445307629,
+    "x0": 281795.1328125,
+    "x1": 281892.7890625,
+    "y0": 107428,
+    "y1": 107403,
+    "_id": "6d8072d7"
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307646,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":14,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#cff5ff\",\"color1\":\"#cff5ff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-42294230,\"targetId\":4229,\"title\":\"weil der mittelschwache Tischkäse\",\"peerCoor\":{\"x\":71514,\"y\":44037},\"weight\":-1,\"con\":\"e\",\"start\":false},{\"id\":-42304234,\"targetId\":4234,\"title\":\"\",\"peerCoor\":{\"x\":71721,\"y\":43966},\"weight\":-1,\"con\":\"e\",\"start\":true}]}",
+    "coor": {
+      "x": 283438.1328125,
+      "y": 107955.5
+    },
+    "id": 4230,
+    "prep": "<text x=\"283438.1328125\" y=\"107955.5\" fill=\"#000000\" title=\"4230\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">stark nach Vanille schmeckt</text><rect x=\"283435.625\" y=\"107942\" width=\"142.546875\" height=\"19\" rx=\"5\" ry=\"5\" fill=\"#cff5ff\" id=\"cms4230\" style=\"opacity: 1;\"/><text x=\"283438.1328125\" y=\"107955.5\" fill=\"#000000\" title=\"4230\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">stark nach Vanille schmeckt</text>",
+    "prep1": "",
+    "prio": 10,
+    "state": "",
+    "title": "stark nach Vanille schmeckt",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1502445307646,
+    "x0": 283435.625,
+    "x1": 283578.1875,
+    "y0": 107942,
+    "y1": 107961,
+    "_id": "6d8dfc67"
+  },
+  {
+    "cat": [],
+    "cdate": 1502356644746,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":44,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#ffbff9\",\"color1\":\"#ffbff9\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-65590,\"targetId\":6,\"title\":\"Mathematik\",\"weight\":-1,\"con\":\"e\",\"start\":false},{\"id\":-55905591,\"targetId\":5591,\"title\":\"\",\"weight\":-1,\"con\":\"e\",\"start\":true}]}",
+    "coor": {
+      "x": 203040,
+      "y": 247316
+    },
+    "id": 5590,
+    "prep": "<text x=\"203040\" y=\"247316\" fill=\"#000000\" title=\"5590\" style=\"font-size: 44px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Calculus</text><ellipse cx=\"203107.453125\" cy=\"247306\" rx=\"72.64647246866346\" ry=\"44\" fill=\"#ffbff9\" id=\"cms5590\" style=\"opacity: 1;\"/><text x=\"203040\" y=\"247316\" fill=\"#000000\" title=\"5590\" style=\"font-size: 44px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Calculus</text>",
+    "prep1": "",
+    "prio": 2,
+    "state": "",
+    "title": "Calculus",
+    "types": [
+      "a",
+      "e",
+      "0"
+    ],
+    "vdate": 1502356644746,
+    "x0": 203034.8125,
+    "x1": 203180.109375,
+    "y0": 247262,
+    "y1": 247350,
+    "_id": "6d9370da"
+  },
+  {
+    "_id": "6d999f54",
+    "cat": [],
+    "cdate": 1502783529187,
+    "cmobject": "{\"content\":[{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"chem/pc/210.PNG\",\"height\":100,\"width\":100}],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#060000\",\"deco\":\"none\",\"class_array\":[\"hidden\",\"f1_a\"]},\"object\":{\"color0\":\"#00ffff\",\"color1\":\"#00ffff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-30493056,\"targetId\":3049,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":74431,\"y\":55790}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 343809.0703125,
+      "y": 174021.2265625
+    },
+    "id": 3056,
+    "prep": "<image href=\"assets/images/chem/pc/210.PNG\" preserveAspectRatio=\"none\" x=\"343809.0703125\" y=\"174021.2265625\" id=\"3056_0\" title=\"3056\" transform=\"matrix(1,0,0,1,0,0)\" style=\"opacity: 1;\"/>",
+    "prep1": "",
+    "prio": 8,
+    "state": "",
+    "title": "Bild",
+    "types": [
+      "i",
+      "0",
+      "0"
+    ],
+    "vdate": 1502783529187,
+    "x0": 343809.0625,
+    "x1": 343809.0625,
+    "y0": 174021.21875,
+    "y1": 174021.21875
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307663,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#cff5ff\",\"color1\":\"#cff5ff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-41194121,\"targetId\":4119,\"title\":\"Globar-Strahler\",\"peerCoor\":{\"x\":73878,\"y\":41616},\"weight\":-1,\"con\":\"e\",\"start\":false}]}",
+    "coor": {
+      "x": 285820.1328125,
+      "y": 105557.5
+    },
+    "id": 4121,
+    "prep": "<text x=\"285820.1328125\" y=\"105557.5\" fill=\"#000000\" title=\"4121\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">1400°K</text><rect x=\"285817.625\" y=\"105544\" width=\"52.453125\" height=\"20\" rx=\"5\" ry=\"5\" fill=\"#cff5ff\" id=\"cms4121\" style=\"opacity: 1;\"/><text x=\"285820.1328125\" y=\"105557.5\" fill=\"#000000\" title=\"4121\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">1400°K</text>",
+    "prep1": "",
+    "prio": 8,
+    "state": "",
+    "title": "1400°K",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1502445307663,
+    "x0": 285817.625,
+    "x1": 285870.0625,
+    "y0": 105544,
+    "y1": 105564,
+    "_id": "6da2b30e"
+  },
+  {
+    "_id": "6daad9bc",
+    "cat": [],
+    "cdate": 1502783529203,
+    "cmobject": "{\"content\":[{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"chem/pc/38.PNG\",\"height\":100,\"width\":100}],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#060000\",\"deco\":\"none\",\"class_array\":[\"hidden\",\"f1_a\"]},\"object\":{\"color0\":\"#00ffff\",\"color1\":\"#00ffff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-25692575,\"targetId\":2569,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":74726,\"y\":58796}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 344443.0703125,
+      "y": 176961.2265625
+    },
+    "id": 2575,
+    "prep": "<image href=\"assets/images/chem/pc/38.PNG\" preserveAspectRatio=\"none\" x=\"344443.0703125\" y=\"176961.2265625\" id=\"2575_0\" title=\"2575\" transform=\"matrix(1,0,0,1,0,0)\" style=\"opacity: 1;\"/>",
+    "prep1": "",
+    "prio": 9,
+    "state": "",
+    "title": "Bild",
+    "types": [
+      "i",
+      "0",
+      "0"
+    ],
+    "vdate": 1502783529203,
+    "x0": 344443.0625,
+    "x1": 344443.0625,
+    "y0": 176961.21875,
+    "y1": 176961.21875
+  },
+  {
+    "_id": "6dab6b12",
+    "cat": [],
+    "cdate": 1502444890065,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#cfffd8\",\"color1\":\"#cfffd8\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-483484,\"targetId\":483,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":46926,\"y\":44103}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 239922.5,
+      "y": 96156.234375
+    },
+    "id": 484,
+    "prep": "<text x=\"239922.5\" y=\"96156.234375\" fill=\"#000000\" title=\"484\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Proteinbiosynthese</text><rect x=\"239920\" y=\"96142.734375\" width=\"111.234375\" height=\"20\" rx=\"5\" ry=\"5\" fill=\"#cfffd8\" id=\"cms484\" style=\"opacity: 1;\"/><text x=\"239922.5\" y=\"96156.234375\" fill=\"#000000\" title=\"484\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Proteinbiosynthese</text>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "Proteinbiosynthese",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1502444890065,
+    "x0": 239920,
+    "x1": 240031.234375,
+    "y0": 96142.734375,
+    "y1": 96162.734375
+  },
+  {
+    "cat": [],
+    "cdate": 1504254953887,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#ff0000\",\"color1\":\"#1a09f1\",\"size0\":3,\"size1\":12,\"trans\":1,\"id0\":6161,\"title0\":\"surface integral\",\"id1\":6144,\"title1\":\"constant energy surface\",\"property\":[],\"str\":\"\",\"numArray\":[],\"dasharray\":\"10, 5\"}",
+    "coor": {
+      "x": 326102.3671875,
+      "y": 167375.5
+    },
+    "id": -61616144,
+    "prep": "<path d=\"M326735.765625 167519L326102.3671875 167375.5\" fill=\"none\" stroke=\"#ff0000\" id=\"cms-61616144\" style=\"opacity: 1; stroke-dasharray: 10, 5; stroke-width: 3;\"/>",
+    "prep1": "",
+    "prio": 10,
+    "state": "",
+    "title": "6161-6144",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1504254953887,
+    "x0": 326735.765625,
+    "x1": 326102.3671875,
+    "y0": 167519,
+    "y1": 167375.5,
+    "_id": "6daf86bf"
+  },
+  {
+    "cat": [],
+    "cdate": 1504255236268,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":15,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#8668f0\",\"color1\":\"#bfdeff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-67636773,\"targetId\":6763,\"title\":\"whatid\",\"weight\":-1,\"con\":\"e\",\"start\":false},{\"id\":-67736798,\"targetId\":6798,\"title\":\"density plane wave cutoff\",\"weight\":-1,\"con\":\"e\",\"start\":true}]}",
+    "coor": {
+      "x": 320374.171875,
+      "y": 192056
+    },
+    "id": 6773,
+    "prep": "<text x=\"320374.171875\" y=\"192056\" fill=\"#000000\" title=\"6773\" style=\"font-size: 15px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">epwrho</text><rect x=\"320371.6875\" y=\"192043.5\" width=\"44.765625\" height=\"19\" rx=\"5\" ry=\"5\" fill=\"#8668f0\" id=\"cms6773\" style=\"opacity: 1;\"/><text x=\"320374.171875\" y=\"192056\" fill=\"#000000\" title=\"6773\" style=\"font-size: 15px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">epwrho</text>",
+    "prep1": "",
+    "prio": 11,
+    "state": "",
+    "title": "epwrho",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1504255236268,
+    "x0": 320371.6875,
+    "x1": 320416.4375,
+    "y0": 192043.5,
+    "y1": 192062.5,
+    "_id": "6dc33f15"
+  },
+  {
+    "cat": [],
+    "cdate": 1504254953926,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":14,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#95aafb\",\"color1\":\"#bfdeff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-60036009,\"targetId\":6003,\"title\":\"differential equation\",\"weight\":-1,\"con\":\"e\",\"start\":false},{\"id\":-60096010,\"targetId\":6010,\"title\":\"Δ\",\"weight\":-1,\"con\":\"e\",\"start\":true}]}",
+    "coor": {
+      "x": 329565.171875,
+      "y": 165106
+    },
+    "id": 6009,
+    "prep": "<text x=\"329565.171875\" y=\"165106\" fill=\"#000000\" title=\"6009\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">spacing</text><rect x=\"329562.6875\" y=\"165094.5\" width=\"43.078125\" height=\"18\" rx=\"5\" ry=\"5\" fill=\"#95aafb\" id=\"cms6009\" style=\"opacity: 1;\"/><text x=\"329565.171875\" y=\"165106\" fill=\"#000000\" title=\"6009\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">spacing</text>",
+    "prep1": "",
+    "prio": 12,
+    "state": "",
+    "title": "spacing",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1504254953926,
+    "x0": 329562.6875,
+    "x1": 329605.75,
+    "y0": 165094.5,
+    "y1": 165112.5,
+    "_id": "6dc5ab51"
+  },
+  {
+    "cat": [],
+    "cdate": 1504254953945,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#bfdeff\",\"color1\":\"#bfdeff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-65896591,\"targetId\":6589,\"title\":\"\",\"weight\":-1,\"con\":\"e\",\"start\":false},{\"id\":-65916592,\"targetId\":6592,\"title\":\"plane wave cutoff\",\"weight\":-1,\"con\":\"e\",\"start\":true}]}",
+    "coor": {
+      "x": 310079.171875,
+      "y": 166110
+    },
+    "id": 6591,
+    "prep": "<text x=\"310079.171875\" y=\"166110\" fill=\"#000000\" title=\"6591\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">limit wave vector length</text><rect x=\"310076.6875\" y=\"166096.5\" width=\"142.375\" height=\"20\" rx=\"5\" ry=\"5\" fill=\"#bfdeff\" id=\"cms6591\" style=\"opacity: 1;\"/><text x=\"310079.171875\" y=\"166110\" fill=\"#000000\" title=\"6591\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">limit wave vector length</text>",
+    "prep1": "",
+    "prio": 9,
+    "state": "",
+    "title": "limit wave vector length",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1504254953945,
+    "x0": 310076.6875,
+    "x1": 310219.0625,
+    "y0": 166096.5,
+    "y1": 166116.5,
+    "_id": "6dc6f0c3"
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307670,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#2312ff\",\"color1\":\"#2312ff\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":5277,\"title0\":\"schnell\",\"id1\":5278,\"title1\":\"kinetisch\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 295844.5078125,
+      "y": 103179
+    },
+    "id": -52775278,
+    "prep": "<path d=\"M295844.5078125 103200C295844.5078125 103189.5 295880.45703125 103179 295916.40625 103179\" fill=\"none\" stroke=\"#2312ff\" id=\"cms-52775278\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "5277-5278",
+    "types": [
+      "l",
+      "c",
+      "0"
+    ],
+    "vdate": 1502445307670,
+    "x0": 295844.5078125,
+    "x1": 295916.40625,
+    "y0": 103200,
+    "y1": 103179,
+    "_id": "6dcbfa81"
+  },
+  {
+    "cat": [],
+    "cdate": 1504254953957,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#00ffff\",\"color1\":\"#1a09f1\",\"size0\":3,\"size1\":2,\"trans\":1,\"id0\":5823,\"title0\":\"expectation values\",\"id1\":5834,\"title1\":\"e- density\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 313274.74609375,
+      "y": 166476
+    },
+    "id": -58235834,
+    "prep": "<path d=\"M313274.74609375 166476C313274.74609375 166500.25 313485.560546875 166524.5 313696.375 166524.5\" fill=\"none\" stroke=\"#00ffff\" id=\"cms-58235834\" style=\"opacity: 1; stroke-width: 3;\"/>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "5823-5834",
+    "types": [
+      "l",
+      "c",
+      "0"
+    ],
+    "vdate": 1504254953957,
+    "x0": 313274.74609375,
+    "x1": 313696.375,
+    "y0": 166476,
+    "y1": 166524.5,
+    "_id": "6ddd91ec"
+  },
+  {
+    "cat": [],
+    "cdate": 1502448119367,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#800000\",\"color1\":\"#800000\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":3458,\"title0\":\"Neutronenbeugung\",\"id1\":3484,\"title1\":\"hohe Eindringtiefe\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 325399.0703125,
+      "y": 156504.2265625
+    },
+    "id": -34583484,
+    "prep": "<path d=\"M325556.0703125 156533.5390625L325556.0703125 156499.5390625L325453.0703125 156499.5390625\" fill=\"none\" stroke=\"#800000\" id=\"cms-34583484\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "3458-3484",
+    "types": [
+      "l",
+      "e",
+      "0"
+    ],
+    "vdate": 1502448119367,
+    "x0": 325556.0703125,
+    "x1": 325453.0703125,
+    "y0": 156533.5390625,
+    "y1": 156499.5390625,
+    "_id": "6ddfd205"
+  },
+  {
+    "cat": [],
+    "cdate": 1502448119372,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#800000\",\"color1\":\"#800000\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":3390,\"title0\":\"Bild\",\"id1\":3393,\"title1\":\"Mesophasen\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 328636.0703125,
+      "y": 158349.2265625
+    },
+    "id": -33903393,
+    "prep": "<path d=\"M328636.06640625 158349.2265625L328636.06640625 158394.0390625L328951.56640625 158394.0390625\" fill=\"none\" stroke=\"#800000\" id=\"cms-33903393\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "3390-3393",
+    "types": [
+      "l",
+      "e",
+      "0"
+    ],
+    "vdate": 1502448119372,
+    "x0": 328636.06640625,
+    "x1": 328951.56640625,
+    "y0": 158349.2265625,
+    "y1": 158394.0390625,
+    "_id": "6de057ec"
+  },
+  {
+    "_id": "6de1141a",
+    "cat": [],
+    "cdate": 1502356739186,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#d1bbec\",\"color1\":\"#d1bbec\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-19161923,\"targetId\":1916,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":86898,\"y\":72711}},{\"id\":-19231924,\"targetId\":1924,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":true,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":87091,\"y\":72814}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 357351,
+      "y": 192808
+    },
+    "id": 1923,
+    "prep": "<text x=\"357351\" y=\"192808\" fill=\"#000000\" title=\"1923\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Loch</text><rect x=\"357350\" y=\"192796\" width=\"32.03125\" height=\"17\" fill=\"#d1bbec\" id=\"cms1923\" style=\"opacity: 1;\"/><text x=\"357351\" y=\"192808\" fill=\"#000000\" title=\"1923\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Loch</text>",
+    "prep1": "",
+    "prio": 5,
+    "state": "",
+    "title": "Loch",
+    "types": [
+      "a",
+      "r",
+      "0"
+    ],
+    "vdate": 1502356739186,
+    "x0": 357350,
+    "x1": 357382.03125,
+    "y0": 192796,
+    "y1": 192813
+  },
+  {
+    "_id": "6de29289",
+    "cat": [],
+    "cdate": 1502448119387,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":14,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#060000\",\"deco\":\"none\",\"class_array\":[\"f1_a\"]},\"object\":{\"color0\":\"#ff9396\",\"color1\":\"#ff9396\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-35143517,\"targetId\":3514,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":61391,\"y\":56914}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 326653.0703125,
+      "y": 156199.2265625
+    },
+    "id": 3517,
+    "prep": "<text x=\"326653.0703125\" y=\"156199.2265625\" fill=\"#060000\" title=\"3517\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\"> Rotation</text><rect x=\"326652.0625\" y=\"156188.21875\" width=\"46.609375\" height=\"15\" fill=\"#ff9396\" id=\"cms3517\" style=\"opacity: 1;\"/><text x=\"326653.0703125\" y=\"156199.2265625\" fill=\"#060000\" title=\"3517\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\"> Rotation</text>",
+    "prep1": "",
+    "prio": 8,
+    "state": "",
+    "title": " Rotation",
+    "types": [
+      "a",
+      "r",
+      "0"
+    ],
+    "vdate": 1502448119387,
+    "x0": 326652.0625,
+    "x1": 326698.6875,
+    "y0": 156188.21875,
+    "y1": 156203.21875
+  },
+  {
+    "cat": [],
+    "cdate": 1504255236283,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":15,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#8668f0\",\"color1\":\"#bfdeff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-68486845,\"targetId\":6844,\"title\":\"Checking convergence\",\"weight\":-1,\"con\":\"e\",\"start\":false},{\"id\":0,\"targetId\":6848,\"title\":\"run again\",\"weight\":-1,\"con\":\"e\",\"start\":false}]}",
+    "coor": {
+      "x": 321283.7734375,
+      "y": 192260.80078125
+    },
+    "id": 6845,
+    "prep": "<text x=\"321283.7734375\" y=\"192260.80078125\" fill=\"#000000\" title=\"6845\" style=\"font-size: 15px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">friction = 0</text><rect x=\"321279.28125\" y=\"192248.296875\" width=\"69\" height=\"19\" rx=\"5\" ry=\"5\" fill=\"#8668f0\" id=\"cms6845\" style=\"opacity: 1;\"/><text x=\"321283.7734375\" y=\"192260.80078125\" fill=\"#000000\" title=\"6845\" style=\"font-size: 15px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">friction = 0</text>",
+    "prep1": "",
+    "prio": 9,
+    "state": "",
+    "title": "friction = 0",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1504255236283,
+    "x0": 321279.28125,
+    "x1": 321348.28125,
+    "y0": 192248.296875,
+    "y1": 192267.296875,
+    "_id": "6de2ec41"
+  },
+  {
+    "cat": [],
+    "cdate": 1504254953984,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#00ffff\",\"color1\":\"#1a09f1\",\"size0\":3,\"size1\":2,\"trans\":1,\"id0\":5601,\"title0\":\"sumrules\",\"id1\":5602,\"title1\":\"Gunnarson + Lundquist\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 314455.5859375,
+      "y": 164645
+    },
+    "id": -56015602,
+    "prep": "<path d=\"M314455.5859375 164669C314455.5859375 164657 314506.75 164645 314557.9140625 164645\" fill=\"none\" stroke=\"#00ffff\" id=\"cms-56015602\" style=\"opacity: 1; stroke-width: 3;\"/>",
+    "prep1": "",
+    "prio": 10,
+    "state": "",
+    "title": "5601-5602",
+    "types": [
+      "l",
+      "c",
+      "0"
+    ],
+    "vdate": 1504254953984,
+    "x0": 314455.5859375,
+    "x1": 314557.9140625,
+    "y0": 164669,
+    "y1": 164645,
+    "_id": "6de3d2f1"
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307676,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#2312ff\",\"color1\":\"#2312ff\",\"size0\":2,\"size1\":4,\"trans\":1,\"id0\":4548,\"title0\":\"⁴J? < 1 Hz = nicht aufgelöst\",\"id1\":4551,\"title1\":\"außer\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 283577.265625,
+      "y": 107304
+    },
+    "id": -45484551,
+    "prep": "<path d=\"M283577.265625 107346C283577.265625 107325 283610.69921875 107304 283644.1328125 107304\" fill=\"none\" stroke=\"#2312ff\" id=\"cms-45484551\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 8,
+    "state": "",
+    "title": "4548-4551",
+    "types": [
+      "l",
+      "c",
+      "0"
+    ],
+    "vdate": 1502445307676,
+    "x0": 283577.265625,
+    "x1": 283644.1328125,
+    "y0": 107346,
+    "y1": 107304,
+    "_id": "6dea3c66"
+  },
+  {
+    "cat": [],
+    "cdate": 1504254954003,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":14,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#bfdeff\",\"color1\":\"#bfdeff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-54575466,\"targetId\":5457,\"title\":\"\",\"weight\":-1,\"con\":\"e\",\"start\":false}]}",
+    "coor": {
+      "x": 309794.171875,
+      "y": 164078
+    },
+    "id": 5466,
+    "prep": "<text x=\"309794.171875\" y=\"164078\" fill=\"#000000\" title=\"5466\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">N(N-1) -> all other particles</text><rect x=\"309791.6875\" y=\"164065.5\" width=\"145.75\" height=\"19\" rx=\"5\" ry=\"5\" fill=\"#bfdeff\" id=\"cms5466\" style=\"opacity: 1;\"/><text x=\"309794.171875\" y=\"164078\" fill=\"#000000\" title=\"5466\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">N(N-1) -> all other particles</text>",
+    "prep1": "",
+    "prio": 8,
+    "state": "",
+    "title": "N(N-1) -> all other particles",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1504254954003,
+    "x0": 309791.6875,
+    "x1": 309937.4375,
+    "y0": 164065.5,
+    "y1": 164084.5,
+    "_id": "6deab358"
+  },
+  {
+    "cat": [],
+    "cdate": 1504254954011,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#00ffff\",\"color1\":\"#1a09f1\",\"size0\":3,\"size1\":2,\"trans\":1,\"id0\":5706,\"title0\":\"pseudopotentials\",\"id1\":5757,\"title1\":\"total energy\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 310349.79296875,
+      "y": 165824.5
+    },
+    "id": -57065757,
+    "prep": "<path d=\"M310349.79296875 165903C310349.79296875 165863.75 310565.884765625 165824.5 310781.9765625 165824.5\" fill=\"none\" stroke=\"#00ffff\" id=\"cms-57065757\" style=\"opacity: 1; stroke-width: 3;\"/>",
+    "prep1": "",
+    "prio": 9,
+    "state": "",
+    "title": "5706-5757",
+    "types": [
+      "l",
+      "c",
+      "0"
+    ],
+    "vdate": 1504254954011,
+    "x0": 310349.79296875,
+    "x1": 310781.9765625,
+    "y0": 165903,
+    "y1": 165824.5,
+    "_id": "6df2af5e"
+  },
+  {
+    "cat": [],
+    "cdate": 1502447908903,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#485aa4\",\"color1\":\"#485aa4\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":1550,\"title0\":\"MCFC\",\"id1\":1566,\"title1\":\"500-650°C\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 283350,
+      "y": 137988
+    },
+    "id": -15501566,
+    "prep": "<path d=\"M283392.5 137983.8125L283376.49609375 138015.640625\" fill=\"none\" stroke=\"#485aa4\" id=\"cms-15501566\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "1550-1566",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1502447908903,
+    "x0": 283392.5,
+    "x1": 283376.49609375,
+    "y0": 137983.8125,
+    "y1": 138015.640625,
+    "_id": "6df3a8e1"
+  },
+  {
+    "_id": "6dfcd7e9",
+    "cat": [],
+    "cdate": 1502447899126,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#ff0000\",\"deco\":\"none\",\"class_array\":[\"f1_a\"]},\"object\":{\"color0\":\"#00ff80\",\"color1\":\"#00ff80\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-32803308,\"targetId\":3280,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":76988,\"y\":51424}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 297190,
+      "y": 133664
+    },
+    "id": 3308,
+    "prep": "<text x=\"297190\" y=\"133664\" fill=\"#ff0000\" title=\"3308\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Styrol ß? MMA</text><rect x=\"297187.5\" y=\"133650.5\" width=\"95.625\" height=\"20\" rx=\"5\" ry=\"5\" fill=\"#00ff80\" id=\"cms3308\" style=\"opacity: 1;\"/><text x=\"297190\" y=\"133664\" fill=\"#ff0000\" title=\"3308\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Styrol ß? MMA</text>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "Styrol ß? MMA",
+    "types": [
+      "t",
+      "0",
+      "0"
+    ],
+    "vdate": 1502447899126,
+    "x0": 297187.5,
+    "x1": 297283.125,
+    "y0": 133650.5,
+    "y1": 133670.5
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307693,
+    "cmobject": "{\"content\":[{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1493209722715.png\",\"width\":100,\"height\":100}],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"underline\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#cff5ff\",\"color1\":\"#cff5ff\",\"trans\":0.9999999999999999,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-37953808,\"targetId\":3795,\"title\":\"alpha / beta\",\"peerCoor\":{\"x\":75652,\"y\":46144},\"weight\":-1,\"con\":\"e\",\"start\":false}]}",
+    "coor": {
+      "x": 287593.1328125,
+      "y": 109894.5
+    },
+    "id": 3808,
+    "prep": "<image href=\"assets/images/cm/pmk_1493209722715.png\" preserveAspectRatio=\"none\" x=\"287593.1328125\" y=\"109894.5\" id=\"3808_0\" title=\"3808\" transform=\"matrix(1,0,0,1,0,0)\" style=\"opacity: 1;\"/>",
+    "prep1": "",
+    "prio": 8,
+    "state": "",
+    "title": "Bild",
+    "types": [
+      "i",
+      "0",
+      "0"
+    ],
+    "vdate": 1502445307693,
+    "x0": 287593.125,
+    "x1": 287593.125,
+    "y0": 109894.5,
+    "y1": 109894.5,
+    "_id": "6e01cef8"
+  },
+  {
+    "cat": [],
+    "cdate": 1502447894848,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#bd425a\",\"color1\":\"#bd425a\",\"size0\":4,\"size1\":4,\"trans\":1,\"id0\":19,\"title0\":\"Grundoperationen\",\"id1\":1163,\"title1\":\"Thermische Grundoperationen\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 282958,
+      "y": 135879
+    },
+    "id": -191163,
+    "prep": "<path d=\"M283087.49609375 136353.734375L284370.3515625 135873.4296875\" fill=\"none\" stroke=\"#bd425a\" id=\"cms-191163\" style=\"opacity: 1; stroke-width: 4;\"/>",
+    "prep1": "",
+    "prio": 3,
+    "state": "",
+    "title": "19-1163",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1502447894848,
+    "x0": 283087.49609375,
+    "x1": 284370.3515625,
+    "y0": 136353.734375,
+    "y1": 135873.4296875,
+    "_id": "6e023176"
+  },
+  {
+    "cat": [],
+    "cdate": 1502444890088,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#00ff00\",\"color1\":\"#00ff00\",\"size0\":3,\"size1\":3,\"trans\":1,\"id0\":782,\"title0\":\"Bild\",\"id1\":817,\"title1\":\"Acetyl-CoA\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[{\"cat\":\"b\",\"coor\":{\"x\":51682,\"y\":45200},\"prio\":23,\"title\":\"Acetyl-CoA\",\"font\":\"'Monotype Corsiva'\",\"size\":16,\"object\":\"\",\"color\":\"#00ff00\",\"targetCoor\":{\"x\":49924,\"y\":44633},\"width\":0,\"height\":0},{\"cat\":\"b\",\"coor\":{\"x\":50012,\"y\":44662},\"prio\":23,\"title\":\"Bild\",\"font\":\"'Monotype Corsiva'\",\"size\":16,\"object\":\"\",\"color\":\"#00ff00\",\"targetCoor\":{\"x\":51856,\"y\":45256},\"width\":0,\"height\":0}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 242808.5,
+      "y": 96759.234375
+    },
+    "id": -782817,
+    "prep": "<path d=\"M244740.5 97382.234375L242808.5 96759.234375\" fill=\"none\" stroke=\"#00ff00\" id=\"cms-782817\" style=\"opacity: 1; stroke-width: 3;\"/>",
+    "prep1": "<rect x=\"244449.1478608881\" y=\"97279.58521374653\" width=\"70.09375\" height=\"19\" rx=\"4\" ry=\"4\" fill=\"#00ff00\" title=\"-782817\" id=\"rect0-782817\" style=\"opacity: 0.8;\"/><text x=\"244451.1478608881\" y=\"97292.08521374653\" fill=\"#000000\" title=\"-782817\" id=\"title0-782817\" style=\"font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 0.8;\">Acetyl-CoA</text><rect x=\"243048.6724516119\" y=\"96821.88353625347\" width=\"32.265625\" height=\"19\" rx=\"4\" ry=\"4\" fill=\"#00ff00\" title=\"-782817\" id=\"rect1-782817\" style=\"opacity: 0.8;\"/><text x=\"243050.6724516119\" y=\"96834.38353625347\" fill=\"#000000\" title=\"-782817\" id=\"title1-782817\" style=\"font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 0.8;\">Bild</text>",
+    "prio": 23,
+    "state": "",
+    "title": "782-817",
+    "types": [
+      "l",
+      "p",
+      "0"
+    ],
+    "vdate": 1502444890088,
+    "x0": 244740.5,
+    "x1": 242808.5,
+    "y0": 97382.234375,
+    "y1": 96759.234375,
+    "_id": "6e06d27e"
+  },
+  {
+    "cat": [],
+    "cdate": 1504255236286,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#c0b4e7\",\"color1\":\"#1a09f1\",\"size0\":3,\"size1\":12,\"trans\":1,\"id0\":7174,\"title0\":\"Effective core potential\",\"id1\":7175,\"title1\":\"all core e-\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 320481.5625,
+      "y": 198573
+    },
+    "id": -71747175,
+    "prep": "<path d=\"M320481.5625 198717C320481.5625 198645 320526.015625 198573 320570.46875 198573\" fill=\"none\" stroke=\"#c0b4e7\" id=\"cms-71747175\" style=\"opacity: 1; stroke-width: 3;\"/>",
+    "prep1": "",
+    "prio": 10,
+    "state": "",
+    "title": "7174-7175",
+    "types": [
+      "l",
+      "c",
+      "0"
+    ],
+    "vdate": 1504255236286,
+    "x0": 320481.5625,
+    "x1": 320570.46875,
+    "y0": 198717,
+    "y1": 198573,
+    "_id": "6e0ada77"
+  },
+  {
+    "_id": "6e0e1680",
+    "cat": [],
+    "cdate": 1502448119403,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":14,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#060000\",\"deco\":\"none\",\"class_array\":[\"f1_a\"]},\"object\":{\"color0\":\"#ffc6c7\",\"color1\":\"#ffc6c7\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-36243625,\"targetId\":3624,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":61587,\"y\":58857}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 326719.0703125,
+      "y": 158114.2265625
+    },
+    "id": 3625,
+    "prep": "<text x=\"326719.0703125\" y=\"158114.2265625\" fill=\"#060000\" title=\"3625\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">große Stoffe = kleine Menge</text><rect x=\"326716.0625\" y=\"158103.21875\" width=\"142.09375\" height=\"16\" fill=\"#ffc6c7\" id=\"cms3625\" style=\"opacity: 1;\"/><text x=\"326719.0703125\" y=\"158114.2265625\" fill=\"#060000\" title=\"3625\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">große Stoffe = kleine Menge</text>",
+    "prep1": "",
+    "prio": 8,
+    "state": "",
+    "title": "große Stoffe = kleine Menge",
+    "types": [
+      "a",
+      "r",
+      "0"
+    ],
+    "vdate": 1502448119403,
+    "x0": 326716.0625,
+    "x1": 326858.15625,
+    "y0": 158103.21875,
+    "y1": 158119.21875
+  },
+  {
+    "cat": [],
+    "cdate": 1504254954038,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#b68aff\",\"color1\":\"#bfdeff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-65676568,\"targetId\":6567,\"title\":\"peaks\",\"weight\":-1,\"con\":\"e\",\"start\":false}]}",
+    "coor": {
+      "x": 308670.171875,
+      "y": 168382
+    },
+    "id": 6568,
+    "prep": "<text x=\"308670.171875\" y=\"168382\" fill=\"#000000\" title=\"6568\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">high T</text><rect x=\"308667.6875\" y=\"168367.5\" width=\"44.828125\" height=\"21\" rx=\"5\" ry=\"5\" fill=\"#b68aff\" id=\"cms6568\" style=\"opacity: 1;\"/><text x=\"308670.171875\" y=\"168382\" fill=\"#000000\" title=\"6568\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">high T</text>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "high T",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1504254954038,
+    "x0": 308667.6875,
+    "x1": 308712.5,
+    "y0": 168367.5,
+    "y1": 168388.5,
+    "_id": "6e10b0a7"
+  },
+  {
+    "cat": [],
+    "cdate": 1502447929793,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#bd425a\",\"color1\":\"#bd425a\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":1256,\"title0\":\"Verhältnis\",\"id1\":1257,\"title1\":\"Wärmeleitung\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 285983,
+      "y": 135284
+    },
+    "id": -12561257,
+    "prep": "<path d=\"M286005 135288.046875L286097 135280.046875\" fill=\"none\" stroke=\"#bd425a\" id=\"cms-12561257\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 10,
+    "state": "",
+    "title": "1256-1257",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1502447929793,
+    "x0": 286005,
+    "x1": 286097,
+    "y0": 135288.046875,
+    "y1": 135280.046875,
+    "_id": "6e161e34"
+  },
+  {
+    "_id": "6e173a23",
+    "cat": [],
+    "cdate": 1502447907466,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":12,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#008c4f\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#ccffea\",\"color1\":\"#ccffea\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-289315,\"targetId\":289,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":72213,\"y\":52113}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 291833,
+      "y": 134397
+    },
+    "id": 315,
+    "prep": "<text x=\"291833\" y=\"134397\" fill=\"#008c4f\" title=\"315\" style=\"font-size: 12px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">niedrige Viskosität</text><rect x=\"291830.5\" y=\"134385.5\" width=\"84.8125\" height=\"17\" rx=\"5\" ry=\"5\" fill=\"#ccffea\" id=\"cms315\" style=\"opacity: 1;\"/><text x=\"291833\" y=\"134397\" fill=\"#008c4f\" title=\"315\" style=\"font-size: 12px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">niedrige Viskosität</text>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "niedrige Viskosität",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1502447907466,
+    "x0": 291830.5,
+    "x1": 291915.3125,
+    "y0": 134385.5,
+    "y1": 134402.5
+  },
+  {
+    "cat": [],
+    "cdate": 1502448119408,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#800000\",\"color1\":\"#800000\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":3601,\"title0\":\" freies Volumen\",\"id1\":3690,\"title1\":\"nicht so dicht wie möglich\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 328008.0703125,
+      "y": 157975.2265625
+    },
+    "id": -36013690,
+    "prep": "<path d=\"M328043.73828125 157970.8671875L328043.73828125 157997.3671875L328112.07421875 157997.3671875\" fill=\"none\" stroke=\"#800000\" id=\"cms-36013690\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "3601-3690",
+    "types": [
+      "l",
+      "e",
+      "0"
+    ],
+    "vdate": 1502448119408,
+    "x0": 328043.73828125,
+    "x1": 328112.07421875,
+    "y0": 157970.8671875,
+    "y1": 157997.3671875,
+    "_id": "6e2fb009"
+  },
+  {
+    "_id": "6e3072c7",
+    "cat": [],
+    "cdate": 1502783529221,
+    "cmobject": "{\"content\":[{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"chem/pc/190.PNG\",\"height\":100,\"width\":100}],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#060000\",\"deco\":\"none\",\"class_array\":[\"hidden\",\"f1_a\"]},\"object\":{\"color0\":\"#00ffff\",\"color1\":\"#00ffff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-29842985,\"targetId\":2984,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":71770,\"y\":56498}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 341244.0703125,
+      "y": 174651.2265625
+    },
+    "id": 2985,
+    "prep": "<image href=\"assets/images/chem/pc/190.PNG\" preserveAspectRatio=\"none\" x=\"341244.0703125\" y=\"174651.2265625\" id=\"2985_0\" title=\"2985\" transform=\"matrix(1,0,0,1,0,0)\" style=\"opacity: 1;\"/>",
+    "prep1": "",
+    "prio": 8,
+    "state": "",
+    "title": "Bild",
+    "types": [
+      "i",
+      "0",
+      "0"
+    ],
+    "vdate": 1502783529221,
+    "x0": 341244.0625,
+    "x1": 341244.0625,
+    "y0": 174651.21875,
+    "y1": 174651.21875
+  },
+  {
+    "cat": [],
+    "cdate": 1502455506582,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#d5cb94\",\"color1\":\"#ffa54a\",\"size0\":6,\"size1\":6,\"trans\":1,\"id0\":6972,\"title0\":\"Programmiersprachen\",\"id1\":6976,\"title1\":\"TeX\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 351356.40625,
+      "y": 293036.5
+    },
+    "id": -69726976,
+    "prep": "<path d=\"M351356.40625 293036.5C352285 293036.5 351356.40625 297093.5 352285 297093.5\" fill=\"none\" stroke=\"#d5cb94\" id=\"cms-69726976\" style=\"opacity: 1; stroke-width: 6;\"/>",
+    "prep1": "<rect x=\"351549.5538406961\" y=\"293107.6435505021\" width=\"29.6875\" height=\"20\" rx=\"4\" ry=\"4\" fill=\"#d5cb94\" title=\"-69726976\" id=\"rect0-69726976\" style=\"opacity: 0.8;\"/><text x=\"351551.5538406961\" y=\"293120.8435505021\" fill=\"#000000\" title=\"-69726976\" id=\"title0-69726976\" style=\"font-size: 17px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 0.8;\">TeX</text><rect x=\"352011.5893110533\" y=\"296980.01718049584\" width=\"130.953125\" height=\"20\" rx=\"4\" ry=\"4\" fill=\"#d5cb94\" title=\"-69726976\" id=\"rect1-69726976\" style=\"opacity: 0.8;\"/><text x=\"352013.5893110533\" y=\"296993.21718049585\" fill=\"#000000\" title=\"-69726976\" id=\"title1-69726976\" style=\"font-size: 17px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 0.8;\">Programmiersprachen</text>",
+    "prio": 3,
+    "state": "",
+    "title": "6972-6976",
+    "types": [
+      "l",
+      "s",
+      "0"
+    ],
+    "vdate": 1502455506582,
+    "x0": 351356.40625,
+    "x1": 352285,
+    "y0": 293036.5,
+    "y1": 297093.5,
+    "_id": "6e32459b"
+  },
+  {
+    "cat": [],
+    "cdate": 1502448119428,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#800000\",\"color1\":\"#800000\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":3383,\"title0\":\"Flüssigkristalle\",\"id1\":3412,\"title1\":\"Funktion\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 328213.0703125,
+      "y": 158337.2265625
+    },
+    "id": -33833412,
+    "prep": "<path d=\"M328262.5703125 158332.2109375L328262.5703125 158622.0390625L328393.56640625 158622.0390625\" fill=\"none\" stroke=\"#800000\" id=\"cms-33833412\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 4,
+    "state": "",
+    "title": "3383-3412",
+    "types": [
+      "l",
+      "e",
+      "0"
+    ],
+    "vdate": 1502448119428,
+    "x0": 328262.5703125,
+    "x1": 328393.56640625,
+    "y0": 158332.2109375,
+    "y1": 158622.0390625,
+    "_id": "6e40806a"
+  },
+  {
+    "_id": "6e449207",
+    "cat": [],
+    "cdate": 1502448119451,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":13,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#060000\",\"deco\":\"none\",\"class_array\":[\"f1_a\"]},\"object\":{\"color0\":\"#ff9396\",\"color1\":\"#ff9396\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-34913497,\"targetId\":3491,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":61714,\"y\":57305}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 326851.0703125,
+      "y": 156594.2265625
+    },
+    "id": 3497,
+    "prep": "<text x=\"326851.0703125\" y=\"156594.2265625\" fill=\"#060000\" title=\"3497\" style=\"font-size: 13px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Ferro-Elektrizität</text><rect x=\"326850.0625\" y=\"156583.21875\" width=\"87.140625\" height=\"15\" fill=\"#ff9396\" id=\"cms3497\" style=\"opacity: 1;\"/><text x=\"326851.0703125\" y=\"156594.2265625\" fill=\"#060000\" title=\"3497\" style=\"font-size: 13px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Ferro-Elektrizität</text>",
+    "prep1": "",
+    "prio": 8,
+    "state": "",
+    "title": "Ferro-Elektrizität",
+    "types": [
+      "a",
+      "r",
+      "0"
+    ],
+    "vdate": 1502448119451,
+    "x0": 326850.0625,
+    "x1": 326937.1875,
+    "y0": 156583.21875,
+    "y1": 156598.21875
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307710,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#cff5ff\",\"color1\":\"#cff5ff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-49164919,\"targetId\":4916,\"title\":\"\",\"peerCoor\":{\"x\":103481,\"y\":44596},\"weight\":-1,\"con\":\"e\",\"start\":false},{\"id\":-49194920,\"targetId\":4920,\"title\":\"disrotatorisch\",\"peerCoor\":{\"x\":103880,\"y\":44712},\"weight\":-1,\"con\":\"e\",\"start\":true},{\"id\":-49194923,\"targetId\":4923,\"title\":\"cis\",\"peerCoor\":{\"x\":103904,\"y\":44619},\"weight\":-1,\"con\":\"e\",\"start\":true},{\"id\":-49194924,\"targetId\":4924,\"title\":\"\",\"peerCoor\":{\"x\":103887,\"y\":44603},\"weight\":-1,\"con\":\"e\",\"start\":true}]}",
+    "coor": {
+      "x": 294425.1328125,
+      "y": 95883.5
+    },
+    "id": 4919,
+    "prep": "<text x=\"294425.1328125\" y=\"95883.5\" fill=\"#000000\" title=\"4919\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">conrotatorisch</text><rect x=\"294422.625\" y=\"95870\" width=\"86.5625\" height=\"20\" rx=\"5\" ry=\"5\" fill=\"#cff5ff\" id=\"cms4919\" style=\"opacity: 1;\"/><text x=\"294425.1328125\" y=\"95883.5\" fill=\"#000000\" title=\"4919\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">conrotatorisch</text>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "conrotatorisch",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1502445307710,
+    "x0": 294422.625,
+    "x1": 294509.1875,
+    "y0": 95870,
+    "y1": 95890,
+    "_id": "6e4d3b97"
+  },
+  {
+    "_id": "6e4e394a",
+    "cat": [],
+    "cdate": 1502447915854,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":14,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#008c4f\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#ccffea\",\"color1\":\"#ccffea\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-122128,\"targetId\":122,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":70378,\"y\":52835}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 289979,
+      "y": 135021
+    },
+    "id": 128,
+    "prep": "<text x=\"289979\" y=\"135021\" fill=\"#008c4f\" title=\"128\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Heteroatome</text><rect x=\"289976.5\" y=\"135008.5\" width=\"68.0625\" height=\"18\" rx=\"5\" ry=\"5\" fill=\"#ccffea\" id=\"cms128\" style=\"opacity: 1;\"/><text x=\"289979\" y=\"135021\" fill=\"#008c4f\" title=\"128\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Heteroatome</text>",
+    "prep1": "",
+    "prio": 8,
+    "state": "",
+    "title": "Heteroatome",
+    "types": [
+      "t",
+      "0",
+      "0"
+    ],
+    "vdate": 1502447915854,
+    "x0": 289976.5,
+    "x1": 290044.5625,
+    "y0": 135008.5,
+    "y1": 135026.5
+  },
+  {
+    "cat": [],
+    "cdate": 1502447912172,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#bd425a\",\"color1\":\"#bd425a\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":1211,\"title0\":\"Wärmeleitung\",\"id1\":1212,\"title1\":\"Fouriersches Gesetz\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 284713,
+      "y": 135030
+    },
+    "id": -12111212,
+    "prep": "<path d=\"M284755.5 135082.8125L284904.49609375 135025.8125\" fill=\"none\" stroke=\"#bd425a\" id=\"cms-12111212\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "1211-1212",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1502447912172,
+    "x0": 284755.5,
+    "x1": 284904.49609375,
+    "y0": 135082.8125,
+    "y1": 135025.8125,
+    "_id": "6e518975"
+  },
+  {
+    "cat": [],
+    "cdate": 1504254954057,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":14,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#95aafb\",\"color1\":\"#bfdeff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-61226127,\"targetId\":6122,\"title\":\"finite\",\"weight\":-1,\"con\":\"e\",\"start\":false},{\"id\":-61276128,\"targetId\":6128,\"title\":\"discrete\",\"weight\":-1,\"con\":\"e\",\"start\":true},{\"id\":-61276129,\"targetId\":6129,\"title\":\"continuous\",\"weight\":-1,\"con\":\"e\",\"start\":true}]}",
+    "coor": {
+      "x": 325177.171875,
+      "y": 167172
+    },
+    "id": 6127,
+    "prep": "<text x=\"325177.171875\" y=\"167172\" fill=\"#000000\" title=\"6127\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">avoids distinguish</text><rect x=\"325174.6875\" y=\"167159.5\" width=\"94.90625\" height=\"19\" rx=\"5\" ry=\"5\" fill=\"#95aafb\" id=\"cms6127\" style=\"opacity: 1;\"/><text x=\"325177.171875\" y=\"167172\" fill=\"#000000\" title=\"6127\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">avoids distinguish</text>",
+    "prep1": "",
+    "prio": 12,
+    "state": "",
+    "title": "avoids distinguish",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1504254954057,
+    "x0": 325174.6875,
+    "x1": 325269.59375,
+    "y0": 167159.5,
+    "y1": 167178.5,
+    "_id": "6e5d18b6"
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307716,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#2312ff\",\"color1\":\"#2312ff\",\"size0\":2,\"size1\":4,\"trans\":1,\"id0\":4652,\"title0\":\"Messung\",\"id1\":4653,\"title1\":\"\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 281279.1328125,
+      "y": 106669.5
+    },
+    "id": -46524653,
+    "prep": "<path d=\"M281661.1328125 106890C281661.1328125 106779.75 281470.1328125 106669.5 281279.1328125 106669.5\" fill=\"none\" stroke=\"#2312ff\" id=\"cms-46524653\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "4652-4653",
+    "types": [
+      "l",
+      "c",
+      "0"
+    ],
+    "vdate": 1502445307716,
+    "x0": 281661.1328125,
+    "x1": 281279.1328125,
+    "y0": 106890,
+    "y1": 106669.5,
+    "_id": "6e688bb6"
+  },
+  {
+    "cat": [],
+    "cdate": 1502447914593,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#008c4f\",\"color1\":\"#008c4f\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":176,\"title0\":\"kontrollierte Monomerzugabe\",\"id1\":177,\"title1\":\"Starter-Ionen\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 289823,
+      "y": 136233
+    },
+    "id": -176177,
+    "prep": "<path d=\"M289919 136228.3125L289862 136266.3125\" fill=\"none\" stroke=\"#008c4f\" id=\"cms-176177\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "176-177",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1502447914593,
+    "x0": 289919,
+    "x1": 289862,
+    "y0": 136228.3125,
+    "y1": 136266.3125,
+    "_id": "6e69e1ca"
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307728,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#ff0000\",\"color1\":\"#2312ff\",\"size0\":1,\"size1\":2,\"trans\":1,\"id0\":5243,\"title0\":\"Diastereomere 76:24\",\"id1\":5222,\"title1\":\"Zimmermann-Traxler-Modell\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 294984.1171875,
+      "y": 101735
+    },
+    "id": -52435222,
+    "prep": "<path d=\"M295275.765625 101735L294984.1171875 101940\" fill=\"none\" stroke=\"#ff0000\" id=\"cms-52435222\" style=\"opacity: 1; stroke-width: 1;\"/>",
+    "prep1": "",
+    "prio": 9,
+    "state": "",
+    "title": "5243-5222",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1502445307728,
+    "x0": 295275.765625,
+    "x1": 294984.1171875,
+    "y0": 101735,
+    "y1": 101940,
+    "_id": "6e6cbb56"
+  },
+  {
+    "cat": [],
+    "cdate": 1502548432034,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#5e5e5e\",\"color1\":\"#ffa54a\",\"size0\":2,\"size1\":6,\"trans\":1,\"id0\":6974,\"title0\":\"basics\",\"id1\":7028,\"title1\":\"Test\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 353213.40625,
+      "y": 289796
+    },
+    "id": -69747028,
+    "prep": "<path d=\"M353213.40625 290115.5L353213.40625 289796L354491.59375 289796\" fill=\"none\" stroke=\"#5e5e5e\" id=\"cms-69747028\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 5,
+    "state": "",
+    "title": "6974-7028",
+    "types": [
+      "l",
+      "e",
+      "0"
+    ],
+    "vdate": 1502548432034,
+    "x0": 353213.40625,
+    "x1": 354491.59375,
+    "y0": 290115.5,
+    "y1": 289796,
+    "_id": "6e71c0cb"
+  },
+  {
+    "cat": [],
+    "cdate": 1502529877465,
+    "cmobject": "{\"content\":[],\"links\":[{\"id\":0,\"targetId\":6888,\"title\":\"marking\",\"weight\":-1,\"con\":\"e\",\"start\":false}],\"meta\":[],\"style\":{\"object\":{\"class_array\":[],\"color0\":\"#ec3100\",\"color1\":\"#ff0000\",\"num_array\":[],\"str\":\"\",\"trans\":0.5000000000000001,\"weight\":0},\"title\":{\"class_array\":[\"f1_a \",\"hidden\"],\"color\":\"#000000\",\"deco\":\"underline\",\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"size\":17}}}",
+    "coor": {
+      "x": 299700,
+      "y": 182060
+    },
+    "id": 6981,
+    "prep": "<rect x=\"299700\" y=\"182060\" width=\"0\" height=\"0\" fill=\"none\" stroke=\"none\" id=\"marker6981\" style=\"stroke-width: 0; opacity: 0;\"/><rect x=\"-1\" y=\"-1\" width=\"2\" height=\"2\" fill=\"#ec3100\" id=\"cms6981\" style=\"opacity: 0.5;\"/><rect x=\"299700\" y=\"182060\" width=\"0\" height=\"0\" fill=\"none\" stroke=\"none\" id=\"marker6981\" style=\"stroke-width: 0; opacity: 0;\"/>",
+    "prep1": "",
+    "prio": 5,
+    "state": "",
+    "title": "marking",
+    "types": [
+      "m",
+      "r",
+      "0"
+    ],
+    "vdate": 1502529877465,
+    "x0": -1,
+    "x1": 1,
+    "y0": -1,
+    "y1": 1,
+    "_id": "6e75c379"
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307745,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":14,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#cff5ff\",\"color1\":\"#cff5ff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-44814483,\"targetId\":4481,\"title\":\"\",\"peerCoor\":{\"x\":70447,\"y\":43139},\"weight\":-1,\"con\":\"e\",\"start\":false}]}",
+    "coor": {
+      "x": 282300.1328125,
+      "y": 107052.5
+    },
+    "id": 4483,
+    "prep": "<text x=\"282300.1328125\" y=\"107052.5\" fill=\"#000000\" title=\"4483\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Freq-Frq(ref)</text><rect x=\"282297.625\" y=\"107040\" width=\"69.65625\" height=\"19\" rx=\"5\" ry=\"5\" fill=\"#cff5ff\" id=\"cms4483\" style=\"opacity: 1;\"/><text x=\"282300.1328125\" y=\"107052.5\" fill=\"#000000\" title=\"4483\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Freq-Frq(ref)</text>",
+    "prep1": "",
+    "prio": 10,
+    "state": "",
+    "title": "Freq-Frq(ref)",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1502445307745,
+    "x0": 282297.625,
+    "x1": 282367.28125,
+    "y0": 107040,
+    "y1": 107059,
+    "_id": "6e7a76ee"
+  },
+  {
+    "_id": "6e7cac94",
+    "cat": [],
+    "cdate": 1502783529239,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#060000\",\"deco\":\"none\",\"class_array\":[\"f1_a\"]},\"object\":{\"color0\":\"#00ffff\",\"color1\":\"#00ffff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-28292830,\"targetId\":2829,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":73680,\"y\":58882}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 343282.0703125,
+      "y": 177044.2265625
+    },
+    "id": 2830,
+    "prep": "<text x=\"343282.0703125\" y=\"177044.2265625\" fill=\"#060000\" title=\"2830\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Drehimpulsquantenzahl</text><rect x=\"343281.0625\" y=\"177030.21875\" width=\"142.125\" height=\"20\" fill=\"#00ffff\" id=\"cms2830\" style=\"opacity: 1;\"/><text x=\"343282.0703125\" y=\"177044.2265625\" fill=\"#060000\" title=\"2830\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Drehimpulsquantenzahl</text>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "Drehimpulsquantenzahl",
+    "types": [
+      "a",
+      "r",
+      "0"
+    ],
+    "vdate": 1502783529239,
+    "x0": 343281.0625,
+    "x1": 343423.1875,
+    "y0": 177030.21875,
+    "y1": 177050.21875
+  },
+  {
+    "cat": [],
+    "cdate": 1504254954081,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":14,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#bfdeff\",\"color1\":\"#bfdeff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-68156816,\"targetId\":6815,\"title\":\"simple model\",\"weight\":-1,\"con\":\"e\",\"start\":false}]}",
+    "coor": {
+      "x": 315330.171875,
+      "y": 164720
+    },
+    "id": 6816,
+    "prep": "<text x=\"315330.171875\" y=\"164720\" fill=\"#000000\" title=\"6816\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">particles in lattice</text><rect x=\"315326.6875\" y=\"164707.5\" width=\"95.890625\" height=\"19\" rx=\"5\" ry=\"5\" fill=\"#bfdeff\" id=\"cms6816\" style=\"opacity: 1;\"/><text x=\"315330.171875\" y=\"164720\" fill=\"#000000\" title=\"6816\" style=\"font-size: 14px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">particles in lattice</text>",
+    "prep1": "",
+    "prio": 10,
+    "state": "",
+    "title": "particles in lattice",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1504254954081,
+    "x0": 315326.6875,
+    "x1": 315422.5625,
+    "y0": 164707.5,
+    "y1": 164726.5,
+    "_id": "6e836a82"
+  },
+  {
+    "cat": [],
+    "cdate": 1502447911886,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#bd425a\",\"color1\":\"#bd425a\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":1222,\"title0\":\"Wärmeträger\",\"id1\":1229,\"title1\":\"Wasser\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 285336,
+      "y": 135035
+    },
+    "id": -12221229,
+    "prep": "<path d=\"M285374.5 135030.8125L285652.5 135101.8125\" fill=\"none\" stroke=\"#bd425a\" id=\"cms-12221229\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "1222-1229",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1502447911886,
+    "x0": 285374.5,
+    "x1": 285652.5,
+    "y0": 135030.8125,
+    "y1": 135101.8125,
+    "_id": "6e8998a7"
+  },
+  {
+    "cat": [],
+    "cdate": 1502448119472,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#800000\",\"color1\":\"#800000\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":3210,\"title0\":\"Hansen Solubility Parameters\",\"id1\":3211,\"title1\":\"Bild\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 327344.0703125,
+      "y": 158604.2265625
+    },
+    "id": -32103211,
+    "prep": "<path d=\"M327428.58203125 158599.4140625L327428.58203125 158660.2265625L327378.07421875 158660.2265625\" fill=\"none\" stroke=\"#800000\" id=\"cms-32103211\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "3210-3211",
+    "types": [
+      "l",
+      "e",
+      "0"
+    ],
+    "vdate": 1502448119472,
+    "x0": 327428.58203125,
+    "x1": 327378.07421875,
+    "y0": 158599.4140625,
+    "y1": 158660.2265625,
+    "_id": "6e89e5e8"
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307762,
+    "cmobject": "{\"content\":[{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1495289833894.png\",\"width\":100,\"height\":100}],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#cff5ff\",\"color1\":\"#cff5ff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-50475050,\"targetId\":5047,\"title\":\"Dipol-Dipol\",\"peerCoor\":{\"x\":104869,\"y\":46874},\"weight\":-1,\"con\":\"e\",\"start\":false}]}",
+    "coor": {
+      "x": 295591.1328125,
+      "y": 98086.5
+    },
+    "id": 5050,
+    "prep": "<image href=\"assets/images/cm/pmk_1495289833894.png\" preserveAspectRatio=\"none\" x=\"295591.1328125\" y=\"98086.5\" id=\"5050_0\" title=\"5050\" transform=\"matrix(1,0,0,1,0,0)\" style=\"opacity: 1;\"/>",
+    "prep1": "",
+    "prio": 8,
+    "state": "",
+    "title": "",
+    "types": [
+      "i",
+      "0",
+      "0"
+    ],
+    "vdate": 1502445307762,
+    "x0": 295591.125,
+    "x1": 295591.125,
+    "y0": 98086.5,
+    "y1": 98086.5,
+    "_id": "6e8cfce8"
+  },
+  {
+    "cat": [],
+    "cdate": 1502553052338,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":15,\"font\":\"'Courier New', Courier, monospace\",\"color\":\"#ffffff\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#1f1f1f\",\"color1\":\"#ffeabf\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-70767077,\"targetId\":7076,\"title\":\"external programs\",\"weight\":-1,\"con\":\"e\",\"start\":false}]}",
+    "coor": {
+      "x": 353815,
+      "y": 290002
+    },
+    "id": 7077,
+    "prep": "<text x=\"353815\" y=\"290002\" fill=\"#ffffff\" title=\"7077\" style=\"font-size: 15px; font-family: 'Courier New', Courier, monospace; opacity: 1; text-decoration: none;\">``</text><rect x=\"353814\" y=\"289989\" width=\"20\" height=\"19\" fill=\"#1f1f1f\" id=\"cms7077\" style=\"opacity: 1;\"/><text x=\"353815\" y=\"290002\" fill=\"#ffffff\" title=\"7077\" style=\"font-size: 15px; font-family: 'Courier New', Courier, monospace; opacity: 1; text-decoration: none;\">``</text>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "``",
+    "types": [
+      "a",
+      "r",
+      "0"
+    ],
+    "vdate": 1502553052338,
+    "x0": 353814,
+    "x1": 353834,
+    "y0": 289989,
+    "y1": 290008,
+    "_id": "6e918be6"
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307779,
+    "cmobject": "{\"content\":[{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1493195213805.png\",\"width\":100,\"height\":100}],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#cff5ff\",\"color1\":\"#cff5ff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-37823788,\"targetId\":3782,\"title\":\"cis/trans\",\"peerCoor\":{\"x\":76309,\"y\":44753},\"weight\":-1,\"con\":\"e\",\"start\":false}]}",
+    "coor": {
+      "x": 288264.1328125,
+      "y": 108666.5
+    },
+    "id": 3788,
+    "prep": "<image href=\"assets/images/cm/pmk_1493195213805.png\" preserveAspectRatio=\"none\" x=\"288264.1328125\" y=\"108666.5\" id=\"3788_0\" title=\"3788\" transform=\"matrix(1,0,0,1,0,0)\" style=\"opacity: 1;\"/>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "",
+    "types": [
+      "i",
+      "0",
+      "0"
+    ],
+    "vdate": 1502445307779,
+    "x0": 288264.125,
+    "x1": 288264.125,
+    "y0": 108666.5,
+    "y1": 108666.5,
+    "_id": "6e91ea62"
+  },
+  {
+    "cat": [],
+    "cdate": 1502448119477,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#800000\",\"color1\":\"#800000\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":3490,\"title0\":\"Elektrisch\",\"id1\":3495,\"title1\":\"Anisotrope Dielektrizitätskonstante\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 326852.0703125,
+      "y": 156517.2265625
+    },
+    "id": -34903495,
+    "prep": "<path d=\"M326882.0703125 156533.5390625L326882.0703125 156513.2734375L327008.06640625 156513.2734375\" fill=\"none\" stroke=\"#800000\" id=\"cms-34903495\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "3490-3495",
+    "types": [
+      "l",
+      "e",
+      "0"
+    ],
+    "vdate": 1502448119477,
+    "x0": 326882.0703125,
+    "x1": 327008.06640625,
+    "y0": 156533.5390625,
+    "y1": 156513.2734375,
+    "_id": "6e960e86"
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307796,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":28,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#cff5ff\",\"color1\":\"#cff5ff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-47434856,\"targetId\":4743,\"title\":\"Pericyclische Reaktionen\",\"peerCoor\":{\"x\":102634.09375,\"y\":44628.78515625},\"weight\":-1,\"con\":\"e\",\"start\":false},{\"id\":-48564857,\"targetId\":4857,\"title\":\"1,3-Dipole\",\"peerCoor\":{\"x\":105166,\"y\":43487},\"weight\":-1,\"con\":\"e\",\"start\":true},{\"id\":-48564863,\"targetId\":4863,\"title\":\"\",\"peerCoor\":{\"x\":105048,\"y\":43554},\"weight\":-1,\"con\":\"e\",\"start\":true},{\"id\":-48564865,\"targetId\":4865,\"title\":\"\",\"peerCoor\":{\"x\":105353,\"y\":43519},\"weight\":-1,\"con\":\"e\",\"start\":true},{\"id\":-48564869,\"targetId\":4869,\"title\":\"\",\"peerCoor\":{\"x\":104867,\"y\":43659},\"weight\":-1,\"con\":\"e\",\"start\":true},{\"id\":-48564870,\"targetId\":4870,\"title\":\"Sydnone\",\"peerCoor\":{\"x\":105602,\"y\":43727},\"weight\":-1,\"con\":\"e\",\"start\":true},{\"id\":-48564872,\"targetId\":4872,\"title\":\"Münchnone\",\"peerCoor\":{\"x\":105586,\"y\":43792},\"weight\":-1,\"con\":\"e\",\"start\":true}]}",
+    "coor": {
+      "x": 295633.1328125,
+      "y": 94861.5
+    },
+    "id": 4856,
+    "prep": "<text x=\"295633.1328125\" y=\"94861.5\" fill=\"#000000\" title=\"4856\" style=\"font-size: 28px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">1,3 dipolare Cycloaddition</text><rect x=\"295630.625\" y=\"94840\" width=\"263.75\" height=\"31\" rx=\"5\" ry=\"5\" fill=\"#cff5ff\" id=\"cms4856\" style=\"opacity: 1;\"/><text x=\"295633.1328125\" y=\"94861.5\" fill=\"#000000\" title=\"4856\" style=\"font-size: 28px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">1,3 dipolare Cycloaddition</text>",
+    "prep1": "",
+    "prio": 5,
+    "state": "",
+    "title": "1,3 dipolare Cycloaddition",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1502445307796,
+    "x0": 295630.625,
+    "x1": 295894.375,
+    "y0": 94840,
+    "y1": 94871,
+    "_id": "6e976056"
+  },
+  {
+    "cat": [],
+    "cdate": 1504254954089,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#b3c1f6\",\"color1\":\"#1a09f1\",\"size0\":3,\"size1\":12,\"trans\":1,\"id0\":5996,\"title0\":\"Hamiltonian\",\"id1\":5997,\"title1\":\"\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 328954.4453125,
+      "y": 165002
+    },
+    "id": -59965997,
+    "prep": "<path d=\"M328954.4453125 165046.5C328954.4453125 165024.25 328972.30859375 165002 328990.171875 165002\" fill=\"none\" stroke=\"#b3c1f6\" id=\"cms-59965997\" style=\"opacity: 1; stroke-width: 3;\"/>",
+    "prep1": "",
+    "prio": 9,
+    "state": "",
+    "title": "5996-5997",
+    "types": [
+      "l",
+      "c",
+      "0"
+    ],
+    "vdate": 1504254954089,
+    "x0": 328954.4453125,
+    "x1": 328990.171875,
+    "y0": 165046.5,
+    "y1": 165002,
+    "_id": "6e985207"
+  },
+  {
+    "cat": [],
+    "cdate": 1502783529248,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#3c3cff\",\"color1\":\"#3c3cff\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":2825,\"title0\":\"Quantenzahlen\",\"id1\":2832,\"title1\":\"m\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 342932.0703125,
+      "y": 177056.2265625
+    },
+    "id": -28252832,
+    "prep": "<path d=\"M342985.5703125 177050.3828125L342985.5703125 177110.5390625L343100.0703125 177110.5390625\" fill=\"none\" stroke=\"#3c3cff\" id=\"cms-28252832\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 4,
+    "state": "",
+    "title": "2825-2832",
+    "types": [
+      "l",
+      "e",
+      "0"
+    ],
+    "vdate": 1502783529248,
+    "x0": 342985.5703125,
+    "x1": 343100.0703125,
+    "y0": 177050.3828125,
+    "y1": 177110.5390625,
+    "_id": "6e9e1309"
+  },
+  {
+    "cat": [],
+    "cdate": 1504254954097,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#b3c1f6\",\"color1\":\"#1a09f1\",\"size0\":3,\"size1\":12,\"trans\":1,\"id0\":6357,\"title0\":\"Pauling bonding rules\",\"id1\":6358,\"title1\":\"\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 331690.171875,
+      "y": 165942
+    },
+    "id": -63576358,
+    "prep": "<path d=\"M331998.6796875 166214.5C331998.6796875 166078.25 331844.42578125 165942 331690.171875 165942\" fill=\"none\" stroke=\"#b3c1f6\" id=\"cms-63576358\" style=\"opacity: 1; stroke-width: 3;\"/>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "6357-6358",
+    "types": [
+      "l",
+      "c",
+      "0"
+    ],
+    "vdate": 1504254954097,
+    "x0": 331998.6796875,
+    "x1": 331690.171875,
+    "y0": 166214.5,
+    "y1": 165942,
+    "_id": "6ea188b7"
+  },
+  {
+    "cat": [],
+    "cdate": 1502445307802,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#2312ff\",\"color1\":\"#2312ff\",\"size0\":2,\"size1\":4,\"trans\":1,\"id0\":4105,\"title0\":\"Spektrometer\",\"id1\":4108,\"title1\":\"\",\"property\":[],\"str\":\"\",\"numArray\":[]}",
+    "coor": {
+      "x": 285293.1328125,
+      "y": 105116.5
+    },
+    "id": -41054108,
+    "prep": "<path d=\"M285477.1640625 105636C285477.1640625 105376.25 285385.1484375 105116.5 285293.1328125 105116.5\" fill=\"none\" stroke=\"#2312ff\" id=\"cms-41054108\" style=\"opacity: 1; stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "4105-4108",
+    "types": [
+      "l",
+      "c",
+      "0"
+    ],
+    "vdate": 1502445307802,
+    "x0": 285477.1640625,
+    "x1": 285293.1328125,
+    "y0": 105636,
+    "y1": 105116.5,
+    "_id": "6eae7da3"
+  },
+  {
+    "_id": "6eb25ec2",
+    "cat": [],
+    "cdate": 1502447900485,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":13,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#ccffea\",\"color1\":\"#ccffea\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-9297,\"targetId\":92,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":70137,\"y\":52823}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 289857,
+      "y": 135250
+    },
+    "id": 97,
+    "prep": "<text x=\"289857\" y=\"135250\" fill=\"#000000\" title=\"97\" style=\"font-size: 13px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">stabile Zwischenstufen</text><rect x=\"289854.5\" y=\"135237.5\" width=\"111.0625\" height=\"19\" rx=\"5\" ry=\"5\" fill=\"#ccffea\" id=\"cms97\" style=\"opacity: 1;\"/><text x=\"289857\" y=\"135250\" fill=\"#000000\" title=\"97\" style=\"font-size: 13px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">stabile Zwischenstufen</text>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "stabile Zwischenstufen",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1502447900485,
+    "x0": 289854.5,
+    "x1": 289965.5625,
+    "y0": 135237.5,
+    "y1": 135256.5
+  },
+  {
+    "_id": "6eb7eb76",
+    "cat": [],
+    "cdate": 1502444890107,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":13,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#cfffd8\",\"color1\":\"#cfffd8\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-479482,\"targetId\":479,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":47077,\"y\":43836}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 240098.5,
+      "y": 95990.234375
+    },
+    "id": 482,
+    "prep": "<text x=\"240098.5\" y=\"95990.234375\" fill=\"#000000\" title=\"482\" style=\"font-size: 13px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Stereoid</text><rect x=\"240096\" y=\"95977.734375\" width=\"44.0625\" height=\"18\" rx=\"5\" ry=\"5\" fill=\"#cfffd8\" id=\"cms482\" style=\"opacity: 1;\"/><text x=\"240098.5\" y=\"95990.234375\" fill=\"#000000\" title=\"482\" style=\"font-size: 13px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: none;\">Stereoid</text>",
+    "prep1": "",
+    "prio": 8,
+    "state": "",
+    "title": "Stereoid",
+    "types": [
+      "a",
+      "a",
+      "0"
+    ],
+    "vdate": 1502444890107,
+    "x0": 240096,
+    "x1": 240140.0625,
+    "y0": 95977.734

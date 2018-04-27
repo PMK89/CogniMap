@@ -1,0 +1,159 @@
+uadrat-integrabel\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 80144,
+      "y": 58778
+    },
+    "id": -26692670,
+    "prep": "<path d=\"M80144 58792L80144 58773.3125L80291 58773.3125\" fill=\"none\" stroke=\"#3c3cff\" id=\"cms-26692670\" style=\"stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 9,
+    "state": "",
+    "title": "2669-2670",
+    "types": [
+      "l",
+      "e",
+      "0"
+    ],
+    "vdate": 1492073454084,
+    "x0": 80144,
+    "x1": 80291,
+    "y0": 58792,
+    "y1": 58773.3125,
+    "_id": "01911206"
+  },
+  {
+    "cat": [],
+    "cdate": 1492073563284,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#80ff00\",\"color1\":\"#80ff00\",\"size0\":0,\"size1\":0,\"trans\":1,\"id0\":154,\"title0\":\"Copolymere\",\"id1\":3382,\"title1\":\"alternierende Copolymerisation\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 71330,
+      "y": 53217
+    },
+    "id": -1543382,
+    "prep": "<path d=\"M71370.5 53211.15625L71781.5 53366.8125\" fill=\"none\" stroke=\"#80ff00\" id=\"cms-1543382\" style=\"stroke-width: 0;\"/>",
+    "prep1": "",
+    "prio": 5,
+    "state": "",
+    "title": "154-3382",
+    "types": [
+      "l",
+      "p",
+      "0"
+    ],
+    "vdate": 1492073563284,
+    "x0": 71370.5,
+    "x1": 71781.5,
+    "y0": 53211.15625,
+    "y1": 53366.8125,
+    "_id": "019bca74"
+  },
+  {
+    "cat": [],
+    "cdate": 1492073558999,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#c10000\",\"color1\":\"#c10000\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":1406,\"title0\":\"GG-Kurve\",\"id1\":1408,\"title1\":\"Bild\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 65170,
+      "y": 54475
+    },
+    "id": -14061408,
+    "prep": "<path d=\"M65196.5 54487.640625L65253.00390625 54475\" fill=\"none\" stroke=\"#c10000\" id=\"cms-14061408\" style=\"stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 9,
+    "state": "",
+    "title": "1406-1408",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1492073558999,
+    "x0": 65196.5,
+    "x1": 65253.00390625,
+    "y0": 54487.640625,
+    "y1": 54475,
+    "_id": "01c6eb18"
+  },
+  {
+    "cat": [],
+    "cdate": 1492073562617,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#008c4f\",\"color1\":\"#008c4f\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":189,\"title0\":\"Initiator\",\"id1\":190,\"title1\":\"Carbonium-Ionen R3C+, evtl. auch CH5 +, R3O+, R3S+ Salze (ß?3C+ ClO4 ß?) Lewissäuren (AlCl3, TiCl4 und BF3)\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 70533,
+      "y": 53781
+    },
+    "id": -189190,
+    "prep": "<path d=\"M70556 53804.140625L70882 53776.21875\" fill=\"none\" stroke=\"#008c4f\" id=\"cms-189190\" style=\"stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 8,
+    "state": "",
+    "title": "189-190",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1492073562617,
+    "x0": 70556,
+    "x1": 70882,
+    "y0": 53804.140625,
+    "y1": 53776.21875,
+    "_id": "01e578f4"
+  },
+  {
+    "_id": "01ef6a68",
+    "cat": [],
+    "cdate": 1492042409827,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#060000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#d1bbec\",\"color1\":\"#d1bbec\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-21402146,\"targetId\":2140,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":88015,\"y\":75418}}]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 88142,
+      "y": 75447
+    },
+    "id": 2146,
+    "prep": "<rect x=\"88141\" y=\"75432.3125\" width=\"148.921875\" height=\"20.25\" fill=\"#d1bbec\" id=\"cms2146\" style=\"stroke-width: 8; opacity: 1;\"/><text x=\"88142\" y=\"75447\" fill=\"#060000\" title=\"2146\" style=\"font-size: 16px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1;\">ungerade Zahl Fermionen</text>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "ungerade Zahl Fermionen",
+    "types": [
+      "a",
+      "r",
+      "0"
+    ],
+    "vdate": 1492042409827,
+    "x0": 88141,
+    "x1": 88289.921875,
+    "y0": 75432.3125,
+    "y1": 75452.5625
+  },
+  {
+    "_id": "01f9601f",
+    "cat": [],
+    "cdate": 1492041320305,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":15,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#060000\",\"deco\":\"none\",\"class_array\":[\"f1_a\"]},\"object\":{\"color0\":\"#ffc6c7\",\"color1\":\"#ffc6c7\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-36633664,\"targetId\":3663,\"title\":\"\",\"peerCoor\":{\"x\":-1,\"y\":-1},\"weight\":-1,\"con\":\"e\",\"start\":false,\"peer_coor\":{\"schema\":{\"x\":0,\"y\":0},\"type\":{},\"x\":63456,\"y\":59433}}]}",
+    "coor": {
+      "sc

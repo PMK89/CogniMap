@@ -11,36 +11,36 @@ export class CmosvgService {
   // creates a rectangle
   public createRectangle(cme, bbox, cmg: any) {
     let s = Snap('#cmsvg');
-    let mrg = 2;
-    let r = s.rect((bbox.x - (mrg / 2)), (bbox.y - (mrg / 2)), (bbox.w + mrg), (bbox.h + mrg));
+    let mrg = cme.cmobject.style.title.size / 3;
+    let r = s.rect((bbox.x), (bbox.y - (mrg / 2)), (bbox.w + mrg), (bbox.h + mrg));
     this.addShape(cme, cmg, r);
   }
 
   // creates an standart object
   public createRounded(cme, bbox, cmg: any) {
     let s = Snap('#cmsvg');
-    let mrg = 5;
-    let a = s.rect((bbox.x - (mrg / 2)), (bbox.y - (mrg / 2)),
-     (bbox.w + mrg), (bbox.h + mrg), 3, 3);
+    let mrg = cme.cmobject.style.title.size / 2;
+    let a = s.rect((bbox.x), (bbox.y - (mrg / 2)),
+     (bbox.w + mrg), (bbox.h + (mrg * 1.5)), 3, 3);
     this.addShape(cme, cmg, a);
   }
 
   // creates an ellipse
   public createEllipse(cme, bbox, cmg: any) {
     let s = Snap('#cmsvg');
-    let mrg = 2;
-    let e = s.ellipse(bbox.cx, bbox.cy, (bbox.r0 + mrg), (bbox.h + mrg));
+    let mrg = cme.cmobject.style.title.size / 3;
+    let e = s.ellipse((bbox.cx + mrg), bbox.cy, (bbox.r0 + mrg), (bbox.h + mrg));
     this.addShape(cme, cmg, e);
   }
 
   // creates a circle
   public createCircle(cme, bbox, cmg: any) {
     let s = Snap('#cmsvg');
-    let c = s.circle(bbox.cx, bbox.cy, bbox.r0);
+    let c = s.circle((bbox.cx + (cme.cmobject.style.title.size / 4)), bbox.cy, (bbox.r0 + (cme.cmobject.style.title.size / 4)));
     this.addShape(cme, cmg, c);
   }
 
-  // creates a circle
+  // creates a polygon
   public createPoly(cme, bbox, cmg: any) {
     let s = Snap('#cmsvg');
     if (cme.cmobject.style.object.str) {
@@ -64,7 +64,7 @@ export class CmosvgService {
   // creates a Text
   public createText(cme, bbox, cmg: any) {
     let s = Snap('#cmsvg');
-    let mrg = (cme.cmobject.style.title.size / 8);
+    let mrg = (cme.cmobject.style.title.size / 5);
     if (cme.types[2] === 'l') {
       let p = s.path('M' + bbox.x + ' ' + (bbox.y2 - (mrg / 2))
        + 'L' + bbox.x2 + ' ' + (bbox.y2 - (mrg / 2)));
