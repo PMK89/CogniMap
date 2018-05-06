@@ -179,7 +179,7 @@ export class QuizService {
         let txtbg = ansrect.clone();
         txtbg.attr({
           id: 'difbg' + quizcme.id.toString() + '-' + key.toString(),
-          opacity: 1
+          opacity: 0.6
         });
         difscaletgrp.add(txtbg);
         difscaletgrp.add(anstxt);
@@ -199,6 +199,7 @@ export class QuizService {
     bgrect.attr({
       title: quizcme.id,
       strokeWidth: 0,
+      opacity: 0.6,
       fill: bgcolor
     });
     dsgrp.add(bgrect);

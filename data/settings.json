@@ -98,8 +98,8 @@
     "cngtemp": false,
     "contentPos": -1,
     "coor": {
-      "x": 314542,
-      "y": 159685
+      "x": 289799,
+      "y": 174631
     },
     "copy": {
       "num": 0,
@@ -377,10 +377,10 @@
       "width": 1800,
       "z-index": 515
     },
-    "widget0": "none",
+    "widget0": "equation",
     "widget1": "none",
     "wlayout0": {
-      "display": "none",
+      "display": "block",
       "height": 446.5,
       "left": 0,
       "opacity": 0.8,
