@@ -98,8 +98,8 @@
     "cngtemp": false,
     "contentPos": -1,
     "coor": {
-      "x": 289799,
-      "y": 174631
+      "x": 226053,
+      "y": 209315
     },
     "copy": {
       "num": 0,
@@ -134,7 +134,7 @@
       "z-index": 490
     },
     "mnemocolor": "#ff05ee",
-    "mode": "edit",
+    "mode": "view",
     "pointArray": [],
     "selcmeo": {
       "cat": [],
@@ -358,7 +358,7 @@
       "shadowcolor": "#4f4f4f"
     },
     "tblayout0": {
-      "display": "none",
+      "display": "block",
       "height": 20,
       "left": 0,
       "opacity": 0.8,
@@ -368,7 +368,7 @@
       "z-index": 510
     },
     "tblayout1": {
-      "display": "block",
+      "display": "none",
       "height": 80,
       "left": 0,
       "opacity": 0.8,
@@ -380,7 +380,7 @@
     "widget0": "equation",
     "widget1": "none",
     "wlayout0": {
-      "display": "block",
+      "display": "none",
       "height": 446.5,
       "left": 0,
       "opacity": 0.8,

@@ -1,0 +1,13 @@
+<svg width="500" height="200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+
+ <g class="layer">
+  <title>Layer 1</title>
+  <line opacity="0.6" id="svg_3" y2="78" x2="438" y1="14" x1="239" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="none"/>
+  <line id="svg_4" y2="79" x2="343" y1="15" x1="35" opacity="0.6" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="none"/>
+  <line id="svg_5" y2="162" x2="439" y1="186" x1="238" opacity="0.6" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="none"/>
+  <line id="svg_6" y2="157.91961" x2="350.99999" y1="187" x1="28" opacity="0.6" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#000000" fill="none"/>
+  <path fill="#666666" stroke="#000000" stroke-width="5" d="m26.48001,13.48784l0,173.59529l209.86426,0l0,-173.59529l-209.86426,0zm176.82976,158.69598l-143.79529,0l0,-143.79584l143.79529,0l0,143.79584zm-108.81791,-87.44414c11.08339,0 20.07725,-8.99302 20.07725,-20.07632c0,-11.09238 -8.99388,-20.07644 -20.07725,-20.07644c-11.09151,0 -20.07719,8.993 -20.07719,20.07644c0,11.08332 8.98569,20.07632 20.07719,20.07632zm101.05308,17.4894l-38.21829,-38.21801l-53.76385,53.76385l-14.90105,-14.90084l-21.38988,21.38989l0,40.1469l128.27309,0l0,-62.1818l0,0z" id="svg_1"/>
+  <path id="svg_2" fill="#666666" stroke="#000000" stroke-width="5" d="m343.56787,80.35821l0,77.64252l93.86426,0l0,-77.64252l-93.86426,0zm79.0892,70.97865l-64.31415,0l0,-64.31439l64.31415,0l0,64.31439zm-48.6701,-39.11043c4.95718,0 8.97977,-4.02223 8.97977,-8.97935c0,-4.96121 -4.02258,-8.97945 -8.97977,-8.97945c-4.96082,0 -8.97977,4.02224 -8.97977,8.97945c0,4.95714 4.01895,8.97935 8.97977,8.97935zm45.19717,7.82236l-17.09357,-17.09346l-24.04654,24.04651l-6.66467,-6.66458l-9.56686,9.56688l0,17.95618l57.37164,0l0,-27.81152l0,0z"/>
+ </g>
+</svg>

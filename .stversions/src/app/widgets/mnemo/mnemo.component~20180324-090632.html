@@ -1,0 +1,93 @@
+<div id="mnemo">
+  <table id="mnemo">
+    <tr>
+      <td  class="mnemoTd">
+        <table id="mnemo0_100">
+          <tr *ngFor="let mnemopicsrow of mnemopics; let i = index" class="mnemoTr">
+            <td *ngFor="let mnemopic of mnemopicsrow; let j = index" class="mnemoTd">
+              <div (click)="picClick(mnemopic)">
+                <img src="{{mnemopic}}" class="mnemoPic" />
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <table id="mnemocontrol">
+          <tr>
+            <td>
+              <table id="mnemocontrolsize">
+                <tr>
+                  <td class="mnemoTd">
+                    <div (click)="setMnemoSize(50)" [ngStyle]="getSize(50)" class="sizebutton">
+                      <img src="assets/images/mnemo/control/sizesquare50.svg" width="18px" height="18px"/>
+                    </div>
+                  </td>
+                  <td class="mnemoTd">
+                    <div (click)="setMnemoSize(100)" [ngStyle]="getSize(100)" class="sizebutton">
+                      <img src="assets/images/mnemo/control/sizesquare100.svg" width="18px" height="18px"/>
+                    </div>
+                  </td>
+                  <td class="mnemoTd">
+                    <div (click)="setMnemoSize(150)" [ngStyle]="getSize(150)" class="sizebutton">
+                      <img src="assets/images/mnemo/control/sizesquare150.svg" width="18px" height="18px"/>
+                    </div>
+                  </td>
+                  <td class="mnemoTd">
+                    <div (click)="setMnemoSize(200)" [ngStyle]="getSize(200)" class="sizebutton">
+                      <img src="assets/images/mnemo/control/sizesquare200.svg" width="18px" height="18px"/>
+                    </div>
+                  </td>
+                  <td class="mnemoTd">
+                    <div (click)="setMnemoSize(250)" [ngStyle]="getSize(250)" class="sizebutton">
+                      <img src="assets/images/mnemo/control/sizesquare250.svg" width="18px" height="18px"/>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <table [ngStyle]="{'border-spacing': '0px'}">
+                <tr [ngStyle]="{'line-height': '12px'}">
+                  <td (click)="changeCon(0, 0)"  [ngStyle]="getState(0, 0)">
+                    <img src="assets/images/basic/con_a.png" [ngStyle]="{'width': '15px' }" />
+                  </td>
+                  <td (click)="changeCon(0.5, 0)"  [ngStyle]="getState(0.5, 0)">
+                    <img src="assets/images/basic/con_ab_s.png" [ngStyle]="{'width': '20px' }" />
+                  </td>
+                  <td (click)="changeCon(1, 0)"  [ngStyle]="getState(1, 0)">
+                    <img src="assets/images/basic/con_b.png" [ngStyle]="{'width': '15px' }" />
+                  </td>
+                </tr>
+                <tr [ngStyle]="{'line-height': '12px'}">
+                  <td (click)="changeCon(0, 0.5)"  [ngStyle]="getState(0, 0.5)">
+                    <img src="assets/images/basic/con_da.png" [ngStyle]="{'width': '15px' }" />
+                  </td>
+                  <td (click)="changeCon(0.5, 0.5)"  [ngStyle]="getState(0.5, 0.5)">
+                    <img src="assets/images/basic/con_e_s.png" [ngStyle]="{'width': '20px' }" />
+                  </td>
+                  <td (click)="changeCon(1, 0.5)"  [ngStyle]="getState(1, 0.5)">
+                    <img src="assets/images/basic/con_bc.png" [ngStyle]="{'width': '15px' }" />
+                  </td>
+                </tr>
+                <tr [ngStyle]="{'line-height': '12px'}">
+                  <td (click)="changeCon(0, 1)"  [ngStyle]="getState(0, 1)">
+                    <img src="assets/images/basic/con_d.png" [ngStyle]="{'width': '15px' }" />
+                  </td>
+                  <td (click)="changeCon(0.5, 1)"  [ngStyle]="getState(0.5, 1)">
+                      <img src="assets/images/basic/con_cd_s.png" [ngStyle]="{'width': '20px' }" />
+                  </td>
+                  <td (click)="changeCon(1, 1)"  [ngStyle]="getState(1, 1)">
+                    <img src="assets/images/basic/con_c.png" [ngStyle]="{'width': '15px' }" />
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>

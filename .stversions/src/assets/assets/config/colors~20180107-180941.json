@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "default",
+    "group": "",
+    "cat": "tbobject0",
+    "prio": 0,
+    "blocked": false,
+    "var": ["cmobject", "style", "object", "color0"],
+    "colors": ["#ff0000", "#ffbf00", "#ffff00", "#40ff00", "#00ff80",  "#00ffff", "#0000ff", "#bf00ff", "#ff00bf", "#000000"],
+    "cuppled": false,
+    "secured": false
+  },
+  {
+    "id": 2,
+    "name": "default",
+    "group": "",
+    "cat": "tbobject1",
+    "prio": 0,
+    "blocked": false,
+    "var": ["cmobject", "style", "object", "color1"],
+    "colors": ["#ff0000", "#ffbf00", "#ffff00", "#40ff00", "#00ff80",  "#00ffff", "#0000ff", "#bf00ff", "#ff00bf", "#000000"],
+    "cuppled": false,
+    "secured": false
+  },
+  {
+    "id": 3,
+    "name": "default",
+    "group": "",
+    "cat": "tbline1",
+    "prio": 0,
+    "blocked": false,
+    "var": ["cmline", "color1"],
+    "colors": ["#ff0000", "#ffbf00", "#ffff00", "#40ff00", "#00ff80",  "#00ffff", "#0000ff", "#bf00ff", "#ff00bf", "#000000"],
+    "cuppled": false,
+    "secured": false
+  },
+  {
+    "id": 4,
+    "name": "default",
+    "group": "",
+    "cat": "tbline0",
+    "prio": 0,
+    "blocked": false,
+    "var": ["cmline", "color0"],
+    "colors": ["#ff0000", "#ffbf00", "#ffff00", "#40ff00", "#00ff80",  "#00ffff", "#0000ff", "#bf00ff", "#ff00bf", "#000000"],
+    "cuppled": false,
+    "secured": false
+  },
+  {
+    "id": 5,
+    "name": "default",
+    "group": "",
+    "cat": "tbfont",
+    "prio": 0,
+    "blocked": false,
+    "var": ["cmobject", "style", "title", "color"],
+    "colors": ["#ff0000", "#ffbf00", "#ffff00", "#40ff00", "#00ff80",  "#00ffff", "#0000ff", "#bf00ff", "#ff00bf", "#000000"],
+    "cuppled": false,
+    "secured": false
+  }
+]
