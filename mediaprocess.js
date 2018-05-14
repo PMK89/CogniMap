@@ -271,10 +271,22 @@ const createMediaWindow = function createMediaWindow () {
           // linearray1.push(line1);
         }
         var newpngbuffer = PNG.sync.write(png);
-        var newfilepath = filepath.replace('.png', 't.png');
-        fs.writeFileSync(newfilepath, newpngbuffer);
-        console.log(newfilepath);
-        event.returnValue = arg.file.replace('.png', 't.png');
+        var newfilepath;
+        var newfile;
+        if (filepath.indexOf('.png') !== -1) {
+          newfilepath = filepath.replace('.png', 't.png');
+          newfile = arg.file.replace('.png', 't.png');
+        } else if (filepath.indexOf('.PNG') !== -1) {
+          newfilepath = filepath.replace('.PNG', 't.png');
+          newfile = arg.file.replace('.PNG', 't.png');
+        }
+        if (newfilepath && newfile) {
+          fs.writeFileSync(newfilepath, newpngbuffer);
+          console.log(newfilepath);
+          event.returnValue = newfile;
+        } else {
+          event.returnValue = arg.file;
+        }        
       }
     }
   })

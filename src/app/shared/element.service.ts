@@ -1227,7 +1227,7 @@ export class ElementService {
           this.tempQuizCMEo = JSON.parse(JSON.stringify(this.tempCMEo));
           this.tempQuizCMEo.types = this.cmsettings.cmtbquizedit.types;
           this.tempQuizCMEo.prio = this.selCMEo.prio;
-          this.tempQuizCMEo.cmobject.style.object.str = this.cmsettings.cmtbquizedit.interval;
+          this.tempQuizCMEo.cmobject.style.object.str = '1';
           this.tempQuizCMEo.cmobject.style.object.weight = this.cmsettings.cmtbquizedit.difficulty;
         } else {
           alert('Please select an Element to quiz about.');

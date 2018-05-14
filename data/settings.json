@@ -87,8 +87,8 @@
     "cmtbquizedit": {
       "color0": "none",
       "color1": "#1200ff",
-      "difficulty": 0.3,
-      "interval": "4",
+      "difficulty": 2.5,
+      "interval": "22",
       "types": [
         "q",
         "a",
@@ -98,8 +98,8 @@
     "cngtemp": false,
     "contentPos": -1,
     "coor": {
-      "x": 226053,
-      "y": 209315
+      "x": 457212,
+      "y": 236471
     },
     "copy": {
       "num": 0,
@@ -134,7 +134,7 @@
       "z-index": 490
     },
     "mnemocolor": "#ff05ee",
-    "mode": "view",
+    "mode": "edit",
     "pointArray": [],
     "selcmeo": {
       "cat": [],
@@ -358,7 +358,7 @@
       "shadowcolor": "#4f4f4f"
     },
     "tblayout0": {
-      "display": "block",
+      "display": "none",
       "height": 20,
       "left": 0,
       "opacity": 0.8,
@@ -368,20 +368,20 @@
       "z-index": 510
     },
     "tblayout1": {
-      "display": "none",
+      "display": "block",
       "height": 80,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
       "top": 0,
-      "width": 1800,
+      "width": 1920,
       "z-index": 515
     },
-    "widget0": "equation",
+    "widget0": "navigator",
     "widget1": "none",
     "wlayout0": {
-      "display": "none",
-      "height": 446.5,
+      "display": "block",
+      "height": 514,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
@@ -391,11 +391,11 @@
     },
     "wlayout1": {
       "display": "none",
-      "height": 446.5,
+      "height": 514,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
-      "top": 528.5,
+      "top": 596,
       "width": 600,
       "z-index": 510
     }

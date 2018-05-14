@@ -76,6 +76,11 @@
             <td>
               <app-s-button [buttons]="buttons" [selector]="612"></app-s-button>
             </td>
+            <td>
+              maxQ
+              <input #maxQInput value="{{maxQ}}" size="3"
+                (keyup.enter)="changeMaxQ(maxQInput.value)">
+            </td>
           </tr>
         </table>
       </td>

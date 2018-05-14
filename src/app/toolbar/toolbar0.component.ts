@@ -53,6 +53,11 @@ export class Toolbar0Component implements OnInit {
                           }
                         } else {
                           if (this.mode === 'quizing') {
+                            if (this.overduearray.length > 0) {
+                              for (let key in this.overduearray) {
+                                this.quizService.removeQuiz(this.overduearray[key].id);
+                              }
+                            }
                             this.electronService.ipcRenderer.send('unQuiz', 1);
                             this.nooverdue = true;
                           }
@@ -74,7 +79,12 @@ export class Toolbar0Component implements OnInit {
 
   // finds quiz elements that are overdue
   public getOverdue() {
-    this.electronService.ipcRenderer.send('loadQuizes', 1);
+    if (this.cmsettings['cmtbquizedit']['interval']) {
+      this.electronService.ipcRenderer.send('loadQuizes', parseInt(this.cmsettings.cmtbquizedit.interval, 10));
+    } else {
+      this.electronService.ipcRenderer.send('loadQuizes', 42);
+    }
+
   }
 
   // moves view to entered coordinates

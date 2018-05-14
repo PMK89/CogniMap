@@ -23,8 +23,11 @@ var quizcmes = [];
 var quiz = '';
 
 const WORST = 0;
-const CORRECT = 0.6;
-const BEST = 1;
+const BAD = 1;
+const FLAWED = 2
+const CORRECT = 3;
+const GOOD = 4;
+const BEST = 5;
 
 const DAY_IN_MINISECONDS = 24 * 60 * 60 * 1000;
 const getDaysSinceEpoch = () => (
@@ -33,42 +36,51 @@ const getDaysSinceEpoch = () => (
 
 const TODAY = getDaysSinceEpoch();
 
-const limitNumber = (number, min, max) => {
-  let ret = number;
-  if (number < min) {
-    ret = min;
-  } else if (number > max) {
-    ret = max;
-  }
-
-  return ret;
-};
-
-const getPercentOverdue = (word, today) => {
-  const calculated = (today - word.update) / word.interval;
-  return calculated > 2 ? 2 : calculated;
-};
-
 const calculate = (word, performanceRating, today) => {
-  const percentOverDue = getPercentOverdue(word, today);
-  const difficulty = limitNumber(
-    word.difficulty + (8 - 9 * performanceRating) * percentOverDue / 17,
-                                 0, 1);
-  const difficultyWeight = 3 - 1.7 * difficulty;
-  let interval;
-  if (performanceRating === WORST) {
-    interval = Math.round(1 / difficultyWeight / difficultyWeight) || 1;
+  var timeinterval;
+  var interval;
+  var difficulty;
+  if (performanceRating === 0) {
+    difficulty = word.difficulty;
+    interval = 1;
+    timeinterval = 1;
+  } else if (performanceRating === 1) {
+    difficulty = word.difficulty;
+    interval = 1;
+    timeinterval = 2;
+  } else if (performanceRating === 2) {
+    difficulty = word.difficulty;
+    interval = 1;
+    timeinterval = 3;
   } else {
-    interval = Math.ceil(Math.pow((1 - difficulty), 3) * word.interval) + Math.round((difficultyWeight - 1) * percentOverDue);
-    // console.log(Math.ceil(Math.pow((1 - difficulty), 3) * word.interval), Math.round((difficultyWeight - 1) * percentOverDue), percentOverDue, interval);
+    difficulty = Math.max(
+      word.difficulty + (0.1 - (5 - performanceRating) * (0.08 + (5 - performanceRating) * 0.02)),
+                                   1.3);
+    if (word.interval === 1) {
+      timeinterval = 1;
+    } else if (word.interval === 2) {
+      timeinterval = 6;
+    } else {
+      timeinterval = Math.max(Math.ceil((word.interval - 1) * difficulty), 6);
+      // console.log(Math.ceil(Math.pow((1 - difficulty), 3) * word.interval), Math.round((difficultyWeight - 1) * percentOverDue), percentOverDue, interval);
+    }
+    interval = word.interval + 1;
   }
+  if (performanceRating < 4) {
+    var pos0 = quizcmes.findIndex(i => i.id === word.id);
+    if (pos0 > -1) {
+      if (quizcmes[pos0]) {
+        quizcmes.push(quizcmes[pos0]);
+      }
+    }
+  }
+  console.log(difficulty, performanceRating, interval, timeinterval);
 
   return {
-    difficulty,
-    interval,
-    dueDate: today + interval,
-    update: today,
-    word: word.word,
+    difficulty: difficulty,
+    interval: interval,
+    update: today + timeinterval,
+    word: word.id
   };
 };
 
@@ -363,7 +375,7 @@ const createDbWindow = function createDbWindow() {
         var int = Number(cmo['style']['object']['str']);
         console.log('weight: ' + cmo['style']['object']['weight'] + ' interval: ' + cmo['style']['object']['str']);
         if (typeof dif === 'number' && typeof int === 'number') {
-          if (dif > 0 && dif <= 1) {
+          if (dif >= 1.3) {
             changeQuiz(arg.id, dif, int);
           }
         }
@@ -447,7 +459,7 @@ const createDbWindow = function createDbWindow() {
         var dif = cmo['style']['object']['weight'];
         var int = Number(cmo['style']['object']['str']);
         if (typeof dif === 'number' && typeof int === 'number') {
-          if (dif > 0 && dif <= 1) {
+          if (dif >= 1.3) {
             makeQuiz(arg.id, dif, int);
           }
         }
@@ -486,11 +498,10 @@ const createDbWindow = function createDbWindow() {
     var overduearray = [];
     quizes.forEach((quiz) => {
       if (quiz) {
-        var overdue = getPercentOverdue(quiz, today0);
         // console.log(overdue);
-        if (overdue >= 2) {
+        if (today0 >= quiz.update) {
           // console.log(quiz);
-          overduearray.push({id: quiz.id, od: overdue, interval: quiz.interval, dif: quiz.difficulty});
+          overduearray.push({id: quiz.id, od: (today0 - quiz.update), interval: quiz.interval, dif: quiz.difficulty});
         }
       }
     })
@@ -498,6 +509,7 @@ const createDbWindow = function createDbWindow() {
     console.log(l);
     if (l > 0) {
       overduearray.sort(function(a, b){return b.od - a.od});
+      overduearray.splice(arg);
       getOverdueQuizes(overduearray, event);
     }
   })
@@ -527,17 +539,11 @@ const createDbWindow = function createDbWindow() {
       if (quizes.length === 0) {
         loadQuizes();
       }
-      var rating = WORST;
-      if (arg['scale'] === 0) {
-        rating = BEST;
-      } else if (arg['scale'] === 1) {
-        rating = CORRECT
-      }
       var pos = quizes.findIndex(i => i.id === arg['id']);
       if (pos > -1) {
         var pos0 = quizcmes.findIndex(i => i.id === arg['id']);
         if (pos0 > -1) {
-          var calc = calculate(quizes[pos], rating, TODAY);
+          var calc = calculate(quizes[pos], arg['scale'], TODAY);
           if (calc) {
             console.info(quizes[pos]);
             quizes[pos].difficulty = calc.difficulty;
@@ -592,7 +598,7 @@ const createDbWindow = function createDbWindow() {
   });
 }
 
-// deletes a quiz element
+// makess a quiz element
 function makeQuiz(id , dif, int) {
   if(id) {
     if (quizes.length === 0) {
@@ -602,8 +608,8 @@ function makeQuiz(id , dif, int) {
       var newquiz = {
         id: id,
         update: TODAY,
-        difficulty: dif,
-        interval: int
+        difficulty: 2.5,
+        interval: 1
       };
       quizes.push(newquiz);
       saveQuizes()
@@ -620,7 +626,7 @@ function changeQuiz(id, dif, int) {
     }
     var pos = quizes.findIndex(i => i.id === id);
     if (pos > -1) {
-      quizes[pos].difficulty = dif;
+      quizes[pos].difficulty = Math.max(dif, 1.3);
       quizes[pos].interval = int;
       saveQuizes();
     } else {
@@ -668,6 +674,7 @@ function getOverdueQuizes(overduearray0, event) {
             if (err) console.log(err); // #error message
           });
           if (overduearray0.length === 0) {
+            event.sender.send('changedCME', quizcmes);
             event.sender.send('loadedQuizes', quizcmes);
           } else {
             getOverdueQuizes(overduearray0, event)

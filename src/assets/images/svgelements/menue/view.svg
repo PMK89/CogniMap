@@ -1,28 +1,7 @@
-"links\":[{\"id\":-43354345,\"targetId\":4335,\"title\":\"das die Teichrose\",\"peerCoor\":{\"x\":74238,\"y\":44819},\"weight\":-1,\"con\":\"e\",\"start\":false},{\"id\":-43454346,\"targetId\":4346,\"title\":\"1640\",\"peerCoor\":{\"x\":74276,\"y\":44671},\"weight\":-1,\"con\":\"e\",\"start\":true}]}",
-    "coor": {
-      "x": 74240,
-      "y": 44705
-    },
-    "id": 4345,
-    "prep": "<image href=\"assets/images/cm/pmk_1493750225278.png\" preserveAspectRatio=\"none\" x=\"74240\" y=\"44705\" title=\"4345\" style=\"opacity: 1;\"/>",
-    "prep1": "",
-    "prio": 12,
-    "state": "",
-    "title": "",
-    "types": [
-      "i",
-      "0",
-      "0"
-    ],
-    "vdate": 1493750243229,
-    "x0": 74240,
-    "x1": 74390,
-    "y0": 44705,
-    "y1": 44818,
-    "_id": "70c4fc51"
-  },
-  {
-    "_id": "70c5caed",
-    "cat": [],
-    "cdate": 1492042410687,
-    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":16,\"font\":\"'Monotype Corsiva', 'Apple Chancery
+<svg width="500" height="200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+ <g class="layer">
+  <title>Layer 1</title>
+  <path id="svg_1" d="m250.00877,13.71417c-84.41304,0 -151.00778,86.28159 -151.00778,86.28159s66.59474,86.29007 151.00778,86.29007c64.54628,0 150.99025,-86.29007 150.99025,-86.29007s-86.44397,-86.28159 -150.99025,-86.28159zm0,140.04229c-29.62852,0 -53.77785,-24.12405 -53.77785,-53.7607s24.14932,-53.76914 53.77785,-53.76914s53.76003,24.1324 53.76003,53.76914s-24.13214,53.7607 -53.76003,53.7607zm0,-85.14658c-17.32294,0 -31.38591,14.04596 -31.38591,31.38588c0,17.33136 14.04581,31.37737 31.38591,31.37737c17.3398,0 31.38594,-14.04601 31.38594,-31.37737c0,-17.33142 -14.04614,-31.38588 -31.38594,-31.38588z" fill-opacity="0" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="15" stroke="#666666" fill="#000000"/>
+ </g>
+</svg>

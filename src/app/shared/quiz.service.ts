@@ -19,8 +19,8 @@ import { CMEo } from '../models/CMEo';
 export class QuizService {
   public cmsvg: any;
   public cmsettings: CMSettings;
-  public colorarray = ['#00ff24', '#daff00', '#ff0000'];
-  public valuearray = ['good', 'ok', 'wrong'];
+  public colorarray = ['#770000', '#ff0000', '#ff9900', '#daff00', '#99ff33', '#006600'];
+  public valuearray = ['0', '1', '2', '3', '4', '5'];
 
   constructor(private cmosvgService: CmosvgService,
               private settingsService: SettingsService,
@@ -50,9 +50,9 @@ export class QuizService {
                 if (quizcme.cmobject.content[pos]) {
                   this.showAnswer(quizcme, tpquizval);
                   if (quizcme.cmobject.content[pos].correct) {
-                    this.electronService.ipcRenderer.send('answerQuiz', {id: id0, scale: 0});
+                    this.electronService.ipcRenderer.send('answerQuiz', {id: id0, scale: 5});
                   } else {
-                    this.electronService.ipcRenderer.send('answerQuiz', {id: id0, scale: 2});
+                    this.electronService.ipcRenderer.send('answerQuiz', {id: id0, scale: 1});
                   }
                 } else if (tpquizval.slice(tpquizval.indexOf('_') + 1) === 'ans') {
                   this.removeQuiz(id0);
@@ -90,7 +90,7 @@ export class QuizService {
             color = '#be0000';
           }
           quizrect.attr({
-            opacity: 0.4,
+            opacity: 0.3,
             fill: color
           });
         }
@@ -137,7 +137,7 @@ export class QuizService {
       fontSize: quizcme.cmobject.style.title.size + 'px',
       fill: quizcme.cmobject.style.title.color,
       fontFamily: quizcme.cmobject.style.title.font,
-      opacity: quizcme.cmobject.style.object.trans,
+      opacity: 0.6,
       textDecoration: quizcme.cmobject.style.title.deco,
       id: 'title' + quizcme.id.toString(),
       title: quizcme.id
@@ -154,7 +154,7 @@ export class QuizService {
           fontSize: quizcme.cmobject.style.title.size + 'px',
           fill: '#000000',
           fontFamily: quizcme.cmobject.style.title.font,
-          opacity: quizcme.cmobject.style.object.trans,
+          opacity: 0.6,
           id: 'diftxt' + quizcme.id.toString() + '-' + key.toString(),
           title: quizcme.id
         });

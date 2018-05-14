@@ -25,8 +25,9 @@ export class TbQuizeditComponent implements OnInit {
   public height = 0;
   public difarray = ['very easy', 'easy', 'normal', 'hard', 'harder', 'hardest'];
   public dif: string = this.difarray[2];
-  public difnum = 0.3;
-  public int = '100';
+  public difnum = 2.5;
+  public int = '1';
+  public maxQ = '42';
 
   constructor(private settingsService: SettingsService,
               private elementService: ElementService,
@@ -44,21 +45,21 @@ export class TbQuizeditComponent implements OnInit {
                           if (this.selCMEo['cmobject']['style']['object']['weight']) {
                             let dif0 = this.selCMEo['cmobject']['style']['object']['weight'];
                             if (dif0) {
-                              if (dif0 > 0 && dif0 <= 1) {
+                              if (dif0 > 1.3) {
                                 this.difnum = dif0;
-                                if (dif0 > 0 && dif0 < 0.15) {
+                                if (dif0 >= 2.5) {
                                   this.dif = this.difarray[0];
-                                } else if (dif0 >= 0.15 && dif0 < 0.25) {
+                                } else if (dif0 < 2.5 && dif0 > 2.30) {
                                   this.dif = this.difarray[1];
-                                } else if (dif0 >= 0.15 && dif0 < 0.25) {
+                                } else if (dif0 <= 2.30 && dif0 > 2.10) {
                                   this.dif = this.difarray[1];
-                                } else if (dif0 >= 0.25 && dif0 < 0.40) {
+                                } else if (dif0 <= 2.10 && dif0 > 1.90) {
                                   this.dif = this.difarray[2];
-                                } else if (dif0 >= 0.40 && dif0 < 0.60) {
+                                } else if (dif0 <= 1.90 && dif0 > 1.65) {
                                   this.dif = this.difarray[3];
-                                } else if (dif0 >= 0.60 && dif0 < 0.80) {
+                                } else if (dif0 <= 1.65 && dif0 > 1.40) {
                                   this.dif = this.difarray[4];
-                                } else if (dif0 >= 0.80) {
+                                } else if (dif0 <= 1.40) {
                                   this.dif = this.difarray[5];
                                 }
                               }
@@ -92,7 +93,7 @@ export class TbQuizeditComponent implements OnInit {
           let active = false;
           for (let i in this.selCMEo.cmobject.links) {
             if (this.selCMEo.cmobject.links[i]) {
-              if (this.selCMEo.cmobject.links[i].start === start) {
+              if (this.selCMEo.cmobject.links[i].start === start) {7
                 if (this.selCMEo.cmobject.links[i].con === con) {
                   active = true;
                   // console.log(this.selCMEo.cmobject.links[i]);
@@ -114,7 +115,7 @@ export class TbQuizeditComponent implements OnInit {
             return style;
           }
   } return style;
-  }
+}Interval
 
   public changeCon(con: string, start: boolean) {
     // cange connection goes here
@@ -156,11 +157,19 @@ export class TbQuizeditComponent implements OnInit {
         variable: ['cmobject', 'style', 'object', 'str'],
         value: this.int
       };
+      this.elementService.changeCMEo(action);
+    }
+  }
+
+  // changes maximal quizes
+  public changeMaxQ(int0) {
+    if (typeof parseInt(int0, 10) === 'number') {
+      this.maxQ = int0;
+      console.log(this.maxQ);
       if (this.cmsettings) {
-        this.cmsettings.cmtbquizedit.interval = this.int.toString();
+        this.cmsettings.cmtbquizedit.interval = this.maxQ.toString();
         this.settingsService.changeSetting(this.cmsettings);
       }
-      this.elementService.changeCMEo(action);
     }
   }
 
@@ -168,25 +177,25 @@ export class TbQuizeditComponent implements OnInit {
   public changeDif() {
     switch (this.dif) {
       case 'very easy':
-        this.difnum = 0.1;
+        this.difnum = 2.5;
         break;
       case 'easy':
-        this.difnum = 0.2;
+        this.difnum = 2.4;
         break;
       case 'normal':
-        this.difnum = 0.3;
+        this.difnum = 2.2;
         break;
       case 'hard':
-        this.difnum = 0.5;
+        this.difnum = 1.8;
         break;
       case 'harder':
-        this.difnum = 0.7;
+        this.difnum = 1.5;
         break;
       case 'hardest':
-        this.difnum = 0.9;
+        this.difnum = 1.35;
         break;
       default:
-        this.difnum = 0.3;
+        this.difnum = 2.5;
         break;
     }
     console.log(this.dif, this.difnum);
