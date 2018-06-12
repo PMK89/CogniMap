@@ -1,0 +1,75 @@
+  "0",
+      "0"
+    ],
+    "vdate": 1492041326131,
+    "x0": 82358,
+    "x1": 82358,
+    "y0": 58468,
+    "y1": 58468
+  },
+  {
+    "cat": [],
+    "cdate": 1492073657063,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#52d531\",\"color1\":\"#52d531\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":511,\"title0\":\"Struktur\",\"id1\":595,\"title1\":\"Faltvorgang\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 52989,
+      "y": 47932
+    },
+    "id": -511595,
+    "prep": "<path d=\"M53118.5 47926.15625L53024.5 48390.8125\" fill=\"none\" stroke=\"#52d531\" id=\"cms-511595\" style=\"stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 4,
+    "state": "",
+    "title": "511-595",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1492073657063,
+    "x0": 53118.5,
+    "x1": 53024.5,
+    "y0": 47926.15625,
+    "y1": 48390.8125,
+    "_id": "11f24241"
+  },
+  {
+    "cat": [],
+    "cdate": 1492073540277,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#3c3cff\",\"color1\":\"#3c3cff\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":3022,\"title0\":\"Fortratparabel\",\"id1\":3023,\"title1\":\"Bild\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 72780,
+      "y": 55049
+    },
+    "id": -30223023,
+    "prep": "<path d=\"M73130.5 55200.8125L73130.5 55049L72780 55049\" fill=\"none\" stroke=\"#3c3cff\" id=\"cms-30223023\" style=\"stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 7,
+    "state": "",
+    "title": "3022-3023",
+    "types": [
+      "l",
+      "e",
+      "0"
+    ],
+    "vdate": 1492073540277,
+    "x0": 73130.5,
+    "x1": 72780,
+    "y0": 55200.8125,
+    "y1": 55049,
+    "_id": "11f278f1"
+  },
+  {
+    "cat": [],
+    "cdate": 1492948841637,
+    "cmobject": "{\"content\":[],\"meta\":[],\"style\":{\"title\":{\"size\":20,\"font\":\"'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive\",\"color\":\"#000000\",\"deco\":\"none\",\"class_array\":[\"f1_a \"]},\"object\":{\"color0\":\"#0000ff\",\"color1\":\"#cff5ff\",\"trans\":1,\"weight\":0,\"str\":\"\",\"num_array\":[],\"class_array\":[]}},\"links\":[{\"id\":-37003711,\"targetId\":370

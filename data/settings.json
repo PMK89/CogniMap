@@ -58,13 +58,13 @@
       ]
     },
     "cmtbmarking": {
-      "color0": "#1200ff",
+      "color0": "none",
       "color1": "#1200ff",
-      "prio": 8,
-      "trans": 0.6000000000000001,
+      "prio": 11,
+      "trans": 0.40000000000000013,
       "types": [
         "m",
-        "t",
+        "r",
         "b"
       ]
     },
@@ -88,7 +88,7 @@
       "color0": "none",
       "color1": "#1200ff",
       "difficulty": 2.5,
-      "interval": "22",
+      "interval": "42",
       "types": [
         "q",
         "a",
@@ -96,10 +96,10 @@
       ]
     },
     "cngtemp": false,
-    "contentPos": -1,
+    "contentPos": 0,
     "coor": {
-      "x": 457212,
-      "y": 236471
+      "x": 268411,
+      "y": 186037
     },
     "copy": {
       "num": 0,
@@ -108,13 +108,13 @@
       "strgArray": [],
       "type": "content"
     },
-    "copycolor": "#23bf30",
+    "copycolor": "#8668f0",
     "currentMeta": {
-      "comment": "jte",
-      "name": "ChemTube3D",
-      "path": "http://www.chemtube3d.com/TM-JahnTellerdistortionCuF64.htm",
-      "pos": "",
-      "type": "link"
+      "comment": "LDA",
+      "name": "\"Essentials Of Computational Chemistry Theories And Models Second Edition Cramer Wiley 2004\".pdf",
+      "path": "/home/pmk/cognimap/src/assets/pdf/theoretical chemistry/Essentials Of Computational Chemistry Theories And Models Second Edition Cramer Wiley 2004.pdf",
+      "pos": "278",
+      "type": "pdf"
     },
     "debug": true,
     "dev": false,
@@ -134,7 +134,7 @@
       "z-index": 490
     },
     "mnemocolor": "#ff05ee",
-    "mode": "edit",
+    "mode": "view",
     "pointArray": [],
     "selcmeo": {
       "cat": [],
@@ -358,7 +358,7 @@
       "shadowcolor": "#4f4f4f"
     },
     "tblayout0": {
-      "display": "none",
+      "display": "block",
       "height": 20,
       "left": 0,
       "opacity": 0.8,
@@ -368,20 +368,20 @@
       "z-index": 510
     },
     "tblayout1": {
-      "display": "block",
+      "display": "none",
       "height": 80,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
       "top": 0,
-      "width": 1920,
+      "width": 1800,
       "z-index": 515
     },
-    "widget0": "navigator",
+    "widget0": "none",
     "widget1": "none",
     "wlayout0": {
-      "display": "block",
-      "height": 514,
+      "display": "none",
+      "height": 446.5,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
@@ -391,11 +391,11 @@
     },
     "wlayout1": {
       "display": "none",
-      "height": 514,
+      "height": 446.5,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
-      "top": 596,
+      "top": 528.5,
       "width": 600,
       "z-index": 510
     }

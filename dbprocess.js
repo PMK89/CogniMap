@@ -40,18 +40,9 @@ const calculate = (word, performanceRating, today) => {
   var timeinterval;
   var interval;
   var difficulty;
-  if (performanceRating === 0) {
+  if (performanceRating < 3) {
     difficulty = word.difficulty;
     interval = 1;
-    timeinterval = 1;
-  } else if (performanceRating === 1) {
-    difficulty = word.difficulty;
-    interval = 1;
-    timeinterval = 2;
-  } else if (performanceRating === 2) {
-    difficulty = word.difficulty;
-    interval = 1;
-    timeinterval = 3;
   } else {
     difficulty = Math.max(
       word.difficulty + (0.1 - (5 - performanceRating) * (0.08 + (5 - performanceRating) * 0.02)),
@@ -70,6 +61,7 @@ const calculate = (word, performanceRating, today) => {
     var pos0 = quizcmes.findIndex(i => i.id === word.id);
     if (pos0 > -1) {
       if (quizcmes[pos0]) {
+        timeinterval = -100;
         quizcmes.push(quizcmes[pos0]);
       }
     }

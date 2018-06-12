@@ -1,0 +1,29 @@
+eqEd.LeftBracket = function(parent) {
+	eqEd.Bracket.call(this, parent); // call super constructor.
+	this.className = "eqEd.LeftBracket";
+
+    // Set up the desiredHeight calculation
+    var desiredHeight = 0;
+    this.properties.push(new Property(this, "desiredHeight", desiredHeight, {
+        get: function() {
+            return desiredHeight;
+        },
+        set: function(value) {
+            desiredHeight = value;
+        },
+        compute: function() {
+            var desiredHeightVal = 0;
+            if (this.parent instanceof eqEd.BracketWrapper) {
+                var sameBracketTypeCounter = 0;
+                var matchingBracketIndex = null;
+                var maxTopAlign = 0;
+                var maxBottomAlign = 0;
+                for (var i = (this.parent.index + 1); i < this.parent.parent.wrappers.length; i++) {
+                    var wrapper = this.parent.parent.wrappers[i];
+                    if (wrapper instanceof eqEd.BracketWrapper) {
+                        if (wrapper.bracket instanceof this.constructor) {
+                            sameBracketTypeCounter++;
+                        } else if (wrapper.bracket instanceof this.matchingBracketCtor 
+                                    && sameBracketTypeCounter === 0) {
+                            matchingBracketIndex = i;
+                       
