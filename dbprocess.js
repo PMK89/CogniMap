@@ -408,20 +408,6 @@ const createDbWindow = function createDbWindow() {
 	  });
   })
 
-  // get highest ID
-  ipcMain.on('maxID', (event, arg) => {
-    // console.log('Parameters: ', arg);
-    cme.find({}).sort({id: -1}).limit(1).exec(function(err, data) {
-		  if (err) console.log(err);
-      if (data[0]) {
-        var max = data[0].id;
-        event.returnValue = max;
-      } else {
-        event.returnValue = 'error: no data[0]';
-      }
-	  });
-  })
-
   // finds cmes within given boundaries
   ipcMain.on('loadCME', (event, arg) => {
     const t0 = Date.now();

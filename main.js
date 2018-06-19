@@ -24,10 +24,10 @@ function createWindow () {
   win = new BrowserWindow({width: 1800, height: 1000, show: true})
 
   // and load the index.html of the app.
-  // const pathname = 'file://' + path.join(__dirname, 'dist/index.html');
+  const pathname = path.join(__dirname, 'dist/index.html');
   win.loadURL(url.format({
-    pathname: '//localhost:3000/index.html',
-    protocol: 'http:',
+    pathname: pathname,
+    protocol: 'file',
     slashes: true
   }))
 

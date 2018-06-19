@@ -94,7 +94,6 @@ export class EventService {
                         case 'loadDB':
                           let res0 = this.electronService.ipcRenderer.sendSync('loadDb', arg.payload);
                           if (res0 === 'database loaded') {
-                            this.elementService.getMaxID();
                             console.log(res0);
                           } else {
                             console.log(res0);

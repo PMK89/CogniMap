@@ -11,6 +11,7 @@ import { CMTBLine } from './CMTBLine';
 
 export class CMSettings {
   public id: number;
+  public maxid: number;
   public mode: string;
   public seltb: string;
   public coor: CMCoor;

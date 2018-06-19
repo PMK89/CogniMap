@@ -86,6 +86,7 @@ var CurrentMeta = {
 // Basic settings for layout, style and basic work modes
 var CMSettings = {
   id: Number,
+  maxid: Number,
   mode: String,
   seltb: String,
   copy: CMCopy,

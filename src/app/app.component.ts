@@ -59,7 +59,6 @@ export class AppComponent implements AfterViewInit {
                 this.settingsService.getSettings();
                 console.log(this.windowService.getSize());
                 this.windowService.getParameters(window.pageXOffset, window.pageYOffset);
-                this.elementService.getMaxID();
                 this.settingsService.getButtons();
                 this.settingsService.getColors();
                 this.settingsService.cmsettings

@@ -38,7 +38,7 @@ export class ElementService {
   public allCME = [];
   public selCME = [];
   public inputtext: string;
-  public maxID: number;
+  public maxID = 0;
   public counter = 0;
   public startPos: CMCoor;
   public selCMEoArray: number[] = [];
@@ -61,6 +61,11 @@ export class ElementService {
                 this.settingsService.cmsettings
                     .subscribe((data) => {
                       this.cmsettings = data;
+                      if (this.cmsettings) {
+                        if (this.cmsettings.maxid > this.maxID) {
+                          this.maxID = this.cmsettings.maxid;
+                        }
+                      }
                       this.setmode();
                       // console.log('settings ', data);
                     });
@@ -168,18 +173,6 @@ export class ElementService {
     }
   }
 
-  // gets highest id from database/server
-  public getMaxID() {
-    // Pro: gets data from electron
-    let maxID = this.electronService.ipcRenderer.sendSync('maxID', '1');
-    if (typeof maxID === 'number') {
-      this.maxID = maxID;
-      console.log(this.maxID);
-    } else {
-      console.log(maxID);
-    }
-  }
-
   // makes picture background transparent
   public makeTrans(color0, tolerance0) {
     if (this.selCMEo) {
@@ -212,19 +205,29 @@ export class ElementService {
     if (cme) {
       // console.log('new id:', cme.id, Date.now());
       cme.state = '';
-      this.electronService.ipcRenderer.send('newCME', cme);
+      if (cme.id >= 1) {
+        this.maxID = cme.id;
+        this.cmsettings.maxid = this.maxID;
+        console.log(this.maxID);
+        this.settingsService.changeSetting(this.cmsettings);
+        this.electronService.ipcRenderer.send('newCME', cme);
+      } else if (cme.id !== 0) {
+        this.electronService.ipcRenderer.send('newCME', cme);
+      }
     }
   }
 
   // changes CME in database
   public changeDBCME(dbcme: CME) {
-    // console.log('change id:', dbcme.id, Date.now());
+    console.log('change id:', dbcme.id, Date.now());
     dbcme.state = '';
     this.counter++;
     if ((this.counter % 100) === 0) {
       console.log(this.counter, dbcme);
     }
-    this.electronService.ipcRenderer.send('changeCME', dbcme);
+    if (dbcme.id !== 0) {
+      this.electronService.ipcRenderer.send('changeCME', dbcme);
+    }
   }
 
   // delete CME in database
