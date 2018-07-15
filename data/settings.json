@@ -58,13 +58,13 @@
       ]
     },
     "cmtbmarking": {
-      "color0": "none",
-      "color1": "#1200ff",
-      "prio": 11,
+      "color0": "#ff0000",
+      "color1": "#ff0000",
+      "prio": 7,
       "trans": 0.40000000000000013,
       "types": [
         "m",
-        "r",
+        "t",
         "b"
       ]
     },
@@ -98,23 +98,23 @@
     "cngtemp": false,
     "contentPos": -1,
     "coor": {
-      "x": 272003,
-      "y": 183938
+      "x": 14398,
+      "y": 249576.5
     },
     "copy": {
       "num": 0,
       "numArray": [],
-      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1499785384807.png\",\"width\":280,\"info\":\"png\",\"height\":100}",
+      "strg": "{\"cat\":\"i_100\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1513240838985t.png\",\"width\":100,\"info\":\"png\",\"height\":100}",
       "strgArray": [],
       "type": "content"
     },
-    "copycolor": "#8668f0",
+    "copycolor": "#f2e26c",
     "currentMeta": {
-      "comment": "Brilliant Heisenberg Uncertainty Animation",
-      "name": "Brilliant Heisenberg Uncertainty Animation",
-      "path": "https://brilliant.org/practice/squeezing-measurements/?p=9",
-      "pos": "",
-      "type": "link"
+      "comment": "",
+      "name": "\"Jess, Wasserscheid - Chemical Technology - An Integral Textbook\".pdf",
+      "path": "/home/pmk/cognimap/src/assets/pdf/technical chemistry/Jess, Wasserscheid - Chemical Technology - An Integral Textbook.pdf",
+      "pos": "59",
+      "type": "pdf"
     },
     "debug": true,
     "dev": false,
@@ -123,7 +123,7 @@
     "epath": "",
     "id": 1,
     "latexcolor": "#000000",
-    "maxid": 25516,
+    "maxid": 26491,
     "menue": {
       "display": "block",
       "height": 400,
@@ -378,7 +378,7 @@
       "width": 1800,
       "z-index": 515
     },
-    "widget0": "equation",
+    "widget0": "navigator",
     "widget1": "none",
     "wlayout0": {
       "display": "none",

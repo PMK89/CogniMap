@@ -141,6 +141,7 @@
     "blocked": false,
     "cat": "tbline0",
     "colors": [
+      "#f2e26c",
       "#00ffff",
       "#23bf30",
       "#4025f5",
@@ -149,8 +150,7 @@
       "#ff0000",
       "#b061a1",
       "#966085",
-      "#001a3d",
-      "#001730"
+      "#001a3d"
     ],
     "cuppled": false,
     "group": "",
