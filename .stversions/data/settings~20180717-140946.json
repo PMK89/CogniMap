@@ -98,8 +98,8 @@
     "cngtemp": false,
     "contentPos": -1,
     "coor": {
-      "x": 289197,
-      "y": 172518
+      "x": 271289,
+      "y": 185546
     },
     "copy": {
       "num": 0,
@@ -111,9 +111,9 @@
     "copycolor": "#f2e26c",
     "currentMeta": {
       "comment": "",
-      "name": "\"Jess, Wasserscheid - Chemical Technology - An Integral Textbook\".pdf",
-      "path": "/home/pmk/cognimap/src/assets/pdf/technical chemistry/Jess, Wasserscheid - Chemical Technology - An Integral Textbook.pdf",
-      "pos": "59",
+      "name": "\"TCM HK\".pdf",
+      "path": "/home/pmk/cognimap/src/assets/pdf/technical chemistry/TCM HK.pdf",
+      "pos": "0",
       "type": "pdf"
     },
     "debug": true,
@@ -123,7 +123,7 @@
     "epath": "",
     "id": 1,
     "latexcolor": "#000000",
-    "maxid": 26389,
+    "maxid": 26491,
     "menue": {
       "display": "block",
       "height": 400,
@@ -378,10 +378,10 @@
       "width": 1800,
       "z-index": 515
     },
-    "widget0": "navigator",
+    "widget0": "none",
     "widget1": "none",
     "wlayout0": {
-      "display": "block",
+      "display": "none",
       "height": 446.5,
       "left": 0,
       "opacity": 0.8,
