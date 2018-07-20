@@ -96,10 +96,10 @@
       ]
     },
     "cngtemp": false,
-    "contentPos": -1,
+    "contentPos": 0,
     "coor": {
-      "x": 283658,
-      "y": 171762
+      "x": 261641,
+      "y": 184831
     },
     "copy": {
       "num": 0,
@@ -123,7 +123,7 @@
     "epath": "",
     "id": 1,
     "latexcolor": "#000000",
-    "maxid": 26496,
+    "maxid": 26497,
     "menue": {
       "display": "block",
       "height": 400,
@@ -135,7 +135,7 @@
       "z-index": 490
     },
     "mnemocolor": "#ff05ee",
-    "mode": "view",
+    "mode": "quizing",
     "pointArray": [],
     "selcmeo": {
       "cat": [],

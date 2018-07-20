@@ -96,10 +96,10 @@
       ]
     },
     "cngtemp": false,
-    "contentPos": -1,
+    "contentPos": 0,
     "coor": {
-      "x": 287826,
-      "y": 176234
+      "x": 282193,
+      "y": 173284
     },
     "copy": {
       "num": 0,
@@ -123,7 +123,7 @@
     "epath": "",
     "id": 1,
     "latexcolor": "#000000",
-    "maxid": 26496,
+    "maxid": 26497,
     "menue": {
       "display": "block",
       "height": 400,
@@ -135,7 +135,7 @@
       "z-index": 490
     },
     "mnemocolor": "#ff05ee",
-    "mode": "view",
+    "mode": "edit",
     "pointArray": [],
     "selcmeo": {
       "cat": [],
@@ -359,7 +359,7 @@
       "shadowcolor": "#4f4f4f"
     },
     "tblayout0": {
-      "display": "block",
+      "display": "none",
       "height": 20,
       "left": 0,
       "opacity": 0.8,
@@ -369,7 +369,7 @@
       "z-index": 510
     },
     "tblayout1": {
-      "display": "none",
+      "display": "block",
       "height": 80,
       "left": 0,
       "opacity": 0.8,
