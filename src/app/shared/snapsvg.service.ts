@@ -202,7 +202,7 @@ export class SnapsvgService {
       if (cme.cmobject.content[i]) {
           let content = cme.cmobject.content[i];
           let coorX = cme.coor.x + content.coor.x;
-          let coorY = cme.coor.y + content.coor.y;
+          let coorY = cme.coor.y + content.coor.y + cme.cmobject.style.title.size / 4;
           switch (content.cat) {
             case 'i':
             case 'im':

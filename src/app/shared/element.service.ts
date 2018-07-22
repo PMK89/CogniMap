@@ -1920,6 +1920,54 @@ export class ElementService {
     }
   }
 
+  // adds content from a clicked object to the selected quiz
+  public addLatexQuiz(id: number) {
+    if (this.selCMEo) {
+      if (this.selCMEo.types[0] === 'q') {
+        if (this.selCMEo.cmobject.content.length === 0) {
+          this.cmelements
+              .subscribe((data) => {
+                  for (let key in data) {
+                    if (data[key]) {
+                      if (data[key].id === id) {
+                        let cme = this.CMEtoCMEol(data[key]);
+                        console.info(cme);
+                        if (cme.cmobject.content.length > 0) {
+                          if (cme.cmobject.content.length === 1) {
+                            if (cme.cmobject.content[0].cat === 'LateX') {
+                              cme.cmobject.content[0].correct = true;
+                              this.selCMEo.cmobject.content.push(cme.cmobject.content[0]);
+                              let latexcompare = cme.cmobject.content[0].info;
+                              this.selCMEo.cmobject.meta = [{
+                                name: cme.title,
+                                pos: '0',
+                                type: 'LaTeXquiz',
+                                path: latexcompare,
+                                comment: 'LaTeX'
+                              }];
+                              this.selCMEo.state = 'new';
+                            } else {
+                              console.log('This function only allows LaTeX content to quiz.');
+                            }
+                          } else {
+                            console.log('This function only allows a single LaTeX content to quiz.');
+                          }
+                        }
+                        id = 0;
+                        this.updateSelCMEo(this.selCMEo);
+                      }
+                    }
+                  }
+                },
+                (error) => console.log(error),
+               ).unsubscribe();
+        } else {
+          console.log('Only one LateX Quiz is allowed per object.');
+        }
+      }
+    }
+  }
+
   // changes links if connections are changed
   public changeCon(con: string, start: boolean) {
     if (this.selCMEo) {

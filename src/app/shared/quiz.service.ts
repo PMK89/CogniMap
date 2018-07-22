@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
+import { MathJaxService } from './mathjax.service';
 // import { Observable } from 'rxjs/Observable';
 declare var Snap: any;
 
@@ -26,6 +27,7 @@ export class QuizService {
               private settingsService: SettingsService,
               private electronService: ElectronService,
               private elementService: ElementService,
+              private mathjaxService: MathJaxService,
               private cmlsvgService: CmlsvgService) {
                 this.settingsService.cmsettings
                     .subscribe((data) => {
@@ -48,11 +50,19 @@ export class QuizService {
                 let quizcme = this.elementService.CMEtoCMEol(quizcmer);
                 let pos = parseInt(tpquizval.slice(tpquizval.indexOf('_') + 1), 10);
                 if (quizcme.cmobject.content[pos]) {
-                  this.showAnswer(quizcme, tpquizval);
-                  if (quizcme.cmobject.content[pos].correct) {
-                    this.electronService.ipcRenderer.send('answerQuiz', {id: id0, scale: 5});
+                  if (quizcme.cmobject.meta[0]['type'] === 'LaTeXquiz') {
+                    // open latex editor with quiz
+                    this.elementService.setSelectedCME(id0);
+                    this.cmsettings.widget0 = 'equation';
+                    this.cmsettings.wlayout0.display = 'block';
+                    this.settingsService.updateSettings(this.cmsettings);
                   } else {
-                    this.electronService.ipcRenderer.send('answerQuiz', {id: id0, scale: 1});
+                    this.showAnswer(quizcme, tpquizval);
+                    if (quizcme.cmobject.content[pos].correct) {
+                      this.electronService.ipcRenderer.send('answerQuiz', {id: id0, scale: 5});
+                    } else {
+                      this.electronService.ipcRenderer.send('answerQuiz', {id: id0, scale: 1});
+                    }
                   }
                 } else if (tpquizval.slice(tpquizval.indexOf('_') + 1) === 'ans') {
                   this.removeQuiz(id0);
@@ -72,6 +82,57 @@ export class QuizService {
           }
         }
       }).unsubscribe();
+  }
+
+  // removes irrelevant chars from latexystrg to compare them
+  public cleanLateX(latexstr: string) {
+    let latexcompare = latexstr.replace(/ /g, '').replace(/{}/g, '').replace(/\[\]/g, '').replace(/\n/g, '');
+    return latexcompare;
+  }
+
+  // compares LateX strings for matching charakters
+  public compareStrings(str0: string, str1: string) {
+    let latexans = this.cleanLateX(str0);
+    let latexright = this.cleanLateX(str1);
+    // console.log(latexans, latexright);
+    let errors = 0;
+    let latexansl = latexans.length;
+    let latexrightl = latexright.length;
+    let n = Math.max(latexansl, latexrightl);
+    for (let i = 0; i < n; i++) {
+      if (i < latexansl && i < latexrightl) {
+        // console.log(latexans.charAt(i), latexright.charAt(i));
+        if (latexans.charAt(i) !== latexright.charAt(i)) {
+          errors += 1;
+        }
+      }
+    }
+    return errors;
+  }
+
+  // check if answer in quiz is correct and change the field accordingly
+  public checkLaTeXAnswer(quizcme: CMEo, tpquizval: string, latexstr: string) {
+    this.cmsvg = Snap('#cmsvg');
+    let svggroup = this.cmsvg.select('#c' + quizcme.id.toString()  + '-0');
+    let errors = this.compareStrings(tpquizval, latexstr);
+    let rating = Math.max(0, (5 - errors));
+    this.electronService.ipcRenderer.send('answerQuiz', {id: quizcme.id, scale: rating});
+    this.showAnswer(quizcme, tpquizval);
+    if (svggroup) {
+      let svggroupchildren0 = svggroup.children();
+      if (svggroupchildren0) {
+        let svggroupchildren1 = svggroupchildren0[0].children();
+        if (svggroupchildren1) {
+          if (svggroupchildren1[0]) {
+            let parent = svggroupchildren1[0].parent();
+            let latexsnap = this.mathjaxService.getMjSVG(latexstr);
+            svggroupchildren1[0].remove();
+            parent.add(Snap.parse(latexsnap));
+          }
+        }
+      }
+    }
+    console.log(tpquizval);
   }
 
   // marks the quiz elements to show correct answer

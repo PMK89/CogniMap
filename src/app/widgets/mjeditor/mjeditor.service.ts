@@ -9,6 +9,7 @@ declare var Snap: any;
 // services
 import { SettingsService } from '../../shared/settings.service';
 import { ElementService } from '../../shared/element.service';
+import { QuizService } from '../../shared/quiz.service';
 
 // models and reducers
 import { CMSettings } from '../../models/CMSettings';
@@ -27,6 +28,7 @@ export class MjEditorService {
 
   constructor(private settingsService: SettingsService,
               private elementService: ElementService,
+              private quizService: QuizService,
               private electronService: ElectronService) {
 
               }
@@ -148,28 +150,36 @@ export class MjEditorService {
   // save Latex or make new object
   public saveLateX(element, key) {
     if (element) {
-      if (element.cmobject) {
-        if (key < 0) {
-          let newlatex = {
-            info: this.inputtext,
-            cat: 'LateX',
-            content: this.svgStrg,
-            coor: {
-              x: 0,
-              y: 0
-            },
-            width: this.svgWidth,
-            height: 100
-          };
-          element.cmobject.content.push(newlatex);
-          this.elementService.updateSelCMEo(element);
-        } else {
-          if (element.cmobject.content) {
-            if (element.cmobject.content[key]) {
-              element.cmobject.content[key].info = this.inputtext;
-              element.cmobject.content[key].content = this.svgStrg;
-              console.log(element.cmobject.content[key]);
-              this.elementService.updateSelCMEo(element);
+      if (this.elementService.cmsettings.mode === 'quizing' && element['cmobject']['meta'][0]['type'] === 'LaTeXquiz') {
+        let latexsvg = element['cmobject']['meta'][0]['path'];
+        if (latexsvg) {
+          this.quizService.checkLaTeXAnswer(element, this.inputtext, latexsvg);
+          this.placeSvg(latexsvg);
+        }
+      } else {
+        if (element.cmobject) {
+          if (key < 0) {
+            let newlatex = {
+              info: this.inputtext,
+              cat: 'LateX',
+              content: this.svgStrg,
+              coor: {
+                x: 0,
+                y: 0
+              },
+              width: this.svgWidth,
+              height: 100
+            };
+            element.cmobject.content.push(newlatex);
+            this.elementService.updateSelCMEo(element);
+          } else {
+            if (element.cmobject.content) {
+              if (element.cmobject.content[key]) {
+                element.cmobject.content[key].info = this.inputtext;
+                element.cmobject.content[key].content = this.svgStrg;
+                console.log(element.cmobject.content[key]);
+                this.elementService.updateSelCMEo(element);
+              }
             }
           }
         }

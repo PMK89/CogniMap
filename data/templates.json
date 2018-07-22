@@ -33,8 +33,8 @@
       "style": {
         "object": {
           "class_array": [],
-          "color0": "#00ff80",
-          "color1": "#ff0000",
+          "color0": "#ffffff",
+          "color1": "#666666",
           "num_array": [],
           "str": "",
           "trans": 1,
@@ -45,7 +45,7 @@
             "f1_a "
           ],
           "color": "#000000",
-          "deco": "underline",
+          "deco": "",
           "font": "'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive",
           "size": 17
         }
@@ -56,7 +56,7 @@
       "y": -200
     },
     "id": 0.1,
-    "prep": "<ellipse cx=\"-177.4375\" cy=\"-204.5546875\" rx=\"26.69512466315783\" ry=\"22.078125\" fill=\"#00ff80\" id=\"cms0.1\" stroke=\"#ff0000\" style=\"opacity: 1; stroke-width: 2.125;\"/><text x=\"-200\" y=\"-200\" fill=\"#000000\" title=\"0_1\" style=\"font-size: 17px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: underline;\">default</text>",
+    "prep": "<ellipse cx=\"-177.4375\" cy=\"-204.5546875\" rx=\"26.69512466315783\" ry=\"22.078125\" fill=\"#ffffff\" id=\"cms0.1\" stroke=\"#666666\" style=\"opacity: 1; stroke-width: 2.125;\"/><text x=\"-200\" y=\"-200\" fill=\"#000000\" title=\"0_1\" style=\"font-size: 17px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1; text-decoration: underline;\">default</text>",
     "prep1": "",
     "prio": 0,
     "state": "selected",
@@ -81,7 +81,7 @@
     "title": "default",
     "types": [
       "l",
-      "k",
+      "c",
       "0"
     ],
     "coor": {
@@ -92,10 +92,10 @@
     "state": "active",
     "cmobject": {
       "end": "",
-      "color0": "#f1f008",
-      "color1": "#f1f008",
-      "size0": 4,
-      "size1": 4,
+      "color0": "#666666",
+      "color1": "#666666",
+      "size0": 3,
+      "size1": 3,
       "trans": 1,
       "id0": 0.01,
       "title0": "",

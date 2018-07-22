@@ -154,6 +154,8 @@ export class AppComponent implements AfterViewInit {
             // do nothing
           } else if (this.cmsettings.mode === 'quizadd') {
             this.elementService.addQuizContent(id);
+          } else if (this.cmsettings.mode === 'latexquiz') {
+            this.elementService.addLatexQuiz(id);
           } else {
             if (this.cmsettings.mode === 'connecting') {
               this.elementService.newConnector(id);

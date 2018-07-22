@@ -924,6 +924,20 @@
     "active": false
   },
   {
+    "id": 614,
+    "group": "",
+    "cat": "cmsettings",
+    "blocked": false,
+    "btntype": "l",
+    "name": "latexquiz",
+    "variable": ["mode"],
+    "contenttype": "g",
+    "value": "latexquiz",
+    "prio": 0,
+    "content": "assets/images/svgelements/menue/tex.svg",
+    "active": false
+  },
+  {
     "id": 801,
     "group": "",
     "cat": "tbfont",

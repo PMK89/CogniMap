@@ -93,7 +93,7 @@ export class TbQuizeditComponent implements OnInit {
           let active = false;
           for (let i in this.selCMEo.cmobject.links) {
             if (this.selCMEo.cmobject.links[i]) {
-              if (this.selCMEo.cmobject.links[i].start === start) {7
+              if (this.selCMEo.cmobject.links[i].start === start) {
                 if (this.selCMEo.cmobject.links[i].con === con) {
                   active = true;
                   // console.log(this.selCMEo.cmobject.links[i]);
@@ -115,7 +115,7 @@ export class TbQuizeditComponent implements OnInit {
             return style;
           }
   } return style;
-}Interval
+}
 
   public changeCon(con: string, start: boolean) {
     // cange connection goes here
