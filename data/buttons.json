@@ -546,6 +546,20 @@
     "active": false
   },
   {
+    "id": 120,
+    "group": "",
+    "cat": "tbline",
+    "blocked": false,
+    "btntype": "l",
+    "name": "marker",
+    "variable": ["prep1"],
+    "contenttype": "g",
+    "value": "makemarker",
+    "prio": 0,
+    "content": "assets/images/svgelements/line/linemarker.svg",
+    "active": false
+  },
+  {
     "id": 201,
     "group": "",
     "cat": "tbfont",

@@ -292,10 +292,16 @@ export class ElementService {
   // updates selected cmel and matching dbcme
   public updateSelCMEl(cmel: CMEl) {
     if (this.selCMEl) {
-      // console.log('updateSelCMEl: ', cmel.id);
       cmel.prep = '';
-      cmel.prep1 = '';
+      if (cmel.prep1 !== '' && cmel.prep1 !== undefined) {
+        if (cmel.prep1 !== 'nomarker') {
+          cmel.prep1 = 'makemarker';
+        }
+      } else {
+        cmel.prep1 = '';
+      }
       this.selCMEl = cmel;
+      console.log('updateSelCMEl: ', this.selCMEl);
       this.store.dispatch({type: 'ADD_SCMEL', payload: cmel });
       if (this.cmsettings.mode !== 'marking') {
         let newCME = this.newCME(cmel);
@@ -2211,7 +2217,13 @@ export class ElementService {
       }
       // console.log(this.selCMEl);
       this.selCMEl.prep = '';
-      this.selCMEl.prep1 = '';
+      if (this.selCMEl.prep1 !== '' && this.selCMEl.prep1 !== undefined) {
+        if (this.selCMEl.prep1 !== 'nomarker') {
+          this.selCMEl.prep1 = 'makemarker';
+        }
+      } else {
+        this.selCMEl.prep1 = '';
+      }
       this.updateSelCMEl(this.selCMEl);
       if (this.cmsettings.cngtemp) {
         this.setTempCMEl(this.tempCMEl);
@@ -2254,7 +2266,13 @@ export class ElementService {
                         console.log('ERROR: changeCMEo(): no fitting property');
                     }
                     cme.prep = '';
-                    cme.prep1 = '';
+                    if (cme.prep1 !== '' && cme.prep1 !== undefined) {
+                      if (cme.prep1 !== 'nomarker') {
+                        cme.prep1 = 'makemarker';
+                      }
+                    } else {
+                      cme.prep1 = '';
+                    }
                     // data[key] = this.newCME(cme);
                     locCMElArray.splice(pos, 1);
                     let storeaction = {type: 'UPDATE_CME', payload: this.newCME(cme) };

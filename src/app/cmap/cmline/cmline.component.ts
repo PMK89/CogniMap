@@ -73,7 +73,9 @@ export class CmlineComponent implements OnInit, OnDestroy {
           if (p) {
             if (p.getTotalLength() >= 2000) {
               // this.cmel.cmobject.markers = [];
-              this.createMarker(s, p);
+              if (this.cmelement.prep1 !== 'nomarker') {
+                this.createMarker(s, p);
+              }
             } else {
               if (this.cmel.cmobject.str === 'connector') {
                 this.elementService.changeLinkWeight(this.cmel.cmobject.id0, this.cmel.id, -1);
@@ -86,35 +88,54 @@ export class CmlineComponent implements OnInit, OnDestroy {
         }
       }
       if (this.cmelement.prep1 !== '' && this.cmelement.prep1 !== undefined) {
-        let oldm = s.select('#m' + id);
-        if (oldm) {
-          oldm.remove();
-          console.log(id);
+        // console.log(this.cmelement.prep1);
+        if (this.cmelement.prep1 === 'makemarker') {
+          let p = s.select('#cms' + id);
+          if (p) {
+            if (this.cmel) {
+              this.createMarker(s, p);
+            } else {
+              this.cmel = this.elementService.CMEtoCMEol(this.cmelement);
+              this.createMarker(s, p);
+            }
+          }
+        } else if (this.cmelement.prep1 === 'nomarker') {
+          let oldm = s.select('#m' + id);
+          if (oldm) {
+            oldm.remove();
+            console.log('removed markers:', id);
+          }
+        } else {
+          let oldm = s.select('#m' + id);
+          if (oldm) {
+            oldm.remove();
+            console.log(id);
+          }
+          let mgroup = s.select('#cmm' + this.cmelement.prio.toString()).group();
+          mgroup.attr({
+            id: ('m' + id),
+            title: id
+          });
+          let mo = Snap.parse(this.cmelement.prep1);
+          mgroup.append(mo);
+          let rect0 = s.select('#rect0' + id);
+          let title0 = s.select('#title0' + id);
+          rect0.click( () => {
+            window.scrollTo((this.cmelement.x1 - 500), (this.cmelement.y1 - 500));
+          });
+          title0.click( () => {
+            window.scrollTo((this.cmelement.x1 - 500), (this.cmelement.y1 - 500));
+          });
+          let rect1 = s.select('#rect1' + id);
+          let title1 = s.select('#title1' + id);
+          rect1.click( () => {
+            window.scrollTo((this.cmelement.x0 - 500), (this.cmelement.y0 - 500));
+          });
+          title1.click( () => {
+            window.scrollTo((this.cmelement.x0 - 500), (this.cmelement.y0 - 500));
+          });
+          // console.log('prep1 click: ', this.cmelement.id);
         }
-        let mgroup = s.select('#cmm' + this.cmelement.prio.toString()).group();
-        mgroup.attr({
-          id: ('m' + id),
-          title: id
-        });
-        let mo = Snap.parse(this.cmelement.prep1);
-        mgroup.append(mo);
-        let rect0 = s.select('#rect0' + id);
-        let title0 = s.select('#title0' + id);
-        rect0.click( () => {
-          window.scrollTo((this.cmelement.x1 - 500), (this.cmelement.y1 - 500));
-        });
-        title0.click( () => {
-          window.scrollTo((this.cmelement.x1 - 500), (this.cmelement.y1 - 500));
-        });
-        let rect1 = s.select('#rect1' + id);
-        let title1 = s.select('#title1' + id);
-        rect1.click( () => {
-          window.scrollTo((this.cmelement.x0 - 500), (this.cmelement.y0 - 500));
-        });
-        title1.click( () => {
-          window.scrollTo((this.cmelement.x0 - 500), (this.cmelement.y0 - 500));
-        });
-        // console.log('prep1 click: ', this.cmelement.id);
       } else {
         let p = s.select('#cms' + id);
         if (p) {

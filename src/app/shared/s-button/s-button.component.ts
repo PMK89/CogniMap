@@ -66,6 +66,12 @@ export class SButtonComponent implements OnInit {
                 } else {
                   button.active = false;
                 }
+              } else if (button.variable[0] === 'prep1') {
+                if (cmelement.prep1 !== '' && cmelement.prep1 !== undefined && cmelement.prep1 !== 'nomarker') {
+                  button.active = true;
+                } else {
+                  button.active = false;
+                }
               } else {
                 if (cmelement[button.variable[0]] === button.value) {
                   button.active = true;
@@ -160,6 +166,9 @@ export class SButtonComponent implements OnInit {
         }
       }
     } else if (button.cat === 'tbline') {
+      if (button.variable[0] === 'prep1' && button.active) {
+        action.value = 'nomarker';
+      }
       this.elementService.changeCMEl(action);
     } else {
       this.elementService.changeCMEo(action);
