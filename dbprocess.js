@@ -289,9 +289,9 @@ const createDbWindow = function createDbWindow() {
     event.returnValue = 'Not valid';
   })
 
-  // gets all elements from db
-  ipcMain.on('getAllCME', function (event, arg) {
-    cme.find({}, function(err, data) {
+  // gets all elements from db with certain priority
+  ipcMain.on('getAllPrio', function (event, arg) {
+    cme.find({prio: arg}, function(err, data) {
       if (err) console.log(err);
       if (data) {
         event.returnValue = data;

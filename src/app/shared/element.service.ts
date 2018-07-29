@@ -1191,7 +1191,6 @@ export class ElementService {
         }
       } else if (this.cmsettings.mode === 'minimap') {
         this.cmap = false;
-        this.getAllElements();
         this.makeMiniCmap();
         this.cmsettings.mode = 'edit';
         this.settingsService.updateSettings(this.cmsettings);
@@ -1292,91 +1291,123 @@ export class ElementService {
 
   // creates a miniature Cmap for all elements
   public makeMiniCmap() {
-    if (this.allCME) {
+    let cmsvg = Snap('#cmsvg');
+    let minigroup = cmsvg.select('#minicmap');
+    let width = this.cmsettings.cmap.width / 100;
+    let height = this.cmsettings.cmap.height / 100;
+    let border = cmsvg.rect(0, 0, width, height).attr({
+      fill: 'none',
+      strokeWidth: 1,
+      stroke: '#000000',
+    });
+    for (let j = 0; j < height; j += 10) {
+      let newline = cmsvg.line(0, j, width, j).attr({
+        stroke: '#000000',
+        fill: 'none',
+      });
+      if ((j % 1000) === 0) {
+        newline.attr({
+          strokeWidth: 0.8,
+          opacity: 0.8
+        });
+        console.log(newline);
+      } else if ((j % 100) === 0) {
+        newline.attr({
+          strokeWidth: 0.6,
+          opacity: 0.5
+        });
+      } else {
+        newline.attr({
+          strokeWidth: 0.5,
+          opacity: 0.4
+        });
+      }
+      minigroup.add(newline);
+    }
+    for (let j = 0; j < width; j += 10) {
+      let newline = cmsvg.line(j, 0, j, height).attr({
+        stroke: '#000000',
+        fill: 'none',
+      });
+      if ((j % 1000) === 0) {
+        newline.attr({
+          strokeWidth: 0.8,
+          opacity: 0.8
+        });
+        console.log(newline);
+      } else if ((j % 100) === 0) {
+        newline.attr({
+          strokeWidth: 0.6,
+          opacity: 0.5
+        });
+      } else {
+        newline.attr({
+          strokeWidth: 0.5,
+          opacity: 0.4
+        });
+      }
+      minigroup.add(newline);
+    }
+    minigroup.add(border);
+    let i = 0;
+    for (i = 0; i < 41; i++) {
+      this.allCME = this.electronService.ipcRenderer.sendSync('getAllPrio', (40 - i));
       if (this.allCME.length > 0) {
         let len = this.allCME.length;
-        let i = 0;
-        let cmsvg = Snap('#cmsvg');
-        let minigroup = cmsvg.select('#minicmap');
-        let width = this.cmsettings.cmap.width / 100;
-        let height = this.cmsettings.cmap.height / 100;
-        let border = cmsvg.rect(0, 0, width, height).attr({
-          fill: 'none',
-          strokeWidth: 1,
-          stroke: '#000000',
-        });
-        for (let j = 0; j < height; j += 10) {
-          let newline = cmsvg.line(0, j, width, j).attr({
-            stroke: '#000000',
-            fill: 'none',
-          });
-          if ((j % 1000) === 0) {
-            newline.attr({
-              strokeWidth: 0.8,
-              opacity: 0.8
-            });
-            console.log(newline);
-          } else if ((j % 100) === 0) {
-            newline.attr({
-              strokeWidth: 0.6,
-              opacity: 0.5
-            });
-          } else {
-            newline.attr({
-              strokeWidth: 0.5,
-              opacity: 0.4
-            });
-          }
-          minigroup.add(newline);
-        }
-        for (let j = 0; j < width; j += 10) {
-          let newline = cmsvg.line(j, 0, j, height).attr({
-            stroke: '#000000',
-            fill: 'none',
-          });
-          if ((j % 1000) === 0) {
-            newline.attr({
-              strokeWidth: 0.8,
-              opacity: 0.8
-            });
-            console.log(newline);
-          } else if ((j % 100) === 0) {
-            newline.attr({
-              strokeWidth: 0.6,
-              opacity: 0.5
-            });
-          } else {
-            newline.attr({
-              strokeWidth: 0.5,
-              opacity: 0.4
-            });
-          }
-          minigroup.add(newline);
-        }
-        minigroup.add(border);
-        for (i = 0; i < len; i++) {
-          if (this.allCME[i]) {
-            if ((i % 1000) === 0) {
-              console.log(i);
-            }
-            let obj = this.allCME[i];
-            // console.log(color);
-
+        console.log(i, len);
+        let j = 0;
+        for (j = 0; j < len; j++) {
+          if (this.allCME[j]) {
+            let obj = this.allCME[j];
             if (obj.id >= 1) {
-              if (obj.prio < 7 || (i % 10) === 0) {
-                let x0 = obj.x0 / 100;
-                let x1 = obj.x1 / 100;
-                let y0 = obj.y0 / 100;
-                let y1 = obj.y1 / 100;
-                let pos = obj.cmobject.indexOf('color0');
-                let color = obj.cmobject.slice((pos + 9), (pos + 16));
-                let size = Math.ceil(Math.max((x1 - x0), (y1 - y0)));
-                let rect = cmsvg.rect((obj.coor.x / 100), (obj.coor.y / 100), size, size);
+              let x = 3 * Math.round((obj.x0 + obj.x1) / 600);
+              let y = 3 * Math.round((obj.y0 + obj.y1) / 600);
+              let pos = obj.cmobject.indexOf('color0');
+              let color = obj.cmobject.slice((pos + 9), (pos + 16));
+              if (obj.prio < 4 && obj.types[0].indexOf('q') === -1) {
+                let title = cmsvg.text((obj.coor.x / 100), (obj.coor.y / 100), obj.title);
+                title.attr({
+                  fontSize: (16 - (Math.pow(obj.prio, 2) / 2)) + 'px',
+                  fill: '#000000',
+                  fontFamily:
+                   "'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive",
+                  opacity: 0.8,
+                  title: obj.id,
+                  id: 'minititle' + obj.id
+                });
+                minigroup.add(title);
+                let titlebbox = title.getBBox();
+                let rect = cmsvg.rect(titlebbox.x, titlebbox.y, titlebbox.w, titlebbox.h);
                 rect.attr({
                   stroke: 'none',
                   fill: color,
                 });
                 minigroup.add(rect);
+                minigroup.add(title);
+              } else {
+                // increase size of closeby spots
+                let pointid = 'mm' + x.toString() + y.toString();
+                let point = minigroup.select('#' + pointid);
+                if (point) {
+                  let newr = point.attr('r') * 1.1;
+                  if (newr > 3) {
+                    newr = 3;
+                  }
+                  point.attr({r: newr});
+                } else {
+                  let r = 0.5 + (1 - ((obj.prio + 2) / 43));
+                  if (color === '#ffffff') {
+                    let pos1 = obj.cmobject.indexOf('color1');
+                    color = obj.cmobject.slice((pos1 + 9), (pos1 + 16));
+                  }
+                  point = cmsvg.circle(x, y, r);
+                  point.attr({
+                    id: pointid,
+                    fill: color,
+                    stroke: 'none'
+                  });
+                  minigroup.add(point);
+                }
               }
             } else if (obj.id <= -1) {
               let x0 = obj.x0 / 100;
@@ -1400,6 +1431,10 @@ export class ElementService {
         }
       }
     }
+    let isvg = minigroup.innerSVG();
+    isvg = isvg.replace(/ \\"/g, " '");
+    isvg = isvg.replace(/\\",/g, "',");
+    console.info(isvg);
   }
 
   // cleares the miniature Cmap
