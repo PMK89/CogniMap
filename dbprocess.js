@@ -20,6 +20,8 @@ var datahistory = [];
 
 var quizes = [];
 var quizcmes = [];
+var quiztime = [];
+var quizcat = [];
 var quiz = '';
 
 const WORST = 0;
@@ -368,7 +370,7 @@ const createDbWindow = function createDbWindow() {
         console.log('weight: ' + cmo['style']['object']['weight'] + ' interval: ' + cmo['style']['object']['str']);
         if (typeof dif === 'number' && typeof int === 'number') {
           if (dif >= 1.3) {
-            changeQuiz(arg.id, dif, int);
+            changeQuiz(arg.id, dif, int, arg.cat);
           }
         }
       }
@@ -438,7 +440,7 @@ const createDbWindow = function createDbWindow() {
         var int = Number(cmo['style']['object']['str']);
         if (typeof dif === 'number' && typeof int === 'number') {
           if (dif >= 1.3) {
-            makeQuiz(arg.id, dif, int);
+            makeQuiz(arg.id, dif, int, arg.cat);
           }
         }
       }
@@ -474,10 +476,77 @@ const createDbWindow = function createDbWindow() {
     })
     const today0 = TODAY;
     var overduearray = [];
+    quizcat = [];
     quizes.forEach((quiz) => {
       if (quiz) {
         // console.log(overdue);
+        quizcat.push(quiz.cat);
+        var quizcatlen = quizcat.length;
         if (today0 >= quiz.update) {
+          // console.log(quiz);
+          if (quizcatlen > 0) {
+            quizcat[(quizcatlen - 1)].push(quiz.id);
+          }
+          overduearray.push({id: quiz.id, od: (today0 - quiz.update), interval: quiz.interval, dif: quiz.difficulty});
+        } else {
+          const dueday = quiz.update - today0;
+          if (quiztime[dueday]) {
+            quiztime[dueday] += 1;
+          } else {
+            quiztime[dueday] = 1;
+          }
+        }
+      }
+    })
+    const l = overduearray.length;
+    console.log(l);
+    if (l > 0) {
+      overduearray.sort(function(a, b){return b.od - a.od});
+      overduearray.splice(arg);
+      quizcmes = [];
+      getOverdueQuizes(overduearray, event);
+    }
+  })
+
+  // loads quizes that are due
+  ipcMain.on('loadQuizesbyCat', (event, arg) => {
+    if (quizes.length === 0) {
+      loadQuizes();
+    }
+    const today0 = TODAY;
+    var overduearray = [];
+    console.log(arg);
+    quizes.forEach((quiz) => {
+      if (quiz) {
+        // console.log(overdue);
+        var isshown = false;
+        if (today0 >= quiz.update) {
+          isshown = true;
+        } else if (arg[0]) {
+          isshown = true;
+        }
+        if (arg[1] && isshown) {
+          if (arg[1] === quiz.cat[0]) {
+            isshown = true;
+          } else {
+            isshown = false;
+          }
+        }
+        if (arg[2] && isshown) {
+          if (arg[2] === quiz.cat[1]) {
+            isshown = true;
+          } else {
+            isshown = false;
+          }
+        }
+        if (arg[3] && isshown) {
+          if (arg[3] === quiz.cat[2]) {
+            isshown = true;
+          } else {
+            isshown = false;
+          }
+        }
+        if (isshown) {
           // console.log(quiz);
           overduearray.push({id: quiz.id, od: (today0 - quiz.update), interval: quiz.interval, dif: quiz.difficulty});
         }
@@ -487,7 +556,7 @@ const createDbWindow = function createDbWindow() {
     console.log(l);
     if (l > 0) {
       overduearray.sort(function(a, b){return b.od - a.od});
-      overduearray.splice(arg);
+      quizcmes = [];
       getOverdueQuizes(overduearray, event);
     }
   })
@@ -576,15 +645,27 @@ const createDbWindow = function createDbWindow() {
   });
 }
 
-// makess a quiz element
-function makeQuiz(id , dif, int) {
+// makes a quiz element
+function makeQuiz(id , dif, int, cat0) {
   if(id) {
     if (quizes.length === 0) {
       loadQuizes();
     }
+    var cat = [];
+    if (cat0) {
+      if (cat0.length > 3) {
+        cat = cat0.slice(0, 3);
+      } else {
+        cat = cat0;
+        for (var i = 0; i < (3 - cat0.length); i++) {
+          cat.push('none');
+        }
+      }
+    }
     if(quizes.findIndex(i => i.id === id) === -1) {
       var newquiz = {
         id: id,
+        cat: cat,
         update: TODAY,
         difficulty: 2.5,
         interval: 1
@@ -595,20 +676,60 @@ function makeQuiz(id , dif, int) {
   }
 }
 
-// changes a quiz element
-function changeQuiz(id, dif, int) {
-  console.log(id, dif, int);
+// synchronizes quizes with a JSON file element
+function syncQuiz(id , dif, int, cat0) {
   if(id) {
     if (quizes.length === 0) {
       loadQuizes();
+    }
+    var quizes_old = [];
+    if (fs.existsSync('./data/quizes_old.json')) {
+      quizes_old = JSON.parse(fs.readFileSync('./data/quizes_old.json'));
+      const l = quizes.length;
+      var i;
+      for (i = 0; i < l; i++) {
+        if (quizes[i]) {
+          if (quizes[i].id) {
+            quizes_old.forEach((quiz) => {
+              if (quiz) {
+                if (quiz.id === quizes[i].id) {
+                  quizes[i].difficulty = quiz.difficulty;
+                  quizes[i].interval = quiz.interval;
+                  quizes[i].update = quiz.update;
+                }
+              }
+            })
+          }
+        }
+      }
+      saveQuizes();
+    }
+  }
+}
+
+// changes a quiz element
+function changeQuiz(id, dif, int, cat0) {
+  console.log(id, dif, int, cat0);
+  if(id) {
+    if (quizes.length === 0) {
+      loadQuizes();
+    }
+    var cat = [];
+    if (cat0) {
+      if (cat0.length > 3) {
+        cat = cat0.slice(0, 3)
+      } else {
+        cat = cat0
+      }
     }
     var pos = quizes.findIndex(i => i.id === id);
     if (pos > -1) {
       quizes[pos].difficulty = Math.max(dif, 1.3);
       quizes[pos].interval = int;
+      quizes[pos]['cat'] = cat;
       saveQuizes();
     } else {
-      makeQuiz(id , dif, int);
+      makeQuiz(id , dif, int, cat0);
     }
   }
 }
@@ -636,30 +757,44 @@ function loadQuizes() {
 
 // gets overdue quizzes and sends them to frontend
 function getOverdueQuizes(overduearray0, event) {
-  overduequiz = overduearray0.shift()
-  cme.find({ id: overduequiz.id}, function(err, data0) {
-      if (err) console.log(err);
-      data = data0[0];
-      if (data) {
-        data.types[0] = 'q1';
-        var cmo = JSON.parse(data.cmobject);
-        if (cmo['style']['object']['str']) {
-          cmo['style']['object']['str'] = String(overduequiz.interval);
-          cmo['style']['object']['weight'] = overduequiz.dif;
-          data.cmobject = JSON.stringify(cmo);
-          quizcmes.push(data)
-          data.save(function (err) {
-            if (err) console.log(err); // #error message
-          });
-          if (overduearray0.length === 0) {
-            event.sender.send('changedCME', quizcmes);
-            event.sender.send('loadedQuizes', quizcmes);
-          } else {
-            getOverdueQuizes(overduearray0, event)
+  if (overduearray0.length === 0) {
+    var quizres = {
+      catlist: quizcat,
+      timelist: quiztime,
+      quizes: []
+    }
+    event.sender.send('loadedQuizes', quizres);
+  } else {
+    var overduequiz = overduearray0.shift()
+    cme.find({ id: overduequiz.id}, function(err, data0) {
+        if (err) console.log(err);
+        var data = data0[0];
+        if (data) {
+          data.types[0] = 'q1';
+          var cmo = JSON.parse(data.cmobject);
+          if (cmo['style']['object']['str']) {
+            cmo['style']['object']['str'] = String(overduequiz.interval);
+            cmo['style']['object']['weight'] = overduequiz.dif;
+            data.cmobject = JSON.stringify(cmo);
+            quizcmes.push(data);
+            data.save(function (err) {
+              if (err) console.log(err); // #error message
+            });
+            if (overduearray0.length === 0) {
+              event.sender.send('changedCME', quizcmes);
+              var quizres = {
+                catlist: quizcat,
+                timelist: quiztime,
+                quizes: quizcmes
+              }
+              event.sender.send('loadedQuizes', quizres);
+            } else {
+              getOverdueQuizes(overduearray0, event)
+            }
           }
         }
-      }
-   });
+     });
+  }
 }
 
 // gets all elements with same category

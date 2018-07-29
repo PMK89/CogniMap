@@ -38,6 +38,7 @@ import { TbTemplatesComponent } from './toolbar/tb-templates/tb-templates.compon
 import { TbObjectComponent } from './toolbar/tb-object/tb-object.component';
 import { TbMarkingComponent } from './toolbar/tb-marking/tb-marking.component';
 import { TbQuizeditComponent } from './toolbar/tb-quizedit/tb-quizedit.component';
+import { TbQuizzingComponent } from './toolbar/tb-quizzing/tb-quizzing.component';
 import { TbContentComponent } from './toolbar/tb-content/tb-content.component';
 import { TbSettingsComponent } from './toolbar/tb-settings/tb-settings.component';
 import { TbSpecharsComponent } from './toolbar/tb-spechars/tb-spechars.component';
@@ -117,6 +118,7 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
                   TbObjectComponent,
                   TbMarkingComponent,
                   TbQuizeditComponent,
+                  TbQuizzingComponent,
                   TbContentComponent,
                   TbSettingsComponent,
                   TbSpecharsComponent],

@@ -1,0 +1,82 @@
+<div class="tbbox">
+  <table>
+    <tr>
+      <td>
+        <table id="quizoptions">
+          <tr>
+            <td>
+              <div (click)="changeallcat(true)"  *ngIf="!allcat">
+                all
+              </div>
+              <div (click)="changeallcat()"  *ngIf="allcat">
+                od
+              </div>
+            </td>
+            <td>
+              <select [(ngModel)]="quizcat0mod" (change)="chooseCat('1')">
+                <option *ngFor="let cat0_ of quizcat0; let i = index" value={{cat0_}}>
+                   {{cat0_}}
+                </option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+
+            </td>
+            <td>
+              <select [(ngModel)]="quizcat1mod" (change)="chooseCat('2')">
+                <option *ngFor="let cat1_ of quizcat1; let i = index" value={{cat1_}}>
+                   {{cat1_}}
+                </option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+
+            </td>
+            <td>
+              <select [(ngModel)]="quizcat2mod" (change)="chooseCat('3')">
+                <option *ngFor="let cat2_ of quizcat2; let i = index" value={{cat2_}}>
+                   {{cat2_}}
+                </option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <div id="overdueDiv" *ngIf="mode==='quizing'">
+          <table>
+            <tr>
+              <ng-container *ngFor="let cme of overduearray; let i = index">
+                <td *ngIf="i % 3 === 0">
+                  {{cme.title}}
+                  <b (click)="goTo(cme.coor.x, cme.coor.y)">⊗</b>
+                </td>
+              </ng-container>
+            </tr>
+            <tr>
+              <ng-container *ngFor="let cme of overduearray; let i = index">
+                <td *ngIf="i % 3 === 1">
+                  {{cme.title}}
+                  <b (click)="goTo(cme.coor.x, cme.coor.y)">⊗</b>
+                </td>
+              </ng-container>
+            </tr>
+            <tr>
+              <ng-container *ngFor="let cme of overduearray; let i = index">
+                <td *ngIf="i % 3 === 2">
+                  {{cme.title}}
+                  <b (click)="goTo(cme.coor.x, cme.coor.y)">⊗</b>
+                </td>
+              </ng-container>
+            </tr>
+          </table>
+
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

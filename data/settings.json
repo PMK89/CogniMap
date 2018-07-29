@@ -96,10 +96,10 @@
       ]
     },
     "cngtemp": false,
-    "contentPos": 0,
+    "contentPos": -1,
     "coor": {
-      "x": 373326,
-      "y": 236712
+      "x": 279530,
+      "y": 186000
     },
     "copy": {
       "num": 0,
@@ -135,7 +135,7 @@
       "z-index": 490
     },
     "mnemocolor": "#ff05ee",
-    "mode": "edit",
+    "mode": "view",
     "pointArray": [],
     "selcmeo": {
       "cat": [],
@@ -359,30 +359,30 @@
       "shadowcolor": "#4f4f4f"
     },
     "tblayout0": {
-      "display": "none",
-      "height": 20,
-      "left": 0,
-      "opacity": 0.8,
-      "position": "fixed",
-      "top": 0,
-      "width": 150,
-      "z-index": 510
-    },
-    "tblayout1": {
       "display": "block",
       "height": 80,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
       "top": 0,
-      "width": 1920,
+      "width": 1800,
+      "z-index": 510
+    },
+    "tblayout1": {
+      "display": "none",
+      "height": 80,
+      "left": 0,
+      "opacity": 0.8,
+      "position": "fixed",
+      "top": 0,
+      "width": 1800,
       "z-index": 515
     },
     "widget0": "none",
     "widget1": "none",
     "wlayout0": {
       "display": "none",
-      "height": 454,
+      "height": 446.5,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
@@ -392,11 +392,11 @@
     },
     "wlayout1": {
       "display": "none",
-      "height": 454,
+      "height": 446.5,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
-      "top": 536,
+      "top": 528.5,
       "width": 600,
       "z-index": 510
     }

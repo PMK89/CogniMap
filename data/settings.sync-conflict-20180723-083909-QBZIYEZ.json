@@ -98,8 +98,8 @@
     "cngtemp": false,
     "contentPos": 0,
     "coor": {
-      "x": 285688,
-      "y": 175178
+      "x": 285117,
+      "y": 174788
     },
     "copy": {
       "num": 0,
@@ -123,7 +123,7 @@
     "epath": "",
     "id": 1,
     "latexcolor": "#000000",
-    "maxid": 26497,
+    "maxid": 26498,
     "menue": {
       "display": "block",
       "height": 400,
@@ -135,7 +135,7 @@
       "z-index": 490
     },
     "mnemocolor": "#ff05ee",
-    "mode": "edit",
+    "mode": "quizing",
     "pointArray": [],
     "selcmeo": {
       "cat": [],
@@ -359,7 +359,7 @@
       "shadowcolor": "#4f4f4f"
     },
     "tblayout0": {
-      "display": "none",
+      "display": "block",
       "height": 20,
       "left": 0,
       "opacity": 0.8,
@@ -369,7 +369,7 @@
       "z-index": 510
     },
     "tblayout1": {
-      "display": "block",
+      "display": "none",
       "height": 80,
       "left": 0,
       "opacity": 0.8,
@@ -378,7 +378,7 @@
       "width": 1800,
       "z-index": 515
     },
-    "widget0": "none",
+    "widget0": "equation",
     "widget1": "none",
     "wlayout0": {
       "display": "none",

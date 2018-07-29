@@ -6,13 +6,8 @@
    <td>
      <app-s-button [buttons]="buttons" [selector]="613"></app-s-button>
    </td>
-   <td>
-     <div id="overdueDiv" *ngIf="mode==='quizing'">
-       <ng-container *ngFor="let cme of overduearray; let i = index">
-         {{cme.title}}
-         <b (click)="goTo(cme.coor.x, cme.coor.y)">⊗</b>
-       </ng-container>
-     </div>
+   <td *ngIf="mode==='quizing'">
+     <app-tb-quizzing></app-tb-quizzing>
    </td>
    <td>
 

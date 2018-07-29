@@ -91,10 +91,10 @@ export class ElementService {
                     if (Array.isArray(arg)) {
                       for (let key in arg) {
                         if (arg[key]) {
-                          this.updateCME(arg[key]);
+                          this.store.dispatch({type: 'UPDATE_CME', payload: arg[key] });
                         }
                       }
-                      console.log('changedCME: ', arg);
+                      // console.log('changedCME: ', arg);
                     } else {
                       console.log('changedCME: ', arg);
                     }

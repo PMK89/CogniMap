@@ -39,7 +39,6 @@ function createWindow () {
     slashes: true
   }))
 
-
   // Modify the user agent for all requests to the following urls.
   const filter = {
     urls: ['//localhost:3000/assets/images/*']

@@ -230,6 +230,10 @@ export class AppComponent implements AfterViewInit {
           this.cmsettings['tblayout1'].display = 'none';
           this.cmsettings['wlayout0'].display = 'none';
           this.cmsettings['wlayout1'].display = 'none';
+          if (this.cmsettings.mode === 'quizing') {
+            this.cmsettings['tblayout0'].height = 80;
+            this.cmsettings['tblayout0'].width = 1800;
+          }
           this.setLayout(this.cmsettings['tblayout0'], 'toolbar0Style');
           this.setLayout(this.cmsettings['tblayout1'], 'toolbar1Style');
           this.setLayout(this.cmsettings['wlayout0'], 'widgets0Style');
