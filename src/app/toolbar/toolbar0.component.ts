@@ -19,7 +19,6 @@ import { CMButton } from '../models/CMButton';
 export class Toolbar0Component implements OnInit {
   public cmsettings: CMSettings;
   public buttons: Observable<CMButton[]>;
-  public mode = '';
 
   constructor(private settingsService: SettingsService,
               private store: Store<CMStore>) {
@@ -27,12 +26,6 @@ export class Toolbar0Component implements OnInit {
                 this.settingsService.cmsettings
                       .subscribe((data) => {
                         this.cmsettings = data;
-                        if (this.cmsettings.mode === 'quizing') {
-                          this.mode = 'quizing';
-                        } else {
-                          this.mode = '';
-                        }
-                        // console.log(data);
                       });
               }
 

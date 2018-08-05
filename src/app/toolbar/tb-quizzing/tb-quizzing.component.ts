@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { SettingsService } from '../../shared/settings.service';
@@ -19,7 +19,7 @@ import { CMColorbar } from '../../models/CMColorbar';
   templateUrl: './tb-quizzing.component.html',
   styleUrls: ['./tb-quizzing.component.scss']
 })
-export class TbQuizzingComponent implements OnInit {
+export class TbQuizzingComponent implements OnInit, OnDestroy {
   public cmsettings: CMSettings;
   public buttons: Observable<CMButton[]>;
   public colors: Observable<CMColorbar[]>;
@@ -68,9 +68,9 @@ export class TbQuizzingComponent implements OnInit {
                         this.cmsettings = data;
                         if (this.cmsettings.mode === 'quizing') {
                           this.mode = 'quizing';
+                          console.log(this.nooverdue);
                           if (this.nooverdue) {
                             this.getOverdue();
-                            this.nooverdue = false;
                           }
                         } else {
                           if (this.mode === 'quizing') {
@@ -80,10 +80,16 @@ export class TbQuizzingComponent implements OnInit {
                           this.mode = '';
                         }
                         // console.log(data);
-                      });
+                      }).unsubscribe();
               }
 
   public ngOnInit() {
+  }
+
+  public ngOnDestroy() {
+    this.electronService.ipcRenderer.removeAllListeners('loadedQuizes');
+    this.unQuiz();
+    console.log('quiz toolbar destroyed');
   }
 
   // finds element by title
@@ -183,12 +189,15 @@ export class TbQuizzingComponent implements OnInit {
 
   // finds quiz elements that are overdue
   public getOverdue() {
-    if (this.cmsettings['cmtbquizedit']['interval']) {
-      this.electronService.ipcRenderer.send('loadQuizes', parseInt(this.cmsettings.cmtbquizedit.interval, 10));
-    } else {
-      this.electronService.ipcRenderer.send('loadQuizes', 42);
+    if (this.nooverdue) {
+      console.info('getOverdue', this.nooverdue);
+      this.nooverdue = false;
+      if (this.cmsettings['cmtbquizedit']['interval']) {
+        this.electronService.ipcRenderer.send('loadQuizes', parseInt(this.cmsettings.cmtbquizedit.interval, 10));
+      } else {
+        this.electronService.ipcRenderer.send('loadQuizes', 42);
+      }
     }
-
   }
 
   // moves view to entered coordinates
@@ -198,6 +207,7 @@ export class TbQuizzingComponent implements OnInit {
 
   // removes quizes
   public unQuiz() {
+    console.log('unQuiz');
     if (this.overduearray.length > 0) {
       for (let key in this.overduearray) {
         if (this.overduearray[key]) {

@@ -98,8 +98,8 @@
     "cngtemp": false,
     "contentPos": -1,
     "coor": {
-      "x": 439267,
-      "y": 327862
+      "x": 440566,
+      "y": 327682
     },
     "copy": {
       "num": 0,
@@ -135,7 +135,7 @@
       "z-index": 490
     },
     "mnemocolor": "#ff05ee",
-    "mode": "view",
+    "mode": "edit",
     "pointArray": [],
     "selcmeo": {
       "cat": [],
@@ -359,7 +359,7 @@
       "shadowcolor": "#4f4f4f"
     },
     "tblayout0": {
-      "display": "block",
+      "display": "none",
       "height": 80,
       "left": 0,
       "opacity": 0.8,
@@ -369,7 +369,7 @@
       "z-index": 510
     },
     "tblayout1": {
-      "display": "none",
+      "display": "block",
       "height": 80,
       "left": 0,
       "opacity": 0.8,

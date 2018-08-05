@@ -98,8 +98,8 @@
     "cngtemp": false,
     "contentPos": -1,
     "coor": {
-      "x": 439267,
-      "y": 327862
+      "x": 440566,
+      "y": 327682
     },
     "copy": {
       "num": 0,
@@ -123,7 +123,7 @@
     "epath": "",
     "id": 1,
     "latexcolor": "#000000",
-    "maxid": 26772,
+    "maxid": 26771,
     "menue": {
       "display": "block",
       "height": 400,

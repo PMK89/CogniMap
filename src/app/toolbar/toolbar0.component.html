@@ -6,8 +6,8 @@
    <td>
      <app-s-button [buttons]="buttons" [selector]="613"></app-s-button>
    </td>
-   <td *ngIf="mode==='quizing'">
-     <app-tb-quizzing></app-tb-quizzing>
+   <td>
+     <app-tb-quizzing *ngIf="cmsettings.mode==='quizing'"></app-tb-quizzing>
    </td>
    <td>
 
