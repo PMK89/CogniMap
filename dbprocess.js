@@ -301,6 +301,7 @@ const createDbWindow = function createDbWindow() {
 
   // load database
   ipcMain.on('loadDb', function (event, arg) {
+    syncQuiz();
     var db = JSON.parse(fs.readFileSync(arg));
     var i;
     var l = db.length;
@@ -575,7 +576,10 @@ const createDbWindow = function createDbWindow() {
         }
       }
       quizcmes = [];
-      event.sender.send('loadedQuizes', quizcmes);
+      var quizres = {
+        quizes: quizcmes
+      }
+      event.sender.send('loadedQuizes', quizres);
     }
   })
 
@@ -611,7 +615,10 @@ const createDbWindow = function createDbWindow() {
                   if (err) console.log(err); // #error message
         				});
                 quizcmes.splice(pos0, 1);
-                event.sender.send('loadedQuizes', quizcmes);
+                var quizres = {
+                  quizes: quizcmes
+                }
+                event.sender.send('loadedQuizes', quizres);
               }
             }
             saveQuizes();
@@ -677,15 +684,17 @@ function makeQuiz(id , dif, int, cat0) {
 }
 
 // synchronizes quizes with a JSON file element
-function syncQuiz(id , dif, int, cat0) {
-  if(id) {
+function syncQuiz() {
+  if(true) {
     if (quizes.length === 0) {
       loadQuizes();
     }
     var quizes_old = [];
+    console.log('syncQuiz');
     if (fs.existsSync('./data/quizes_old.json')) {
       quizes_old = JSON.parse(fs.readFileSync('./data/quizes_old.json'));
       const l = quizes.length;
+      console.log(l);
       var i;
       for (i = 0; i < l; i++) {
         if (quizes[i]) {
@@ -696,6 +705,7 @@ function syncQuiz(id , dif, int, cat0) {
                   quizes[i].difficulty = quiz.difficulty;
                   quizes[i].interval = quiz.interval;
                   quizes[i].update = quiz.update;
+                  console.log(quizes[i]);
                 }
               }
             })

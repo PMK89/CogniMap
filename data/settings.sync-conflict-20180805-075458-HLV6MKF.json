@@ -98,8 +98,8 @@
     "cngtemp": false,
     "contentPos": 0,
     "coor": {
-      "x": 282193,
-      "y": 173284
+      "x": 229448,
+      "y": 224470
     },
     "copy": {
       "num": 0,
@@ -108,7 +108,7 @@
       "strgArray": [],
       "type": "content"
     },
-    "copycolor": "#f2e26c",
+    "copycolor": "#080a4d",
     "currentMeta": {
       "comment": "",
       "name": "\"Jess, Wasserscheid - Chemical Technology - An Integral Textbook\".pdf",
@@ -123,7 +123,7 @@
     "epath": "",
     "id": 1,
     "latexcolor": "#000000",
-    "maxid": 26497,
+    "maxid": 26667,
     "menue": {
       "display": "block",
       "height": 400,
@@ -135,7 +135,7 @@
       "z-index": 490
     },
     "mnemocolor": "#ff05ee",
-    "mode": "edit",
+    "mode": "quizing",
     "pointArray": [],
     "selcmeo": {
       "cat": [],
@@ -359,17 +359,17 @@
       "shadowcolor": "#4f4f4f"
     },
     "tblayout0": {
-      "display": "none",
-      "height": 20,
+      "display": "block",
+      "height": 80,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
       "top": 0,
-      "width": 150,
+      "width": 1800,
       "z-index": 510
     },
     "tblayout1": {
-      "display": "block",
+      "display": "none",
       "height": 80,
       "left": 0,
       "opacity": 0.8,

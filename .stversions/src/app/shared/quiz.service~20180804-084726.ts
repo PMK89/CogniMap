@@ -50,18 +50,7 @@ export class QuizService {
                 let quizcme = this.elementService.CMEtoCMEol(quizcmer);
                 let pos = parseInt(tpquizval.slice(tpquizval.indexOf('_') + 1), 10);
                 if (quizcme.cmobject.content[pos]) {
-                  let islatex = false;
-                  if (quizcme.cmobject.meta) {
-                    if (quizcme.cmobject.meta[0]) {
-                      if (quizcme.cmobject.meta[0]['type']) {
-                        if (quizcme.cmobject.meta[0]['type'] === 'LaTeXquiz') {
-                          // open latex editor with quiz
-                          islatex = true;
-                        }
-                      }
-                    }
-                  }
-                  if (islatex) {
+                  if (quizcme.cmobject.meta[0]['type'] === 'LaTeXquiz') {
                     // open latex editor with quiz
                     this.elementService.setSelectedCME(id0);
                     this.cmsettings.widget0 = 'equation';

@@ -98,13 +98,13 @@
     "cngtemp": false,
     "contentPos": -1,
     "coor": {
-      "x": 440566,
-      "y": 327682
+      "x": 439626,
+      "y": 328361
     },
     "copy": {
       "num": 0,
       "numArray": [],
-      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1533451351666.png\",\"width\":144.90625,\"info\":\"png\",\"height\":70,\"correct\":true}",
+      "strg": "{\"cat\":\"i_100\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1513240838985t.png\",\"width\":100,\"info\":\"png\",\"height\":100}",
       "strgArray": [],
       "type": "content"
     },
@@ -123,7 +123,7 @@
     "epath": "",
     "id": 1,
     "latexcolor": "#000000",
-    "maxid": 26768,
+    "maxid": 26643,
     "menue": {
       "display": "block",
       "height": 400,

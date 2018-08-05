@@ -20,11 +20,16 @@ var datahistory = [];
 
 var quizes = [];
 var quizcmes = [];
+var quiztime = [];
+var quizcat = [];
 var quiz = '';
 
 const WORST = 0;
-const CORRECT = 0.6;
-const BEST = 1;
+const BAD = 1;
+const FLAWED = 2
+const CORRECT = 3;
+const GOOD = 4;
+const BEST = 5;
 
 const DAY_IN_MINISECONDS = 24 * 60 * 60 * 1000;
 const getDaysSinceEpoch = () => (
@@ -33,42 +38,43 @@ const getDaysSinceEpoch = () => (
 
 const TODAY = getDaysSinceEpoch();
 
-const limitNumber = (number, min, max) => {
-  let ret = number;
-  if (number < min) {
-    ret = min;
-  } else if (number > max) {
-    ret = max;
-  }
-
-  return ret;
-};
-
-const getPercentOverdue = (word, today) => {
-  const calculated = (today - word.update) / word.interval;
-  return calculated > 2 ? 2 : calculated;
-};
-
 const calculate = (word, performanceRating, today) => {
-  const percentOverDue = getPercentOverdue(word, today);
-  const difficulty = limitNumber(
-    word.difficulty + (8 - 9 * performanceRating) * percentOverDue / 17,
-                                 0, 1);
-  const difficultyWeight = 3 - 1.7 * difficulty;
-  let interval;
-  if (performanceRating === WORST) {
-    interval = Math.round(1 / difficultyWeight / difficultyWeight) || 1;
+  var timeinterval;
+  var interval;
+  var difficulty;
+  if (performanceRating < 3) {
+    difficulty = word.difficulty;
+    interval = 1;
   } else {
-    interval = Math.ceil(Math.pow((1 - difficulty), 3) * word.interval) + Math.round((difficultyWeight - 1) * percentOverDue);
-    // console.log(Math.ceil(Math.pow((1 - difficulty), 3) * word.interval), Math.round((difficultyWeight - 1) * percentOverDue), percentOverDue, interval);
+    difficulty = Math.max(
+      word.difficulty + (0.1 - (5 - performanceRating) * (0.08 + (5 - performanceRating) * 0.02)),
+                                   1.3);
+    if (word.interval === 1) {
+      timeinterval = 1;
+    } else if (word.interval === 2) {
+      timeinterval = 6;
+    } else {
+      timeinterval = Math.max(Math.ceil((word.interval - 1) * difficulty), 6);
+      // console.log(Math.ceil(Math.pow((1 - difficulty), 3) * word.interval), Math.round((difficultyWeight - 1) * percentOverDue), percentOverDue, interval);
+    }
+    interval = word.interval + 1;
   }
+  if (performanceRating < 4) {
+    var pos0 = quizcmes.findIndex(i => i.id === word.id);
+    if (pos0 > -1) {
+      if (quizcmes[pos0]) {
+        timeinterval = -100;
+        quizcmes.push(quizcmes[pos0]);
+      }
+    }
+  }
+  console.log(difficulty, performanceRating, interval, timeinterval);
 
   return {
-    difficulty,
-    interval,
-    dueDate: today + interval,
-    update: today,
-    word: word.word,
+    difficulty: difficulty,
+    interval: interval,
+    update: today + timeinterval,
+    word: word.id
   };
 };
 
@@ -283,9 +289,9 @@ const createDbWindow = function createDbWindow() {
     event.returnValue = 'Not valid';
   })
 
-  // gets all elements from db
-  ipcMain.on('getAllCME', function (event, arg) {
-    cme.find({}, function(err, data) {
+  // gets all elements from db with certain priority
+  ipcMain.on('getAllPrio', function (event, arg) {
+    cme.find({prio: arg}, function(err, data) {
       if (err) console.log(err);
       if (data) {
         event.returnValue = data;
@@ -295,6 +301,7 @@ const createDbWindow = function createDbWindow() {
 
   // load database
   ipcMain.on('loadDb', function (event, arg) {
+    syncQuiz();
     var db = JSON.parse(fs.readFileSync(arg));
     var i;
     var l = db.length;
@@ -363,8 +370,8 @@ const createDbWindow = function createDbWindow() {
         var int = Number(cmo['style']['object']['str']);
         console.log('weight: ' + cmo['style']['object']['weight'] + ' interval: ' + cmo['style']['object']['str']);
         if (typeof dif === 'number' && typeof int === 'number') {
-          if (dif > 0 && dif <= 1) {
-            changeQuiz(arg.id, dif, int);
+          if (dif >= 1.3) {
+            changeQuiz(arg.id, dif, int, arg.cat);
           }
         }
       }
@@ -404,20 +411,6 @@ const createDbWindow = function createDbWindow() {
 	  });
   })
 
-  // get highest ID
-  ipcMain.on('maxID', (event, arg) => {
-    // console.log('Parameters: ', arg);
-    cme.find({}).sort({id: -1}).limit(1).exec(function(err, data) {
-		  if (err) console.log(err);
-      if (data[0]) {
-        var max = data[0].id;
-        event.returnValue = max;
-      } else {
-        event.returnValue = 'error: no data[0]';
-      }
-	  });
-  })
-
   // finds cmes within given boundaries
   ipcMain.on('loadCME', (event, arg) => {
     const t0 = Date.now();
@@ -447,8 +440,8 @@ const createDbWindow = function createDbWindow() {
         var dif = cmo['style']['object']['weight'];
         var int = Number(cmo['style']['object']['str']);
         if (typeof dif === 'number' && typeof int === 'number') {
-          if (dif > 0 && dif <= 1) {
-            makeQuiz(arg.id, dif, int);
+          if (dif >= 1.3) {
+            makeQuiz(arg.id, dif, int, arg.cat);
           }
         }
       }
@@ -484,13 +477,25 @@ const createDbWindow = function createDbWindow() {
     })
     const today0 = TODAY;
     var overduearray = [];
+    quizcat = [];
     quizes.forEach((quiz) => {
       if (quiz) {
-        var overdue = getPercentOverdue(quiz, today0);
         // console.log(overdue);
-        if (overdue >= 2) {
+        quizcat.push(quiz.cat);
+        var quizcatlen = quizcat.length;
+        if (today0 >= quiz.update) {
           // console.log(quiz);
-          overduearray.push({id: quiz.id, od: overdue, interval: quiz.interval, dif: quiz.difficulty});
+          if (quizcatlen > 0) {
+            quizcat[(quizcatlen - 1)].push(quiz.id);
+          }
+          overduearray.push({id: quiz.id, od: (today0 - quiz.update), interval: quiz.interval, dif: quiz.difficulty});
+        } else {
+          const dueday = quiz.update - today0;
+          if (quiztime[dueday]) {
+            quiztime[dueday] += 1;
+          } else {
+            quiztime[dueday] = 1;
+          }
         }
       }
     })
@@ -498,6 +503,61 @@ const createDbWindow = function createDbWindow() {
     console.log(l);
     if (l > 0) {
       overduearray.sort(function(a, b){return b.od - a.od});
+      overduearray.splice(arg);
+      quizcmes = [];
+      getOverdueQuizes(overduearray, event);
+    }
+  })
+
+  // loads quizes that are due
+  ipcMain.on('loadQuizesbyCat', (event, arg) => {
+    if (quizes.length === 0) {
+      loadQuizes();
+    }
+    const today0 = TODAY;
+    var overduearray = [];
+    console.log(arg);
+    quizes.forEach((quiz) => {
+      if (quiz) {
+        // console.log(overdue);
+        var isshown = false;
+        if (today0 >= quiz.update) {
+          isshown = true;
+        } else if (arg[0]) {
+          isshown = true;
+        }
+        if (arg[1] && isshown) {
+          if (arg[1] === quiz.cat[0]) {
+            isshown = true;
+          } else {
+            isshown = false;
+          }
+        }
+        if (arg[2] && isshown) {
+          if (arg[2] === quiz.cat[1]) {
+            isshown = true;
+          } else {
+            isshown = false;
+          }
+        }
+        if (arg[3] && isshown) {
+          if (arg[3] === quiz.cat[2]) {
+            isshown = true;
+          } else {
+            isshown = false;
+          }
+        }
+        if (isshown) {
+          // console.log(quiz);
+          overduearray.push({id: quiz.id, od: (today0 - quiz.update), interval: quiz.interval, dif: quiz.difficulty});
+        }
+      }
+    })
+    const l = overduearray.length;
+    console.log(l);
+    if (l > 0) {
+      overduearray.sort(function(a, b){return b.od - a.od});
+      quizcmes = [];
       getOverdueQuizes(overduearray, event);
     }
   })
@@ -527,17 +587,11 @@ const createDbWindow = function createDbWindow() {
       if (quizes.length === 0) {
         loadQuizes();
       }
-      var rating = WORST;
-      if (arg['scale'] === 0) {
-        rating = BEST;
-      } else if (arg['scale'] === 1) {
-        rating = CORRECT
-      }
       var pos = quizes.findIndex(i => i.id === arg['id']);
       if (pos > -1) {
         var pos0 = quizcmes.findIndex(i => i.id === arg['id']);
         if (pos0 > -1) {
-          var calc = calculate(quizes[pos], rating, TODAY);
+          var calc = calculate(quizes[pos], arg['scale'], TODAY);
           if (calc) {
             console.info(quizes[pos]);
             quizes[pos].difficulty = calc.difficulty;
@@ -592,18 +646,30 @@ const createDbWindow = function createDbWindow() {
   });
 }
 
-// deletes a quiz element
-function makeQuiz(id , dif, int) {
+// makes a quiz element
+function makeQuiz(id , dif, int, cat0) {
   if(id) {
     if (quizes.length === 0) {
       loadQuizes();
     }
+    var cat = [];
+    if (cat0) {
+      if (cat0.length > 3) {
+        cat = cat0.slice(0, 3);
+      } else {
+        cat = cat0;
+        for (var i = 0; i < (3 - cat0.length); i++) {
+          cat.push('none');
+        }
+      }
+    }
     if(quizes.findIndex(i => i.id === id) === -1) {
       var newquiz = {
         id: id,
+        cat: cat,
         update: TODAY,
-        difficulty: dif,
-        interval: int
+        difficulty: 2.5,
+        interval: 1
       };
       quizes.push(newquiz);
       saveQuizes()
@@ -611,20 +677,63 @@ function makeQuiz(id , dif, int) {
   }
 }
 
+// synchronizes quizes with a JSON file element
+function syncQuiz() {
+  if(true) {
+    if (quizes.length === 0) {
+      loadQuizes();
+    }
+    var quizes_old = [];
+    console.log('syncQuiz');
+    if (fs.existsSync('./data/quizes_old.json')) {
+      quizes_old = JSON.parse(fs.readFileSync('./data/quizes_old.json'));
+      const l = quizes.length;
+      console.log(l);
+      var i;
+      for (i = 0; i < l; i++) {
+        if (quizes[i]) {
+          if (quizes[i].id) {
+            quizes_old.forEach((quiz) => {
+              if (quiz) {
+                if (quiz.id === quizes[i].id) {
+                  quizes[i].difficulty = quiz.difficulty;
+                  quizes[i].interval = quiz.interval;
+                  quizes[i].update = quiz.update;
+                  console.log(quizes[i]);
+                }
+              }
+            })
+          }
+        }
+      }
+      saveQuizes();
+    }
+  }
+}
+
 // changes a quiz element
-function changeQuiz(id, dif, int) {
-  console.log(id, dif, int);
+function changeQuiz(id, dif, int, cat0) {
+  console.log(id, dif, int, cat0);
   if(id) {
     if (quizes.length === 0) {
       loadQuizes();
     }
+    var cat = [];
+    if (cat0) {
+      if (cat0.length > 3) {
+        cat = cat0.slice(0, 3)
+      } else {
+        cat = cat0
+      }
+    }
     var pos = quizes.findIndex(i => i.id === id);
     if (pos > -1) {
-      quizes[pos].difficulty = dif;
+      quizes[pos].difficulty = Math.max(dif, 1.3);
       quizes[pos].interval = int;
+      quizes[pos]['cat'] = cat;
       saveQuizes();
     } else {
-      makeQuiz(id , dif, int);
+      makeQuiz(id , dif, int, cat0);
     }
   }
 }
@@ -652,29 +761,44 @@ function loadQuizes() {
 
 // gets overdue quizzes and sends them to frontend
 function getOverdueQuizes(overduearray0, event) {
-  overduequiz = overduearray0.shift()
-  cme.find({ id: overduequiz.id}, function(err, data0) {
-      if (err) console.log(err);
-      data = data0[0];
-      if (data) {
-        data.types[0] = 'q1';
-        var cmo = JSON.parse(data.cmobject);
-        if (cmo['style']['object']['str']) {
-          cmo['style']['object']['str'] = String(overduequiz.interval);
-          cmo['style']['object']['weight'] = overduequiz.dif;
-          data.cmobject = JSON.stringify(cmo);
-          quizcmes.push(data)
-          data.save(function (err) {
-            if (err) console.log(err); // #error message
-          });
-          if (overduearray0.length === 0) {
-            event.sender.send('loadedQuizes', quizcmes);
-          } else {
-            getOverdueQuizes(overduearray0, event)
+  if (overduearray0.length === 0) {
+    var quizres = {
+      catlist: quizcat,
+      timelist: quiztime,
+      quizes: []
+    }
+    event.sender.send('loadedQuizes', quizres);
+  } else {
+    var overduequiz = overduearray0.shift()
+    cme.find({ id: overduequiz.id}, function(err, data0) {
+        if (err) console.log(err);
+        var data = data0[0];
+        if (data) {
+          data.types[0] = 'q1';
+          var cmo = JSON.parse(data.cmobject);
+          if (cmo['style']['object']['str']) {
+            cmo['style']['object']['str'] = String(overduequiz.interval);
+            cmo['style']['object']['weight'] = overduequiz.dif;
+            data.cmobject = JSON.stringify(cmo);
+            quizcmes.push(data);
+            data.save(function (err) {
+              if (err) console.log(err); // #error message
+            });
+            if (overduearray0.length === 0) {
+              event.sender.send('changedCME', quizcmes);
+              var quizres = {
+                catlist: quizcat,
+                timelist: quiztime,
+                quizes: quizcmes
+              }
+              event.sender.send('loadedQuizes', quizres);
+            } else {
+              getOverdueQuizes(overduearray0, event)
+            }
           }
         }
-      }
-   });
+     });
+  }
 }
 
 // gets all elements with same category

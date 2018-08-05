@@ -31,6 +31,7 @@
     "blocked": false,
     "cat": "tbobject1",
     "colors": [
+      "#080a4d",
       "#8668f0",
       "#565656",
       "#23bf30",
@@ -39,8 +40,7 @@
       "#b693b3",
       "#723765",
       "#4025f5",
-      "#b061a1",
-      "#9b4ffe"
+      "#b061a1"
     ],
     "cuppled": false,
     "group": "",

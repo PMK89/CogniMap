@@ -96,19 +96,19 @@
       ]
     },
     "cngtemp": false,
-    "contentPos": -1,
+    "contentPos": 0,
     "coor": {
-      "x": 440566,
-      "y": 327682
+      "x": 375623,
+      "y": 243581
     },
     "copy": {
       "num": 0,
       "numArray": [],
-      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1533451351666.png\",\"width\":144.90625,\"info\":\"png\",\"height\":70,\"correct\":true}",
+      "strg": "{\"cat\":\"i_100\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1513240838985t.png\",\"width\":100,\"info\":\"png\",\"height\":100}",
       "strgArray": [],
       "type": "content"
     },
-    "copycolor": "#080a4d",
+    "copycolor": "#f2e26c",
     "currentMeta": {
       "comment": "",
       "name": "\"Jess, Wasserscheid - Chemical Technology - An Integral Textbook\".pdf",
@@ -123,7 +123,7 @@
     "epath": "",
     "id": 1,
     "latexcolor": "#000000",
-    "maxid": 26768,
+    "maxid": 26498,
     "menue": {
       "display": "block",
       "height": 400,
@@ -135,7 +135,7 @@
       "z-index": 490
     },
     "mnemocolor": "#ff05ee",
-    "mode": "edit",
+    "mode": "view",
     "pointArray": [],
     "selcmeo": {
       "cat": [],
@@ -359,17 +359,17 @@
       "shadowcolor": "#4f4f4f"
     },
     "tblayout0": {
-      "display": "none",
-      "height": 80,
+      "display": "block",
+      "height": 20,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
       "top": 0,
-      "width": 1800,
+      "width": 150,
       "z-index": 510
     },
     "tblayout1": {
-      "display": "block",
+      "display": "none",
       "height": 80,
       "left": 0,
       "opacity": 0.8,
@@ -378,7 +378,7 @@
       "width": 1800,
       "z-index": 515
     },
-    "widget0": "none",
+    "widget0": "equation",
     "widget1": "none",
     "wlayout0": {
       "display": "none",

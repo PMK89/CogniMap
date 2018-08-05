@@ -50,8 +50,6 @@ export class TbQuizzingComponent implements OnInit {
                     console.info(arg);
                     if (arg['quizes']) {
                       this.overduearray = arg['quizes'];
-                    } else {
-                      this.overduearray = [];
                     }
                     if (arg['timelist']) {
                       this.timelist = arg['timelist'];
