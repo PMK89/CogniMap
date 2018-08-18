@@ -86,7 +86,7 @@
     "@ngrx/effects": "^2.0.2",
     "@ngrx/store": "^2.2.1",
     "@types/snapsvg": "^0.4.28",
-    "codemirror": "^5.28.0",
+    "codemirror": "^5.39.2",
     "core-js": "^2.4.1",
     "dom-to-image": "^2.5.2",
     "electron": "^2.0.2",

@@ -87,7 +87,7 @@
     "cmtbquizedit": {
       "color0": "none",
       "color1": "#1200ff",
-      "difficulty": 1.8,
+      "difficulty": 1.5,
       "interval": "42",
       "types": [
         "q",
@@ -98,22 +98,22 @@
     "cngtemp": false,
     "contentPos": -1,
     "coor": {
-      "x": 439267,
-      "y": 327862
+      "x": 370325,
+      "y": 203520
     },
     "copy": {
       "num": 0,
       "numArray": [],
-      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1533451351666.png\",\"width\":144.90625,\"info\":\"png\",\"height\":70,\"correct\":true}",
+      "strg": "{\"cat\":\"i_100\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"assets/images/cm/pmk_1510129917992.png\",\"width\":100,\"info\":\"png\",\"height\":100}",
       "strgArray": [],
       "type": "content"
     },
     "copycolor": "#080a4d",
     "currentMeta": {
       "comment": "",
-      "name": "\"Jess, Wasserscheid - Chemical Technology - An Integral Textbook\".pdf",
-      "path": "/home/pmk/cognimap/src/assets/pdf/technical chemistry/Jess, Wasserscheid - Chemical Technology - An Integral Textbook.pdf",
-      "pos": "59",
+      "name": "s41524-018-0064-0.pdf",
+      "path": "/home/pmk/cognimap/src/assets/pdf/physics/Scripts/Funktionsmaterialien/s41524-018-0064-0.pdf",
+      "pos": "0",
       "type": "pdf"
     },
     "debug": true,
@@ -123,7 +123,7 @@
     "epath": "",
     "id": 1,
     "latexcolor": "#000000",
-    "maxid": 26772,
+    "maxid": 27497,
     "menue": {
       "display": "block",
       "height": 400,
@@ -135,7 +135,7 @@
       "z-index": 490
     },
     "mnemocolor": "#ff05ee",
-    "mode": "view",
+    "mode": "edit",
     "pointArray": [],
     "selcmeo": {
       "cat": [],
@@ -359,7 +359,7 @@
       "shadowcolor": "#4f4f4f"
     },
     "tblayout0": {
-      "display": "block",
+      "display": "none",
       "height": 80,
       "left": 0,
       "opacity": 0.8,
@@ -369,7 +369,7 @@
       "z-index": 510
     },
     "tblayout1": {
-      "display": "none",
+      "display": "block",
       "height": 80,
       "left": 0,
       "opacity": 0.8,

@@ -28,7 +28,7 @@ import 'codemirror/mode/stex/stex';
 export class CodeeditorComponent implements OnInit {
   public cmsettings: Observable<CMSettings> = this.store.select('settings');
   public modes = ['text/x-sh', 'text/x-c++src', 'text/x-csrc', 'application/x-ejs', 'text/html',
-  'text/x-go', 'text/javascript', 'text/x-php', 'text/x-python', 'text/x-stex', 'application/typescript'];
+  'text/x-go', 'text/javascript', 'text/x-php', 'text/x-python', 'text/x-julia', 'text/x-stex', 'application/typescript'];
   public mode: string = this.modes[7];
   public config = {
     lineNumbers: true,

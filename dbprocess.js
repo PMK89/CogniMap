@@ -267,6 +267,9 @@ const createDbWindow = function createDbWindow() {
 
     // save database to json file
     ipcMain.on('saveDb', function (event, arg) {
+      if (quizes.length === 0) {
+        loadQuizes();
+      }
       cme.find({}).sort({cdate: 1}).exec(function(err, data) {
         if (err) console.log(err);
         if (data) {
@@ -274,12 +277,41 @@ const createDbWindow = function createDbWindow() {
           var i;
           var l = data.length;
           for (i = 0; i < l; i++) {
-            if(data[i]) {
+            if (data[i]) {
+              /*
+              if (data[i].cat) {
+                if (data[i].cat.length > 1) {
+                  var prevdata = '';
+                  var newcat = [];
+                  for (j = 0; j < data[i].cat.length; j++) {
+                    if (data[i].cat[j] !== prevdata) {
+                      newcat.push(data[i].cat[j]);
+                      prevdata = data[i].cat[j];
+                    }
+                  }
+                  data[i].cat = newcat;
+                }
+              }
+              var pos = quizes.findIndex(k => k.id === data[i].id);
+              if (pos > -1) {
+                quizes[pos].cat = newcat;
+                if (quizes[pos].cat.length > 3) {
+                  quizes[pos].cat = quizes[pos].cat.slice(0, 3);
+                } else {
+                  var cat = quizes[pos].cat.slice();
+                  for (var i = 0; i < (3 - quizes[pos].cat.length); i++) {
+                    cat.push('none');
+                  }
+                  quizes[pos].cat = cat;
+                }
+              }
+              */
               dataArray.push(data[i]);
             }
           }
           var strData = JSON.stringify(dataArray, null, 2);
           fs.writeFileSync(arg, strData);
+          saveQuizes();
           event.returnValue = 'database saved to ' + arg
         }
       });
@@ -302,7 +334,7 @@ const createDbWindow = function createDbWindow() {
 
   // load database
   ipcMain.on('loadDb', function (event, arg) {
-    syncQuiz();
+    // syncQuiz();
     var db = JSON.parse(fs.readFileSync(arg));
     var i;
     var l = db.length;
@@ -485,7 +517,7 @@ const createDbWindow = function createDbWindow() {
       quizes.forEach((quiz) => {
         if (quiz) {
           // console.log(overdue);
-          /*
+
           if (quiz.cat.length > 3) {
             quiz.cat = quiz.cat.slice(0, 3);
           } else {
@@ -495,7 +527,7 @@ const createDbWindow = function createDbWindow() {
             }
             quiz.cat = cat;
           }
-          */
+
           quizcat.push(quiz.cat.slice());
           var quizcatlen = quizcat.length;
           if (today0 >= quiz.update) {

@@ -7,15 +7,14 @@
     "cat": [
       "Chemie",
       "Organic Chemistry",
-      "Reactions",
-      12121
+      "Reactions"
     ]
   },
   {
     "id": 12122,
-    "update": 17756,
-    "difficulty": 2.7411764705882358,
-    "interval": 13,
+    "update": 17791,
+    "difficulty": 2.841176470588236,
+    "interval": 14,
     "cat": [
       "Chemie",
       "Organic Chemistry",
@@ -35,9 +34,9 @@
   },
   {
     "id": 12441,
-    "update": 17758,
-    "difficulty": 2.7,
-    "interval": 17,
+    "update": 17803,
+    "difficulty": 2.8000000000000003,
+    "interval": 18,
     "cat": [
       "Chemie",
       "Organic Chemistry",
@@ -107,8 +106,7 @@
     "cat": [
       "Chemie",
       "Organic Chemistry",
-      "Reactions",
-      12476
+      "Reactions"
     ]
   },
   {
@@ -201,9 +199,9 @@
   },
   {
     "id": 12529,
-    "update": 17750,
-    "difficulty": 2.4529411764705884,
-    "interval": 13,
+    "update": 17782,
+    "difficulty": 2.5529411764705885,
+    "interval": 14,
     "cat": [
       "Chemie",
       "Organic Chemistry",
@@ -218,11 +216,7 @@
     "cat": [
       "Chemie",
       "Organic Chemistry",
-      "Name Reactions",
-      12530,
-      12530,
-      12530,
-      12530
+      "Name Reactions"
     ]
   },
   {
@@ -255,8 +249,7 @@
     "cat": [
       "Chemie",
       "Organic Chemistry",
-      "Reactions",
-      13308
+      "Reactions"
     ]
   },
   {
@@ -267,8 +260,7 @@
     "cat": [
       "Chemie",
       "Organic Chemistry",
-      "Reactions",
-      13309
+      "Reactions"
     ]
   },
   {
@@ -295,9 +287,9 @@
   },
   {
     "id": 13312,
-    "update": 17761,
+    "update": 17804,
     "difficulty": 2.5,
-    "interval": 18,
+    "interval": 19,
     "cat": [
       "Chemie",
       "Organic Chemistry",
@@ -334,8 +326,7 @@
     "cat": [
       "Chemie",
       "Organic Chemistry",
-      "Organic Compounds",
-      13315
+      "Organic Compounds"
     ]
   },
   {
@@ -346,8 +337,7 @@
     "cat": [
       "Chemie",
       "Organic Chemistry",
-      "Organic Compounds",
-      13316
+      "Organic Compounds"
     ]
   },
   {
@@ -358,15 +348,14 @@
     "cat": [
       "Chemie",
       "Organic Chemistry",
-      "Organic Compounds",
-      13317
+      "Organic Compounds"
     ]
   },
   {
     "id": 13332,
-    "update": 17749,
+    "update": 17779,
     "difficulty": 2.4411764705882355,
-    "interval": 13,
+    "interval": 14,
     "cat": [
       "Chemie",
       "Organic Chemistry",
@@ -392,8 +381,7 @@
     "cat": [
       "Informatik",
       "Applications",
-      "Artificial Intelligence",
-      13698
+      "Artificial Intelligence"
     ]
   },
   {
@@ -409,9 +397,9 @@
   },
   {
     "id": 13700,
-    "update": 17755,
+    "update": 17796,
     "difficulty": 2.5,
-    "interval": 17,
+    "interval": 18,
     "cat": [
       "Informatik",
       "Applications",
@@ -420,9 +408,9 @@
   },
   {
     "id": 13701,
-    "update": 17755,
+    "update": 17796,
     "difficulty": 2.5,
-    "interval": 17,
+    "interval": 18,
     "cat": [
       "Informatik",
       "Applications",
@@ -442,9 +430,9 @@
   },
   {
     "id": 13703,
-    "update": 17755,
+    "update": 17796,
     "difficulty": 2.5,
-    "interval": 17,
+    "interval": 18,
     "cat": [
       "Informatik",
       "Applications",
@@ -453,9 +441,9 @@
   },
   {
     "id": 13704,
-    "update": 17755,
+    "update": 17796,
     "difficulty": 2.5,
-    "interval": 17,
+    "interval": 18,
     "cat": [
       "Informatik",
       "Applications",
@@ -475,9 +463,9 @@
   },
   {
     "id": 13706,
-    "update": 17755,
-    "difficulty": 2.5,
-    "interval": 17,
+    "update": 17798,
+    "difficulty": 2.6,
+    "interval": 18,
     "cat": [
       "Informatik",
       "Applications",
@@ -486,9 +474,9 @@
   },
   {
     "id": 13707,
-    "update": 17755,
+    "update": 17796,
     "difficulty": 2.5,
-    "interval": 17,
+    "interval": 18,
     "cat": [
       "Informatik",
       "Applications",
@@ -497,9 +485,9 @@
   },
   {
     "id": 13708,
-    "update": 17755,
+    "update": 17796,
     "difficulty": 2.5,
-    "interval": 17,
+    "interval": 18,
     "cat": [
       "Informatik",
       "Applications",
@@ -508,9 +496,9 @@
   },
   {
     "id": 13963,
-    "update": 17752,
-    "difficulty": 2.7,
-    "interval": 16,
+    "update": 17795,
+    "difficulty": 2.8000000000000003,
+    "interval": 17,
     "cat": [
       "Informatik",
       "Applications",
@@ -519,9 +507,9 @@
   },
   {
     "id": 13983,
-    "update": 17752,
-    "difficulty": 2.7,
-    "interval": 16,
+    "update": 17795,
+    "difficulty": 2.8000000000000003,
+    "interval": 17,
     "cat": [
       "Informatik",
       "Applications",
@@ -536,9 +524,7 @@
     "cat": [
       "Informatik",
       "Applications",
-      "Artificial Intelligence",
-      14014,
-      14014
+      "Artificial Intelligence"
     ]
   },
   {
@@ -549,8 +535,7 @@
     "cat": [
       "Informatik",
       "Applications",
-      "Artificial Intelligence",
-      14045
+      "Artificial Intelligence"
     ]
   },
   {
@@ -561,8 +546,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "AC1",
-      14050
+      "AC1"
     ]
   },
   {
@@ -617,9 +601,7 @@
     "cat": [
       "Chemie",
       "Organic Chemistry",
-      "Organic Compounds",
-      14179,
-      14179
+      "Organic Compounds"
     ]
   },
   {
@@ -723,9 +705,9 @@
   },
   {
     "id": 14625,
-    "update": 17749,
+    "update": 17774,
     "difficulty": 2.1941176470588233,
-    "interval": 12,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Organic Chemistry",
@@ -756,9 +738,9 @@
   },
   {
     "id": 14642,
-    "update": 17749,
+    "update": 17774,
     "difficulty": 2.1941176470588233,
-    "interval": 12,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Organic Chemistry",
@@ -921,14 +903,13 @@
   },
   {
     "id": 15024,
-    "update": 17761,
-    "difficulty": 3.500000000000001,
-    "interval": 6,
+    "update": 17780,
+    "difficulty": 3.600000000000001,
+    "interval": 7,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
-      "Changes",
-      15024
+      "Changes"
     ]
   },
   {
@@ -999,9 +980,9 @@
   },
   {
     "id": 15053,
-    "update": 17756,
-    "difficulty": 2.7411764705882358,
-    "interval": 13,
+    "update": 17791,
+    "difficulty": 2.841176470588236,
+    "interval": 14,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1093,9 +1074,7 @@
     "cat": [
       "Mathematik",
       "Pure Mathematics",
-      "Changes",
-      15163,
-      15163
+      "Changes"
     ]
   },
   {
@@ -1106,9 +1085,7 @@
     "cat": [
       "Mathematik",
       "Pure Mathematics",
-      "Changes",
-      15164,
-      15164
+      "Changes"
     ]
   },
   {
@@ -1119,8 +1096,7 @@
     "cat": [
       "Mathematik",
       "Pure Mathematics",
-      "Changes",
-      15165
+      "Changes"
     ]
   },
   {
@@ -1131,9 +1107,7 @@
     "cat": [
       "Mathematik",
       "Pure Mathematics",
-      "Changes",
-      15166,
-      15166
+      "Changes"
     ]
   },
   {
@@ -1144,9 +1118,7 @@
     "cat": [
       "Mathematik",
       "Pure Mathematics",
-      "Changes",
-      15167,
-      15167
+      "Changes"
     ]
   },
   {
@@ -1173,41 +1145,8 @@
   },
   {
     "id": 15227,
-    "update": 17753,
+    "update": 17780,
     "difficulty": 2.323529411764706,
-    "interval": 11,
-    "cat": [
-      "Physik",
-      "Classical Physics",
-      "Classical Mechanics"
-    ]
-  },
-  {
-    "id": 15228,
-    "update": 17754,
-    "difficulty": 2.423529411764706,
-    "interval": 11,
-    "cat": [
-      "Physik",
-      "Classical Physics",
-      "Classical Mechanics"
-    ]
-  },
-  {
-    "id": 15242,
-    "update": 17753,
-    "difficulty": 1.5776470588235296,
-    "interval": 11,
-    "cat": [
-      "Physik",
-      "Classical Physics",
-      "Classical Mechanics"
-    ]
-  },
-  {
-    "id": 15250,
-    "update": 17755,
-    "difficulty": 2.4705882352941178,
     "interval": 12,
     "cat": [
       "Physik",
@@ -1216,10 +1155,43 @@
     ]
   },
   {
+    "id": 15228,
+    "update": 17782,
+    "difficulty": 2.5235294117647062,
+    "interval": 12,
+    "cat": [
+      "Physik",
+      "Classical Physics",
+      "Classical Mechanics"
+    ]
+  },
+  {
+    "id": 15242,
+    "update": 17772,
+    "difficulty": 1.5776470588235296,
+    "interval": 12,
+    "cat": [
+      "Physik",
+      "Classical Physics",
+      "Classical Mechanics"
+    ]
+  },
+  {
+    "id": 15250,
+    "update": 17785,
+    "difficulty": 2.570588235294118,
+    "interval": 13,
+    "cat": [
+      "Physik",
+      "Classical Physics",
+      "Classical Mechanics"
+    ]
+  },
+  {
     "id": 15296,
-    "update": 17753,
-    "difficulty": 2.219607843137255,
-    "interval": 10,
+    "update": 17777,
+    "difficulty": 2.319607843137255,
+    "interval": 11,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1239,9 +1211,9 @@
   },
   {
     "id": 15520,
-    "update": 17760,
-    "difficulty": 2.2,
-    "interval": 100,
+    "update": 17988,
+    "difficulty": 2.3000000000000003,
+    "interval": 101,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1261,9 +1233,9 @@
   },
   {
     "id": 15556,
-    "update": 17760,
+    "update": 17978,
     "difficulty": 2.2,
-    "interval": 100,
+    "interval": 101,
     "cat": [
       "Informatik",
       "Applications",
@@ -1272,9 +1244,9 @@
   },
   {
     "id": 15606,
-    "update": 17754,
+    "update": 17774,
     "difficulty": 1.9705882352941178,
-    "interval": 10,
+    "interval": 11,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1294,9 +1266,9 @@
   },
   {
     "id": 15608,
-    "update": 17750,
-    "difficulty": 1.5470588235294118,
-    "interval": 11,
+    "update": 17768,
+    "difficulty": 1.647058823529412,
+    "interval": 12,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1316,9 +1288,9 @@
   },
   {
     "id": 15640,
-    "update": 17758,
+    "update": 17778,
     "difficulty": 1.790588235294118,
-    "interval": 12,
+    "interval": 13,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1327,9 +1299,9 @@
   },
   {
     "id": 15641,
-    "update": 17751,
+    "update": 17768,
     "difficulty": 1.690588235294118,
-    "interval": 11,
+    "interval": 12,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1344,18 +1316,14 @@
     "cat": [
       "Physik",
       "Classical Physics",
-      "Classical Mechanics",
-      15671,
-      15671,
-      15671,
-      15671
+      "Classical Mechanics"
     ]
   },
   {
     "id": 15699,
-    "update": 17755,
+    "update": 17775,
     "difficulty": 1.8129411764705885,
-    "interval": 11,
+    "interval": 12,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1375,9 +1343,9 @@
   },
   {
     "id": 15758,
-    "update": 17755,
-    "difficulty": 1.8294117647058825,
-    "interval": 11,
+    "update": 17776,
+    "difficulty": 1.9294117647058826,
+    "interval": 12,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1386,9 +1354,9 @@
   },
   {
     "id": 15794,
-    "update": 17755,
-    "difficulty": 1.7823529411764707,
-    "interval": 11,
+    "update": 17775,
+    "difficulty": 1.8823529411764708,
+    "interval": 12,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1419,9 +1387,9 @@
   },
   {
     "id": 15901,
-    "update": 17755,
+    "update": 17773,
     "difficulty": 1.6647058823529413,
-    "interval": 11,
+    "interval": 12,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1441,9 +1409,9 @@
   },
   {
     "id": 15927,
-    "update": 17753,
+    "update": 17773,
     "difficulty": 1.4800000000000006,
-    "interval": 12,
+    "interval": 13,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1463,9 +1431,9 @@
   },
   {
     "id": 16032,
-    "update": 17753,
+    "update": 17776,
     "difficulty": 2.1176470588235294,
-    "interval": 10,
+    "interval": 11,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1485,9 +1453,9 @@
   },
   {
     "id": 16071,
-    "update": 17750,
-    "difficulty": 2.9235294117647066,
-    "interval": 3,
+    "update": 17768,
+    "difficulty": 3.1235294117647068,
+    "interval": 5,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1529,9 +1497,9 @@
   },
   {
     "id": 16153,
-    "update": 17756,
-    "difficulty": 2.7411764705882358,
-    "interval": 13,
+    "update": 17791,
+    "difficulty": 2.841176470588236,
+    "interval": 14,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1551,9 +1519,9 @@
   },
   {
     "id": 16155,
-    "update": 17753,
+    "update": 17779,
     "difficulty": 2.0258823529411765,
-    "interval": 12,
+    "interval": 13,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1562,9 +1530,9 @@
   },
   {
     "id": 16156,
-    "update": 17756,
+    "update": 17776,
     "difficulty": 1.9482352941176473,
-    "interval": 11,
+    "interval": 12,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1579,8 +1547,7 @@
     "cat": [
       "Physik",
       "Classical Physics",
-      "Classical Mechanics",
-      16157
+      "Classical Mechanics"
     ]
   },
   {
@@ -1607,9 +1574,9 @@
   },
   {
     "id": 16196,
-    "update": 17754,
-    "difficulty": 3.0058823529411773,
-    "interval": 5,
+    "update": 17769,
+    "difficulty": 3.1058823529411774,
+    "interval": 6,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -1657,11 +1624,7 @@
     "cat": [
       "Physik",
       "Classical Physics",
-      "Electromagnetism",
-      16252,
-      16252,
-      16252,
-      16252
+      "Electromagnetism"
     ]
   },
   {
@@ -1677,9 +1640,9 @@
   },
   {
     "id": 16254,
-    "update": 17749,
-    "difficulty": 2.4411764705882355,
-    "interval": 13,
+    "update": 17780,
+    "difficulty": 2.5411764705882356,
+    "interval": 14,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1688,9 +1651,9 @@
   },
   {
     "id": 16329,
-    "update": 17751,
-    "difficulty": 3.1000000000000005,
-    "interval": 6,
+    "update": 17768,
+    "difficulty": 3.2000000000000006,
+    "interval": 7,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1716,22 +1679,18 @@
     "cat": [
       "Physik",
       "Classical Physics",
-      "Electromagnetism",
-      16331
+      "Electromagnetism"
     ]
   },
   {
     "id": 16332,
-    "update": 17758,
-    "difficulty": 3.188235294117648,
-    "interval": 6,
+    "update": 17775,
+    "difficulty": 3.2882352941176483,
+    "interval": 7,
     "cat": [
       "Physik",
       "Classical Physics",
-      "Electromagnetism",
-      16332,
-      16332,
-      16332
+      "Electromagnetism"
     ]
   },
   {
@@ -1742,15 +1701,14 @@
     "cat": [
       "Physik",
       "Classical Physics",
-      "Electromagnetism",
-      16333
+      "Electromagnetism"
     ]
   },
   {
     "id": 16334,
-    "update": 17750,
-    "difficulty": 2.705882352941177,
-    "interval": 10,
+    "update": 17762,
+    "difficulty": 3.0058823529411773,
+    "interval": 3,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1765,9 +1723,7 @@
     "cat": [
       "Physik",
       "Classical Physics",
-      "Electromagnetism",
-      16335,
-      16335
+      "Electromagnetism"
     ]
   },
   {
@@ -1794,9 +1750,9 @@
   },
   {
     "id": 16375,
-    "update": 17750,
-    "difficulty": 2.705882352941177,
-    "interval": 10,
+    "update": 17777,
+    "difficulty": 2.805882352941177,
+    "interval": 11,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -1816,9 +1772,9 @@
   },
   {
     "id": 16377,
-    "update": 17756,
-    "difficulty": 2.7411764705882358,
-    "interval": 13,
+    "update": 17791,
+    "difficulty": 2.841176470588236,
+    "interval": 14,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -1827,9 +1783,9 @@
   },
   {
     "id": 16416,
-    "update": 17758,
-    "difficulty": 2.7470588235294127,
-    "interval": 10,
+    "update": 17784,
+    "difficulty": 2.8470588235294128,
+    "interval": 11,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -1904,9 +1860,9 @@
   },
   {
     "id": 16604,
-    "update": 17754,
+    "update": 17781,
     "difficulty": 2.423529411764706,
-    "interval": 11,
+    "interval": 12,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -1948,9 +1904,9 @@
   },
   {
     "id": 16608,
-    "update": 17757,
-    "difficulty": 2.6882352941176477,
-    "interval": 10,
+    "update": 17783,
+    "difficulty": 2.788235294117648,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -1959,9 +1915,9 @@
   },
   {
     "id": 16609,
-    "update": 17756,
-    "difficulty": 2.7411764705882358,
-    "interval": 13,
+    "update": 17791,
+    "difficulty": 2.841176470588236,
+    "interval": 14,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -2003,9 +1959,9 @@
   },
   {
     "id": 16803,
-    "update": 17754,
+    "update": 17781,
     "difficulty": 2.423529411764706,
-    "interval": 11,
+    "interval": 12,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -2014,9 +1970,9 @@
   },
   {
     "id": 16804,
-    "update": 17761,
-    "difficulty": 2.552941176470589,
-    "interval": 10,
+    "update": 17785,
+    "difficulty": 2.652941176470589,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -2119,9 +2075,7 @@
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Time and Change",
-      16852,
-      16852
+      "Time and Change"
     ]
   },
   {
@@ -2137,9 +2091,9 @@
   },
   {
     "id": 16854,
-    "update": 17756,
-    "difficulty": 2.7411764705882358,
-    "interval": 13,
+    "update": 17791,
+    "difficulty": 2.841176470588236,
+    "interval": 14,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -2159,9 +2113,9 @@
   },
   {
     "id": 16888,
-    "update": 17757,
-    "difficulty": 2.6882352941176477,
-    "interval": 10,
+    "update": 17783,
+    "difficulty": 2.788235294117648,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -2170,14 +2124,13 @@
   },
   {
     "id": 16952,
-    "update": 17761,
-    "difficulty": 2.83529411764706,
-    "interval": 7,
+    "update": 17779,
+    "difficulty": 2.93529411764706,
+    "interval": 8,
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Time and Change",
-      16952
+      "Time and Change"
     ]
   },
   {
@@ -2215,30 +2168,8 @@
   },
   {
     "id": 17001,
-    "update": 17750,
-    "difficulty": 2.3882352941176475,
-    "interval": 10,
-    "cat": [
-      "Physik",
-      "Quantum Physics",
-      "Time and Change"
-    ]
-  },
-  {
-    "id": 17002,
-    "update": 17759,
-    "difficulty": 2.9705882352941186,
-    "interval": 7,
-    "cat": [
-      "Physik",
-      "Quantum Physics",
-      "Time and Change"
-    ]
-  },
-  {
-    "id": 17003,
-    "update": 17756,
-    "difficulty": 1.9482352941176473,
+    "update": 17774,
+    "difficulty": 2.4882352941176475,
     "interval": 11,
     "cat": [
       "Physik",
@@ -2247,10 +2178,32 @@
     ]
   },
   {
+    "id": 17002,
+    "update": 17778,
+    "difficulty": 3.0705882352941187,
+    "interval": 8,
+    "cat": [
+      "Physik",
+      "Quantum Physics",
+      "Time and Change"
+    ]
+  },
+  {
+    "id": 17003,
+    "update": 17776,
+    "difficulty": 1.9482352941176473,
+    "interval": 12,
+    "cat": [
+      "Physik",
+      "Quantum Physics",
+      "Time and Change"
+    ]
+  },
+  {
     "id": 17005,
-    "update": 17757,
-    "difficulty": 2.6882352941176477,
-    "interval": 10,
+    "update": 17783,
+    "difficulty": 2.788235294117648,
+    "interval": 11,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -2303,9 +2256,9 @@
   },
   {
     "id": 17015,
-    "update": 17756,
-    "difficulty": 2.7411764705882358,
-    "interval": 13,
+    "update": 17791,
+    "difficulty": 2.841176470588236,
+    "interval": 14,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -2314,15 +2267,13 @@
   },
   {
     "id": 17020,
-    "update": 17761,
-    "difficulty": 3.141176470588236,
-    "interval": 6,
+    "update": 17778,
+    "difficulty": 3.241176470588236,
+    "interval": 7,
     "cat": [
       "Physik",
       "Classical Physics",
-      "Classical Mechanics",
-      17020,
-      17020
+      "Classical Mechanics"
     ]
   },
   {
@@ -2360,9 +2311,9 @@
   },
   {
     "id": 17170,
-    "update": 17761,
-    "difficulty": 2.5,
-    "interval": 18,
+    "update": 17806,
+    "difficulty": 2.6,
+    "interval": 19,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2448,9 +2399,9 @@
   },
   {
     "id": 17283,
-    "update": 17761,
+    "update": 17804,
     "difficulty": 2.5,
-    "interval": 18,
+    "interval": 19,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2459,9 +2410,9 @@
   },
   {
     "id": 17285,
-    "update": 17751,
-    "difficulty": 3.141176470588236,
-    "interval": 7,
+    "update": 17771,
+    "difficulty": 3.241176470588236,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2470,9 +2421,9 @@
   },
   {
     "id": 17286,
-    "update": 17761,
+    "update": 17804,
     "difficulty": 2.5,
-    "interval": 18,
+    "interval": 19,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2514,9 +2465,9 @@
   },
   {
     "id": 17362,
-    "update": 17750,
-    "difficulty": 2.705882352941177,
-    "interval": 10,
+    "update": 17777,
+    "difficulty": 2.805882352941177,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2547,9 +2498,9 @@
   },
   {
     "id": 17460,
-    "update": 17759,
-    "difficulty": 2.0588235294117645,
-    "interval": 11,
+    "update": 17782,
+    "difficulty": 2.0188235294117645,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2690,9 +2641,9 @@
   },
   {
     "id": 17758,
-    "update": 17761,
+    "update": 17804,
     "difficulty": 2.5,
-    "interval": 18,
+    "interval": 19,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2701,9 +2652,9 @@
   },
   {
     "id": 17764,
-    "update": 17755,
-    "difficulty": 3.2000000000000006,
-    "interval": 8,
+    "update": 17780,
+    "difficulty": 3.3000000000000007,
+    "interval": 9,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -2712,9 +2663,9 @@
   },
   {
     "id": 17769,
-    "update": 17761,
+    "update": 17804,
     "difficulty": 2.5,
-    "interval": 18,
+    "interval": 19,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -2723,9 +2674,9 @@
   },
   {
     "id": 17777,
-    "update": 17761,
+    "update": 17804,
     "difficulty": 2.5,
-    "interval": 18,
+    "interval": 19,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -2806,9 +2757,7 @@
     "cat": [
       "Chemie",
       "Physical Chemistry",
-      "Kolloide und Grenzflächen",
-      19402,
-      19402
+      "Kolloide und Grenzflächen"
     ]
   },
   {
@@ -2857,9 +2806,9 @@
   },
   {
     "id": 19407,
-    "update": 17753,
-    "difficulty": 2.364705882352941,
-    "interval": 12,
+    "update": 17784,
+    "difficulty": 2.4647058823529413,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2912,9 +2861,9 @@
   },
   {
     "id": 19412,
-    "update": 17750,
-    "difficulty": 2.705882352941177,
-    "interval": 10,
+    "update": 17777,
+    "difficulty": 2.805882352941177,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2945,9 +2894,9 @@
   },
   {
     "id": 19415,
-    "update": 17755,
-    "difficulty": 3.2000000000000006,
-    "interval": 8,
+    "update": 17763,
+    "difficulty": 3.400000000000001,
+    "interval": 3,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -3033,9 +2982,9 @@
   },
   {
     "id": 20624,
-    "update": 17755,
-    "difficulty": 3.2000000000000006,
-    "interval": 8,
+    "update": 17780,
+    "difficulty": 3.3000000000000007,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -3160,11 +3109,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      20925,
-      20925,
-      20925,
-      20925
+      "Koordinationschemie"
     ]
   },
   {
@@ -3180,9 +3125,9 @@
   },
   {
     "id": 21013,
-    "update": 17753,
-    "difficulty": 2.011764705882353,
-    "interval": 10,
+    "update": 17776,
+    "difficulty": 2.111764705882353,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3202,9 +3147,9 @@
   },
   {
     "id": 21015,
-    "update": 17755,
-    "difficulty": 1.8235294117647058,
-    "interval": 11,
+    "update": 17776,
+    "difficulty": 1.923529411764706,
+    "interval": 12,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3219,11 +3164,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Festkörperchemie",
-      21035,
-      21035,
-      21035,
-      21035
+      "Festkörperchemie"
     ]
   },
   {
@@ -3256,11 +3197,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Festkörperchemie",
-      21038,
-      21038,
-      21038,
-      21038
+      "Festkörperchemie"
     ]
   },
   {
@@ -3271,18 +3208,14 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Festkörperchemie",
-      21039,
-      21039,
-      21039,
-      21039
+      "Festkörperchemie"
     ]
   },
   {
     "id": 21040,
-    "update": 17749,
-    "difficulty": 2.7352941176470593,
-    "interval": 12,
+    "update": 17781,
+    "difficulty": 2.8352941176470594,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3291,9 +3224,9 @@
   },
   {
     "id": 21041,
-    "update": 17761,
-    "difficulty": 2.552941176470589,
-    "interval": 10,
+    "update": 17785,
+    "difficulty": 2.652941176470589,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3302,9 +3235,9 @@
   },
   {
     "id": 21042,
-    "update": 17749,
-    "difficulty": 2.7352941176470593,
-    "interval": 12,
+    "update": 17781,
+    "difficulty": 2.8352941176470594,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3313,9 +3246,9 @@
   },
   {
     "id": 21109,
-    "update": 17758,
-    "difficulty": 3.1352941176470597,
-    "interval": 6,
+    "update": 17765,
+    "difficulty": 3.33529411764706,
+    "interval": 3,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -3324,9 +3257,9 @@
   },
   {
     "id": 21110,
-    "update": 17749,
-    "difficulty": 2.7352941176470593,
-    "interval": 12,
+    "update": 17781,
+    "difficulty": 2.8352941176470594,
+    "interval": 13,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -3341,15 +3274,14 @@
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Time and Change",
-      21111
+      "Time and Change"
     ]
   },
   {
     "id": 21112,
-    "update": 17749,
-    "difficulty": 2.7352941176470593,
-    "interval": 12,
+    "update": 17781,
+    "difficulty": 2.8352941176470594,
+    "interval": 13,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -3369,9 +3301,9 @@
   },
   {
     "id": 21114,
-    "update": 17753,
+    "update": 17775,
     "difficulty": 2.011764705882353,
-    "interval": 10,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -3397,15 +3329,14 @@
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Uncertainty and Time-Dependence",
-      21236
+      "Uncertainty and Time-Dependence"
     ]
   },
   {
     "id": 21237,
-    "update": 17749,
-    "difficulty": 2.7352941176470593,
-    "interval": 12,
+    "update": 17781,
+    "difficulty": 2.8352941176470594,
+    "interval": 13,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -3420,8 +3351,7 @@
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Uncertainty and Time-Dependence",
-      21238
+      "Uncertainty and Time-Dependence"
     ]
   },
   {
@@ -3432,8 +3362,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21250
+      "Koordinationschemie"
     ]
   },
   {
@@ -3444,8 +3373,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21251
+      "Koordinationschemie"
     ]
   },
   {
@@ -3461,9 +3389,9 @@
   },
   {
     "id": 21253,
-    "update": 17749,
-    "difficulty": 2.7352941176470593,
-    "interval": 12,
+    "update": 17781,
+    "difficulty": 2.8352941176470594,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3472,9 +3400,9 @@
   },
   {
     "id": 21254,
-    "update": 17760,
-    "difficulty": 2.4294117647058826,
-    "interval": 10,
+    "update": 17783,
+    "difficulty": 2.5294117647058827,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3489,8 +3417,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21255
+      "Koordinationschemie"
     ]
   },
   {
@@ -3501,15 +3428,14 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21256
+      "Koordinationschemie"
     ]
   },
   {
     "id": 21257,
-    "update": 17754,
-    "difficulty": 2.3294117647058825,
-    "interval": 10,
+    "update": 17778,
+    "difficulty": 2.4294117647058826,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3524,8 +3450,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21258
+      "Koordinationschemie"
     ]
   },
   {
@@ -3536,8 +3461,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21259
+      "Koordinationschemie"
     ]
   },
   {
@@ -3548,8 +3472,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21260
+      "Koordinationschemie"
     ]
   },
   {
@@ -3560,8 +3483,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21261
+      "Koordinationschemie"
     ]
   },
   {
@@ -3572,8 +3494,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21262
+      "Koordinationschemie"
     ]
   },
   {
@@ -3584,8 +3505,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21263
+      "Koordinationschemie"
     ]
   },
   {
@@ -3596,8 +3516,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21264
+      "Koordinationschemie"
     ]
   },
   {
@@ -3619,8 +3538,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21267
+      "Koordinationschemie"
     ]
   },
   {
@@ -3631,8 +3549,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21268
+      "Koordinationschemie"
     ]
   },
   {
@@ -3643,8 +3560,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21269
+      "Koordinationschemie"
     ]
   },
   {
@@ -3655,8 +3571,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21270
+      "Koordinationschemie"
     ]
   },
   {
@@ -3667,8 +3582,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21271
+      "Koordinationschemie"
     ]
   },
   {
@@ -3679,8 +3593,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21272
+      "Koordinationschemie"
     ]
   },
   {
@@ -3702,15 +3615,14 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21274
+      "Koordinationschemie"
     ]
   },
   {
     "id": 21275,
-    "update": 17749,
-    "difficulty": 2.7352941176470593,
-    "interval": 12,
+    "update": 17781,
+    "difficulty": 2.8352941176470594,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3719,9 +3631,9 @@
   },
   {
     "id": 21276,
-    "update": 17749,
-    "difficulty": 2.7352941176470593,
-    "interval": 12,
+    "update": 17781,
+    "difficulty": 2.8352941176470594,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3736,8 +3648,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21277
+      "Koordinationschemie"
     ]
   },
   {
@@ -3748,8 +3659,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21278
+      "Koordinationschemie"
     ]
   },
   {
@@ -3760,8 +3670,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21279
+      "Koordinationschemie"
     ]
   },
   {
@@ -3772,8 +3681,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21280
+      "Koordinationschemie"
     ]
   },
   {
@@ -3784,8 +3692,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21281
+      "Koordinationschemie"
     ]
   },
   {
@@ -3796,15 +3703,14 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21282
+      "Koordinationschemie"
     ]
   },
   {
     "id": 21283,
-    "update": 17749,
-    "difficulty": 2.7352941176470593,
-    "interval": 12,
+    "update": 17781,
+    "difficulty": 2.8352941176470594,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3824,9 +3730,9 @@
   },
   {
     "id": 21285,
-    "update": 17753,
-    "difficulty": 2.2294117647058824,
-    "interval": 10,
+    "update": 17777,
+    "difficulty": 2.3294117647058825,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3841,11 +3747,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21286,
-      21286,
-      21286,
-      21286
+      "Koordinationschemie"
     ]
   },
   {
@@ -3867,11 +3769,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Koordinationschemie",
-      21288,
-      21288,
-      21288,
-      21288
+      "Koordinationschemie"
     ]
   },
   {
@@ -3909,9 +3807,9 @@
   },
   {
     "id": 21292,
-    "update": 17756,
-    "difficulty": 1.9894117647058824,
-    "interval": 11,
+    "update": 17777,
+    "difficulty": 2.0894117647058823,
+    "interval": 12,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3937,8 +3835,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Festkörperchemie",
-      21295
+      "Festkörperchemie"
     ]
   },
   {
@@ -3949,11 +3846,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Festkörperchemie",
-      21296,
-      21296,
-      21296,
-      21296
+      "Festkörperchemie"
     ]
   },
   {
@@ -3964,8 +3857,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Festkörperchemie",
-      21297
+      "Festkörperchemie"
     ]
   },
   {
@@ -3976,11 +3868,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Festkörperchemie",
-      21298,
-      21298,
-      21298,
-      21298
+      "Festkörperchemie"
     ]
   },
   {
@@ -4068,11 +3956,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Festkörperchemie",
-      21306,
-      21306,
-      21306,
-      21306
+      "Festkörperchemie"
     ]
   },
   {
@@ -4116,8 +4000,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Festkörperchemie",
-      21310
+      "Festkörperchemie"
     ]
   },
   {
@@ -4144,9 +4027,9 @@
   },
   {
     "id": 21313,
-    "update": 17755,
+    "update": 17778,
     "difficulty": 1.9494117647058824,
-    "interval": 12,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -4155,9 +4038,9 @@
   },
   {
     "id": 21314,
-    "update": 17754,
-    "difficulty": 1.5,
-    "interval": 11,
+    "update": 17772,
+    "difficulty": 1.6,
+    "interval": 12,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -4188,9 +4071,9 @@
   },
   {
     "id": 21317,
-    "update": 17757,
-    "difficulty": 2.0835294117647063,
-    "interval": 11,
+    "update": 17779,
+    "difficulty": 2.1835294117647064,
+    "interval": 12,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -4216,11 +4099,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Festkörperchemie",
-      21319,
-      21319,
-      21319,
-      21319
+      "Festkörperchemie"
     ]
   },
   {
@@ -4236,9 +4115,9 @@
   },
   {
     "id": 21321,
-    "update": 17752,
-    "difficulty": 2.9352941176470595,
-    "interval": 3,
+    "update": 17769,
+    "difficulty": 3.1352941176470597,
+    "interval": 5,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -4275,8 +4154,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Festkörperchemie",
-      21324
+      "Festkörperchemie"
     ]
   },
   {
@@ -4287,8 +4165,7 @@
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
-      "Festkörperchemie",
-      21325
+      "Festkörperchemie"
     ]
   },
   {
@@ -4326,9 +4203,9 @@
   },
   {
     "id": 21537,
-    "update": 17751,
-    "difficulty": 2.2000000000000006,
-    "interval": 9,
+    "update": 17764,
+    "difficulty": 2.500000000000001,
+    "interval": 4,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -4348,9 +4225,9 @@
   },
   {
     "id": 21539,
-    "update": 17749,
+    "update": 17770,
     "difficulty": 2.0494117647058827,
-    "interval": 11,
+    "interval": 12,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -4359,9 +4236,9 @@
   },
   {
     "id": 21554,
-    "update": 17751,
-    "difficulty": 2.0000000000000004,
-    "interval": 5,
+    "update": 17772,
+    "difficulty": 2.2000000000000006,
+    "interval": 7,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -4370,9 +4247,9 @@
   },
   {
     "id": 22009,
-    "update": 17758,
-    "difficulty": 1.9000000000000006,
-    "interval": 12,
+    "update": 17781,
+    "difficulty": 2.0000000000000004,
+    "interval": 13,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -4381,9 +4258,9 @@
   },
   {
     "id": 22010,
-    "update": 17753,
-    "difficulty": 2.9000000000000012,
-    "interval": 3,
+    "update": 17763,
+    "difficulty": 3.0000000000000013,
+    "interval": 4,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -4414,9 +4291,9 @@
   },
   {
     "id": 22014,
-    "update": 17754,
-    "difficulty": 2.3000000000000003,
-    "interval": 10,
+    "update": 17778,
+    "difficulty": 2.4000000000000004,
+    "interval": 11,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -4431,8 +4308,7 @@
     "cat": [
       "Mathematik",
       "Pure Mathematics",
-      "Structures",
-      22015
+      "Structures"
     ]
   },
   {
@@ -4492,9 +4368,9 @@
   },
   {
     "id": 22066,
-    "update": 17761,
+    "update": 17785,
     "difficulty": 2.6000000000000005,
-    "interval": 10,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -4503,9 +4379,9 @@
   },
   {
     "id": 22623,
-    "update": 17757,
-    "difficulty": 2.6,
-    "interval": 9,
+    "update": 17779,
+    "difficulty": 2.7,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4514,9 +4390,9 @@
   },
   {
     "id": 22624,
-    "update": 17757,
-    "difficulty": 2.7,
-    "interval": 9,
+    "update": 17780,
+    "difficulty": 2.8000000000000003,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4525,9 +4401,9 @@
   },
   {
     "id": 22625,
-    "update": 17754,
-    "difficulty": 2.5,
-    "interval": 9,
+    "update": 17777,
+    "difficulty": 2.6,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4536,9 +4412,9 @@
   },
   {
     "id": 22706,
-    "update": 17754,
+    "update": 17776,
     "difficulty": 2.5,
-    "interval": 9,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4547,9 +4423,9 @@
   },
   {
     "id": 22707,
-    "update": 17757,
-    "difficulty": 2.7,
-    "interval": 9,
+    "update": 17780,
+    "difficulty": 2.8000000000000003,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4564,18 +4440,14 @@
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      22726,
-      22726,
-      22726,
-      22726
+      "Computational Chemistry"
     ]
   },
   {
     "id": 22727,
-    "update": 17761,
-    "difficulty": 2.9000000000000004,
-    "interval": 9,
+    "update": 17786,
+    "difficulty": 3.0000000000000004,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4590,25 +4462,13 @@
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      22768
-    ]
-  },
-  {
-    "id": 22788,
-    "update": 17754,
-    "difficulty": 2.5,
-    "interval": 9,
-    "cat": [
-      "Chemie",
-      "Theoretical Chemistry",
       "Computational Chemistry"
     ]
   },
   {
-    "id": 22806,
-    "update": 17759,
-    "difficulty": 2.32,
+    "id": 22788,
+    "update": 17777,
+    "difficulty": 2.6,
     "interval": 10,
     "cat": [
       "Chemie",
@@ -4617,10 +4477,21 @@
     ]
   },
   {
+    "id": 22806,
+    "update": 17780,
+    "difficulty": 2.32,
+    "interval": 11,
+    "cat": [
+      "Chemie",
+      "Theoretical Chemistry",
+      "Computational Chemistry"
+    ]
+  },
+  {
     "id": 22807,
-    "update": 17754,
-    "difficulty": 2.5,
-    "interval": 9,
+    "update": 17777,
+    "difficulty": 2.6,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4635,16 +4506,14 @@
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      22817,
-      22817
+      "Computational Chemistry"
     ]
   },
   {
     "id": 22865,
-    "update": 17754,
-    "difficulty": 2.5,
-    "interval": 9,
+    "update": 17777,
+    "difficulty": 2.6,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4653,9 +4522,9 @@
   },
   {
     "id": 22866,
-    "update": 17754,
+    "update": 17776,
     "difficulty": 2.5,
-    "interval": 9,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4670,18 +4539,14 @@
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      22867,
-      22867,
-      22867,
-      22867
+      "Computational Chemistry"
     ]
   },
   {
     "id": 22886,
-    "update": 17757,
-    "difficulty": 2.6,
-    "interval": 9,
+    "update": 17779,
+    "difficulty": 2.7,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4690,9 +4555,9 @@
   },
   {
     "id": 22887,
-    "update": 17759,
-    "difficulty": 3.400000000000001,
-    "interval": 8,
+    "update": 17784,
+    "difficulty": 3.500000000000001,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4718,11 +4583,7 @@
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      22913,
-      22913,
-      22913,
-      22913
+      "Computational Chemistry"
     ]
   },
   {
@@ -4738,30 +4599,8 @@
   },
   {
     "id": 22942,
-    "update": 17756,
-    "difficulty": 3.800000000000001,
-    "interval": 5,
-    "cat": [
-      "Chemie",
-      "Theoretical Chemistry",
-      "Computational Chemistry"
-    ]
-  },
-  {
-    "id": 22943,
-    "update": 17757,
-    "difficulty": 2.6,
-    "interval": 9,
-    "cat": [
-      "Chemie",
-      "Theoretical Chemistry",
-      "Computational Chemistry"
-    ]
-  },
-  {
-    "id": 23030,
-    "update": 17755,
-    "difficulty": 3.500000000000001,
+    "update": 17772,
+    "difficulty": 3.9000000000000012,
     "interval": 6,
     "cat": [
       "Chemie",
@@ -4770,58 +4609,9 @@
     ]
   },
   {
-    "id": 23031,
-    "update": 17757,
-    "difficulty": 2.6,
-    "interval": 9,
-    "cat": [
-      "Chemie",
-      "Theoretical Chemistry",
-      "Computational Chemistry"
-    ]
-  },
-  {
-    "id": 23032,
-    "update": 17754,
-    "difficulty": 2.5,
-    "interval": 9,
-    "cat": [
-      "Chemie",
-      "Theoretical Chemistry",
-      "Computational Chemistry"
-    ]
-  },
-  {
-    "id": 23033,
-    "update": 17754,
-    "difficulty": 3.800000000000001,
-    "interval": 3,
-    "cat": [
-      "Chemie",
-      "Theoretical Chemistry",
-      "Computational Chemistry",
-      23033,
-      23033,
-      23033,
-      23033,
-      23033
-    ]
-  },
-  {
-    "id": 23034,
-    "update": 17754,
-    "difficulty": 2.5,
-    "interval": 9,
-    "cat": [
-      "Chemie",
-      "Theoretical Chemistry",
-      "Computational Chemistry"
-    ]
-  },
-  {
-    "id": 23035,
-    "update": 17759,
-    "difficulty": 2.56,
+    "id": 22943,
+    "update": 17779,
+    "difficulty": 2.7,
     "interval": 10,
     "cat": [
       "Chemie",
@@ -4830,10 +4620,76 @@
     ]
   },
   {
-    "id": 23036,
-    "update": 17754,
+    "id": 23030,
+    "update": 17775,
+    "difficulty": 3.600000000000001,
+    "interval": 7,
+    "cat": [
+      "Chemie",
+      "Theoretical Chemistry",
+      "Computational Chemistry"
+    ]
+  },
+  {
+    "id": 23031,
+    "update": 17779,
+    "difficulty": 2.7,
+    "interval": 10,
+    "cat": [
+      "Chemie",
+      "Theoretical Chemistry",
+      "Computational Chemistry"
+    ]
+  },
+  {
+    "id": 23032,
+    "update": 17777,
+    "difficulty": 2.6,
+    "interval": 10,
+    "cat": [
+      "Chemie",
+      "Theoretical Chemistry",
+      "Computational Chemistry"
+    ]
+  },
+  {
+    "id": 23033,
+    "update": 17764,
+    "difficulty": 3.9000000000000012,
+    "interval": 4,
+    "cat": [
+      "Chemie",
+      "Theoretical Chemistry",
+      "Computational Chemistry"
+    ]
+  },
+  {
+    "id": 23034,
+    "update": 17776,
     "difficulty": 2.5,
-    "interval": 9,
+    "interval": 10,
+    "cat": [
+      "Chemie",
+      "Theoretical Chemistry",
+      "Computational Chemistry"
+    ]
+  },
+  {
+    "id": 23035,
+    "update": 17785,
+    "difficulty": 2.52,
+    "interval": 12,
+    "cat": [
+      "Chemie",
+      "Theoretical Chemistry",
+      "Computational Chemistry"
+    ]
+  },
+  {
+    "id": 23036,
+    "update": 17779,
+    "difficulty": 2.46,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4842,9 +4698,9 @@
   },
   {
     "id": 23246,
-    "update": 17755,
-    "difficulty": 3.2000000000000006,
-    "interval": 8,
+    "update": 17780,
+    "difficulty": 3.3000000000000007,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -4853,9 +4709,9 @@
   },
   {
     "id": 23420,
-    "update": 17758,
+    "update": 17778,
     "difficulty": 2.5,
-    "interval": 9,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4886,9 +4742,9 @@
   },
   {
     "id": 23489,
-    "update": 17755,
-    "difficulty": 3.2000000000000006,
-    "interval": 8,
+    "update": 17780,
+    "difficulty": 3.3000000000000007,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4919,9 +4775,9 @@
   },
   {
     "id": 23543,
-    "update": 17754,
+    "update": 17776,
     "difficulty": 2.46,
-    "interval": 9,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4936,18 +4792,14 @@
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      23591,
-      23591,
-      23591,
-      23591
+      "Computational Chemistry"
     ]
   },
   {
     "id": 23592,
-    "update": 17751,
-    "difficulty": 2.6,
-    "interval": 8,
+    "update": 17770,
+    "difficulty": 2.7,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4967,9 +4819,9 @@
   },
   {
     "id": 23604,
-    "update": 17758,
-    "difficulty": 3.2000000000000006,
-    "interval": 8,
+    "update": 17782,
+    "difficulty": 3.3000000000000007,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4978,9 +4830,9 @@
   },
   {
     "id": 23650,
-    "update": 17751,
-    "difficulty": 2.6,
-    "interval": 8,
+    "update": 17770,
+    "difficulty": 2.7,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4989,9 +4841,9 @@
   },
   {
     "id": 23651,
-    "update": 17758,
-    "difficulty": 3.2000000000000006,
-    "interval": 8,
+    "update": 17782,
+    "difficulty": 3.3000000000000007,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5011,9 +4863,9 @@
   },
   {
     "id": 23660,
-    "update": 17758,
-    "difficulty": 3.2000000000000006,
-    "interval": 8,
+    "update": 17782,
+    "difficulty": 3.3000000000000007,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5022,9 +4874,9 @@
   },
   {
     "id": 23739,
-    "update": 17750,
+    "update": 17769,
     "difficulty": 2.5,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5044,9 +4896,9 @@
   },
   {
     "id": 23741,
-    "update": 17758,
-    "difficulty": 2.9000000000000004,
-    "interval": 8,
+    "update": 17780,
+    "difficulty": 3.0000000000000004,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5055,9 +4907,9 @@
   },
   {
     "id": 23742,
-    "update": 17750,
-    "difficulty": 2.5,
-    "interval": 8,
+    "update": 17770,
+    "difficulty": 2.6,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5066,9 +4918,9 @@
   },
   {
     "id": 23743,
-    "update": 17753,
-    "difficulty": 2.32,
-    "interval": 9,
+    "update": 17776,
+    "difficulty": 2.42,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5083,8 +4935,7 @@
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Systems and Experiments",
-      23792
+      "Systems and Experiments"
     ]
   },
   {
@@ -5095,15 +4946,14 @@
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Systems and Experiments",
-      23806
+      "Systems and Experiments"
     ]
   },
   {
     "id": 23817,
-    "update": 17761,
+    "update": 17780,
     "difficulty": 2.7,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5112,9 +4962,9 @@
   },
   {
     "id": 23839,
-    "update": 17760,
+    "update": 17779,
     "difficulty": 2.6,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5123,9 +4973,9 @@
   },
   {
     "id": 23840,
-    "update": 17760,
+    "update": 17779,
     "difficulty": 2.6,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5134,9 +4984,9 @@
   },
   {
     "id": 23843,
-    "update": 17752,
-    "difficulty": 3.2000000000000006,
-    "interval": 7,
+    "update": 17772,
+    "difficulty": 3.3000000000000007,
+    "interval": 8,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5145,16 +4995,13 @@
   },
   {
     "id": 23844,
-    "update": 17753,
-    "difficulty": 3.3000000000000007,
-    "interval": 3,
+    "update": 17763,
+    "difficulty": 3.400000000000001,
+    "interval": 4,
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Quantum States",
-      23844,
-      23844,
-      23844
+      "Quantum States"
     ]
   },
   {
@@ -5165,57 +5012,25 @@
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Principles of QM",
-      23853
+      "Principles of QM"
     ]
   },
   {
     "id": 23863,
-    "update": 17749,
+    "update": 17766,
     "difficulty": 2.7,
-    "interval": 7,
+    "interval": 8,
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Time and Change",
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863,
-      23863
+      "Time and Change"
     ]
   },
   {
     "id": 23867,
-    "update": 17751,
-    "difficulty": 3.1000000000000005,
-    "interval": 7,
+    "update": 17771,
+    "difficulty": 3.2000000000000006,
+    "interval": 8,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5230,8 +5045,7 @@
     "cat": [
       "Mathematik",
       "Pure Mathematics",
-      "Structures",
-      23874
+      "Structures"
     ]
   },
   {
@@ -5253,8 +5067,7 @@
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Particles and Waves",
-      23907
+      "Particles and Waves"
     ]
   },
   {
@@ -5265,9 +5078,7 @@
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Particles and Waves",
-      23914,
-      23914
+      "Particles and Waves"
     ]
   },
   {
@@ -5278,28 +5089,18 @@
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Particles and Waves",
-      23920,
-      23920
+      "Particles and Waves"
     ]
   },
   {
     "id": 23928,
-    "update": 17752,
-    "difficulty": 3.500000000000001,
-    "interval": 3,
+    "update": 17772,
+    "difficulty": 3.700000000000001,
+    "interval": 5,
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Particles and Waves",
-      23928,
-      23928,
-      23928,
-      23928,
-      23928,
-      23928,
-      23928,
-      23928
+      "Particles and Waves"
     ]
   },
   {
@@ -5310,9 +5111,7 @@
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Particles and Waves",
-      23941,
-      23941
+      "Particles and Waves"
     ]
   },
   {
@@ -5334,16 +5133,14 @@
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Particles and Waves",
-      23957,
-      23957
+      "Particles and Waves"
     ]
   },
   {
     "id": 25088,
-    "update": 17751,
-    "difficulty": 3.1000000000000005,
-    "interval": 7,
+    "update": 17771,
+    "difficulty": 3.2000000000000006,
+    "interval": 8,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5352,480 +5149,196 @@
   },
   {
     "id": 25103,
-    "update": 17751,
-    "difficulty": 2.900000000000001,
-    "interval": 3,
+    "update": 17768,
+    "difficulty": 3.100000000000001,
+    "interval": 5,
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Uncertainty and Time-Dependence",
-      25103,
-      25103,
-      25103,
-      25103
+      "Uncertainty and Time-Dependence"
     ]
   },
   {
     "id": 25118,
-    "update": 17761,
-    "difficulty": 2.5000000000000004,
-    "interval": 8,
+    "update": 17780,
+    "difficulty": 2.6000000000000005,
+    "interval": 9,
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Time and Change",
-      25118,
-      25118,
-      25118,
-      25118
+      "Time and Change"
     ]
   },
   {
     "id": 25124,
-    "update": 17761,
-    "difficulty": 2.5000000000000004,
-    "interval": 8,
+    "update": 17780,
+    "difficulty": 2.6000000000000005,
+    "interval": 9,
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Time and Change",
-      25124,
-      25124,
-      25124,
-      25124
+      "Time and Change"
     ]
   },
   {
     "id": 25134,
-    "update": 17761,
-    "difficulty": 2.5000000000000004,
-    "interval": 8,
+    "update": 17780,
+    "difficulty": 2.6000000000000005,
+    "interval": 9,
     "cat": [
       "Physik",
       "Quantum Physics",
-      "Time and Change",
-      25134,
-      25134,
-      25134,
-      25134
+      "Time and Change"
     ]
   },
   {
     "id": 25177,
-    "update": 17761,
-    "difficulty": 2.5000000000000004,
-    "interval": 8,
+    "update": 17780,
+    "difficulty": 2.6000000000000005,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25177,
-      25177,
-      25177,
-      25177
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25178,
-    "update": 17761,
-    "difficulty": 2.5000000000000004,
-    "interval": 8,
+    "update": 17780,
+    "difficulty": 2.6000000000000005,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25178,
-      25178,
-      25178,
-      25178
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25189,
-    "update": 17761,
-    "difficulty": 2.5000000000000004,
-    "interval": 8,
+    "update": 17780,
+    "difficulty": 2.6000000000000005,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25189,
-      25189,
-      25189,
-      25189
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25231,
-    "update": 17749,
+    "update": 17762,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231,
-      25231
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25258,
-    "update": 17749,
+    "update": 17762,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258,
-      25258
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25286,
-    "update": 17749,
+    "update": 17762,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286,
-      25286
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25287,
-    "update": 17761,
-    "difficulty": 2.5000000000000004,
-    "interval": 8,
+    "update": 17780,
+    "difficulty": 2.6000000000000005,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25287,
-      25287,
-      25287,
-      25287
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25288,
-    "update": 17761,
-    "difficulty": 2.5000000000000004,
-    "interval": 8,
+    "update": 17780,
+    "difficulty": 2.6000000000000005,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25288,
-      25288,
-      25288,
-      25288
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25307,
-    "update": 17749,
+    "update": 17762,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307,
-      25307
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25434,
-    "update": 17749,
+    "update": 17762,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434,
-      25434
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25435,
-    "update": 17749,
+    "update": 17762,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435,
-      25435
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25436,
-    "update": 17749,
+    "update": 17762,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436,
-      25436
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25437,
-    "update": 17749,
+    "update": 17762,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437,
-      25437
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25438,
-    "update": 17755,
+    "update": 17769,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5834,51 +5347,20 @@
   },
   {
     "id": 25439,
-    "update": 17749,
+    "update": 17762,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439,
-      25439
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25440,
-    "update": 17749,
+    "update": 17762,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5887,9 +5369,9 @@
   },
   {
     "id": 25541,
-    "update": 17751,
-    "difficulty": 2.5000000000000004,
-    "interval": 7,
+    "update": 17764,
+    "difficulty": 2.8000000000000007,
+    "interval": 4,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5898,9 +5380,9 @@
   },
   {
     "id": 25542,
-    "update": 17752,
-    "difficulty": 2.6000000000000005,
-    "interval": 5,
+    "update": 17763,
+    "difficulty": 2.7000000000000006,
+    "interval": 6,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5909,9 +5391,9 @@
   },
   {
     "id": 25543,
-    "update": 17750,
+    "update": 17763,
     "difficulty": 1.6600000000000001,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5920,9 +5402,9 @@
   },
   {
     "id": 25544,
-    "update": 17755,
-    "difficulty": 1.8,
-    "interval": 8,
+    "update": 17770,
+    "difficulty": 1.9000000000000001,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5931,9 +5413,9 @@
   },
   {
     "id": 25545,
-    "update": 17751,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17767,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5942,9 +5424,9 @@
   },
   {
     "id": 25546,
-    "update": 17755,
+    "update": 17769,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5953,24 +5435,20 @@
   },
   {
     "id": 25547,
-    "update": 17757,
+    "update": 17771,
     "difficulty": 1.9000000000000001,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25547,
-      25547,
-      25547,
-      25547
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25548,
-    "update": 17755,
+    "update": 17769,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5979,9 +5457,9 @@
   },
   {
     "id": 25549,
-    "update": 17755,
+    "update": 17769,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5990,9 +5468,9 @@
   },
   {
     "id": 25605,
-    "update": 17755,
+    "update": 17769,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -6001,9 +5479,9 @@
   },
   {
     "id": 25622,
-    "update": 17752,
+    "update": 17765,
     "difficulty": 1.3800000000000003,
-    "interval": 10,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -6012,9 +5490,9 @@
   },
   {
     "id": 25623,
-    "update": 17755,
+    "update": 17769,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -6023,24 +5501,20 @@
   },
   {
     "id": 25636,
-    "update": 17757,
-    "difficulty": 1.9000000000000001,
-    "interval": 8,
+    "update": 17771,
+    "difficulty": 2,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25636,
-      25636,
-      25636,
-      25636
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25637,
-    "update": 17751,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17764,
+    "difficulty": 2.7000000000000006,
+    "interval": 4,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -6049,9 +5523,9 @@
   },
   {
     "id": 25644,
-    "update": 17751,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17767,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -6060,38 +5534,31 @@
   },
   {
     "id": 25645,
-    "update": 17753,
-    "difficulty": 2.7000000000000006,
-    "interval": 3,
+    "update": 17762,
+    "difficulty": 2.8000000000000007,
+    "interval": 4,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25645,
-      25645,
-      25645,
-      25645,
-      25645
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25659,
-    "update": 17761,
+    "update": 17776,
     "difficulty": 1.7600000000000002,
-    "interval": 9,
+    "interval": 10,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25659,
-      25659
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25660,
-    "update": 17749,
+    "update": 17762,
     "difficulty": 1.7600000000000002,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -6100,9 +5567,9 @@
   },
   {
     "id": 25682,
-    "update": 17751,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17767,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -6111,9 +5578,9 @@
   },
   {
     "id": 25683,
-    "update": 17751,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17767,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -6122,9 +5589,9 @@
   },
   {
     "id": 25685,
-    "update": 17751,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17767,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -6133,58 +5600,53 @@
   },
   {
     "id": 25822,
-    "update": 17758,
+    "update": 17771,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25822
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25823,
-    "update": 17758,
+    "update": 17771,
     "difficulty": 1.8,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25823
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25833,
-    "update": 17760,
-    "difficulty": 2,
-    "interval": 8,
+    "update": 17775,
+    "difficulty": 2.1,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25833,
-      25833
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25878,
-    "update": 17758,
-    "difficulty": 1.8,
-    "interval": 8,
+    "update": 17772,
+    "difficulty": 1.9000000000000001,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25878
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25879,
-    "update": 17753,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17772,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -6193,22 +5655,20 @@
   },
   {
     "id": 25880,
-    "update": 17760,
-    "difficulty": 2,
-    "interval": 8,
+    "update": 17775,
+    "difficulty": 2.1,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
-      "Computational Chemistry",
-      25880,
-      25880
+      "Computational Chemistry"
     ]
   },
   {
     "id": 25904,
-    "update": 17753,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17772,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -6217,9 +5677,9 @@
   },
   {
     "id": 25905,
-    "update": 17753,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17772,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -6228,9 +5688,9 @@
   },
   {
     "id": 25906,
-    "update": 17753,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17772,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -6239,24 +5699,20 @@
   },
   {
     "id": 25911,
-    "update": 17758,
-    "difficulty": 2.5000000000000004,
-    "interval": 7,
+    "update": 17774,
+    "difficulty": 2.6000000000000005,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      25911,
-      25911,
-      25911,
-      25911
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 25929,
-    "update": 17755,
-    "difficulty": 2.5000000000000004,
-    "interval": 6,
+    "update": 17770,
+    "difficulty": 2.6000000000000005,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6265,9 +5721,9 @@
   },
   {
     "id": 25930,
-    "update": 17753,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17772,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6276,22 +5732,20 @@
   },
   {
     "id": 25931,
-    "update": 17761,
+    "update": 17776,
     "difficulty": 2.1,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      25931,
-      25931
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 25957,
-    "update": 17753,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17772,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6300,9 +5754,9 @@
   },
   {
     "id": 25958,
-    "update": 17753,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17772,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6311,9 +5765,9 @@
   },
   {
     "id": 25959,
-    "update": 17753,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17772,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6322,9 +5776,9 @@
   },
   {
     "id": 25960,
-    "update": 17753,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17772,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6333,9 +5787,9 @@
   },
   {
     "id": 25961,
-    "update": 17753,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17772,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6344,24 +5798,20 @@
   },
   {
     "id": 25976,
-    "update": 17758,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17774,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
-      "Structures",
-      25976,
-      25976,
-      25976,
-      25976
+      "Structures"
     ]
   },
   {
     "id": 26018,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6370,22 +5820,20 @@
   },
   {
     "id": 26019,
-    "update": 17759,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17775,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26019,
-      26019
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26020,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6394,35 +5842,31 @@
   },
   {
     "id": 26021,
-    "update": 17759,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17775,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26021,
-      26021
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26022,
-    "update": 17759,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17775,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26022,
-      26022
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26081,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6431,9 +5875,9 @@
   },
   {
     "id": 26082,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6442,9 +5886,9 @@
   },
   {
     "id": 26083,
-    "update": 17754,
-    "difficulty": 2,
-    "interval": 7,
+    "update": 17769,
+    "difficulty": 2.1,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6453,9 +5897,9 @@
   },
   {
     "id": 26084,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6464,9 +5908,9 @@
   },
   {
     "id": 26085,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6475,22 +5919,20 @@
   },
   {
     "id": 26086,
-    "update": 17759,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17766,
+    "difficulty": 2.6000000000000005,
+    "interval": 3,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26086,
-      26086
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26087,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6499,35 +5941,31 @@
   },
   {
     "id": 26088,
-    "update": 17759,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17775,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26088,
-      26088
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26089,
-    "update": 17759,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17775,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26089,
-      26089
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26090,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6536,9 +5974,9 @@
   },
   {
     "id": 26091,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6547,9 +5985,9 @@
   },
   {
     "id": 26092,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6558,22 +5996,20 @@
   },
   {
     "id": 26093,
-    "update": 17759,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17775,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26093,
-      26093
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26094,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6582,9 +6018,9 @@
   },
   {
     "id": 26096,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6593,9 +6029,9 @@
   },
   {
     "id": 26097,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6604,35 +6040,31 @@
   },
   {
     "id": 26105,
-    "update": 17759,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17775,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26105,
-      26105
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26106,
-    "update": 17759,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17775,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26106,
-      26106
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26107,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6641,9 +6073,9 @@
   },
   {
     "id": 26108,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6652,24 +6084,20 @@
   },
   {
     "id": 26109,
-    "update": 17756,
-    "difficulty": 1.7600000000000002,
-    "interval": 8,
+    "update": 17770,
+    "difficulty": 1.8600000000000003,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26109,
-      26109,
-      26109,
-      26109
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26137,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6678,21 +6106,20 @@
   },
   {
     "id": 26138,
-    "update": 17758,
-    "difficulty": 1.7200000000000004,
-    "interval": 8,
+    "update": 17771,
+    "difficulty": 1.8200000000000005,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26138
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26140,
-    "update": 17750,
-    "difficulty": 1.6200000000000003,
-    "interval": 8,
+    "update": 17764,
+    "difficulty": 1.7200000000000004,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6701,9 +6128,9 @@
   },
   {
     "id": 26141,
-    "update": 17750,
+    "update": 17763,
     "difficulty": 1.6200000000000003,
-    "interval": 8,
+    "interval": 9,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6712,9 +6139,9 @@
   },
   {
     "id": 26142,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6723,9 +6150,9 @@
   },
   {
     "id": 26143,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6734,35 +6161,31 @@
   },
   {
     "id": 26164,
-    "update": 17759,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
-    "cat": [
-      "Chemie",
-      "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26164,
-      26164
-    ]
-  },
-  {
-    "id": 26165,
-    "update": 17761,
-    "difficulty": 2.06,
+    "update": 17775,
+    "difficulty": 2.5000000000000004,
     "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26165,
-      26165
+      "Chemische Reaktionstechnik"
+    ]
+  },
+  {
+    "id": 26165,
+    "update": 17777,
+    "difficulty": 2.16,
+    "interval": 9,
+    "cat": [
+      "Chemie",
+      "Technical Chemistry",
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26166,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6771,35 +6194,31 @@
   },
   {
     "id": 26167,
-    "update": 17759,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
-    "cat": [
-      "Chemie",
-      "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26167,
-      26167
-    ]
-  },
-  {
-    "id": 26173,
-    "update": 17760,
-    "difficulty": 1.9600000000000004,
+    "update": 17775,
+    "difficulty": 2.5000000000000004,
     "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26173,
-      26173
+      "Chemische Reaktionstechnik"
+    ]
+  },
+  {
+    "id": 26173,
+    "update": 17775,
+    "difficulty": 2.0600000000000005,
+    "interval": 9,
+    "cat": [
+      "Chemie",
+      "Technical Chemistry",
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26174,
-    "update": 17753,
-    "difficulty": 1.8,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 1.9000000000000001,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6808,9 +6227,9 @@
   },
   {
     "id": 26175,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6819,9 +6238,9 @@
   },
   {
     "id": 26176,
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 7,
+    "update": 17768,
+    "difficulty": 2,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6830,22 +6249,20 @@
   },
   {
     "id": 26177,
-    "update": 17759,
-    "difficulty": 2.4000000000000004,
-    "interval": 7,
+    "update": 17775,
+    "difficulty": 2.5000000000000004,
+    "interval": 8,
     "cat": [
       "Chemie",
       "Technical Chemistry",
-      "Chemische Reaktionstechnik",
-      26177,
-      26177
+      "Chemische Reaktionstechnik"
     ]
   },
   {
     "id": 26389,
-    "update": 17754,
-    "difficulty": 2.3000000000000003,
-    "interval": 6,
+    "update": 17769,
+    "difficulty": 2.4000000000000004,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6854,9 +6271,9 @@
   },
   {
     "id": 26422,
-    "update": 17751,
-    "difficulty": 2.2,
-    "interval": 5,
+    "update": 17774,
+    "difficulty": 2.4000000000000004,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6865,9 +6282,9 @@
   },
   {
     "id": 26425,
-    "update": 17750,
-    "difficulty": 1.8,
-    "interval": 5,
+    "update": 17769,
+    "difficulty": 2,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6876,9 +6293,9 @@
   },
   {
     "id": 26426,
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 5,
+    "update": 17770,
+    "difficulty": 2.1,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6887,9 +6304,9 @@
   },
   {
     "id": 26435,
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 5,
+    "update": 17770,
+    "difficulty": 2.1,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6898,9 +6315,9 @@
   },
   {
     "id": 26436,
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 5,
+    "update": 17770,
+    "difficulty": 2.1,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6909,9 +6326,9 @@
   },
   {
     "id": 26437,
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 5,
+    "update": 17770,
+    "difficulty": 2.1,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6920,9 +6337,9 @@
   },
   {
     "id": 26438,
-    "update": 17751,
-    "difficulty": 2.2,
-    "interval": 5,
+    "update": 17774,
+    "difficulty": 2.4000000000000004,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6931,9 +6348,9 @@
   },
   {
     "id": 26451,
-    "update": 17751,
-    "difficulty": 2.2,
-    "interval": 5,
+    "update": 17774,
+    "difficulty": 2.4000000000000004,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6942,9 +6359,9 @@
   },
   {
     "id": 26452,
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 5,
+    "update": 17769,
+    "difficulty": 2,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6953,9 +6370,9 @@
   },
   {
     "id": 26460,
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 5,
+    "update": 17770,
+    "difficulty": 2.1,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6964,9 +6381,9 @@
   },
   {
     "id": 26461,
-    "update": 17750,
-    "difficulty": 1.8,
-    "interval": 5,
+    "update": 17769,
+    "difficulty": 2,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6975,9 +6392,9 @@
   },
   {
     "id": 26470,
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 5,
+    "update": 17770,
+    "difficulty": 2.1,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6986,9 +6403,9 @@
   },
   {
     "id": 26473,
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 5,
+    "update": 17770,
+    "difficulty": 2.1,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6997,9 +6414,9 @@
   },
   {
     "id": 26474,
-    "update": 17751,
-    "difficulty": 2.2,
-    "interval": 5,
+    "update": 17774,
+    "difficulty": 2.4000000000000004,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -7008,9 +6425,9 @@
   },
   {
     "id": 26475,
-    "update": 17751,
-    "difficulty": 2.3000000000000003,
-    "interval": 5,
+    "update": 17774,
+    "difficulty": 2.5000000000000004,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -7019,9 +6436,9 @@
   },
   {
     "id": 26476,
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 5,
+    "update": 17770,
+    "difficulty": 2.1,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -7030,9 +6447,9 @@
   },
   {
     "id": 26478,
-    "update": 17750,
-    "difficulty": 2,
-    "interval": 5,
+    "update": 17771,
+    "difficulty": 2.2,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -7041,9 +6458,9 @@
   },
   {
     "id": 26479,
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 5,
+    "update": 17770,
+    "difficulty": 2.1,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -7052,9 +6469,9 @@
   },
   {
     "id": 26489,
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 5,
+    "update": 17770,
+    "difficulty": 2.1,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -7063,9 +6480,9 @@
   },
   {
     "id": 26490,
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 5,
+    "update": 17770,
+    "difficulty": 2.1,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -7074,9 +6491,9 @@
   },
   {
     "id": 26491,
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 5,
+    "update": 17770,
+    "difficulty": 2.1,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -7088,70 +6505,55 @@
     "cat": [
       "Informatik",
       "Computer Engineering",
-      "Programming Languages",
-      26557,
-      26557,
-      26557
+      "Programming Languages"
     ],
-    "update": 17754,
-    "difficulty": 2,
-    "interval": 3
+    "update": 17762,
+    "difficulty": 2.1,
+    "interval": 4
   },
   {
     "id": 26558,
     "cat": [
       "Informatik",
       "Computer Engineering",
-      "Programming Languages",
-      26558,
-      26558,
-      26558
+      "Programming Languages"
     ],
-    "update": 17754,
-    "difficulty": 2,
-    "interval": 3
+    "update": 17762,
+    "difficulty": 2.1,
+    "interval": 4
   },
   {
     "id": 26600,
     "cat": [
       "Informatik",
       "Computer Engineering",
-      "Programming Languages",
-      26600,
-      26600,
-      26600
+      "Programming Languages"
     ],
-    "update": 17754,
-    "difficulty": 2,
-    "interval": 3
+    "update": 17762,
+    "difficulty": 2.1,
+    "interval": 4
   },
   {
     "id": 26601,
     "cat": [
       "Informatik",
       "Computer Engineering",
-      "Programming Languages",
-      26601,
-      26601,
-      26601
+      "Programming Languages"
     ],
-    "update": 17754,
-    "difficulty": 1.9000000000000001,
-    "interval": 3
+    "update": 17762,
+    "difficulty": 2,
+    "interval": 4
   },
   {
     "id": 26602,
     "cat": [
       "Informatik",
       "Computer Engineering",
-      "Programming Languages",
-      26602,
-      26602,
-      26602
+      "Programming Languages"
     ],
-    "update": 17754,
-    "difficulty": 2,
-    "interval": 3
+    "update": 17762,
+    "difficulty": 2.1,
+    "interval": 4
   },
   {
     "id": 26769,
@@ -7160,9 +6562,9 @@
       "Computer Engineering",
       "Programming Languages"
     ],
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 2
+    "update": 17763,
+    "difficulty": 2,
+    "interval": 4
   },
   {
     "id": 26770,
@@ -7171,9 +6573,9 @@
       "Computer Engineering",
       "Programming Languages"
     ],
-    "update": 17750,
-    "difficulty": 1.9000000000000001,
-    "interval": 2
+    "update": 17763,
+    "difficulty": 2.1,
+    "interval": 4
   },
   {
     "id": 26771,
@@ -7182,8 +6584,1119 @@
       "Computer Engineering",
       "Programming Languages"
     ],
-    "update": 17750,
+    "update": 17763,
+    "difficulty": 2.1,
+    "interval": 4
+  },
+  {
+    "id": 26785,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17763,
+    "difficulty": 2,
+    "interval": 4
+  },
+  {
+    "id": 26789,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17763,
+    "difficulty": 2,
+    "interval": 4
+  },
+  {
+    "id": 26790,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17763,
+    "difficulty": 2.1,
+    "interval": 4
+  },
+  {
+    "id": 26791,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17763,
+    "difficulty": 2.1,
+    "interval": 4
+  },
+  {
+    "id": 26792,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17763,
+    "difficulty": 2,
+    "interval": 4
+  },
+  {
+    "id": 26793,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17763,
+    "difficulty": 2.1,
+    "interval": 4
+  },
+  {
+    "id": 26794,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17763,
+    "difficulty": 2,
+    "interval": 4
+  },
+  {
+    "id": 26807,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17763,
+    "difficulty": 1.8,
+    "interval": 4
+  },
+  {
+    "id": 26844,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17763,
+    "difficulty": 2.1,
+    "interval": 4
+  },
+  {
+    "id": 26845,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17763,
+    "difficulty": 2.1,
+    "interval": 4
+  },
+  {
+    "id": 26895,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17764,
+    "difficulty": 2.1,
+    "interval": 4
+  },
+  {
+    "id": 26899,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17764,
     "difficulty": 1.9000000000000001,
+    "interval": 4
+  },
+  {
+    "id": 26900,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17764,
+    "difficulty": 2.1,
+    "interval": 4
+  },
+  {
+    "id": 26901,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 4
+  },
+  {
+    "id": 26917,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17764,
+    "difficulty": 2.5000000000000004,
+    "interval": 4
+  },
+  {
+    "id": 26927,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17764,
+    "difficulty": 2.4000000000000004,
+    "interval": 4
+  },
+  {
+    "id": 26954,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17764,
+    "difficulty": 2.3000000000000003,
+    "interval": 4
+  },
+  {
+    "id": 26955,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17764,
+    "difficulty": 2.5000000000000004,
+    "interval": 4
+  },
+  {
+    "id": 26956,
+    "cat": [
+      "Informatik",
+      "Computer Engineering",
+      "Programming Languages"
+    ],
+    "update": 17764,
+    "difficulty": 2.3000000000000003,
+    "interval": 4
+  },
+  {
+    "id": 27005,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27006,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27007,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.4000000000000004,
+    "interval": 3
+  },
+  {
+    "id": 27009,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27010,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.4000000000000004,
+    "interval": 3
+  },
+  {
+    "id": 27011,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27012,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27013,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27020,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27021,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27022,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.3000000000000003,
+    "interval": 3
+  },
+  {
+    "id": 27023,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27024,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27025,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27035,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27036,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27037,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27038,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Allgemein"
+    ],
+    "update": 17762,
+    "difficulty": 2.3000000000000003,
+    "interval": 3
+  },
+  {
+    "id": 27041,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17762,
+    "difficulty": 2.3000000000000003,
+    "interval": 3
+  },
+  {
+    "id": 27058,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27060,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.4000000000000004,
+    "interval": 3
+  },
+  {
+    "id": 27061,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.3000000000000003,
+    "interval": 3
+  },
+  {
+    "id": 27068,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27069,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27070,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27071,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27072,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27082,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27083,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.16,
+    "interval": 4
+  },
+  {
+    "id": 27084,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27087,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.3000000000000003,
+    "interval": 3
+  },
+  {
+    "id": 27090,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.3000000000000003,
+    "interval": 3
+  },
+  {
+    "id": 27091,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.4000000000000004,
+    "interval": 3
+  },
+  {
+    "id": 27092,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.3000000000000003,
+    "interval": 3
+  },
+  {
+    "id": 27093,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.4000000000000004,
+    "interval": 3
+  },
+  {
+    "id": 27094,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27095,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27096,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27097,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27098,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27099,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27100,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27101,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27102,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27103,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17763,
+    "difficulty": 2.06,
+    "interval": 3
+  },
+  {
+    "id": 27104,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17763,
+    "difficulty": 2.16,
+    "interval": 3
+  },
+  {
+    "id": 27105,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 2.2,
+    "interval": 3
+  },
+  {
+    "id": 27109,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27111,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27112,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27113,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27114,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27115,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27116,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27117,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27118,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27119,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17763,
+    "difficulty": 1.36,
+    "interval": 3
+  },
+  {
+    "id": 27120,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27121,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27122,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27124,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27126,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27164,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Batterien"
+    ],
+    "update": 17764,
+    "difficulty": 1.6,
+    "interval": 3
+  },
+  {
+    "id": 27255,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Brennstoffzellen"
+    ],
+    "update": 17766,
+    "difficulty": 1.7000000000000002,
+    "interval": 3
+  },
+  {
+    "id": 27256,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Brennstoffzellen"
+    ],
+    "update": 17766,
+    "difficulty": 1.7000000000000002,
+    "interval": 3
+  },
+  {
+    "id": 27257,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Brennstoffzellen"
+    ],
+    "update": 17766,
+    "difficulty": 1.6,
+    "interval": 3
+  },
+  {
+    "id": 27258,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Brennstoffzellen"
+    ],
+    "update": 17765,
+    "difficulty": 1.36,
+    "interval": 3
+  },
+  {
+    "id": 27259,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Brennstoffzellen"
+    ],
+    "update": 17766,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27260,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Brennstoffzellen"
+    ],
+    "update": 17766,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27261,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Brennstoffzellen"
+    ],
+    "update": 17765,
+    "difficulty": 1.36,
+    "interval": 3
+  },
+  {
+    "id": 27262,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Brennstoffzellen"
+    ],
+    "update": 17766,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27263,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Brennstoffzellen"
+    ],
+    "update": 17766,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27264,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Brennstoffzellen"
+    ],
+    "update": 17766,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27334,
+    "cat": [
+      "Physik",
+      "Classical Physics",
+      "Thermodynamics"
+    ],
+    "update": 17766,
+    "difficulty": 1.7000000000000002,
+    "interval": 3
+  },
+  {
+    "id": 27335,
+    "cat": [
+      "Physik",
+      "Classical Physics",
+      "Thermodynamics"
+    ],
+    "update": 17765,
+    "difficulty": 1.4600000000000002,
+    "interval": 3
+  },
+  {
+    "id": 27336,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17766,
+    "difficulty": 1.6,
     "interval": 2
+  },
+  {
+    "id": 27337,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17766,
+    "difficulty": 1.7000000000000002,
+    "interval": 3
+  },
+  {
+    "id": 27360,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17766,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27361,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17766,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27408,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17767,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27409,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17767,
+    "difficulty": 1.5,
+    "interval": 3
+  },
+  {
+    "id": 27410,
+    "cat": [
+      "Physik",
+      "Funktionsmaterialien",
+      "Kinetik"
+    ],
+    "update": 17767,
+    "difficulty": 1.5,
+    "interval": 3
   }
 ]
