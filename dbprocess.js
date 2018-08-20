@@ -296,9 +296,6 @@ const createDbWindow = function createDbWindow() {
 
   // save database to json file
   ipcMain.on('saveDb', function (event, arg) {
-    if (quizes.length === 0) {
-      loadQuizes();
-    }
     cme.find({}).sort({cdate: 1}).exec(function(err, data) {
       if (err) console.log(err);
       if (data) {
@@ -340,7 +337,6 @@ const createDbWindow = function createDbWindow() {
         }
         var strData = JSON.stringify(dataArray, null, 2);
         fs.writeFileSync(arg, strData);
-        saveQuizes();
         event.returnValue = 'database saved to ' + arg
       }
     });

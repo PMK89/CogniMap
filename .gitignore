@@ -57,6 +57,11 @@ npm-debug.log
 /compiled/
 dll/
 /data/cme/
+data/cme/
+/data/cme/*
+data/cme/*
+data/cme
+.stversions/*
 
 # Doc #
 /doc/
