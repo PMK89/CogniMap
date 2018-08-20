@@ -98,8 +98,8 @@
     "cngtemp": false,
     "contentPos": -1,
     "coor": {
-      "x": 370325,
-      "y": 203520
+      "x": 14538,
+      "y": 249554
     },
     "copy": {
       "num": 0,
@@ -123,7 +123,7 @@
     "epath": "",
     "id": 1,
     "latexcolor": "#000000",
-    "maxid": 27497,
+    "maxid": 27503,
     "menue": {
       "display": "block",
       "height": 400,
@@ -378,10 +378,10 @@
       "width": 1800,
       "z-index": 515
     },
-    "widget0": "none",
+    "widget0": "minimap",
     "widget1": "none",
     "wlayout0": {
-      "display": "none",
+      "display": "block",
       "height": 446.5,
       "left": 0,
       "opacity": 0.8,

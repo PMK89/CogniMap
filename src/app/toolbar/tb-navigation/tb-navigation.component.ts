@@ -18,7 +18,7 @@ export class TbNavigationComponent implements OnInit {
   public widget0: string;
   public widget1: string;
   public buttons: Observable<CMButton[]>;
-  public widgets: string[] = ['none', 'equation', 'formula', 'svg', 'navigator', 'mnemo', 'codeeditor'];
+  public widgets: string[] = ['none', 'equation', 'formula', 'svg', 'navigator', 'minimap', 'mnemo', 'codeeditor'];
 
   constructor(private store: Store<CMStore>,
               private electronService: ElectronService,

@@ -36,6 +36,7 @@ export class EventService {
   public id: number;
   public keyPressed: string[] = [];
   public selecting = false;
+  public minimapselect = 0;
   public quiznew = false;
   public marking = false;
   public cmaction: CMAction = new CMAction();
@@ -49,6 +50,7 @@ export class EventService {
   public pointArray: CMCoor[] = [];
   public position: CMCoor;
   public buttons: Observable<CMButton[]>;
+  public minimapevent: any;
   public decoArray: string[] = ['none', 'line-through', 'underline'];
 
   constructor(private windowService: WindowService,
@@ -222,7 +224,7 @@ export class EventService {
       this.dragY = 0;
       if (this.cmsettings.mode === 'selecting') {
         if ((typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '')
-        || evt.target.id === 'cmap' || evt.target.id === 'cmsvg') {
+        || evt.target.id === 'cmap' || evt.target.id === 'cmsvg' || this.minimapselect) {
           this.elementService.clearAreaSelection();
           this.selecting = true;
         }
@@ -345,14 +347,23 @@ export class EventService {
       console.log(evt.target);
       if ((typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '')
       || evt.target.id === 'cmap' || evt.target.id === 'selection'
-      || evt.target.id === 'cmsvg') {
+      || evt.target.id === 'cmsvg' || this.minimapselect) {
         let x0 = Math.min((evt.clientX  + this.windowService.WinXOffset), this.startX);
         let y0 = Math.min((evt.clientY  + this.windowService.WinYOffset), this.startY);
         let x1 = x0 + Math.abs((evt.clientX  + this.windowService.WinXOffset) - this.startX);
         let y1 = y0 + Math.abs((evt.clientY  + this.windowService.WinYOffset) - this.startY);
         if (this.cmsettings.mode === 'selecting') {
+          if (this.minimapselect) {
+            x0 = Math.min(evt.offsetX, this.minimapevent.offsetX) * 100 * this.minimapselect;
+            y0 = Math.min(evt.offsetY, this.minimapevent.offsetY) * 100 * this.minimapselect;
+            x1 = x0 + (Math.abs(evt.offsetX - this.minimapevent.offsetX) * 100 * this.minimapselect);
+            y1 = y0 + (Math.abs(evt.offsetY - this.minimapevent.offsetY) * 100 * this.minimapselect);
+            console.log(evt, this.minimapevent, x0, y0, x1, y1);
+            this.elementService.cmap = false;
+          }
           this.elementService.areaSelection(x0, y0, x1, y1);
           this.selecting = false;
+          this.minimapselect = 0;
         } else if (this.cmsettings.mode === 'marking') {
           this.elementService.newCMMarking(x0, y0, x1, y1);
           this.marking = false;

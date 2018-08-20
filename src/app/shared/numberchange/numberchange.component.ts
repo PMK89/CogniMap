@@ -19,7 +19,7 @@ import { CMStore } from '../../models/CMStore';
 export class NumberchangeComponent implements OnInit {
   @Input() public buttons: Observable<CMButton[]>;
   @Input() public selector: number;
-  public value: number;
+  public value = 1;
   public button: CMButton;
   public selCMEo: Observable<CMEo>;
   public selCMEl: Observable<CMEl>;
@@ -94,6 +94,9 @@ export class NumberchangeComponent implements OnInit {
               break;
             default:
               this.value = 1;
+          }
+          if (!this.value) {
+            this.value = 0;
           }
         }
       }).unsubscribe();

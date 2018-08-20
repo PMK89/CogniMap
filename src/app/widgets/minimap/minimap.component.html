@@ -1,0 +1,29 @@
+
+  <div #minimap id="minimap">
+    <div id="zoom">
+      <table>
+        <tr>
+          <td>
+            <div (click)="zoomCntl('in')" class="lbtndefault">
+              <img src="assets/images/svgelements/menue/zoomin.svg" width="20px" height="20px">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div (click)="zoomCntl('def')" class="lbtndefault">
+              {{zoom.toString() | slice:0:3}}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div (click)="zoomCntl('out')" class="lbtndefault">
+              <img src="assets/images/svgelements/menue/zoomout.svg" width="20px" height="20px">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <svg #minimapsvg id="minimapsvg" [style.width.px]="width" [style.height.px]="height"></svg>
+  </div>

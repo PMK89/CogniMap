@@ -121,18 +121,18 @@ export class CmlineComponent implements OnInit, OnDestroy {
           let rect0 = s.select('#rect0' + id);
           let title0 = s.select('#title0' + id);
           rect0.click( () => {
-            window.scrollTo((this.cmelement.x1 - 500), (this.cmelement.y1 - 500));
+            window.scrollTo((this.cmelement.x1 - 850), (this.cmelement.y1 - 500));
           });
           title0.click( () => {
-            window.scrollTo((this.cmelement.x1 - 500), (this.cmelement.y1 - 500));
+            window.scrollTo((this.cmelement.x1 - 850), (this.cmelement.y1 - 500));
           });
           let rect1 = s.select('#rect1' + id);
           let title1 = s.select('#title1' + id);
           rect1.click( () => {
-            window.scrollTo((this.cmelement.x0 - 500), (this.cmelement.y0 - 500));
+            window.scrollTo((this.cmelement.x0 - 850), (this.cmelement.y0 - 500));
           });
           title1.click( () => {
-            window.scrollTo((this.cmelement.x0 - 500), (this.cmelement.y0 - 500));
+            window.scrollTo((this.cmelement.x0 - 850), (this.cmelement.y0 - 500));
           });
           // console.log('prep1 click: ', this.cmelement.id);
         }
@@ -247,14 +247,7 @@ export class CmlineComponent implements OnInit, OnDestroy {
         this.cmel.cmobject.numArray.unshift(0, 0);
       }
       if (this.cmel.cmobject.color0) {
-        let c = this.cmel.cmobject.color0.substring(1);      // strip #
-        let rgb = parseInt(c, 16);   // convert rrggbb to decimal
-        let r = (rgb >> 16) & 0xff;  // extract red
-        let g = (rgb >>  8) & 0xff;  // extract green
-        let b = (rgb >>  0) & 0xff;  // extract blue
-
-        let luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
-
+        let luma = this.elementService.getLuma(this.cmel.cmobject.color0); // per ITU-R BT.709
         if (luma < 80) {
           txtfill = '#ffffff';
         }
@@ -291,10 +284,10 @@ export class CmlineComponent implements OnInit, OnDestroy {
       mgroup.add(rect0);
       mgroup.add(title0);
       rect0.click( () => {
-        window.scrollTo((this.cmel.x1 - 500), (this.cmel.y1 - 500));
+        window.scrollTo((this.cmel.x1 - 850), (this.cmel.y1 - 500));
       });
       title0.click( () => {
-        window.scrollTo((this.cmel.x1 - 500), (this.cmel.y1 - 500));
+        window.scrollTo((this.cmel.x1 - 850), (this.cmel.y1 - 500));
       });
       let title1 = s.text(0, 0, this.cmel.cmobject.title0);
       title1.attr({
@@ -329,10 +322,10 @@ export class CmlineComponent implements OnInit, OnDestroy {
       mgroup.add(rect1);
       mgroup.add(title1);
       rect1.click( () => {
-        window.scrollTo((this.cmel.x0 - 500), (this.cmel.y0 - 500));
+        window.scrollTo((this.cmel.x0 - 850), (this.cmel.y0 - 500));
       });
       title1.click( () => {
-        window.scrollTo((this.cmel.x0 - 500), (this.cmel.y0 - 500));
+        window.scrollTo((this.cmel.x0 - 850), (this.cmel.y0 - 500));
       });
       // console.log('new click: ', this.cmelement.id);
       let prep1 = mgroup.innerSVG();

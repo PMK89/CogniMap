@@ -21,6 +21,7 @@ import { Toolbar0Component } from './toolbar/toolbar0.component';
 import { Widgets0Component } from './widgets/widgets0.component';
 import { Widgets1Component } from './widgets/widgets1.component';
 import { NavigatorComponent } from './widgets/navigator/navigator.component';
+import { MinimapComponent } from './widgets/minimap/minimap.component';
 import { MnemoComponent } from './widgets/mnemo/mnemo.component';
 import { MjEditorComponent } from './widgets/mjeditor/mjeditor.component';
 import { CodeeditorComponent } from './widgets/codeeditor/codeeditor.component';
@@ -58,6 +59,7 @@ import { SnapsvgService } from './shared/snapsvg.service';
 import { MathJaxService } from './shared/mathjax.service';
 import { MetaService } from './shared/meta.service';
 import { NavigatorService } from './widgets/navigator/navigator.service';
+import { MinimapService } from './widgets/minimap/minimap.service';
 import { MnemoService } from './widgets/mnemo/mnemo.service';
 import { MjEditorService } from './widgets/mjeditor/mjeditor.service';
 import { MjEditorLatexService } from './widgets/mjeditor/mjeditor.latex.service';
@@ -99,6 +101,7 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
                   Toolbar0Component,
                   Widgets0Component,
                   Widgets1Component,
+                  MinimapComponent,
                   NavigatorComponent,
                   MnemoComponent,
                   MjEditorComponent,
@@ -134,6 +137,7 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
               TemplateService,
               SnapsvgService,
               NavigatorService,
+              MinimapService,
               MnemoService,
               MjEditorService,
               MetaService,

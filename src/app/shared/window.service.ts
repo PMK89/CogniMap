@@ -110,8 +110,8 @@ export class WindowService {
         // console.log('+ ', ydif);
       }
       if (Scrolled) {
-        console.log('x: ', x, ' y: ', y, 'xdif: ', xdif, ' ydif: ', ydif, ' width: ',
-         this.WinWidth, ' height: ', this.WinHeight, ' Parameters: ', this.Parameters);
+        // console.log('x: ', x, ' y: ', y, 'xdif: ', xdif, ' ydif: ', ydif, ' width: ',
+        //  this.WinWidth, ' height: ', this.WinHeight, ' Parameters: ', this.Parameters);
         this.Boundaries0.l = x;
         this.Boundaries0.t = y;
         this.cmsettings.coor.x = x;

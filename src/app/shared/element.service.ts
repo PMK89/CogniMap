@@ -41,9 +41,9 @@ export class ElementService {
   public maxID = 0;
   public counter = 0;
   public startPos: CMCoor;
-  public selCMEoArray: number[] = [];
-  public selCMElArray: number[] = [];
-  public selCMElArrayBorder: number[] = [];
+  public selCMEoArray: any[] = [];
+  public selCMElArray: any[] = [];
+  public selCMElArrayBorder: any[] = [];
   public cmsettings: CMSettings;
   public mPmnemo = false;
   public mPdx = 0.5;
@@ -89,14 +89,16 @@ export class ElementService {
                 this.electronService.ipcRenderer.on('changedCME', (event, arg) => {
                   if (arg) {
                     if (Array.isArray(arg)) {
-                      for (let key in arg) {
-                        if (arg[key]) {
-                          this.store.dispatch({type: 'UPDATE_CME', payload: arg[key] });
+                      if (Array.isArray(arg[0])) {
+                        for (let key in arg[0]) {
+                          if (arg[0][key]) {
+                            this.store.dispatch({type: 'UPDATE_CME', payload: arg[0][key] });
+                          }
                         }
+                        // console.log('changedCME: ', arg);
+                      } else {
+                        // console.log('changedCME: ', arg);
                       }
-                      // console.log('changedCME: ', arg);
-                    } else {
-                      console.log('changedCME: ', arg);
                     }
                   }
                 });
@@ -108,7 +110,6 @@ export class ElementService {
                     this.selCMEoArray = arg.selCMEoArray;
                     this.selCME = arg.selarray;
                     this.selCMEo = undefined;
-                    this.selectionGroup(this.selCMEoArray, this.selCMElArray);
                   }
                 });
               }
@@ -495,51 +496,15 @@ export class ElementService {
               this.selectionGroup(this.selCMEoArray, this.selCMElArray);
             }).unsubscribe();
     } else {
-      x0 *= 100;
-      x1 *= 100;
-      y0 *= 100;
-      y1 *= 100;
+      this.cmap = true;
+      const arg = {
+        l: x0,
+        t: y0,
+        r: x1,
+        b: y1
+      };
+      this.electronService.ipcRenderer.send('findArea', arg);
       // console.log(x0, x1, y0, y1);
-      for (let key in this.allCME) {
-        if (this.allCME[key]) {
-          // select elements within the selcted area
-          let data = this.allCME[key];
-          if (x0 < data.x0 && data.x0 < x1 && y0 < data.y0 && data.y0 < y1) {
-            if (data.id < 0) {
-              if (x0 < data.x1 && data.x1 < x1 && y0 < data.y1 && data.y1 < y1) {
-                if (this.selCMElArray.indexOf(data.id) === -1) {
-                  this.selCMElArray.push(data.id);
-                }
-              } else {
-                if (this.selCMElArrayBorder.indexOf(data.id) === -1) {
-                  this.selCMElArrayBorder.push(data.id);
-                  this.startPos = {
-                    x: data.x0,
-                    y: data.y0
-                  };
-                }
-              }
-            } else {
-              if (x0 < data.x1 && data.x1 < x1 && y0 < data.y1 && data.y1 < y1) {
-                if (this.selCMEoArray.indexOf(data.id) === -1) {
-                  this.selCMEoArray.push(data.id);
-                }
-              }
-            }
-          } else if (x0 < data.x1 && data.x1 < x1 && y0 < data.y1 && data.y1 < y1) {
-            if (data.id < 0) {
-              if (this.selCMElArrayBorder.indexOf(data.id) === -1) {
-                this.selCMElArrayBorder.push(data.id);
-                this.startPos = {
-                  x: data.x1,
-                  y: data.y1
-                };
-              }
-            }
-          }
-        }
-      }
-      console.log('CMEls: ', this.selCMElArrayBorder, this.selCMElArray, ', CMEos: ', this.selCMEoArray);
     }
 
   }
@@ -1277,7 +1242,7 @@ export class ElementService {
       if (this.cmsettings.mode !== 'quiznew') {
         this.quizCMEo = undefined;
       }
-      if (this.cmsettings.mode.indexOf('quiz') === -1 || this.cmsettings.mode === 'quizing') {
+      if ((this.cmsettings.mode.indexOf('quiz') === -1 && this.cmsettings.mode !== 'selecting') || this.cmsettings.mode === 'quizing') {
         this.quizmode = '';
       }
       if (this.cmsettings.mode !== 'draw_poly') {
@@ -1307,18 +1272,18 @@ export class ElementService {
       });
       if ((j % 1000) === 0) {
         newline.attr({
-          strokeWidth: 0.8,
+          strokeWidth: 2,
           opacity: 0.8
         });
         console.log(newline);
       } else if ((j % 100) === 0) {
         newline.attr({
-          strokeWidth: 0.6,
+          strokeWidth: 1.2,
           opacity: 0.5
         });
       } else {
         newline.attr({
-          strokeWidth: 0.5,
+          strokeWidth: 0.8,
           opacity: 0.4
         });
       }
@@ -1331,18 +1296,18 @@ export class ElementService {
       });
       if ((j % 1000) === 0) {
         newline.attr({
-          strokeWidth: 0.8,
+          strokeWidth: 2,
           opacity: 0.8
         });
         console.log(newline);
       } else if ((j % 100) === 0) {
         newline.attr({
-          strokeWidth: 0.6,
+          strokeWidth: 1.2,
           opacity: 0.5
         });
       } else {
         newline.attr({
-          strokeWidth: 0.5,
+          strokeWidth: 0.8,
           opacity: 0.4
         });
       }
@@ -1364,16 +1329,26 @@ export class ElementService {
               let y = 3 * Math.round((obj.y0 + obj.y1) / 600);
               let pos = obj.cmobject.indexOf('color0');
               let color = obj.cmobject.slice((pos + 9), (pos + 16));
+              let txtfill = '#000000';
+              if (color) {
+                let luma = this.getLuma(color);
+                if (luma > 225) {
+                  pos = obj.cmobject.indexOf('color1');
+                  color = obj.cmobject.slice((pos + 9), (pos + 16));
+                  luma = this.getLuma(color);
+                }
+                if (luma < 80) {
+                  txtfill = '#ffffff';
+                }
+              }
               if (obj.prio < 4 && obj.types[0].indexOf('q') === -1) {
                 let title = cmsvg.text((obj.coor.x / 100), (obj.coor.y / 100), obj.title);
                 title.attr({
-                  fontSize: (16 - (Math.pow(obj.prio, 2) / 2)) + 'px',
-                  fill: '#000000',
+                  fontSize: (12 - (Math.pow(obj.prio, 2) / 2)) + 'px',
+                  fill: txtfill,
                   fontFamily:
                    "'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive",
-                  opacity: 0.8,
-                  title: obj.id,
-                  id: 'minititle' + obj.id
+                  title: obj.id
                 });
                 minigroup.add(title);
                 let titlebbox = title.getBBox();
@@ -1381,9 +1356,14 @@ export class ElementService {
                 rect.attr({
                   stroke: 'none',
                   fill: color,
+                  title: obj.id
                 });
-                minigroup.add(rect);
-                minigroup.add(title);
+                let elementgroup = minigroup.group(rect, title);
+                elementgroup.attr({
+                  opacity: 0.7,
+                  id: 'mini' + obj.id
+                });
+                minigroup.add(elementgroup);
               } else {
                 // increase size of closeby spots
                 let pointid = 'mm' + x.toString() + y.toString();
@@ -1419,10 +1399,15 @@ export class ElementService {
                 let color = obj.cmobject.slice((pos + 9), (pos + 16));
                 let path = 'M' + x0 + ' ' + y0 + 'L' + x1 + ' ' + y1;
                 let p = cmsvg.path(path);
+                let strokeW = 3.2;
+                if (obj.prio > 0) {
+                  strokeW = Math.max((3 / obj.prio), 0.5);
+                }
                 p.attr({
                   stroke: color,
-                  strokeWidth: 1,
+                  strokeWidth: strokeW,
                   fill: 'none',
+                  id: 'mini' + obj.id
                 });
                 minigroup.add(p);
               }
@@ -1434,7 +1419,8 @@ export class ElementService {
     let isvg = minigroup.innerSVG();
     isvg = isvg.replace(/ \\"/g, " '");
     isvg = isvg.replace(/\\",/g, "',");
-    console.info(isvg);
+    let savedsvg = this.electronService.ipcRenderer.sendSync('saveMM', isvg);
+    console.info(savedsvg);
   }
 
   // cleares the miniature Cmap
@@ -1473,68 +1459,6 @@ export class ElementService {
           }
         }
       } // moves elements on the minimap
-    } else if ((typeof x === 'number') && (typeof y === 'number') && this.cmap === false) {
-      if (this.allCME.length > 0) {
-        this.counter = 0;
-        let locCMEArray0 = this.selCMEoArray.concat(this.selCMElArray);
-        let borderLinks0 = [];
-        let dataArray = [];
-        let len = this.allCME.length;
-        x *= 100;
-        y *= 100;
-        console.log(x, y);
-        let i;
-        for (i = 0; i < len; i++) {
-          if (this.allCME[i]) {
-            let pos = locCMEArray0.indexOf(this.allCME[i].id);
-            if (pos !== -1) {
-              let cme = this.allCME[i];
-              // console.log(cme);
-              cme.coor.x += x;
-              cme.coor.y += y;
-              cme.x0 += x;
-              cme.y0 += y;
-              cme.x1 += x;
-              cme.y1 += y;
-              cme.prep = '';
-              cme.prep1 = '';
-              // data[key] = this.newCME(cme);
-              locCMEArray0.splice(pos, 1);
-              if (cme.id > 0) {
-                cme = this.CMEtoCMEol(this.allCME[i]);
-                for (let j in cme.cmobject.links) {
-                  if (cme.cmobject.links[j]) {
-                    let link = cme.cmobject.links[j];
-                    if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
-                      // console.log(cme);
-                      borderLinks0.push(cme);
-                    }
-                  }
-                }
-                cme = this.newCME(cme);
-              }
-              dataArray.push(cme);
-            }
-          }
-        }
-        if (borderLinks0.length > 0) {
-          this.counter = 0;
-          for (let n in borderLinks0) {
-            if (borderLinks0[n]) {
-              for (let j in borderLinks0[n].cmobject.links) {
-                if (borderLinks0[n].cmobject.links[j]) {
-                  let link = borderLinks0[n].cmobject.links[j];
-                  if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
-                    let conxy = this.conectionCoor(borderLinks0[n], link);
-                    this.changeLink(link.id, conxy[0], conxy[1], link.start);
-                  }
-                }
-              }
-            }
-          }
-        }
-        this.store.dispatch({type: 'ADD_CME_FROM_DB', payload: dataArray });
-      } // moves multiple elements
     } else if (this.selCMEoArray.length > 0 && this.selCMElArray.length > 0
        && (typeof x === 'number') && (typeof y === 'number') && this.cmap) {
       this.counter = 0;
@@ -1598,9 +1522,66 @@ export class ElementService {
           }
           this.clearselectionGroup();
         }
+        this.cmsettings.mode = 'selecting';
+        this.settingsService.updateSettings(this.cmsettings);
       } else {
         alert('no Elements selected');
       }
+    }
+  }
+
+  // moves element by dragging differences
+  public moveOnMinimap(x, y, keymove?) {
+    if ((typeof x === 'number') && (typeof y === 'number')) {
+      if (true) {
+        let dataArray = [];
+        const lenL = this.selCMElArray.length;
+        let i;
+        if (lenL > 0) {
+          for (i = 0; i < lenL; i++) {
+            if (this.selCMElArray[i]) {
+              let cme = this.allCME[i];
+              // console.log(cme);
+              cme.coor.x += x;
+              cme.coor.y += y;
+              cme.x0 += x;
+              cme.y0 += y;
+              cme.x1 += x;
+              cme.y1 += y;
+              cme.prep = '';
+              cme.prep1 = '';
+              dataArray.push(cme);
+            }
+          }
+        }
+        if (this.selCME.length > 0) {
+          this.counter = 0;
+          for (let n in this.selCME) {
+            if (this.selCME[n]) {
+              for (let j in this.selCME[n].cmobject.links) {
+                if (this.selCME[n].cmobject.links[j]) {
+                  let link = this.selCME[n].cmobject.links[j];
+                  this.selCMElArrayBorder.forEach((borderlink) => {
+                    if (borderlink) {
+                      if (borderlink.id === link.id) {
+                        let conxy = this.conectionCoor(this.selCME[n], link);
+                        this.changeLink(link.id, conxy[0], conxy[1], link.start);
+                      }
+                    }
+                  });
+                  if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
+                    let conxy = this.conectionCoor(this.selCME[n], link);
+                    this.changeLink(link.id, conxy[0], conxy[1], link.start);
+                  }
+                }
+              }
+            }
+          }
+        }
+        this.store.dispatch({type: 'ADD_CME_FROM_DB', payload: dataArray });
+        this.cmsettings.mode = 'selecting';
+        this.settingsService.updateSettings(this.cmsettings);
+      } // moves multiple elements
     }
   }
 
@@ -1642,6 +1623,7 @@ export class ElementService {
                 this.selCMEl.y1 = data[key].y1;
                 this.selCMEl.coor = data[key].coor;
                 this.selCMEl.prep = '';
+                this.updateSelCMEl(this.selCMEl);
               }
             }
             this.updateCME(data[key]);
@@ -1741,16 +1723,16 @@ export class ElementService {
         } catch (err) {
           console.log(err, CMEoArray[i]);
         }
-        let move = function(dx, dy) {
+        let move = function (dx, dy) {
           this.attr({
                     transform: this.data('origTransform') +
                      (this.data('origTransform') ? 'T' : 't') + [dx, dy]
                   });
                 };
-        let start = function() {
+        let start = function () {
             this.data('origTransform', this.transform().local );
           };
-        let stop = function() {
+        let stop = function () {
             // console.log('finished dragging');
             document.getElementById('TPid').title = '0';
             // document.getElementById('TPy').title = this.cmgroup.attr('y');
@@ -1811,6 +1793,18 @@ export class ElementService {
   C---------------------------------------------------------------------------M
   M---------------------------------------------------------------------------C
   ---------------------------------------------------------------------------*/
+
+  // checks luminocity of a hex color
+  public getLuma(color) {
+    let c = color.substring(1);      // strip #
+    let rgb = parseInt(c, 16);   // convert rrggbb to decimal
+    let r = (rgb >> 16) & 0xff;  // extract red
+    let g = (rgb >>  8) & 0xff;  // extract green
+    let b = (rgb >>  0) & 0xff;  // extract blue
+
+    let luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
+    return luma;
+  }
 
   // changes link titles if title of object is changed
   public changeLinkTitle(id: number, title: string, start: boolean) {

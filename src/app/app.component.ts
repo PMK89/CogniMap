@@ -37,6 +37,8 @@ export class AppComponent implements AfterViewInit {
   public widgets0Style: any = this.layoutService.widgets0Style;
   public widgets1Style: any = this.layoutService.widgets1Style;
   public strDown: boolean;
+  public cmapwidth = 500000;
+  public cmapheight = 500000;
   @ViewChild('TPid') public tpid: ElementRef;
   @ViewChild('TPmaxid') public tpmaxid: ElementRef;
   @ViewChild('TPmeta') public tpmeta: ElementRef;
@@ -68,6 +70,7 @@ export class AppComponent implements AfterViewInit {
                         this.cmsettings = data;
                         // console.log(data);
                         this.setSizes(data);
+                        this.windowService.setSize(window.innerWidth, window.innerHeight);
                       }
                     },
                     (error) => console.log(error)

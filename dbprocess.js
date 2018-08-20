@@ -227,15 +227,12 @@ const createDbWindow = function createDbWindow() {
     var ids = [];
     var selCMEoArray = [];
     var selCMElArray = [];
-    var cmeArray = [];
     var selCMElArrayBorder = [];
-    ids.push(arg.id);
-    cmeArray.push(arg);
-    console.log('loadCME start: ', Date.now());
-    var l = parseInt(arg.l);
-	  var t = parseInt(arg.t);
-	  var r = parseInt(arg.r);
-	  var b = parseInt(arg.b);
+    const l = parseInt(arg.l);
+	  const t = parseInt(arg.t);
+	  const r = parseInt(arg.r);
+	  const b = parseInt(arg.b);
+    // console.log(arg, l, t, r, b);
 	  // gets all elements within a expanded user view. Maybe should be made better
 	  cme.find({
 			$or: [
@@ -247,75 +244,120 @@ const createDbWindow = function createDbWindow() {
         console.log(err);
       } else {
         // do something with data
-      }
-		  event.sender.send('loadedCME', data);
-      console.log('loadCME end: ', Date.now());
-	  });
-      if (nochange) {
-        // console.log(cmeArray)
-        var SelChildren = {
-          ids: ids,
-          selCMEoArray: selCMEoArray,
-          selCMElArray: selCMElArray,
-          selarray: cmeArray,
-          selCMElArrayBorder: selCMElArrayBorder
-        }
-        event.sender.send('selectedChildren', SelChildren);
-      }
-  })
-
-
-    // save database to json file
-    ipcMain.on('saveDb', function (event, arg) {
-      if (quizes.length === 0) {
-        loadQuizes();
-      }
-      cme.find({}).sort({cdate: 1}).exec(function(err, data) {
-        if (err) console.log(err);
-        if (data) {
-          var dataArray = [];
-          var i;
-          var l = data.length;
-          for (i = 0; i < l; i++) {
-            if (data[i]) {
-              /*
-              if (data[i].cat) {
-                if (data[i].cat.length > 1) {
-                  var prevdata = '';
-                  var newcat = [];
-                  for (j = 0; j < data[i].cat.length; j++) {
-                    if (data[i].cat[j] !== prevdata) {
-                      newcat.push(data[i].cat[j]);
-                      prevdata = data[i].cat[j];
-                    }
-                  }
-                  data[i].cat = newcat;
-                }
-              }
-              var pos = quizes.findIndex(k => k.id === data[i].id);
-              if (pos > -1) {
-                quizes[pos].cat = newcat;
-                if (quizes[pos].cat.length > 3) {
-                  quizes[pos].cat = quizes[pos].cat.slice(0, 3);
+        for (let key in data) {
+          if (data[key]) {
+            // select elements within the selcted area
+            const data0 = data[key];
+            if (data0.id >= 1) {
+              selCMEoArray.push(data0);
+            } else if (data0.id <= -1) {
+              if (l < data0.x0 && data0.x0 < r && t < data0.y0 && data0.y0 < b) {
+                if (l < data0.x1 && data0.x1 < r && t < data0.y1 && data0.y1 < b) {
+                  selCMElArray.push(data0);
                 } else {
-                  var cat = quizes[pos].cat.slice();
-                  for (var i = 0; i < (3 - quizes[pos].cat.length); i++) {
-                    cat.push('none');
-                  }
-                  quizes[pos].cat = cat;
+                  selCMElArrayBorder.push(data0);
+                  const pos = data0.cmobject.indexOf('id0');
+                  var id = data0.cmobject.slice((pos + 5), (pos + 22));
+                  id = parseInt(id.slice(0, id.indexOf(',')));
+                  ids.push(id);
                 }
+              } else if (l < data0.x1 && data0.x1 < r && t < data0.y1 && data0.y1 < b) {
+                selCMElArrayBorder.push(data0);
+                const pos = data0.cmobject.indexOf('id1');
+                var id = data0.cmobject.slice((pos + 5), (pos + 22));
+                id = parseInt(id.slice(0, id.indexOf(',')));
+                ids.push(id);
               }
-              */
-              dataArray.push(data[i]);
             }
           }
-          var strData = JSON.stringify(dataArray, null, 2);
-          fs.writeFileSync(arg, strData);
-          saveQuizes();
-          event.returnValue = 'database saved to ' + arg
         }
-      });
-    })
+        sendSelection(event, [selCMEoArray, selCMElArray, selCMElArrayBorder, ids]);
+      }
+	  });
+  })
+
+  // sends area selection to frontend
+  function sendSelection(event, cmearray) {
+    var cmeArray = [];
+    cme.find({id: { $in: cmearray[3]}}, function(err, data) {
+      if (err) console.log(err);
+      if (data) {
+        cmeArray = data;
+      }
+      const SelChildren = {
+        selCMEoArray: cmearray[0],
+        selCMElArray: cmearray[1],
+        selarray: cmeArray,
+        selCMElArrayBorder: cmearray[2]
+      }
+      event.sender.send('selectedChildren', SelChildren);
+    });
+  }
+
+  // save database to json file
+  ipcMain.on('saveDb', function (event, arg) {
+    if (quizes.length === 0) {
+      loadQuizes();
+    }
+    cme.find({}).sort({cdate: 1}).exec(function(err, data) {
+      if (err) console.log(err);
+      if (data) {
+        var dataArray = [];
+        var i;
+        var l = data.length;
+        for (i = 0; i < l; i++) {
+          if (data[i]) {
+            /*
+            if (data[i].cat) {
+              if (data[i].cat.length > 1) {
+                var prevdata = '';
+                var newcat = [];
+                for (j = 0; j < data[i].cat.length; j++) {
+                  if (data[i].cat[j] !== prevdata) {
+                    newcat.push(data[i].cat[j]);
+                    prevdata = data[i].cat[j];
+                  }
+                }
+                data[i].cat = newcat;
+              }
+            }
+            var pos = quizes.findIndex(k => k.id === data[i].id);
+            if (pos > -1) {
+              quizes[pos].cat = newcat;
+              if (quizes[pos].cat.length > 3) {
+                quizes[pos].cat = quizes[pos].cat.slice(0, 3);
+              } else {
+                var cat = quizes[pos].cat.slice();
+                for (var i = 0; i < (3 - quizes[pos].cat.length); i++) {
+                  cat.push('none');
+                }
+                quizes[pos].cat = cat;
+              }
+            }
+            */
+            dataArray.push(data[i]);
+          }
+        }
+        var strData = JSON.stringify(dataArray, null, 2);
+        fs.writeFileSync(arg, strData);
+        saveQuizes();
+        event.returnValue = 'database saved to ' + arg
+      }
+    });
+  })
+
+  // save minimap to json file
+  ipcMain.on('saveMM', function (event, arg) {
+    var strData = JSON.stringify(arg, null, 2);
+    fs.writeFileSync('./data/minimap.json', strData);
+    event.returnValue = 'minimap saved to ./data/minimap.json';
+  })
+
+  // load minimap from json file
+  ipcMain.on('loadMM', function (event, arg) {
+    var mmData = JSON.parse(fs.readFileSync('./data/minimap.json'));
+    event.sender.send('loadedMM', mmData);
+  })
 
   // select from database and write json file
   ipcMain.on('searchDb', function (event, arg) {
@@ -412,9 +454,18 @@ const createDbWindow = function createDbWindow() {
     cme.findOne({id: arg.id}, function(err, data) {
 		  if (err) console.log(err);
       if (data) {
+        var move = undefined;
         datahistoryController(data, 'insert');
         if (data.title !== arg.title) {
           findCatChildren(data, data.title, arg.title, event);
+        }
+        if (data.id >= 1 && data.prio > 3 && data.coor !== arg.coor) {
+          move = {
+            x0: data.x0,
+            y0: data.y0,
+            x1: data.x1,
+            y1: data.y1
+          };
         }
         data.coor = arg.coor;
         data.x0 = arg.x0;
@@ -439,7 +490,7 @@ const createDbWindow = function createDbWindow() {
             console.log('changeCME end: ', arg.id, Date.now())
           }
 				});
-        event.sender.send('changedCME', data.id);
+        event.sender.send('changedCME', [data, move]);
       }
 	  });
   })
@@ -688,9 +739,20 @@ const createDbWindow = function createDbWindow() {
         }
         data.state = 'del';
         datahistoryController(data, 'insert');
+        const x = (data.x0 + data.x1) / 2;
+        const y = (data.y0 + data.y1) / 2;
+        cme.find({
+          $or: [
+            {$and: [{x0: { $gt: (x - 100), $lt: (x + 100) }}, {y0: { $gt: (y - 100), $lt: (y + 100) }}]},
+            {$and: [{x1: { $gt: (x - 100), $lt: (x + 100) }}, {y1: { $gt: (y - 100), $lt: (y + 100) }}]}
+          ]
+    		}, function(err, dataarray) {
+    		  if (err) console.log(err);
+    		  event.sender.send('deletedCME', [data, dataarray]);
+    	  });
         data.remove(function (err) {
 				});
-        event.sender.send('deletedCME', arg);
+
       }
 	  });
   })

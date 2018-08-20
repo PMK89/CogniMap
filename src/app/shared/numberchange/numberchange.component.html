@@ -9,7 +9,7 @@
         <button class="btnclass" (click)="changenumber(-1 * button.prio)">-</button>
       </td>
       <td [ngStyle]="setbutton(button)" >
-        <input class="inputclass"  #box value="{{value}}"
+        <input class="inputclass"  #box value="{{value.toString() | slice:0:4}}"
           width="20"
           (keyup.enter)="writenumber(box.value)"
           (blur)="writenumber(box.value)">
