@@ -25,6 +25,9 @@ export class CMSettings {
   public latexcolor: string;
   public mnemocolor: string;
   public contentPos: number;
+  public minimapupdate: number;
+  public zoom: number;
+  public deletedcme: number[];
   public currentMeta: CMEMeta;
   public epath: string;
   public cmap: CMLayout;

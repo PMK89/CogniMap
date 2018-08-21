@@ -1,0 +1,15 @@
+<svg width="500" height="200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+
+ <g class="layer">
+  <title>Layer 1</title>
+  <g transform="rotate(-12.2037, 250.249, 95.2734)" id="svg_7">
+   <line fill="none" stroke="#666666" stroke-width="30" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="-1.75" y1="94.57813" x2="114.52553" y2="94.57813" id="svg_1" transform="rotate(-45, 56.3878, 94.5781)"/>
+   <line fill="none" stroke="#666666" stroke-width="30" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="63.65992" y1="94.92187" x2="203.40257" y2="94.92187" id="svg_2" transform="rotate(45, 133.531, 94.9219)"/>
+   <line fill="none" stroke="#666666" stroke-width="30" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="151.43863" y1="91.10938" x2="279.24885" y2="91.10938" id="svg_3" transform="rotate(-45, 215.344, 91.1094)"/>
+   <line fill="none" stroke="#666666" stroke-width="30" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="229.17301" y1="99.84376" x2="356.98323" y2="99.84376" id="svg_4" transform="rotate(45, 293.078, 99.8438)"/>
+   <line fill="none" stroke="#666666" stroke-width="30" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="308.9716" y1="95.23438" x2="425.24714" y2="95.23438" id="svg_5" transform="rotate(-45, 367.109, 95.2344)"/>
+   <line fill="none" stroke="#666666" stroke-width="30" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="376.12612" y1="91.46876" x2="503.93634" y2="91.46876" id="svg_6" transform="rotate(45, 440.031, 91.4688)"/>
+  </g>
+ </g>
+</svg>

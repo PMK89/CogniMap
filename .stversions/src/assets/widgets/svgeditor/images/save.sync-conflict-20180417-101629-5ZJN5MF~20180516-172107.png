@@ -1,0 +1,40 @@
+/* MIT license */
+var cssKeywords = require('color-name');
+
+// NOTE: conversions should only return primitive values (i.e. arrays, or
+//       values that give correct `typeof` results).
+//       do not use box values types (i.e. Number(), String(), etc.)
+
+var reverseKeywords = {};
+for (var key in cssKeywords) {
+	if (cssKeywords.hasOwnProperty(key)) {
+		reverseKeywords[cssKeywords[key]] = key;
+	}
+}
+
+var convert = module.exports = {
+	rgb: {channels: 3, labels: 'rgb'},
+	hsl: {channels: 3, labels: 'hsl'},
+	hsv: {channels: 3, labels: 'hsv'},
+	hwb: {channels: 3, labels: 'hwb'},
+	cmyk: {channels: 4, labels: 'cmyk'},
+	xyz: {channels: 3, labels: 'xyz'},
+	lab: {channels: 3, labels: 'lab'},
+	lch: {channels: 3, labels: 'lch'},
+	hex: {channels: 1, labels: ['hex']},
+	keyword: {channels: 1, labels: ['keyword']},
+	ansi16: {channels: 1, labels: ['ansi16']},
+	ansi256: {channels: 1, labels: ['ansi256']},
+	hcg: {channels: 3, labels: ['h', 'c', 'g']},
+	apple: {channels: 3, labels: ['r16', 'g16', 'b16']},
+	gray: {channels: 1, labels: ['gray']}
+};
+
+// hide .channels and .labels properties
+for (var model in convert) {
+	if (convert.hasOwnProperty(model)) {
+		if (!('channels' in convert[model])) {
+			throw new Error('missing channels property: ' + model);
+		}
+
+		if (!('labels'

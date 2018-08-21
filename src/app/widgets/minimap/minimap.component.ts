@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { ElectronService } from 'ngx-electron';
@@ -19,11 +19,12 @@ import { MinimapService } from './minimap.service';
   templateUrl: './minimap.component.html',
   styleUrls: ['./minimap.component.scss']
 })
-export class MinimapComponent implements OnInit {
+export class MinimapComponent implements OnInit, OnDestroy {
   public cmsettings: Observable<CMSettings> = this.store.select('settings');
   public cmSettings: CMSettings;
   public s: any;
   public svggroup: any;
+  public draggroup: any;
   public selCMEo: any;
   public zoom = this.minimapService.zoom;
   public width = 5000;
@@ -31,6 +32,7 @@ export class MinimapComponent implements OnInit {
   public coorx: number;
   public coory: number;
   public selecting = this.minimapService.selecting;
+  public selection = false;
   public transMatrix = new Snap.Matrix();
   @ViewChild('minimap') public minimap: ElementRef;
   @ViewChild('minimapsvg') public minimapsvg: ElementRef;
@@ -45,25 +47,31 @@ export class MinimapComponent implements OnInit {
                 });
                 this.electronService.ipcRenderer.on('changedCME', (event, arg) => {
                   if (arg) {
-                    if (arg.length === 2) {
-                      if (arg[0]) {
-                        let chngobj = arg[0];
-                        this.changeElement(chngobj, arg[1]);
+                    if (arg.id) {
+                      this.changeElement(arg);
+                    }
+                  }
+                });
+                this.electronService.ipcRenderer.on('changedSince', (event, arg) => {
+                  if (arg) {
+                    if (Array.isArray(arg)) {
+                      for (let key in arg) {
+                        if (arg[key]) {
+                          this.changeElement(arg[key]);
+                        }
                       }
                     }
                   }
                 });
                 this.electronService.ipcRenderer.on('deletedCME', (event, arg) => {
                   if (arg) {
-                    if (arg.length === 2) {
-                      if (arg[0]) {
-                        let delobj = arg[0];
-                        let others = true;
-                        if (arg[1].length < 1) {
-                          others = false;
-                        }
-                        this.deleteElement(delobj, others);
-                      }
+                    this.deleteElement(arg);
+                  }
+                });
+                this.electronService.ipcRenderer.on('selectedChildren', (event, arg) => {
+                  if (arg) {
+                    if (arg.minimap) {
+                      this.groupMM(arg.selCMEoArray, arg.selCMElArray);
                     }
                   }
                 });
@@ -78,6 +86,28 @@ export class MinimapComponent implements OnInit {
           this.cmSettings = data;
           if (this.cmSettings.coor.x > -1 && this.cmSettings.coor.y > -1) {
             this.setScrollPosition(this.cmSettings.coor.x, this.cmSettings.coor.y);
+          }
+          if (this.cmSettings.mode === 'dragging') {
+            this.moveMM();
+          } else if (this.cmSettings.mode === 'selecting') {
+            if (this.draggroup) {
+              this.draggroup.undrag();
+            }
+          } else {
+            if (this.draggroup) {
+              console.log('draggroup destroyed ', this.cmSettings.mode);
+              this.draggroup.undrag();
+              let children = this.draggroup.children();
+              children.forEach((ele) => {
+                this.svggroup.add(ele);
+              });
+              this.draggroup.remove();
+              let marking = this.svggroup.select('#mmselectionmark');
+              if (marking) {
+                marking.remove();
+              }
+              this.selection = false;
+            }
           }
         }
       }
@@ -98,13 +128,17 @@ export class MinimapComponent implements OnInit {
   // generates svg minimap
   public makeSvgMinimap(svgstring: string) {
     this.svggroup = this.s.group({id: 'svggroup'});
-    let svgbg = this.svggroup.rect(0, 0, this.width, this.height);
-    svgbg.attr({
-      stroke: 'none',
-      fill: '#ffffff'
-    });
-    this.svggroup.append(svgbg);
     this.svggroup.append(Snap.parse(svgstring));
+    this.electronService.ipcRenderer.send('getSince', this.cmSettings.minimapupdate);
+    if (this.cmSettings.deletedcme.length > 0) {
+      for (let key in this.cmSettings.deletedcme) {
+        if (this.cmSettings.deletedcme[key]) {
+          this.deleteElement({id: this.cmSettings.deletedcme[key]});
+        }
+      }
+      this.cmSettings.deletedcme = [];
+      this.minimapService.setSettings(this.cmSettings);
+    }
     this.svggroup.mousedown( (e) => {
       if (e) {
         this.moveTo(e);
@@ -124,7 +158,7 @@ export class MinimapComponent implements OnInit {
   // moves to an point on the map and transports objects there if selected
   public moveTo(e) {
     if (e) {
-      if (this.cmSettings.mode !== 'selecting') {
+      if (this.cmSettings.mode !== 'selecting' && !this.selection) {
         let eoffsetX = e.offsetX / this.zoom;
         let eoffsetY = e.offsetY / this.zoom;
         if (e.path) {
@@ -142,7 +176,9 @@ export class MinimapComponent implements OnInit {
         }
         window.scrollTo(x, y);
       } else {
-        this.minimapService.minimapSelection(e);
+        if (!this.selection) {
+          this.minimapService.minimapSelection(e);
+        }
       }
     }
   }
@@ -166,12 +202,14 @@ export class MinimapComponent implements OnInit {
   public zoomFn(zm: number) {
     if (zm === 0) {
       this.zoom = 1;
+      this.minimapService.zoom = 1;
       let emptyMatrix = new Snap.matrix();
       this.svggroup.transform(emptyMatrix);
     } else {
-      this.zoom += 0.1 * zm;
+      this.minimapService.zoom += 0.1 * zm;
+      this.zoom = this.minimapService.zoom;
       if (this.zoom === 0) {
-        this.zoom = 0.1;
+        this.minimapService.zoom = 0.1;
       }
       this.svggroup.transform(Snap.matrix().scale(this.zoom));
       this.width = this.zoom * 5000;
@@ -181,47 +219,99 @@ export class MinimapComponent implements OnInit {
   }
 
   // changes a existing svg element
-  public changeElement(obj, move) {
+  public changeElement(obj) {
     let delobj = JSON.parse(JSON.stringify(obj));
-    if (move) {
-      // if an element is moved old values are given to the delete function
-      delobj.x0 = move.x0;
-      delobj.x1 = move.x1;
-      delobj.y0 = move.y0;
-      delobj.y1 = move.y1;
-    }
-    this.deleteElement(delobj, true);
+    this.deleteElement(delobj);
     this.newElement(obj);
   }
 
   // changes a existing svg element
-  public deleteElement(obj, others: boolean) {
+  public deleteElement(obj) {
     let delement = undefined;
     if (obj.id >= 1) {
-      let x = 3 * Math.round((obj.x0 + obj.x1) / 600);
-      let y = 3 * Math.round((obj.y0 + obj.y1) / 600);
-      if (obj.prio < 4) {
-        delement = this.svggroup.select('#mini' + obj.id.toString());
-      } else {
-        let pointid = 'mm' + x.toString() + y.toString();
-        if (others) {
-          let point = this.svggroup.select('#' + pointid);
-          if (point) {
-            let newr = point.attr('r') * 0.9;
-            if (newr < 1) {
-              delement = this.svggroup.select('#' + pointid);
-            }
-            point.attr({r: newr});
-          }
+      if (obj.prio) {
+        if (obj.prio < 4) {
+          delement = this.svggroup.select('#mini' + obj.id.toString());
         } else {
-          delement = this.svggroup.select('#' + pointid);
+          let point = this.svggroup.select('.id' + obj.id.toString());
+          if (point) {
+            point.removeClass('id' + obj.id.toString());
+            if (point.node.classList.length > 0) {
+              let newr = point.attr('r') * 0.9;
+              point.attr({r: newr});
+            } else {
+              delement = point;
+            }
+          }
         }
+      } else {
+        delement = this.svggroup.select('#mini' + obj.id.toString());
       }
     } else if (obj.id <= -1) {
       delement = this.svggroup.select('#mini' + obj.id.toString());
     }
     if (delement) {
       delement.remove();
+    }
+  }
+
+  // groups elements in selection
+  public groupMM(cmeoarray, cmelarray) {
+    this.draggroup = this.svggroup.g();
+    for (let key in cmeoarray) {
+      if (cmeoarray[key]) {
+        let cmeo = cmeoarray[key];
+        if (cmeo.prio < 4 && cmeo.types[0].indexOf('q') === -1) {
+          let elem = this.svggroup.select('#mini' + cmeo.id.toString());
+          if (elem) {
+            this.draggroup.add(elem);
+          }
+        } else {
+          let elem = this.svggroup.select('.id' + cmeo.id.toString());
+          if (elem) {
+            this.draggroup.add(elem);
+          }
+        }
+      }
+    }
+    for (let key in cmelarray) {
+      if (cmelarray[key]) {
+        let elem = this.svggroup.select('#mini' + cmelarray[key].id.toString());
+        if (elem) {
+          this.draggroup.add(elem);
+        }
+      }
+    }
+    let BBox = this.draggroup.getBBox();
+    let marking = this.s.rect(BBox.x, BBox.y, (BBox.w), (BBox.h));
+    marking.attr({
+      fill: 'none',
+      opacity: 0.5,
+      strokeWidth: 2,
+      id: 'mmselectionmark',
+      stroke: '#0000ff'
+    });
+    this.draggroup.add(marking);
+    this.selection = true;
+  }
+
+  // move drag group
+  public moveMM() {
+    if (this.draggroup) {
+      let move = function (dx, dy) {
+        this.attr({
+                  transform: this.data('origTransform') +
+                   (this.data('origTransform') ? 'T' : 't') + [dx, dy]
+                });
+              };
+      let start = function () {
+          this.data('origTransform', this.transform().local );
+        };
+      let stop = function () {
+          // console.log('finished dragging');
+          document.getElementById('TPid').title = '0';
+        };
+      this.draggroup.drag(move, start, stop);
     }
   }
 
@@ -277,6 +367,7 @@ export class MinimapComponent implements OnInit {
             newr = 3;
           }
           point.attr({r: newr});
+          point.addClass('id' + obj.id.toString());
         } else {
           let r = 0.5 + (1 - ((obj.prio + 2) / 43));
           if (color === '#ffffff') {
@@ -290,6 +381,7 @@ export class MinimapComponent implements OnInit {
             stroke: 'none'
           });
           this.svggroup.add(point);
+          point.addClass('id' + obj.id.toString());
         }
       }
     } else if (obj.id <= -1) {
@@ -314,6 +406,18 @@ export class MinimapComponent implements OnInit {
         });
         this.svggroup.add(p);
       }
+    }
+  }
+
+  // saves minimap when element is destroyed
+  public ngOnDestroy() {
+    let isvg = this.svggroup.innerSVG();
+    isvg = isvg.replace(/ \\"/g, " '");
+    isvg = isvg.replace(/\\",/g, "',");
+    let mmsave = this.electronService.ipcRenderer.sendSync('saveMM', isvg);
+    if (mmsave) {
+      this.cmSettings.minimapupdate = Date.now();
+      this.minimapService.setSettings(this.cmSettings);
     }
   }
 

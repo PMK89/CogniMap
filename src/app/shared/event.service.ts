@@ -187,8 +187,8 @@ export class EventService {
             } else if (this.cmsettings.pointArray[0]) {
               if (this.clickX <= (this.cmsettings.pointArray[0].x + 3) && this.clickX >= (this.cmsettings.pointArray[0].x - 3) &&
               this.clickY <= (this.cmsettings.pointArray[0].y + 3) && this.clickY >= (this.cmsettings.pointArray[0].y - 3)) {
-                let minX = Math.min.apply(Math, this.cmsettings.pointArray.map(function(o){return o.x; }));
-                let minY = Math.min.apply(Math, this.cmsettings.pointArray.map(function(o){return o.y; }));
+                let minX = Math.min.apply(Math, this.cmsettings.pointArray.map((o) => {return o.x; }));
+                let minY = Math.min.apply(Math, this.cmsettings.pointArray.map((o) => {return o.y; }));
                 for (let key in this.cmsettings.pointArray) {
                   if (this.cmsettings.pointArray[key]) {
                     this.cmsettings.pointArray[key].x = this.cmsettings.pointArray[key].x - minX;
@@ -354,10 +354,10 @@ export class EventService {
         let y1 = y0 + Math.abs((evt.clientY  + this.windowService.WinYOffset) - this.startY);
         if (this.cmsettings.mode === 'selecting') {
           if (this.minimapselect) {
-            x0 = Math.min(evt.offsetX, this.minimapevent.offsetX) * 100 * this.minimapselect;
-            y0 = Math.min(evt.offsetY, this.minimapevent.offsetY) * 100 * this.minimapselect;
-            x1 = x0 + (Math.abs(evt.offsetX - this.minimapevent.offsetX) * 100 * this.minimapselect);
-            y1 = y0 + (Math.abs(evt.offsetY - this.minimapevent.offsetY) * 100 * this.minimapselect);
+            x0 = Math.min(evt.offsetX, this.minimapevent.offsetX) * 100 / this.minimapselect;
+            y0 = Math.min(evt.offsetY, this.minimapevent.offsetY) * 100 / this.minimapselect;
+            x1 = x0 + (Math.abs(evt.offsetX - this.minimapevent.offsetX) * 100 / this.minimapselect);
+            y1 = y0 + (Math.abs(evt.offsetY - this.minimapevent.offsetY) * 100 / this.minimapselect);
             console.log(evt, this.minimapevent, x0, y0, x1, y1);
             this.elementService.cmap = false;
           }

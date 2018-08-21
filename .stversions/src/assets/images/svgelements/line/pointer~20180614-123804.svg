@@ -1,0 +1,13 @@
+<svg width="500" height="200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+ <defs>
+  <marker id="se_marker_end_svg_2" markerUnits="strokeWidth" orient="auto" viewBox="0 0 100 100" markerWidth="5" markerHeight="5" refX="50" refY="50">
+   <path id="svg_3" d="m100,50l-100,40l30,-40l-30,-40l100,40z" fill="#000000" stroke="#666666" stroke-width="10"/>
+  </marker>
+ </defs>
+ <g class="layer">
+  <title>Layer 1</title>
+  <ellipse fill="none" stroke="#666666" stroke-width="14" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" cx="351" cy="74.61828" rx="128" ry="57.11828" id="svg_1"/>
+  <line fill="none" stroke="#666666" stroke-width="15" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="19" y1="171.58264" x2="365" y2="71.5" id="svg_2" marker-end="url(#se_marker_end_svg_2)"/>
+ </g>
+</svg>

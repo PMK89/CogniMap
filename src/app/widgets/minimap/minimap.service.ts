@@ -66,6 +66,11 @@ export class MinimapService {
     }
   }
 
+  // sets  settings
+  public setSettings(settings) {
+    this.settingsService.updateSettings(settings);
+  }
+
   // moves element to entered coordinates
   public moveTo(x: number, y: number) {
     try {
@@ -94,6 +99,7 @@ export class MinimapService {
     this.lastevent = e;
     this.eventService.minimapevent = e;
     this.eventService.minimapselect = this.zoom;
+    console.log(this.eventService.minimapselect);
     this.eventService.onMouseDown(e);
   }
 

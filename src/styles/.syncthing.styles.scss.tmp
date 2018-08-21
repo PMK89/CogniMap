@@ -1,0 +1,15 @@
+body {
+	margin: 0 !important;
+	// height: 200000px;
+	// width: 200000px;
+	padding: 0 !important;
+}
+a {
+	color: #fb0;
+	&:hover {text-decoration: none;}
+	&.active {text-decoration: none; color: #fd8;}
+}
+@font-face {
+    font-family: 'cmFont0';
+    src: url(urw_chancery_l_medium_italic.ttf);
+}

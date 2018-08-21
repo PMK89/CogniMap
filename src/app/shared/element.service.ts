@@ -41,6 +41,7 @@ export class ElementService {
   public maxID = 0;
   public counter = 0;
   public startPos: CMCoor;
+  public minimapselected = false;
   public selCMEoArray: any[] = [];
   public selCMElArray: any[] = [];
   public selCMElArrayBorder: any[] = [];
@@ -86,19 +87,24 @@ export class ElementService {
                     }
                   });
                 });
+                this.electronService.ipcRenderer.on('deletedCME', (event, arg) => {
+                  if (arg) {
+                    if (this.cmsettings.widget0 !== 'minimap' && this.cmsettings.widget1 !== 'minimap') {
+                      this.cmsettings.deletedcme.push(arg.id);
+                    }
+                  }
+                });
                 this.electronService.ipcRenderer.on('changedCME', (event, arg) => {
                   if (arg) {
                     if (Array.isArray(arg)) {
-                      if (Array.isArray(arg[0])) {
-                        for (let key in arg[0]) {
-                          if (arg[0][key]) {
-                            this.store.dispatch({type: 'UPDATE_CME', payload: arg[0][key] });
-                          }
+                      for (let key in arg) {
+                        if (arg[key]) {
+                          this.store.dispatch({type: 'UPDATE_CME', payload: arg[key] });
                         }
-                        // console.log('changedCME: ', arg);
-                      } else {
-                        // console.log('changedCME: ', arg);
                       }
+                      // console.log('changedCME: ', arg);
+                    } else {
+                      // console.log('changedCME: ', arg);
                     }
                   }
                 });
@@ -110,6 +116,11 @@ export class ElementService {
                     this.selCMEoArray = arg.selCMEoArray;
                     this.selCME = arg.selarray;
                     this.selCMEo = undefined;
+                    if (arg.minimap) {
+                      this.minimapselected = true;
+                    } else {
+                      this.selectionGroup(this.selCMEoArray, this.selCMElArray);
+                    }
                   }
                 });
               }
@@ -220,7 +231,7 @@ export class ElementService {
 
   // changes CME in database
   public changeDBCME(dbcme: CME) {
-    console.log('change id:', dbcme.id, Date.now());
+    // console.log('change id:', dbcme.id, Date.now());
     dbcme.state = '';
     this.counter++;
     if ((this.counter % 100) === 0) {
@@ -503,6 +514,7 @@ export class ElementService {
         r: x1,
         b: y1
       };
+      this.minimapselected = true;
       this.electronService.ipcRenderer.send('findArea', arg);
       // console.log(x0, x1, y0, y1);
     }
@@ -1152,7 +1164,9 @@ export class ElementService {
           this.selCMEo.state = 'dragging';
           this.updateSelCMEo(this.selCMEo);
         } else if (this.selCMEoArray.length > 0) {
-          this.selectionGroup(this.selCMEoArray, this.selCMElArray);
+          if (!this.minimapselected) {
+            this.selectionGroup(this.selCMEoArray, this.selCMElArray);
+          }
         }
       } else if (this.cmsettings.mode === 'minimap') {
         this.cmap = false;
@@ -1234,6 +1248,7 @@ export class ElementService {
         }
       }
       if (this.cmsettings.mode !== 'selecting' && this.cmsettings.mode !== 'dragging') {
+        this.minimapselected = false;
         this.clearselectionGroup();
       }
       if (this.cmsettings.mode !== 'marking') {
@@ -1272,18 +1287,18 @@ export class ElementService {
       });
       if ((j % 1000) === 0) {
         newline.attr({
-          strokeWidth: 2,
+          strokeWidth: 1.5,
           opacity: 0.8
         });
         console.log(newline);
       } else if ((j % 100) === 0) {
         newline.attr({
-          strokeWidth: 1.2,
+          strokeWidth: 1.0,
           opacity: 0.5
         });
       } else {
         newline.attr({
-          strokeWidth: 0.8,
+          strokeWidth: 0.5,
           opacity: 0.4
         });
       }
@@ -1296,18 +1311,18 @@ export class ElementService {
       });
       if ((j % 1000) === 0) {
         newline.attr({
-          strokeWidth: 2,
+          strokeWidth: 1.5,
           opacity: 0.8
         });
         console.log(newline);
       } else if ((j % 100) === 0) {
         newline.attr({
-          strokeWidth: 1.2,
+          strokeWidth: 1.0,
           opacity: 0.5
         });
       } else {
         newline.attr({
-          strokeWidth: 0.8,
+          strokeWidth: 0.5,
           opacity: 0.4
         });
       }
@@ -1374,6 +1389,7 @@ export class ElementService {
                     newr = 3;
                   }
                   point.attr({r: newr});
+                  point.addClass('id' + obj.id.toString());
                 } else {
                   let r = 0.5 + (1 - ((obj.prio + 2) / 43));
                   if (color === '#ffffff') {
@@ -1386,6 +1402,7 @@ export class ElementService {
                     fill: color,
                     stroke: 'none'
                   });
+                  point.addClass('id' + obj.id.toString());
                   minigroup.add(point);
                 }
               }
@@ -1419,8 +1436,11 @@ export class ElementService {
     let isvg = minigroup.innerSVG();
     isvg = isvg.replace(/ \\"/g, " '");
     isvg = isvg.replace(/\\",/g, "',");
-    let savedsvg = this.electronService.ipcRenderer.sendSync('saveMM', isvg);
-    console.info(savedsvg);
+    let mmsave = this.electronService.ipcRenderer.sendSync('saveMM', isvg);
+    if (mmsave) {
+      this.cmsettings.minimapupdate = Date.now();
+      this.settingsService.updateSettings(this.cmsettings);
+    }
   }
 
   // cleares the miniature Cmap
@@ -1435,112 +1455,121 @@ export class ElementService {
 
   // moves element by dragging differences
   public moveElement(x, y, keymove?) {
-    // moves a single selected element
-    if (this.selCMEo && (typeof x === 'number') && (typeof y === 'number')) {
-      if (this.selCMEo.state === 'dragging' || this.selCMEo.state === 'cutting' || keymove) {
-        this.selCMEo.coor.x += x;
-        this.selCMEo.coor.y += y;
-        this.selCMEo.x0 += x;
-        this.selCMEo.y0 += y;
-        this.selCMEo.x1 += x;
-        this.selCMEo.y1 += y;
-        this.selCMEo.prep = '';
-        this.selCMEo.state = 'selected';
-        // console.log(this.selCMEo);
-        this.cmsettings.mode = 'edit';
-        this.settingsService.updateSettings(this.cmsettings);
-        this.updateSelCMEo(this.selCMEo);
-        for (let i in this.selCMEo.cmobject.links) {
-          if (this.selCMEo.cmobject.links[i]) {
-            let link = this.selCMEo.cmobject.links[i];
-            let conxy = this.conectionCoor(this.selCMEo, link);
-            this.changeLink(link.id, conxy[0], conxy[1], link.start);
-            console.log('move: ', link.id);
+    if (this.minimapselected) {
+      this.moveOnMinimap(x, y);
+    } else {
+      // moves a single selected element
+      if (this.selCMEo && (typeof x === 'number') && (typeof y === 'number')) {
+        if (this.selCMEo.state === 'dragging' || this.selCMEo.state === 'cutting' || keymove) {
+          this.selCMEo.coor.x += x;
+          this.selCMEo.coor.y += y;
+          this.selCMEo.x0 += x;
+          this.selCMEo.y0 += y;
+          this.selCMEo.x1 += x;
+          this.selCMEo.y1 += y;
+          this.selCMEo.prep = '';
+          this.selCMEo.state = 'selected';
+          // console.log(this.selCMEo);
+          this.cmsettings.mode = 'edit';
+          this.settingsService.updateSettings(this.cmsettings);
+          this.updateSelCMEo(this.selCMEo);
+          for (let i in this.selCMEo.cmobject.links) {
+            if (this.selCMEo.cmobject.links[i]) {
+              let link = this.selCMEo.cmobject.links[i];
+              let conxy = this.conectionCoor(this.selCMEo, link);
+              this.changeLink(link.id, conxy[0], conxy[1], link.start);
+              console.log('move: ', link.id);
+            }
           }
-        }
-      } // moves elements on the minimap
-    } else if (this.selCMEoArray.length > 0 && this.selCMElArray.length > 0
-       && (typeof x === 'number') && (typeof y === 'number') && this.cmap) {
-      this.counter = 0;
-      let locCMEArray = this.selCMEoArray.concat(this.selCMElArray);
-      let borderLinks = [];
-      if (this.selCME.length > 0) {
-        for (let key in this.selCME) {
-          if (this.selCME[key]) {
-            // select elements within the selcted area
-            if (this.selCME[key]['id']) {
-              let pos = locCMEArray.indexOf(this.selCME[key].id);
-              if (pos !== -1) {
-                let cme;
-                if (this.selCME[key].id > 0) {
-                  cme = this.CMEtoCMEol(this.selCME[key]);
-                } else {
-                  cme = this.selCME[key];
-                }
-                // console.log(cme);
-                cme.coor.x += x;
-                cme.coor.y += y;
-                cme.x0 += x;
-                cme.y0 += y;
-                cme.x1 += x;
-                cme.y1 += y;
-                cme.prep = '';
-                cme.prep1 = '';
-                // data[key] = this.newCME(cme);
-                locCMEArray.splice(pos, 1);
-                if (cme.id > 0) {
-                  for (let i in cme.cmobject.links) {
-                    if (cme.cmobject.links[i]) {
-                      let link = cme.cmobject.links[i];
-                      if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
-                        // console.log(cme);
-                        borderLinks.push(cme);
+        } // moves elements on the minimap
+      } else if (this.selCMEoArray.length > 0 && this.selCMElArray.length > 0
+         && (typeof x === 'number') && (typeof y === 'number') && this.cmap) {
+        this.counter = 0;
+        let locCMEArray = this.selCMEoArray.concat(this.selCMElArray);
+        let borderLinks = [];
+        if (this.selCME.length > 0) {
+          for (let key in this.selCME) {
+            if (this.selCME[key]) {
+              // select elements within the selcted area
+              if (this.selCME[key]['id']) {
+                let pos = locCMEArray.indexOf(this.selCME[key].id);
+                if (pos !== -1) {
+                  let cme;
+                  if (this.selCME[key].id > 0) {
+                    cme = this.CMEtoCMEol(this.selCME[key]);
+                  } else {
+                    cme = this.selCME[key];
+                  }
+                  // console.log(cme);
+                  cme.coor.x += x;
+                  cme.coor.y += y;
+                  cme.x0 += x;
+                  cme.y0 += y;
+                  cme.x1 += x;
+                  cme.y1 += y;
+                  cme.prep = '';
+                  cme.prep1 = '';
+                  // data[key] = this.newCME(cme);
+                  locCMEArray.splice(pos, 1);
+                  if (cme.id > 0) {
+                    for (let i in cme.cmobject.links) {
+                      if (cme.cmobject.links[i]) {
+                        let link = cme.cmobject.links[i];
+                        if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
+                          // console.log(cme);
+                          borderLinks.push(cme);
+                        }
                       }
                     }
+                    cme = this.newCME(cme);
                   }
-                  cme = this.newCME(cme);
-                }
-                let storeaction = {type: 'UPDATE_CME', payload: cme };
-                this.store.dispatch(storeaction);
-              }
-            }
-          }
-        }
-        if (borderLinks.length > 0) {
-          for (let i in borderLinks) {
-            if (borderLinks[i]) {
-              for (let j in borderLinks[i].cmobject.links) {
-                if (borderLinks[i].cmobject.links[j]) {
-                  let link = borderLinks[i].cmobject.links[j];
-                  if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
-                    let conxy = this.conectionCoor(borderLinks[i], link);
-                    this.changeLink(link.id, conxy[0], conxy[1], link.start);
-                  }
+                  let storeaction = {type: 'UPDATE_CME', payload: cme };
+                  this.store.dispatch(storeaction);
                 }
               }
             }
           }
-          this.clearselectionGroup();
+          if (borderLinks.length > 0) {
+            for (let i in borderLinks) {
+              if (borderLinks[i]) {
+                for (let j in borderLinks[i].cmobject.links) {
+                  if (borderLinks[i].cmobject.links[j]) {
+                    let link = borderLinks[i].cmobject.links[j];
+                    if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
+                      let conxy = this.conectionCoor(borderLinks[i], link);
+                      this.changeLink(link.id, conxy[0], conxy[1], link.start);
+                    }
+                  }
+                }
+              }
+            }
+            this.clearselectionGroup();
+          }
+          this.cmsettings.mode = 'selecting';
+          this.settingsService.updateSettings(this.cmsettings);
+        } else {
+          alert('no Elements selected');
         }
-        this.cmsettings.mode = 'selecting';
-        this.settingsService.updateSettings(this.cmsettings);
-      } else {
-        alert('no Elements selected');
       }
     }
   }
 
   // moves element by dragging differences
-  public moveOnMinimap(x, y, keymove?) {
+  public moveOnMinimap(x, y) {
     if ((typeof x === 'number') && (typeof y === 'number')) {
-      if (true) {
+      console.log(x, y);
+      if (this.minimapselected) {
+        x *= 100;
+        y *= 100;
+        this.store.dispatch({type: 'ADD_CME_FROM_DB', payload: this.selCME });
+        this.store.dispatch({type: 'ADD_CME_FROM_DB', payload: this.selCMElArrayBorder });
         let dataArray = [];
         const lenL = this.selCMElArray.length;
         let i;
         if (lenL > 0) {
           for (i = 0; i < lenL; i++) {
             if (this.selCMElArray[i]) {
-              let cme = this.allCME[i];
+              let cme = this.selCMElArray[i];
               // console.log(cme);
               cme.coor.x += x;
               cme.coor.y += y;
@@ -1551,30 +1580,40 @@ export class ElementService {
               cme.prep = '';
               cme.prep1 = '';
               dataArray.push(cme);
+              this.changeDBCME(cme);
             }
           }
         }
-        if (this.selCME.length > 0) {
+        if (this.selCMEoArray.length > 0) {
           this.counter = 0;
-          for (let n in this.selCME) {
-            if (this.selCME[n]) {
-              for (let j in this.selCME[n].cmobject.links) {
-                if (this.selCME[n].cmobject.links[j]) {
-                  let link = this.selCME[n].cmobject.links[j];
+          for (let n in this.selCMEoArray) {
+            if (this.selCMEoArray[n]) {
+              let cme = this.CMEtoCMEol(this.selCMEoArray[n]);
+              // console.log(cme);
+              cme.coor.x += x;
+              cme.coor.y += y;
+              cme.x0 += x;
+              cme.y0 += y;
+              cme.x1 += x;
+              cme.y1 += y;
+              cme.prep = '';
+              cme.prep1 = '';
+              for (let j in cme.cmobject.links) {
+                if (cme.cmobject.links[j]) {
+                  let link = cme.cmobject.links[j];
                   this.selCMElArrayBorder.forEach((borderlink) => {
                     if (borderlink) {
                       if (borderlink.id === link.id) {
-                        let conxy = this.conectionCoor(this.selCME[n], link);
+                        let conxy = this.conectionCoor(cme, link);
                         this.changeLink(link.id, conxy[0], conxy[1], link.start);
                       }
                     }
                   });
-                  if (this.selCMElArrayBorder.indexOf(link.id) !== -1) {
-                    let conxy = this.conectionCoor(this.selCME[n], link);
-                    this.changeLink(link.id, conxy[0], conxy[1], link.start);
-                  }
                 }
               }
+              let cme0 = this.newCME(cme);
+              this.changeDBCME(cme0);
+              dataArray.push(cme0);
             }
           }
         }
@@ -1689,6 +1728,7 @@ export class ElementService {
 
   // handles multiple selection as one group
   public selectionGroup(CMEoArray: number[], CMElArray: number[]) {
+    this.minimapselected = false;
     let cmsvg = Snap('#cmsvg');
     let cmeselect = cmsvg.select('#cmeselection');
     let cmeselection = cmeselect.select('#cmeselectiongroup');

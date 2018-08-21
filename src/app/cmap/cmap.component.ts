@@ -49,8 +49,14 @@ export class CmapComponent implements OnInit {
                     this.cmsettings = data;
                     let selCMEo0 = this.selCMEo;
                     if (this.cmsettings.mode.indexOf('quiz') === -1 || this.cmsettings.mode === 'quizing') {
-                      if ((this.cmsettings.mode === 'typing' || this.cmsettings.mode === 'dragging') && selCMEo0['types'][0] === 'q') {
-                        this.quiz = '';
+                      if (selCMEo0) {
+                        if ((this.cmsettings.mode === 'typing' || this.cmsettings.mode === 'dragging') && selCMEo0['types'][0] === 'q') {
+                          this.quiz = '';
+                        } else if (this.cmsettings.mode === 'progress') {
+                          this.quiz = '';
+                        } else {
+                          this.quiz = 'q';
+                        }
                       } else if (this.cmsettings.mode === 'progress') {
                         this.quiz = '';
                       } else {

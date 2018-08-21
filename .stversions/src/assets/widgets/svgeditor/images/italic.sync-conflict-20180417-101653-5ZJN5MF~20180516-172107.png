@@ -1,0 +1,100 @@
+\":true},{\"id\":-38453857,\"targetId\":3857,\"title\":\"bsp. Cycloecten\",\"peerCoor\":{\"x\":76153,\"y\":44340},\"weight\":-1,\"con\":\"e\",\"start\":true},{\"id\":-38453860,\"targetId\":3860,\"title\":\"Terphenyle\",\"peerCoor\":{\"x\":76409,\"y\":44324},\"weight\":-1,\"con\":\"e\",\"start\":true}]}",
+    "coor": {
+      "x": 76108,
+      "y": 44180
+    },
+    "id": 3845,
+    "prep": "<image href=\"assets/images/cm/pmk_1493299069098.png\" preserveAspectRatio=\"none\" x=\"76108\" y=\"44180\" title=\"3845\" style=\"opacity: 1;\"/>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "Bild",
+    "types": [
+      "i",
+      "0",
+      "0"
+    ],
+    "vdate": 1493373547772,
+    "x0": 76108,
+    "x1": 76434,
+    "y0": 44180,
+    "y1": 44302,
+    "_id": "101060cd"
+  },
+  {
+    "cat": [],
+    "cdate": 1492073538515,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#485aa4\",\"color1\":\"#485aa4\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":1550,\"title0\":\"MCFC\",\"id1\":1558,\"title1\":\"molten Carbonat\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 63676,
+      "y": 55733
+    },
+    "id": -15501558,
+    "prep": "<path d=\"M63711.5 55770.8125L63716.5 55728.640625\" fill=\"none\" stroke=\"#485aa4\" id=\"cms-15501558\" style=\"stroke-width: 2;\"/>",
+    "prep1": "",
+    "prio": 6,
+    "state": "",
+    "title": "1550-1558",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1492073538515,
+    "x0": 63711.5,
+    "x1": 63716.5,
+    "y0": 55770.8125,
+    "y1": 55728.640625,
+    "_id": "10138254"
+  },
+  {
+    "cat": [],
+    "cdate": 1492073651688,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#37bd20\",\"color1\":\"#37bd20\",\"size0\":4,\"size1\":4,\"trans\":1,\"id0\":446,\"title0\":\"Prokaryoten\",\"id1\":447,\"title1\":\"Bild\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 46489,
+      "y": 44361
+    },
+    "id": -446447,
+    "prep": "<path d=\"M46523.8359375 44471.1875L46628 44361\" fill=\"none\" stroke=\"#37bd20\" id=\"cms-446447\" style=\"stroke-width: 4;\"/>",
+    "prep1": "",
+    "prio": 4,
+    "state": "",
+    "title": "446-447",
+    "types": [
+      "l",
+      "k",
+      "0"
+    ],
+    "vdate": 1492073651688,
+    "x0": 46523.8359375,
+    "x1": 46628,
+    "y0": 44471.1875,
+    "y1": 44361,
+    "_id": "1015b46e"
+  },
+  {
+    "cat": [],
+    "cdate": 1492073327567,
+    "cmobject": "{\"end\":\"\",\"color0\":\"#8000ff\",\"color1\":\"#8000ff\",\"size0\":2,\"size1\":2,\"trans\":1,\"id0\":2220,\"title0\":\"Bild\",\"id1\":2221,\"title1\":\"Bild\",\"property\":[],\"str\":\"\",\"numArray\":[],\"markers\":[]}",
+    "coor": {
+      "schema": {
+        "x": 0,
+        "y": 0
+      },
+      "type": {},
+      "x": 93823,
+      "y": 73426
+    },
+    "id": -22202221,
+    "prep": "<path 
