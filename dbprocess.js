@@ -500,6 +500,7 @@ const createDbWindow = function createDbWindow() {
 
   // finds cmes within given boundaries
   ipcMain.on('loadCME', (event, arg) => {
+    // cleanDB();
     const t0 = Date.now();
     console.log('loadCME start: ', t0);
     const l = parseInt(arg.l);
@@ -754,6 +755,29 @@ const createDbWindow = function createDbWindow() {
   ipcMain.on('WinClosed', () => {
     console.log('WinClosed'),
     dbwin = null
+  });
+}
+
+// cleans database in defined region dev only
+function cleanDB() {
+  // gets all elements within a expanded user view. Maybe should be made better
+  console.log('cleanDB');
+  cme.find({
+    $or: [
+      {$and: [{x0: { $gt: -10000, $lt: 2000 }}, {y0: { $gt: -10000, $lt: 2000 }}]},
+      {$and: [{x1: { $gt: -10000, $lt: 2000 }}, {y1: { $gt: -10000, $lt: 2000 }}]}
+    ]
+  }, function(err, data) {
+    if (err) console.log(err);
+    if (data) {
+      for (let key in data) {
+        if (data[key]) {
+          console.log('id: ', data[key].id, ' cmobject: ', data[key].cmobject);
+          data[key].remove(function (err) {
+  				});
+        }
+      }
+    }
   });
 }
 

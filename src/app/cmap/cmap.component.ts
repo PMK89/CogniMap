@@ -57,10 +57,6 @@ export class CmapComponent implements OnInit {
                         } else {
                           this.quiz = 'q';
                         }
-                      } else if (this.cmsettings.mode === 'progress') {
-                        this.quiz = '';
-                      } else {
-                        this.quiz = 'q';
                       }
                     } else {
                       this.quiz = '';

@@ -43,8 +43,6 @@ export class MinimapService {
                       this.selCMEo = data;
                       this.position.left = this.selCMEo.coor.x;
                       this.position.top = this.selCMEo.coor.y;
-                      this.position.disabled = false;
-                      this.isnew = false;
                     }
                   }
                   // console.log('settings ', data);
@@ -73,25 +71,9 @@ export class MinimapService {
 
   // moves element to entered coordinates
   public moveTo(x: number, y: number) {
-    try {
-      this.windowService.scrollXY(x, y);
-      if (this.isnew) {
-        let oldcme = JSON.parse(JSON.stringify(this.selCMEo));
-        let coor = {
-          x: x,
-          y: y
-        };
-        this.elementService.newCMEo(oldcme, coor);
-        this.eventService.position = undefined;
-      } else {
-        let xdif = x - this.selCMEo.coor.x;
-        let ydif = y - this.selCMEo.coor.y;
-        this.elementService.moveElement(xdif, ydif, true);
-      }
-
-    } catch (err) {
-      console.log(err);
-    }
+    let xdif = x - this.position.left;
+    let ydif = y - this.position.top;
+    this.elementService.moveElement(xdif, ydif, true);
   }
 
   // allows area selection on the minimap

@@ -25,7 +25,7 @@ export class MinimapComponent implements OnInit, OnDestroy {
   public s: any;
   public svggroup: any;
   public draggroup: any;
-  public selCMEo: any;
+  public drag = false;
   public zoom = this.minimapService.zoom;
   public width = 5000;
   public height = 5000;
@@ -90,12 +90,11 @@ export class MinimapComponent implements OnInit, OnDestroy {
           if (this.cmSettings.mode === 'dragging') {
             this.moveMM();
           } else if (this.cmSettings.mode === 'selecting') {
-            if (this.draggroup) {
+            if (this.draggroup && this.drag) {
               this.draggroup.undrag();
             }
           } else {
-            if (this.draggroup) {
-              console.log('draggroup destroyed ', this.cmSettings.mode);
+            if (this.draggroup && this.selection) {
               this.draggroup.undrag();
               let children = this.draggroup.children();
               children.forEach((ele) => {
@@ -111,17 +110,6 @@ export class MinimapComponent implements OnInit, OnDestroy {
           }
         }
       }
-    });
-    this.store.select('selectedcmeo')
-    .subscribe((data) => {
-      if (data ) {
-        if (data !== {}) {
-          if (data['id'] && data['coor'] && data['cmobject']) {
-            this.selCMEo = data;
-          }
-        }
-      }
-      // console.log('settings ', data);
     });
   }
 
@@ -298,6 +286,7 @@ export class MinimapComponent implements OnInit, OnDestroy {
   // move drag group
   public moveMM() {
     if (this.draggroup) {
+      this.drag = true;
       let move = function (dx, dy) {
         this.attr({
                   transform: this.data('origTransform') +
