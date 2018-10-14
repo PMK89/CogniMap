@@ -266,7 +266,11 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           if (this.elementService.selCMEo) {
             if (this.elementService.selCMEo.id === this.cmeo.id) {
-              this.elementService.updateSelCMEo(this.cmeo);
+              if (this.elementService.cmsettings) {
+                if (this.elementService.cmsettings.mode !== 'typing' && this.elementService.cmsettings.mode !== 'process') {
+                  this.elementService.updateSelCMEo(this.cmeo);
+                }
+              }
             }
           }
           let prep = this.cmgroup.innerSVG();

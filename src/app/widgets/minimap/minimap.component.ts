@@ -159,6 +159,7 @@ export class MinimapComponent implements OnInit, OnDestroy {
         }
         const x = eoffsetX * 100;
         const y = eoffsetY * 100;
+        console.log(x, y);
         if (this.cmSettings.mode === 'dragging') {
           this.minimapService.moveTo(x, y);
         }

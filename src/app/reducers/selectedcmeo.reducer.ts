@@ -5,7 +5,7 @@ import { CMEo } from '../models/CMEo';
 export function selectedcmeo (scme: CMEo = null, action: Action) {
   switch (action.type) {
     case 'ADD_SCMEO':
-      console.log('selected Object:', action.payload);
+      // console.log('selected Object:', action.payload);
       return action.payload;
     case 'UPDATE_SCMEO':
       if (scme.id === action.payload.id) {

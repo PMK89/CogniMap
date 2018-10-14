@@ -57,13 +57,6 @@ export class MinimapService {
                     });
               }
 
-  // sets current meta in settings
-  public changeCME(cme) {
-    if (cme['id'] && cme['cmobject']) {
-      this.elementService.updateSelCMEo(cme);
-    }
-  }
-
   // sets  settings
   public setSettings(settings) {
     this.settingsService.updateSettings(settings);

@@ -31,16 +31,16 @@
     "blocked": false,
     "cat": "tbobject1",
     "colors": [
+      "#e4d14b",
+      "#23bdbf",
+      "#e3bbb2",
       "#080a4d",
       "#8668f0",
       "#565656",
       "#23bf30",
       "#ff0000",
       "#b6b6b6",
-      "#b693b3",
-      "#723765",
-      "#4025f5",
-      "#b061a1"
+      "#b693b3"
     ],
     "cuppled": false,
     "group": "",

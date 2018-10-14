@@ -296,20 +296,284 @@ const createDbWindow = function createDbWindow() {
     });
   }
 
+  function iterateDB0(array0, oarray, idarray, i, id, event) {
+    if (i < array0.length) {
+      if (array0[i].id) {
+        cme.findOne({id: array0[i].id}, function(err, data) {
+          if (err) console.log(err);
+          if (data) {
+            if (data.title === array0[i].title && data.cat === array0[i].cat && data.coor === array0[i].coor) {
+              console.log('unchanged: ', array0[i].id);
+            } else {
+              id++;
+              array0[i].prep = array0[i].id.toString();
+              var parsecmo = JSON.parse(array0[i].cmobject);
+              if (parsecmo.links) {
+                for (j = 0; j < parsecmo.links.length; j++) {
+                  if (parsecmo.links[j]) {
+                    if (idarray.indexOf(parsecmo.links[j].id) === -1) {
+                      idarray.push(parsecmo.links[j].id)
+                    }
+                    if (idarray.indexOf(parsecmo.links[j].targetId) === -1) {
+                      idarray.push(parsecmo.links[j].targetId)
+                    }
+                  }
+                }
+              }
+              array0[i].cmobject = parsecmo;
+              array0[i].id = id;
+              oarray.push(array0[i]);
+            }
+          }
+          i++;
+          iterateDB0(array0, oarray, idarray, i, id, event)
+        });
+      }
+    } else {
+      console.log(oarray.length, idarray.length);
+      getOldCME(oarray, idarray, event);
+    }
+  }
+
+  function getOldCME(oarray, idarray, event) {
+    var changedCMo = [];
+    var changedoid = [];
+    var changednid = [];
+    if (fs.existsSync('./data/newCMl1.json')) {
+      var newCMl = JSON.parse(fs.readFileSync('./data/newCMl1.json'));
+    }
+    cme.find({id: { $in: idarray}}, function(err, data) {
+      if (err) console.log(err);
+      if (data) {
+        for (i = 0; i < oarray.length; i++) {
+          if (oarray[i].cmobject) {
+            for (j = 0; j < oarray[i].cmobject.links.length; j++) {
+              if (oarray[i].cmobject.links[j]) {
+                var link = undefined;
+                var partner = undefined;
+                newCMl.forEach((e) => {
+                  if (e) {
+                    if (e.id === oarray[i].cmobject.links[j].id) {
+                      link = e;
+                    }
+                  }
+                });
+                oarray.forEach((e) => {
+                  if (e) {
+                    if (e.prep === oarray[i].cmobject.links[j].targetId.toString()) {
+                      partner = e;
+                    }
+                  }
+                });
+                if (link && partner) {
+                  var newlinkid = 0;
+                  var newlinktitle = '';
+                  var lcmo = JSON.parse(link.cmobject);
+                  if (partner.cmobject) {
+                    for (k = 0; k < partner.cmobject.links.length; k++) {
+                      if (partner.cmobject.links[k]) {
+                        if (partner.cmobject.links[k].id === link.id) {
+                          if (oarray[i].cmobject.links[j].start) {
+                            newlinkid = (-1) * parseInt(String(oarray[i].id) + String(partner.id), 10);
+                            lcmo.id0 = oarray[i].id;
+                            lcmo.title0 = oarray[i].title;
+                            lcmo.id1 = partner.id;
+                            lcmo.title1 = partner.title;
+                            newlinktitle = String(oarray[i].id) + '-' + String(partner.id);
+                          } else {
+                            newlinkid = (-1) * parseInt(String(partner.id) + String(oarray[i].id), 10);
+                            lcmo.id0 = partner.id;
+                            lcmo.title0 = partner.title;
+                            lcmo.id1 = oarray[i].id
+                            lcmo.title1 = oarray[i].title;
+                            newlinktitle = String(partner.id) + '-' + String(oarray[i].id);
+                          }
+                          partner.cmobject.links[k].id = newlinkid;
+                          partner.cmobject.links[k].targetId = oarray[i].id;
+                          partner.cmobject.links[k].title = oarray[i].title;
+                          oarray[i].cmobject.links[j].id = newlinkid;
+                          oarray[i].cmobject.links[j].targetId = partner.id;
+                          oarray[i].cmobject.links[j].title = partner.title;
+                          if (changedoid.indexOf(link.id) === -1) {
+                            changedoid.push(JSON.parse(JSON.stringify(link.id)));
+                          }
+                          link.id = newlinkid;
+                          link.title = newlinktitle;
+                          link.cmobject = lcmo;
+                          link.prep = '';
+                          link.prep1 = '';
+                          if (changedoid.indexOf(oarray[i].id) === -1) {
+                            changedoid.push(oarray[i].id);
+                          }
+                          if (changedoid.indexOf(partner.id) === -1) {
+                            changedoid.push(partner.id);
+                          }
+                          oarray.forEach((e) => {
+                            if (e) {
+                              if (e.id === partner.id) {
+                                e = partner;
+                              }
+                            }
+                          });
+                          changedCMo.push(link);
+                          link.cmobject = JSON.stringify(lcmo);
+                          delete link['_id'];
+                          newCME(link, false);
+                        }
+                      }
+                    }
+                  }
+                } else if (link) {
+                  data.forEach((e) => {
+                    if (e) {
+                      if (e.id === oarray[i].cmobject.links[j].targetId) {
+                        partner = e;
+                      }
+                    }
+                  });
+                  if (partner) {
+                    var ccmo = JSON.parse(partner.cmobject);
+                    var lcmo = JSON.parse(link.cmobject);
+                    if (ccmo) {
+                      for (k = 0; k < ccmo.links.length; k++) {
+                        if (ccmo.links[k]) {
+                          if (ccmo.links[k].id === link.id) {
+                            if (oarray[i].cmobject.links[j].start) {
+                              newlinkid = (-1) * parseInt(String(oarray[i].id) + String(partner.id), 10);
+                              lcmo.id0 = oarray[i].id;
+                              lcmo.title0 = oarray[i].title;
+                              lcmo.id1 = partner.id;
+                              lcmo.title1 = partner.title;
+                              newlinktitle = String(oarray[i].id) + '-' + String(partner.id);
+                            } else {
+                              newlinkid = (-1) * parseInt(String(partner.id) + String(oarray[i].id), 10);
+                              lcmo.id0 = partner.id;
+                              lcmo.title0 = partner.title;
+                              lcmo.id1 = oarray[i].id
+                              lcmo.title1 = oarray[i].title;
+                              newlinktitle = String(partner.id) + '-' + String(oarray[i].id);
+                            }
+                            ccmo.links[k].id = newlinkid;
+                            ccmo.links[k].targetId = oarray[i].id;
+                            ccmo.links[k].title = oarray[i].title;
+                            oarray[i].cmobject.links[j].id = newlinkid;
+                            oarray[i].cmobject.links[j].targetId = partner.id;
+                            oarray[i].cmobject.links[j].title = partner.title;
+                            if (changedoid.indexOf(link.id) === -1) {
+                              changedoid.push(JSON.parse(JSON.stringify(link.id)));
+                            }
+                            link.id = newlinkid;
+                            link.title = newlinktitle;
+                            partner.cmobject = JSON.stringify(ccmo);
+                            link.cmobject = lcmo;
+                            link.prep = '';
+                            link.prep1 = '';
+                            if (changedoid.indexOf(oarray[i].id) === -1) {
+                              changedoid.push(oarray[i].id);
+                            }
+                            if (changednid.indexOf(partner.id) === -1) {
+                              changednid.push(partner.id);
+                            }
+                            data.forEach((e) => {
+                              if (e) {
+                                if (e.id === partner.id) {
+                                  e = partner;
+                                }
+                              }
+                            });
+                            changedCMo.push(link);
+                            link.cmobject = JSON.stringify(lcmo);
+                            delete link['_id'];
+                            newCME(link, false);
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        var dellinks = [];
+        var changedCMold = [];
+        var changedCMnew = [];
+        for (i = 0; i < changedoid.length; i++) {
+          if (changedoid[i]) {
+            if (changedoid[i] > 1) {
+              oarray.forEach((e) => {
+                if (e) {
+                  if (e.id === changedoid[i]) {
+                    changedCMnew.push(e);
+                    const scmo = JSON.stringify(e.cmobject);
+                    e.cmobject = scmo;
+                    e.prep = '';
+                    delete e['_id'];
+                    newCME(e, false);
+                  }
+                }
+              });
+            } else {
+              dellinks.push(changedoid[i]);
+            }
+          }
+        }
+        for (i = 0; i < changednid.length; i++) {
+          if (changednid[i]) {
+            data.forEach((e) => {
+              if (e) {
+                if (e.id === changednid[i]) {
+                  changedCMold.push(e);
+                  delete e['_id'];
+                  e.prep = '';
+                  changeCME(e, false);
+                }
+              }
+            });
+          }
+        }
+        event.returnValue = {
+          changedlinks: changedCMo,
+          changedold: changedCMold,
+          changednew: changedCMnew,
+          deletedlinks: dellinks,
+          previousarray: oarray
+        };
+      }
+    });
+  }
+
   // save database to json file
   ipcMain.on('saveDb', function (event, arg) {
-    if (quizes.length === 0) {
-      loadQuizes();
-    }
     cme.find({}).sort({cdate: 1}).exec(function(err, data) {
       if (err) console.log(err);
       if (data) {
         var dataArray = [];
+        //var newCMoArray = [];
+        //var newCMlArray = [];
+        //var newCMlIDArray = [];
         var i;
         var l = data.length;
         for (i = 0; i < l; i++) {
           if (data[i]) {
             /*
+            // Database compromised by sync try to fix it by extracting doubled elements
+            if (data[i].id > 27505) {
+              var cmobject = JSON.parse(data[i].cmobject);
+              if (cmobject.links) {
+                for (j = 0; j < cmobject.links.length; j++) {
+                  if (cmobject.links[j]) {
+                    if (newCMlIDArray.indexOf(cmobject.links[j].id) === -1) {
+                      newCMlIDArray.push(cmobject.links[j].id)
+                      console.log(cmobject.links[j].id)
+                    }
+                  }
+                }
+                newCMoArray.push(data[i])
+              }
+            }
+
+            // make categories
             if (data[i].cat) {
               if (data[i].cat.length > 1) {
                 var prevdata = '';
@@ -340,10 +604,22 @@ const createDbWindow = function createDbWindow() {
             dataArray.push(data[i]);
           }
         }
+        /*
+        cme.find({id: { $in: newCMlIDArray}}, function(err, data) {
+          if (err) console.log(err);
+          if (data) {
+            newCMlArray = data;
+            var strDataO = JSON.stringify(newCMoArray, null, 2);
+            fs.writeFileSync('./data/newCMo.json', strDataO);
+            var strDataL = JSON.stringify(newCMlArray, null, 2);
+            fs.writeFileSync('./data/newCMl.json', strDataL);
+          }
+        });
+        */
         var strData = JSON.stringify(dataArray, null, 2);
         fs.writeFileSync(arg, strData);
-        saveQuizes();
-        event.returnValue = 'database saved to ' + arg
+        // saveQuizes();
+        event.returnValue = 'database saved to ' + arg;
       }
     });
   })
@@ -363,7 +639,15 @@ const createDbWindow = function createDbWindow() {
 
   // select from database and write json file
   ipcMain.on('searchDb', function (event, arg) {
-    event.returnValue = 'Not valid';
+    /*
+    if (fs.existsSync('./data/newCMo1.json')) {
+      var newCMo = JSON.parse(fs.readFileSync('./data/newCMo1.json'));
+    }
+    var newID = 27800;
+    if (newCMo) {
+      iterateDB0(newCMo, [], [], 0, newID, event);
+    }
+    */
   })
 
   // gets all elements from db with certain priority
@@ -382,6 +666,24 @@ const createDbWindow = function createDbWindow() {
       if (err) console.log(err);
       if (data) {
         event.sender.send('changedSince', data);
+      }
+    });
+  })
+
+  // gets all elements with id higher than provided argument
+  ipcMain.on('getMaxID', function (event, arg) {
+    cme.find({id: {$gt: arg}}).sort({id: -1}).exec(function(err, data) {
+      if (err) console.log(err);
+      if (data) {
+        console.log(data, arg);
+        if (data.length > 0) {
+          console.log(data[0].id, data[(data.length - 1)].id);
+          event.sender.send('maxID', data[0].id);
+        } else {
+          event.sender.send('maxID', arg);
+        }
+      } else {
+        event.sender.send('maxID', arg);
       }
     });
   })
@@ -448,8 +750,8 @@ const createDbWindow = function createDbWindow() {
   })
 
   // changes cme in database
-  ipcMain.on('changeCME', (event, arg) => {
-    console.log('changeCME start: ', arg.id, Date.now());
+  function changeCME(arg, event) {
+    // console.log('changeCME start: ', arg.id, Date.now());
     if (arg.types[0] === 'q') {
       var cmo = JSON.parse(arg.cmobject);
       if (cmo['style']['object']['weight'] > -1 && cmo['style']['object']['str']) {
@@ -490,12 +792,19 @@ const createDbWindow = function createDbWindow() {
           if (err) {
             console.log(err) // #error message
           } else {
-            console.log('changeCME end: ', arg.id, Date.now())
+            // console.log('changeCME end: ', arg.id, Date.now())
           }
 				});
-        event.sender.send('changedCME', data);
+        if (event) {
+          event.sender.send('changedCME', data);
+        } else {
+          console.log(data.id);
+        }
       }
 	  });
+  }
+  ipcMain.on('changeCME', (event, arg) => {
+    changeCME(arg, event);
   })
 
   // finds cmes within given boundaries
@@ -521,7 +830,7 @@ const createDbWindow = function createDbWindow() {
   })
 
   // creates new CME in Database
-  ipcMain.on('newCME', (event, arg) => {
+  function newCME(arg, event) {
     if (arg.types[0] === 'q') {
       var cmo = JSON.parse(arg.cmobject);
       if (cmo['style']['object']['weight'] > -1 && cmo['style']['object']['str']) {
@@ -535,7 +844,7 @@ const createDbWindow = function createDbWindow() {
       }
     }
     var ncme = new cme(arg);
-    // console.log(ncme);
+    // console.log(arg);
     ncme.save(function (err) {
       if (err) {
         console.log(err) // #error message
@@ -545,6 +854,10 @@ const createDbWindow = function createDbWindow() {
         console.log(arg.id)
       }
 		});
+  }
+
+  ipcMain.on('newCME', (event, arg) => {
+    newCME(arg, event);
   })
 
   // loads quizes that are due
@@ -701,16 +1014,15 @@ const createDbWindow = function createDbWindow() {
         if (pos0 > -1) {
           var calc = calculate(quizes[pos], arg['scale'], TODAY);
           if (calc) {
-            console.info(quizes[pos]);
             quizes[pos].difficulty = calc.difficulty;
             quizes[pos].interval = calc.interval;
             quizes[pos].update = calc.update;
-            console.info(quizes[pos]);
             if (quizcmes[pos0]) {
               var data = quizcmes[pos0];
               datahistoryController(data, 'insert');
               var cmo = JSON.parse(data.cmobject);
               if (cmo['style']['object']['str']) {
+                console.log(quizes[pos]);
                 cmo['style']['object']['str'] = String(calc.interval);
                 cmo['style']['object']['weight'] = calc.difficulty;
                 data.types[0] = 'q';
@@ -884,7 +1196,9 @@ function deleteQuiz(id) {
 
 // saves quiz array
 function saveQuizes() {
-  fs.writeFileSync('./data/quizes.json', JSON.stringify(quizes, null, 2));
+  if (quizes.length > 0) {
+    fs.writeFileSync('./data/quizes.json', JSON.stringify(quizes, null, 2));
+  }
 }
 
 // loads quiz array from json file
@@ -902,6 +1216,7 @@ function getOverdueQuizes(overduearray0, event) {
       timelist: quiztime,
       quizes: []
     }
+    console.log('no quizes');
     event.sender.send('loadedQuizes', quizres);
     quizbool = true;
   } else {
@@ -931,6 +1246,7 @@ function getOverdueQuizes(overduearray0, event) {
                     timelist: quiztime,
                     quizes: quizcmes
                   }
+                  // console.log('quizes send');
                   event.sender.send('loadedQuizes', quizres);
                   quizbool = true;
                 } else {
@@ -939,6 +1255,9 @@ function getOverdueQuizes(overduearray0, event) {
               });
 
             }
+          } else {
+            console.log('something wrong with: ', overduequiz);
+            getOverdueQuizes(overduearray0, event);
           }
        });
     }

@@ -1,5 +1,7 @@
 [Dolphin]
-Timestamp=2018,8,5,17,13,42
+SortOrder=1
+SortRole=modificationtime
+Timestamp=2018,10,14,11,26,24
 Version=4
 ViewMode=1
 

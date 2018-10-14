@@ -15,6 +15,7 @@ import { CMColorbar } from '../models/CMColorbar';
 @Injectable()
 export class SettingsService {
   public cmsettings: Observable<CMSettings> = this.store.select('settings');
+  public cms: any;
 
   constructor(private http: Http,
               private electronService: ElectronService,
@@ -33,13 +34,14 @@ export class SettingsService {
   public getSettings() {
     // console.log('getSettings');
     let arg = this.electronService.ipcRenderer.sendSync('loadSettings', '1');
+    this.electronService.ipcRenderer.send('getMaxID', arg.maxid);
     this.store.dispatch({ type: 'ADD_CMS_FROM_DB', payload: arg });
   }
 
   // updates settings
   public updateSettings(cmsettings: CMSettings) {
-    // console.log(cmsettings);
     if (cmsettings !== undefined) {
+      // console.log(cmsettings.mode);
       let action = {type: 'ADD_CMS', payload: cmsettings };
       this.store.dispatch(action);
       this.changeSetting(cmsettings);

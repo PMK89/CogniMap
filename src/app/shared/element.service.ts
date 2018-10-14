@@ -87,6 +87,15 @@ export class ElementService {
                     }
                   });
                 });
+                this.electronService.ipcRenderer.on('maxID', (event, arg) => {
+                  if (this.maxID < arg) {
+                    console.log(this.maxID, arg);
+                    this.cmsettings.maxid = arg;
+                    this.maxID = this.cmsettings.maxid;
+                    this.settingsService.updateSettings(this.cmsettings);
+                  }
+
+                });
                 this.electronService.ipcRenderer.on('deletedCME', (event, arg) => {
                   if (arg) {
                     if (this.cmsettings.widget0 !== 'minimap' && this.cmsettings.widget1 !== 'minimap') {
@@ -180,8 +189,8 @@ export class ElementService {
       this.selCMEo.title = 'Bild';
       this.selCMEo.types = ['i', '0', '0'];
       this.selCMEo.cmobject.content.push(content);
-      this.store.dispatch({type: 'ADD_SCMEO', payload: this.selCMEo });
-      this.store.dispatch({type: 'UPDATE_CME', payload: this.newCME(this.selCMEo) });
+      // this.store.dispatch({type: 'ADD_SCMEO', payload: this.selCMEo });
+      // this.store.dispatch({type: 'UPDATE_CME', payload: this.newCME(this.selCMEo) });
     }
   }
 
@@ -215,7 +224,7 @@ export class ElementService {
   // Creates a new database entry
   public newDBCME(cme: CME) {
     if (cme) {
-      // console.log('new id:', cme.id, Date.now());
+      console.log('new:', cme);
       cme.state = '';
       if (cme.id >= 1) {
         this.maxID = cme.id;
@@ -313,7 +322,7 @@ export class ElementService {
         cmel.prep1 = '';
       }
       this.selCMEl = cmel;
-      console.log('updateSelCMEl: ', this.selCMEl);
+      // console.log('updateSelCMEl: ', this.selCMEl);
       this.store.dispatch({type: 'ADD_SCMEL', payload: cmel });
       if (this.cmsettings.mode !== 'marking') {
         let newCME = this.newCME(cmel);
@@ -531,7 +540,7 @@ export class ElementService {
 
   // sets selected CMEo or CMEl
   public setSelectedCME(id: number) {
-    // console.log('setSelectedCME start:', id, Date.now());
+    // console.log('setSelectedCME start:', id);
     if (this.selCMEo && id > 0) {
       if (this.selCMEo.id !== id) {
         this.selCMEo.state = '';
@@ -622,8 +631,10 @@ export class ElementService {
                         this.cmsettings.contentPos = 0;
                         this.settingsService.updateSettings(this.cmsettings);
                       } else {
-                        this.cmsettings.contentPos = -1;
-                        this.settingsService.updateSettings(this.cmsettings);
+                        if (this.cmsettings.contentPos !== -1) {
+                          this.cmsettings.contentPos = -1;
+                          this.settingsService.updateSettings(this.cmsettings);
+                        }
                       }
                       this.store.dispatch({type: 'ADD_SCMEO', payload: cme });
                       this.store.dispatch({type: 'UPDATE_CME', payload: data[key] });
@@ -639,6 +650,7 @@ export class ElementService {
                   }
                   // console.log('setSelectedCME end:', data[key], Date.now());
                   id = 0;
+                  break;
                 }
               }
             }
@@ -728,7 +740,7 @@ export class ElementService {
   // generates a new CMEo element
   public newCMEo(oldcme: CMEo, cmcoor: CMCoor) {
     if (this.tempCMEo) {
-      console.log('newCMEo start: ', Date.now());
+      // console.log('newCMEo start: ', Date.now());
       let newElemObj: CMEo = new CMEo(); // maybe an error
       this.maxID++;
       newElemObj = JSON.parse(JSON.stringify(this.tempCMEo));
@@ -778,7 +790,8 @@ export class ElementService {
         start: true
       });
       this.updateCMEol(oldcme);
-      this.setSelectedCME(newElemObj.id);
+
+      this.updateSelCMEo(newElemObj);
       // console.log('old: ', oldcme, ' new: ', newElemObj);
       this.newCMEl(oldcme, newElemObj);
       // console.log('Object: ', action);
@@ -1160,9 +1173,11 @@ export class ElementService {
         }
       } else if (this.cmsettings.mode === 'dragging') {
         if (this.selCMEo) {
-          // console.log(this.selCMEo);
-          this.selCMEo.state = 'dragging';
-          this.updateSelCMEo(this.selCMEo);
+          if (this.selCMEo.state !== 'dragging') {
+            // console.log(this.selCMEo);
+            this.selCMEo.state = 'dragging';
+            this.updateSelCMEo(this.selCMEo);
+          }
         } else if (this.selCMEoArray.length > 0) {
           if (!this.minimapselected) {
             this.selectionGroup(this.selCMEoArray, this.selCMElArray);
@@ -1276,10 +1291,11 @@ export class ElementService {
     let width = this.cmsettings.cmap.width / 100;
     let height = this.cmsettings.cmap.height / 100;
     let border = cmsvg.rect(0, 0, width, height).attr({
-      fill: 'none',
+      fill: '#ffffff',
       strokeWidth: 1,
       stroke: '#000000',
     });
+    minigroup.add(border);
     for (let j = 0; j < height; j += 10) {
       let newline = cmsvg.line(0, j, width, j).attr({
         stroke: '#000000',
@@ -1328,7 +1344,6 @@ export class ElementService {
       }
       minigroup.add(newline);
     }
-    minigroup.add(border);
     let i = 0;
     for (i = 0; i < 41; i++) {
       this.allCME = this.electronService.ipcRenderer.sendSync('getAllPrio', (40 - i));
@@ -2046,7 +2061,7 @@ export class ElementService {
   // changes links if connections are changed
   public changeCon(con: string, start: boolean) {
     if (this.selCMEo) {
-      console.log(this.selCMEo);
+      console.log('changeCon:', this.selCMEo);
       if (this.selCMEo.state === 'new') {
         this.selCMEo.state = 'selected';
       }
@@ -2179,7 +2194,7 @@ export class ElementService {
           console.log('ERROR: changeCMEo(): no fitting property');
       }
       if (this.selCMEo) {
-        console.log(this.selCMEo);
+        console.log('changeCMEo: ', this.selCMEo);
         this.selCMEo.prep = '';
         this.selCMEo.prep1 = '';
         this.updateSelCMEo(this.selCMEo);

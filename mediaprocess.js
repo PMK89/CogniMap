@@ -211,7 +211,7 @@ const createMediaWindow = function createMediaWindow () {
         }
       }
     });
-    console.log('TeX: ', arg);
+    // console.log('TeX: ', arg);
     var svg = mjAPI.typeset({
       math: arg,
       format: "TeX", // "inline-TeX", "MathML"
@@ -286,7 +286,7 @@ const createMediaWindow = function createMediaWindow () {
           event.returnValue = newfile;
         } else {
           event.returnValue = arg.file;
-        }        
+        }
       }
     }
   })
