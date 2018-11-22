@@ -98,8 +98,8 @@
     "cngtemp": false,
     "contentPos": 0,
     "coor": {
-      "x": 397294,
-      "y": 251431
+      "x": 287718,
+      "y": 144360
     },
     "copy": {
       "num": 0,
@@ -117,21 +117,14 @@
       "type": "pdf"
     },
     "debug": true,
-    "deletedcme": [
-      -3644636447,
-      -3644636447,
-      36447,
-      -3645736461,
-      -3645736461,
-      36461
-    ],
+    "deletedcme": [],
     "dev": false,
     "dirty": true,
     "dragging": false,
     "epath": "",
     "id": 1,
     "latexcolor": "#000000",
-    "maxid": 36510,
+    "maxid": 36413,
     "menue": {
       "display": "block",
       "height": 400,
@@ -142,7 +135,7 @@
       "width": 600,
       "z-index": 490
     },
-    "minimapupdate": 1542877741160,
+    "minimapupdate": 1542022144938,
     "mnemocolor": "#05b4ff",
     "mode": "edit",
     "pointArray": [],
@@ -387,10 +380,10 @@
       "width": 1800,
       "z-index": 515
     },
-    "widget0": "equation",
+    "widget0": "none",
     "widget1": "none",
     "wlayout0": {
-      "display": "block",
+      "display": "none",
       "height": 446.5,
       "left": 0,
       "opacity": 0.8,

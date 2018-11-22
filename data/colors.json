@@ -31,6 +31,8 @@
     "blocked": false,
     "cat": "tbobject1",
     "colors": [
+      "#2329f2",
+      "#c79fc4",
       "#e4d14b",
       "#23bdbf",
       "#e3bbb2",
@@ -38,9 +40,7 @@
       "#8668f0",
       "#565656",
       "#23bf30",
-      "#ff0000",
-      "#b6b6b6",
-      "#b693b3"
+      "#ff0000"
     ],
     "cuppled": false,
     "group": "",
@@ -167,6 +167,7 @@
     "blocked": false,
     "cat": "tbfont",
     "colors": [
+      "#de2ecd",
       "#919191",
       "#0b1aca",
       "#faaeae",
@@ -175,8 +176,7 @@
       "#2eb500",
       "#ff0000",
       "#ffbf00",
-      "#ffff00",
-      "#40ff00"
+      "#ffff00"
     ],
     "cuppled": false,
     "group": "",

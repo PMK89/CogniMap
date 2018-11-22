@@ -34,9 +34,9 @@
   },
   {
     "id": 12441,
-    "update": 17909,
-    "difficulty": 3.0000000000000004,
-    "interval": 20,
+    "update": 17854,
+    "difficulty": 2.9000000000000004,
+    "interval": 19,
     "cat": [
       "Chemie",
       "Organic Chemistry",
@@ -199,9 +199,9 @@
   },
   {
     "id": 12529,
-    "update": 17891,
+    "update": 17852,
     "difficulty": 2.5529411764705885,
-    "interval": 17,
+    "interval": 16,
     "cat": [
       "Chemie",
       "Organic Chemistry",
@@ -419,9 +419,9 @@
   },
   {
     "id": 13702,
-    "update": 17892,
-    "difficulty": 2.447058823529412,
-    "interval": 16,
+    "update": 17857,
+    "difficulty": 2.347058823529412,
+    "interval": 15,
     "cat": [
       "Informatik",
       "Applications",
@@ -947,9 +947,9 @@
   },
   {
     "id": 15043,
-    "update": 17889,
-    "difficulty": 3.0705882352941187,
-    "interval": 14,
+    "update": 17851,
+    "difficulty": 2.9705882352941186,
+    "interval": 13,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -991,9 +991,9 @@
   },
   {
     "id": 15069,
-    "update": 17902,
-    "difficulty": 2.9000000000000004,
-    "interval": 18,
+    "update": 17855,
+    "difficulty": 2.8000000000000003,
+    "interval": 17,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -1156,9 +1156,9 @@
   },
   {
     "id": 15242,
-    "update": 17877,
+    "update": 17853,
     "difficulty": 1.5776470588235296,
-    "interval": 17,
+    "interval": 16,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1178,9 +1178,9 @@
   },
   {
     "id": 15296,
-    "update": 17886,
+    "update": 17855,
     "difficulty": 2.319607843137255,
-    "interval": 15,
+    "interval": 14,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1244,9 +1244,9 @@
   },
   {
     "id": 15607,
-    "update": 17886,
-    "difficulty": 2.070588235294118,
-    "interval": 16,
+    "update": 17856,
+    "difficulty": 1.9705882352941178,
+    "interval": 15,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1255,9 +1255,9 @@
   },
   {
     "id": 15608,
-    "update": 17879,
+    "update": 17854,
     "difficulty": 1.647058823529412,
-    "interval": 17,
+    "interval": 16,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1266,9 +1266,9 @@
   },
   {
     "id": 15609,
-    "update": 17886,
-    "difficulty": 2.070588235294118,
-    "interval": 16,
+    "update": 17856,
+    "difficulty": 1.9705882352941178,
+    "interval": 15,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1288,9 +1288,9 @@
   },
   {
     "id": 15641,
-    "update": 17881,
+    "update": 17855,
     "difficulty": 1.690588235294118,
-    "interval": 17,
+    "interval": 16,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1464,9 +1464,9 @@
   },
   {
     "id": 16073,
-    "update": 17878,
-    "difficulty": 3.4882352941176484,
-    "interval": 8,
+    "update": 17856,
+    "difficulty": 3.3882352941176483,
+    "interval": 7,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1695,9 +1695,9 @@
   },
   {
     "id": 16334,
-    "update": 17869,
-    "difficulty": 3.905882352941178,
-    "interval": 5,
+    "update": 17856,
+    "difficulty": 3.805882352941178,
+    "interval": 4,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1750,9 +1750,9 @@
   },
   {
     "id": 16376,
-    "update": 17888,
-    "difficulty": 2.93529411764706,
-    "interval": 14,
+    "update": 17851,
+    "difficulty": 2.83529411764706,
+    "interval": 13,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -2113,9 +2113,9 @@
   },
   {
     "id": 16952,
-    "update": 17891,
-    "difficulty": 3.3352941176470603,
-    "interval": 12,
+    "update": 17857,
+    "difficulty": 3.23529411764706,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -2157,9 +2157,9 @@
   },
   {
     "id": 17001,
-    "update": 17891,
-    "difficulty": 2.5882352941176476,
-    "interval": 15,
+    "update": 17857,
+    "difficulty": 2.4882352941176475,
+    "interval": 14,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -2234,9 +2234,9 @@
   },
   {
     "id": 17014,
-    "update": 17893,
-    "difficulty": 3.088235294117648,
-    "interval": 14,
+    "update": 17855,
+    "difficulty": 2.988235294117648,
+    "interval": 13,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -2256,9 +2256,9 @@
   },
   {
     "id": 17020,
-    "update": 17886,
-    "difficulty": 3.6411764705882366,
-    "interval": 11,
+    "update": 17853,
+    "difficulty": 3.5411764705882365,
+    "interval": 10,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -2300,9 +2300,9 @@
   },
   {
     "id": 17170,
-    "update": 17905,
-    "difficulty": 2.7,
-    "interval": 21,
+    "update": 17853,
+    "difficulty": 2.6,
+    "interval": 20,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2311,9 +2311,9 @@
   },
   {
     "id": 17171,
-    "update": 17901,
+    "update": 17856,
     "difficulty": 2.4023529411764706,
-    "interval": 20,
+    "interval": 19,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2333,9 +2333,9 @@
   },
   {
     "id": 17173,
-    "update": 17897,
-    "difficulty": 2.782352941176471,
-    "interval": 18,
+    "update": 17852,
+    "difficulty": 2.682352941176471,
+    "interval": 17,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2344,9 +2344,9 @@
   },
   {
     "id": 17174,
-    "update": 17901,
-    "difficulty": 2.882352941176471,
-    "interval": 18,
+    "update": 17854,
+    "difficulty": 2.782352941176471,
+    "interval": 17,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2399,9 +2399,9 @@
   },
   {
     "id": 17285,
-    "update": 17894,
-    "difficulty": 3.6411764705882366,
-    "interval": 12,
+    "update": 17857,
+    "difficulty": 3.5411764705882365,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -2498,9 +2498,9 @@
   },
   {
     "id": 17461,
-    "update": 17872,
-    "difficulty": 3.400000000000001,
-    "interval": 7,
+    "update": 17854,
+    "difficulty": 3.3000000000000007,
+    "interval": 6,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -3092,9 +3092,9 @@
   },
   {
     "id": 20925,
-    "update": 17897,
-    "difficulty": 3.1352941176470597,
-    "interval": 16,
+    "update": 17853,
+    "difficulty": 3.0352941176470596,
+    "interval": 15,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3147,9 +3147,9 @@
   },
   {
     "id": 21035,
-    "update": 17897,
-    "difficulty": 3.1352941176470597,
-    "interval": 16,
+    "update": 17853,
+    "difficulty": 3.0352941176470596,
+    "interval": 15,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3180,9 +3180,9 @@
   },
   {
     "id": 21038,
-    "update": 17897,
-    "difficulty": 3.1352941176470597,
-    "interval": 16,
+    "update": 17853,
+    "difficulty": 3.0352941176470596,
+    "interval": 15,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3191,9 +3191,9 @@
   },
   {
     "id": 21039,
-    "update": 17861,
-    "difficulty": 3.33529411764706,
-    "interval": 3,
+    "update": 17853,
+    "difficulty": 3.0352941176470596,
+    "interval": 15,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3279,9 +3279,9 @@
   },
   {
     "id": 21113,
-    "update": 17859,
-    "difficulty": 3.03529411764706,
-    "interval": 3,
+    "update": 17853,
+    "difficulty": 2.93529411764706,
+    "interval": 2,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -3730,9 +3730,9 @@
   },
   {
     "id": 21286,
-    "update": 17897,
-    "difficulty": 3.1352941176470597,
-    "interval": 16,
+    "update": 17853,
+    "difficulty": 3.0352941176470596,
+    "interval": 15,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3752,9 +3752,9 @@
   },
   {
     "id": 21288,
-    "update": 17860,
-    "difficulty": 3.2352941176470598,
-    "interval": 3,
+    "update": 17853,
+    "difficulty": 3.0352941176470596,
+    "interval": 15,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3796,9 +3796,9 @@
   },
   {
     "id": 21292,
-    "update": 17884,
+    "update": 17854,
     "difficulty": 1.9494117647058824,
-    "interval": 17,
+    "interval": 16,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3829,9 +3829,9 @@
   },
   {
     "id": 21296,
-    "update": 17897,
-    "difficulty": 3.1352941176470597,
-    "interval": 16,
+    "update": 17853,
+    "difficulty": 3.0352941176470596,
+    "interval": 15,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3851,9 +3851,9 @@
   },
   {
     "id": 21298,
-    "update": 17897,
-    "difficulty": 3.1352941176470597,
-    "interval": 16,
+    "update": 17853,
+    "difficulty": 3.0352941176470596,
+    "interval": 15,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -3939,9 +3939,9 @@
   },
   {
     "id": 21306,
-    "update": 17897,
-    "difficulty": 3.1352941176470597,
-    "interval": 16,
+    "update": 17853,
+    "difficulty": 3.0352941176470596,
+    "interval": 15,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -4016,9 +4016,9 @@
   },
   {
     "id": 21313,
-    "update": 17887,
+    "update": 17856,
     "difficulty": 1.9494117647058824,
-    "interval": 17,
+    "interval": 16,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -4082,9 +4082,9 @@
   },
   {
     "id": 21319,
-    "update": 17897,
-    "difficulty": 3.1352941176470597,
-    "interval": 16,
+    "update": 17853,
+    "difficulty": 3.0352941176470596,
+    "interval": 15,
     "cat": [
       "Chemie",
       "Inorganic Chemistry",
@@ -4203,9 +4203,9 @@
   },
   {
     "id": 21538,
-    "update": 17897,
-    "difficulty": 3.1352941176470597,
-    "interval": 16,
+    "update": 17853,
+    "difficulty": 3.0352941176470596,
+    "interval": 15,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -4324,9 +4324,9 @@
   },
   {
     "id": 22035,
-    "update": 17879,
-    "difficulty": 4.000000000000002,
-    "interval": 8,
+    "update": 17854,
+    "difficulty": 3.9000000000000017,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -4390,9 +4390,9 @@
   },
   {
     "id": 22625,
-    "update": 17889,
+    "update": 17856,
     "difficulty": 2.6,
-    "interval": 14,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4401,9 +4401,9 @@
   },
   {
     "id": 22706,
-    "update": 17882,
+    "update": 17852,
     "difficulty": 2.5,
-    "interval": 14,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4456,9 +4456,9 @@
   },
   {
     "id": 22788,
-    "update": 17889,
+    "update": 17856,
     "difficulty": 2.6,
-    "interval": 14,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4478,9 +4478,9 @@
   },
   {
     "id": 22807,
-    "update": 17889,
+    "update": 17856,
     "difficulty": 2.6,
-    "interval": 14,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4500,9 +4500,9 @@
   },
   {
     "id": 22865,
-    "update": 17890,
-    "difficulty": 2.7,
-    "interval": 14,
+    "update": 17856,
+    "difficulty": 2.6,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4511,9 +4511,9 @@
   },
   {
     "id": 22866,
-    "update": 17882,
+    "update": 17852,
     "difficulty": 2.5,
-    "interval": 14,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4577,9 +4577,9 @@
   },
   {
     "id": 22941,
-    "update": 17892,
-    "difficulty": 3.3000000000000007,
-    "interval": 13,
+    "update": 17855,
+    "difficulty": 3.2000000000000006,
+    "interval": 12,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4632,9 +4632,9 @@
   },
   {
     "id": 23032,
-    "update": 17889,
+    "update": 17856,
     "difficulty": 2.6,
-    "interval": 14,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4654,9 +4654,9 @@
   },
   {
     "id": 23034,
-    "update": 17882,
+    "update": 17852,
     "difficulty": 2.5,
-    "interval": 14,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4698,9 +4698,9 @@
   },
   {
     "id": 23420,
-    "update": 17884,
+    "update": 17854,
     "difficulty": 2.5,
-    "interval": 14,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4764,9 +4764,9 @@
   },
   {
     "id": 23543,
-    "update": 17882,
+    "update": 17852,
     "difficulty": 2.46,
-    "interval": 14,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4797,9 +4797,9 @@
   },
   {
     "id": 23603,
-    "update": 17890,
-    "difficulty": 3.700000000000001,
-    "interval": 12,
+    "update": 17852,
+    "difficulty": 3.600000000000001,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4874,9 +4874,9 @@
   },
   {
     "id": 23740,
-    "update": 17868,
-    "difficulty": 4.2,
-    "interval": 5,
+    "update": 17855,
+    "difficulty": 4.1000000000000005,
+    "interval": 4,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -4918,9 +4918,9 @@
   },
   {
     "id": 23792,
-    "update": 17889,
-    "difficulty": 3.600000000000001,
-    "interval": 12,
+    "update": 17851,
+    "difficulty": 3.500000000000001,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -4929,9 +4929,9 @@
   },
   {
     "id": 23806,
-    "update": 17889,
-    "difficulty": 3.600000000000001,
-    "interval": 12,
+    "update": 17851,
+    "difficulty": 3.500000000000001,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -4940,9 +4940,9 @@
   },
   {
     "id": 23817,
-    "update": 17884,
+    "update": 17854,
     "difficulty": 2.7,
-    "interval": 13,
+    "interval": 12,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -4995,9 +4995,9 @@
   },
   {
     "id": 23853,
-    "update": 17889,
-    "difficulty": 3.600000000000001,
-    "interval": 12,
+    "update": 17851,
+    "difficulty": 3.500000000000001,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5017,9 +5017,9 @@
   },
   {
     "id": 23867,
-    "update": 17894,
-    "difficulty": 3.600000000000001,
-    "interval": 12,
+    "update": 17857,
+    "difficulty": 3.500000000000001,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5028,9 +5028,9 @@
   },
   {
     "id": 23874,
-    "update": 17889,
-    "difficulty": 3.600000000000001,
-    "interval": 12,
+    "update": 17851,
+    "difficulty": 3.500000000000001,
+    "interval": 11,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -5050,9 +5050,9 @@
   },
   {
     "id": 23907,
-    "update": 17889,
-    "difficulty": 3.600000000000001,
-    "interval": 12,
+    "update": 17851,
+    "difficulty": 3.500000000000001,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5061,9 +5061,9 @@
   },
   {
     "id": 23914,
-    "update": 17862,
-    "difficulty": 4.1000000000000005,
-    "interval": 4,
+    "update": 17853,
+    "difficulty": 4.000000000000001,
+    "interval": 3,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5072,9 +5072,9 @@
   },
   {
     "id": 23920,
-    "update": 17889,
-    "difficulty": 3.600000000000001,
-    "interval": 12,
+    "update": 17851,
+    "difficulty": 3.500000000000001,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5094,9 +5094,9 @@
   },
   {
     "id": 23941,
-    "update": 17889,
-    "difficulty": 3.600000000000001,
-    "interval": 12,
+    "update": 17851,
+    "difficulty": 3.500000000000001,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5116,9 +5116,9 @@
   },
   {
     "id": 23957,
-    "update": 17889,
-    "difficulty": 3.600000000000001,
-    "interval": 12,
+    "update": 17851,
+    "difficulty": 3.500000000000001,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5127,9 +5127,9 @@
   },
   {
     "id": 25088,
-    "update": 17894,
-    "difficulty": 3.600000000000001,
-    "interval": 12,
+    "update": 17857,
+    "difficulty": 3.500000000000001,
+    "interval": 11,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -5369,8 +5369,8 @@
   },
   {
     "id": 25542,
-    "update": 17860,
-    "difficulty": 3.6000000000000014,
+    "update": 17853,
+    "difficulty": 3.4000000000000012,
     "interval": 3,
     "cat": [
       "Chemie",
@@ -5468,9 +5468,9 @@
   },
   {
     "id": 25622,
-    "update": 17873,
+    "update": 17852,
     "difficulty": 1.3800000000000003,
-    "interval": 17,
+    "interval": 16,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5490,9 +5490,9 @@
   },
   {
     "id": 25636,
-    "update": 17879,
-    "difficulty": 2.2,
-    "interval": 14,
+    "update": 17852,
+    "difficulty": 2.1,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5534,9 +5534,9 @@
   },
   {
     "id": 25659,
-    "update": 17876,
+    "update": 17853,
     "difficulty": 1.7600000000000002,
-    "interval": 15,
+    "interval": 14,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5710,9 +5710,9 @@
   },
   {
     "id": 25930,
-    "update": 17867,
-    "difficulty": 3.200000000000001,
-    "interval": 5,
+    "update": 17857,
+    "difficulty": 3.100000000000001,
+    "interval": 4,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -5908,9 +5908,9 @@
   },
   {
     "id": 26086,
-    "update": 17867,
-    "difficulty": 3.9000000000000017,
-    "interval": 5,
+    "update": 17855,
+    "difficulty": 3.8000000000000016,
+    "interval": 4,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -5930,9 +5930,9 @@
   },
   {
     "id": 26088,
-    "update": 17874,
-    "difficulty": 3.300000000000001,
-    "interval": 7,
+    "update": 17856,
+    "difficulty": 3.200000000000001,
+    "interval": 6,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6095,9 +6095,9 @@
   },
   {
     "id": 26138,
-    "update": 17882,
-    "difficulty": 2.3200000000000007,
-    "interval": 14,
+    "update": 17854,
+    "difficulty": 2.2200000000000006,
+    "interval": 13,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6249,9 +6249,9 @@
   },
   {
     "id": 26389,
-    "update": 17882,
-    "difficulty": 2.900000000000001,
-    "interval": 12,
+    "update": 17852,
+    "difficulty": 2.8000000000000007,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6260,9 +6260,9 @@
   },
   {
     "id": 26422,
-    "update": 17887,
-    "difficulty": 2.900000000000001,
-    "interval": 12,
+    "update": 17857,
+    "difficulty": 2.8000000000000007,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6326,9 +6326,9 @@
   },
   {
     "id": 26438,
-    "update": 17887,
-    "difficulty": 2.900000000000001,
-    "interval": 12,
+    "update": 17857,
+    "difficulty": 2.8000000000000007,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6337,9 +6337,9 @@
   },
   {
     "id": 26451,
-    "update": 17887,
-    "difficulty": 2.900000000000001,
-    "interval": 12,
+    "update": 17857,
+    "difficulty": 2.8000000000000007,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6370,9 +6370,9 @@
   },
   {
     "id": 26461,
-    "update": 17881,
-    "difficulty": 2.3000000000000003,
-    "interval": 13,
+    "update": 17855,
+    "difficulty": 2.2,
+    "interval": 12,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6403,9 +6403,9 @@
   },
   {
     "id": 26474,
-    "update": 17887,
-    "difficulty": 2.900000000000001,
-    "interval": 12,
+    "update": 17857,
+    "difficulty": 2.8000000000000007,
+    "interval": 11,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -6694,9 +6694,9 @@
       "Computer Engineering",
       "Programming Languages"
     ],
-    "update": 17880,
-    "difficulty": 2.8000000000000007,
-    "interval": 11
+    "update": 17854,
+    "difficulty": 2.7000000000000006,
+    "interval": 10
   },
   {
     "id": 26899,
@@ -6716,9 +6716,9 @@
       "Computer Engineering",
       "Programming Languages"
     ],
-    "update": 17880,
-    "difficulty": 2.8000000000000007,
-    "interval": 11
+    "update": 17854,
+    "difficulty": 2.7000000000000006,
+    "interval": 10
   },
   {
     "id": 26901,
@@ -6727,9 +6727,9 @@
       "Computer Engineering",
       "Programming Languages"
     ],
-    "update": 17880,
-    "difficulty": 2.8000000000000007,
-    "interval": 11
+    "update": 17854,
+    "difficulty": 2.7000000000000006,
+    "interval": 10
   },
   {
     "id": 26917,
@@ -6760,9 +6760,9 @@
       "Computer Engineering",
       "Programming Languages"
     ],
-    "update": 17880,
-    "difficulty": 2.8000000000000007,
-    "interval": 11
+    "update": 17854,
+    "difficulty": 2.7000000000000006,
+    "interval": 10
   },
   {
     "id": 26955,
@@ -6782,9 +6782,9 @@
       "Computer Engineering",
       "Programming Languages"
     ],
-    "update": 17880,
-    "difficulty": 2.8000000000000007,
-    "interval": 11
+    "update": 17854,
+    "difficulty": 2.7000000000000006,
+    "interval": 10
   },
   {
     "id": 27005,
@@ -6903,9 +6903,9 @@
       "Funktionsmaterialien",
       "Allgemein"
     ],
-    "update": 17875,
-    "difficulty": 2.5000000000000004,
-    "interval": 11
+    "update": 17851,
+    "difficulty": 2.4000000000000004,
+    "interval": 10
   },
   {
     "id": 27023,
@@ -7310,9 +7310,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17875,
+    "update": 17857,
     "difficulty": 1.6,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27111,
@@ -7321,9 +7321,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27112,
@@ -7332,9 +7332,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27113,
@@ -7343,9 +7343,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27114,
@@ -7354,9 +7354,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27115,
@@ -7365,9 +7365,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27116,
@@ -7376,9 +7376,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27117,
@@ -7387,9 +7387,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27118,
@@ -7398,9 +7398,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27119,
@@ -7420,9 +7420,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27121,
@@ -7431,9 +7431,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27122,
@@ -7442,9 +7442,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27124,
@@ -7453,9 +7453,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17875,
-    "difficulty": 1.6,
-    "interval": 13
+    "update": 17856,
+    "difficulty": 1.5,
+    "interval": 12
   },
   {
     "id": 27126,
@@ -7464,9 +7464,9 @@
       "Funktionsmaterialien",
       "Batterien"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27164,
@@ -7541,9 +7541,9 @@
       "Funktionsmaterialien",
       "Brennstoffzellen"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27261,
@@ -7563,9 +7563,9 @@
       "Funktionsmaterialien",
       "Brennstoffzellen"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27263,
@@ -7574,9 +7574,9 @@
       "Funktionsmaterialien",
       "Brennstoffzellen"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27264,
@@ -7585,9 +7585,9 @@
       "Funktionsmaterialien",
       "Brennstoffzellen"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27334,
@@ -7618,9 +7618,9 @@
       "Funktionsmaterialien",
       "Kinetik"
     ],
-    "update": 17873,
-    "difficulty": 2.2600000000000007,
-    "interval": 11
+    "update": 17852,
+    "difficulty": 2.1600000000000006,
+    "interval": 10
   },
   {
     "id": 27337,
@@ -7640,9 +7640,9 @@
       "Funktionsmaterialien",
       "Kinetik"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27361,
@@ -7651,9 +7651,9 @@
       "Funktionsmaterialien",
       "Kinetik"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27408,
@@ -7662,9 +7662,9 @@
       "Funktionsmaterialien",
       "Kinetik"
     ],
-    "update": 17874,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 13
+    "interval": 12
   },
   {
     "id": 27409,
@@ -7684,9 +7684,9 @@
       "Funktionsmaterialien",
       "Kinetik"
     ],
-    "update": 17874,
+    "update": 17857,
     "difficulty": 1.3,
-    "interval": 15
+    "interval": 14
   },
   {
     "id": 27602,
@@ -7717,9 +7717,9 @@
       "Oberflächenphysik",
       "2D Kristallographie"
     ],
-    "update": 17867,
+    "update": 17853,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30050,
@@ -7728,9 +7728,9 @@
       "Oberflächenphysik",
       "2D Kristallographie"
     ],
-    "update": 17867,
+    "update": 17853,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30052,
@@ -7739,9 +7739,9 @@
       "Oberflächenphysik",
       "2D Kristallographie"
     ],
-    "update": 17867,
+    "update": 17853,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30053,
@@ -7750,9 +7750,9 @@
       "Oberflächenphysik",
       "2D Kristallographie"
     ],
-    "update": 17867,
+    "update": 17853,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30054,
@@ -7772,9 +7772,9 @@
       "Oberflächenphysik",
       "Definierte Flächen/Probenumgebung"
     ],
-    "update": 17867,
+    "update": 17853,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30056,
@@ -7794,9 +7794,9 @@
       "Oberflächenphysik",
       "Definierte Flächen/Probenumgebung"
     ],
-    "update": 17873,
-    "difficulty": 1.7000000000000002,
-    "interval": 11
+    "update": 17857,
+    "difficulty": 1.6,
+    "interval": 10
   },
   {
     "id": 30058,
@@ -7805,9 +7805,9 @@
       "Oberflächenphysik",
       "Definierte Flächen/Probenumgebung"
     ],
-    "update": 17873,
-    "difficulty": 1.7000000000000002,
-    "interval": 11
+    "update": 17857,
+    "difficulty": 1.6,
+    "interval": 10
   },
   {
     "id": 30059,
@@ -7816,9 +7816,9 @@
       "Oberflächenphysik",
       "Definierte Flächen/Probenumgebung"
     ],
-    "update": 17871,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30064,
@@ -7827,9 +7827,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17871,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30066,
@@ -7838,9 +7838,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17871,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30067,
@@ -7849,9 +7849,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17871,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30068,
@@ -7882,9 +7882,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17871,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30083,
@@ -7904,9 +7904,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17871,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30085,
@@ -7937,9 +7937,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17871,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30096,
@@ -7948,9 +7948,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17871,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30102,
@@ -7959,9 +7959,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17871,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30103,
@@ -7970,9 +7970,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17871,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30108,
@@ -7981,9 +7981,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17872,
-    "difficulty": 1.6,
-    "interval": 11
+    "update": 17856,
+    "difficulty": 1.5,
+    "interval": 10
   },
   {
     "id": 30109,
@@ -7992,9 +7992,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17870,
-    "difficulty": 1.5600000000000003,
-    "interval": 11
+    "update": 17855,
+    "difficulty": 1.4600000000000002,
+    "interval": 10
   },
   {
     "id": 30117,
@@ -8003,9 +8003,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17872,
-    "difficulty": 1.6,
-    "interval": 11
+    "update": 17856,
+    "difficulty": 1.5,
+    "interval": 10
   },
   {
     "id": 30118,
@@ -8014,9 +8014,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17872,
-    "difficulty": 1.6,
-    "interval": 11
+    "update": 17856,
+    "difficulty": 1.5,
+    "interval": 10
   },
   {
     "id": 30119,
@@ -8025,9 +8025,9 @@
       "Oberflächenphysik",
       "Beugung"
     ],
-    "update": 17871,
+    "update": 17856,
     "difficulty": 1.5,
-    "interval": 11
+    "interval": 10
   },
   {
     "id": 30127,
@@ -8036,9 +8036,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17865,
-    "difficulty": 2.500000000000001,
-    "interval": 7
+    "update": 17851,
+    "difficulty": 2.400000000000001,
+    "interval": 6
   },
   {
     "id": 30128,
@@ -8047,9 +8047,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17868,
-    "difficulty": 2.2000000000000006,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 2.1000000000000005,
+    "interval": 8
   },
   {
     "id": 30135,
@@ -8080,9 +8080,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17867,
-    "difficulty": 1.8000000000000003,
-    "interval": 10
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 9
   },
   {
     "id": 30139,
@@ -8091,9 +8091,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17868,
-    "difficulty": 2.700000000000001,
-    "interval": 7
+    "update": 17854,
+    "difficulty": 2.600000000000001,
+    "interval": 6
   },
   {
     "id": 30140,
@@ -8113,9 +8113,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17872,
-    "difficulty": 1.6,
-    "interval": 11
+    "update": 17856,
+    "difficulty": 1.5,
+    "interval": 10
   },
   {
     "id": 30142,
@@ -8135,9 +8135,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17868,
-    "difficulty": 2.600000000000001,
-    "interval": 8
+    "update": 17852,
+    "difficulty": 2.500000000000001,
+    "interval": 7
   },
   {
     "id": 30150,
@@ -8146,9 +8146,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17872,
-    "difficulty": 1.6,
-    "interval": 11
+    "update": 17856,
+    "difficulty": 1.5,
+    "interval": 10
   },
   {
     "id": 30151,
@@ -8157,9 +8157,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17867,
-    "difficulty": 1.8000000000000003,
-    "interval": 10
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 9
   },
   {
     "id": 30152,
@@ -8168,9 +8168,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17867,
-    "difficulty": 1.8000000000000003,
-    "interval": 10
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 9
   },
   {
     "id": 30153,
@@ -8179,9 +8179,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17872,
-    "difficulty": 1.6,
-    "interval": 11
+    "update": 17856,
+    "difficulty": 1.5,
+    "interval": 10
   },
   {
     "id": 30154,
@@ -8190,9 +8190,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17866,
-    "difficulty": 2.600000000000001,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.500000000000001,
+    "interval": 6
   },
   {
     "id": 30156,
@@ -8201,9 +8201,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17870,
-    "difficulty": 2.3000000000000007,
-    "interval": 9
+    "update": 17853,
+    "difficulty": 2.2000000000000006,
+    "interval": 8
   },
   {
     "id": 30157,
@@ -8212,9 +8212,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17866,
+    "update": 17852,
     "difficulty": 1.7000000000000002,
-    "interval": 10
+    "interval": 9
   },
   {
     "id": 30158,
@@ -8223,9 +8223,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17866,
+    "update": 17852,
     "difficulty": 1.7000000000000002,
-    "interval": 10
+    "interval": 9
   },
   {
     "id": 30161,
@@ -8245,9 +8245,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17870,
-    "difficulty": 2.3000000000000007,
-    "interval": 9
+    "update": 17853,
+    "difficulty": 2.2000000000000006,
+    "interval": 8
   },
   {
     "id": 30163,
@@ -8256,9 +8256,9 @@
       "Oberflächenphysik",
       "elektronische Zustände"
     ],
-    "update": 17866,
+    "update": 17852,
     "difficulty": 1.7000000000000002,
-    "interval": 10
+    "interval": 9
   },
   {
     "id": 30169,
@@ -8289,9 +8289,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30235,
@@ -8300,9 +8300,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30236,
@@ -8311,9 +8311,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30237,
@@ -8322,9 +8322,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30271,
@@ -8333,9 +8333,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30272,
@@ -8344,9 +8344,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30273,
@@ -8355,9 +8355,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17871,
-    "difficulty": 1.6600000000000004,
-    "interval": 10
+    "update": 17857,
+    "difficulty": 1.5600000000000003,
+    "interval": 9
   },
   {
     "id": 30274,
@@ -8366,9 +8366,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30328,
@@ -8377,9 +8377,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30329,
@@ -8388,9 +8388,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30330,
@@ -8399,9 +8399,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30398,
@@ -8410,9 +8410,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30399,
@@ -8421,9 +8421,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30400,
@@ -8432,9 +8432,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30401,
@@ -8443,9 +8443,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30402,
@@ -8454,9 +8454,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30403,
@@ -8465,9 +8465,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30404,
@@ -8476,9 +8476,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30405,
@@ -8487,9 +8487,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30480,
@@ -8520,9 +8520,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30483,
@@ -8531,9 +8531,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30484,
@@ -8542,9 +8542,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30514,
@@ -8553,9 +8553,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30515,
@@ -8564,9 +8564,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30534,
@@ -8575,9 +8575,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30535,
@@ -8586,9 +8586,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30536,
@@ -8597,9 +8597,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30672,
@@ -8608,9 +8608,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30673,
@@ -8619,9 +8619,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30674,
@@ -8630,9 +8630,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
+    "update": 17852,
     "difficulty": 1.7000000000000002,
-    "interval": 9
+    "interval": 8
   },
   {
     "id": 30675,
@@ -8641,9 +8641,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30676,
@@ -8652,9 +8652,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30677,
@@ -8663,9 +8663,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30678,
@@ -8674,9 +8674,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30679,
@@ -8685,9 +8685,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30680,
@@ -8696,9 +8696,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30681,
@@ -8707,9 +8707,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30682,
@@ -8718,9 +8718,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30683,
@@ -8729,9 +8729,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30684,
@@ -8740,9 +8740,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30699,
@@ -8751,9 +8751,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17866,
-    "difficulty": 2.600000000000001,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.500000000000001,
+    "interval": 5
   },
   {
     "id": 30700,
@@ -8762,9 +8762,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17866,
-    "difficulty": 2.600000000000001,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.500000000000001,
+    "interval": 5
   },
   {
     "id": 30715,
@@ -8784,9 +8784,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17866,
-    "difficulty": 2.600000000000001,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.500000000000001,
+    "interval": 5
   },
   {
     "id": 30724,
@@ -8806,9 +8806,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30773,
@@ -8817,9 +8817,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30774,
@@ -8828,9 +8828,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30775,
@@ -8850,9 +8850,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30777,
@@ -8861,9 +8861,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30778,
@@ -8883,9 +8883,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30808,
@@ -8894,9 +8894,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30809,
@@ -8905,9 +8905,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30810,
@@ -8916,9 +8916,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30851,
@@ -8927,9 +8927,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30852,
@@ -8938,9 +8938,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30853,
@@ -8949,9 +8949,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30854,
@@ -8960,9 +8960,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30855,
@@ -8971,9 +8971,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17869,
-    "difficulty": 2.400000000000001,
-    "interval": 8
+    "update": 17854,
+    "difficulty": 2.3000000000000007,
+    "interval": 7
   },
   {
     "id": 30877,
@@ -8982,9 +8982,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30878,
@@ -8993,9 +8993,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30879,
@@ -9004,9 +9004,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30901,
@@ -9015,9 +9015,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30902,
@@ -9026,9 +9026,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30910,
@@ -9037,9 +9037,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30932,
@@ -9048,9 +9048,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30933,
@@ -9059,9 +9059,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30934,
@@ -9070,9 +9070,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30935,
@@ -9081,9 +9081,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 30936,
@@ -9092,9 +9092,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30949,
@@ -9103,9 +9103,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30997,
@@ -9114,9 +9114,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30998,
@@ -9125,9 +9125,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 30999,
@@ -9136,9 +9136,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31000,
@@ -9147,9 +9147,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31001,
@@ -9158,9 +9158,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31002,
@@ -9169,9 +9169,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31003,
@@ -9180,9 +9180,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31079,
@@ -9191,9 +9191,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31080,
@@ -9202,9 +9202,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31081,
@@ -9213,9 +9213,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31082,
@@ -9224,9 +9224,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 31148,
@@ -9235,9 +9235,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31149,
@@ -9246,9 +9246,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31150,
@@ -9257,9 +9257,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31151,
@@ -9268,9 +9268,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31152,
@@ -9279,9 +9279,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31200,
@@ -9290,9 +9290,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31201,
@@ -9301,9 +9301,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31219,
@@ -9312,9 +9312,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31220,
@@ -9323,9 +9323,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31250,
@@ -9334,9 +9334,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31251,
@@ -9345,9 +9345,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31252,
@@ -9356,9 +9356,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31416,
@@ -9367,9 +9367,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31417,
@@ -9378,9 +9378,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31418,
@@ -9389,9 +9389,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31419,
@@ -9400,9 +9400,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31420,
@@ -9433,9 +9433,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31423,
@@ -9444,9 +9444,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31424,
@@ -9455,9 +9455,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31425,
@@ -9466,9 +9466,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31426,
@@ -9477,9 +9477,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31427,
@@ -9488,9 +9488,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31428,
@@ -9499,9 +9499,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31429,
@@ -9510,9 +9510,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31430,
@@ -9521,9 +9521,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31492,
@@ -9532,9 +9532,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31493,
@@ -9554,9 +9554,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17864,
-    "difficulty": 1.7000000000000002,
-    "interval": 9
+    "update": 17851,
+    "difficulty": 1.6,
+    "interval": 8
   },
   {
     "id": 31495,
@@ -9565,9 +9565,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31496,
@@ -9587,9 +9587,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17860,
-    "difficulty": 2.400000000000001,
-    "interval": 4
+    "update": 17854,
+    "difficulty": 2.3000000000000007,
+    "interval": 3
   },
   {
     "id": 31521,
@@ -9598,9 +9598,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31522,
@@ -9609,9 +9609,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31541,
@@ -9620,9 +9620,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31593,
@@ -9631,9 +9631,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17870,
-    "difficulty": 2.400000000000001,
-    "interval": 8
+    "update": 17855,
+    "difficulty": 2.3000000000000007,
+    "interval": 7
   },
   {
     "id": 31594,
@@ -9642,9 +9642,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31595,
@@ -9653,9 +9653,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31596,
@@ -9664,9 +9664,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31632,
@@ -9675,9 +9675,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17865,
-    "difficulty": 1.8000000000000003,
-    "interval": 9
+    "update": 17852,
+    "difficulty": 1.7000000000000002,
+    "interval": 8
   },
   {
     "id": 31702,
@@ -9807,9 +9807,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17868,
-    "difficulty": 2.4000000000000004,
-    "interval": 8
+    "update": 17853,
+    "difficulty": 2.3000000000000003,
+    "interval": 7
   },
   {
     "id": 31812,
@@ -9818,9 +9818,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 8
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 7
   },
   {
     "id": 31900,
@@ -9972,9 +9972,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17863,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17851,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 32120,
@@ -10203,9 +10203,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 8
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 7
   },
   {
     "id": 32299,
@@ -10236,9 +10236,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17866,
-    "difficulty": 2.6000000000000005,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.5000000000000004,
+    "interval": 6
   },
   {
     "id": 32362,
@@ -10247,9 +10247,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17866,
-    "difficulty": 2.6000000000000005,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.5000000000000004,
+    "interval": 6
   },
   {
     "id": 32363,
@@ -10258,9 +10258,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17866,
-    "difficulty": 2.7000000000000006,
-    "interval": 5
+    "update": 17856,
+    "difficulty": 2.6000000000000005,
+    "interval": 4
   },
   {
     "id": 32364,
@@ -10269,9 +10269,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17869,
-    "difficulty": 2.7000000000000006,
-    "interval": 7
+    "update": 17855,
+    "difficulty": 2.6000000000000005,
+    "interval": 6
   },
   {
     "id": 32365,
@@ -10280,9 +10280,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17869,
-    "difficulty": 2.8000000000000007,
-    "interval": 6
+    "update": 17856,
+    "difficulty": 2.7000000000000006,
+    "interval": 5
   },
   {
     "id": 32389,
@@ -10291,9 +10291,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17866,
-    "difficulty": 2.7000000000000006,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.6000000000000005,
+    "interval": 6
   },
   {
     "id": 32390,
@@ -10302,9 +10302,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 8
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 7
   },
   {
     "id": 32459,
@@ -10324,9 +10324,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17866,
-    "difficulty": 2.6000000000000005,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.5000000000000004,
+    "interval": 6
   },
   {
     "id": 32461,
@@ -10357,9 +10357,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17858,
-    "difficulty": 2.8000000000000007,
-    "interval": 3
+    "update": 17851,
+    "difficulty": 2.7000000000000006,
+    "interval": 2
   },
   {
     "id": 32464,
@@ -10368,9 +10368,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 8
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 7
   },
   {
     "id": 32563,
@@ -10390,9 +10390,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 8
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 7
   },
   {
     "id": 32566,
@@ -10401,9 +10401,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17869,
-    "difficulty": 2.8000000000000007,
-    "interval": 6
+    "update": 17856,
+    "difficulty": 2.7000000000000006,
+    "interval": 5
   },
   {
     "id": 32567,
@@ -10412,9 +10412,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 8
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 7
   },
   {
     "id": 32569,
@@ -10423,9 +10423,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17866,
-    "difficulty": 2.6000000000000005,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.5000000000000004,
+    "interval": 6
   },
   {
     "id": 32616,
@@ -10445,9 +10445,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17858,
-    "difficulty": 2.900000000000001,
-    "interval": 3
+    "update": 17851,
+    "difficulty": 2.8000000000000007,
+    "interval": 2
   },
   {
     "id": 32619,
@@ -10456,9 +10456,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17863,
-    "difficulty": 2.900000000000001,
-    "interval": 3
+    "update": 17854,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 32620,
@@ -10478,9 +10478,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17873,
-    "difficulty": 2.5000000000000004,
-    "interval": 8
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 7
   },
   {
     "id": 32671,
@@ -10489,9 +10489,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17861,
-    "difficulty": 3.100000000000001,
-    "interval": 4
+    "update": 17854,
+    "difficulty": 3.000000000000001,
+    "interval": 3
   },
   {
     "id": 32672,
@@ -10500,9 +10500,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17866,
-    "difficulty": 2.7000000000000006,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.6000000000000005,
+    "interval": 6
   },
   {
     "id": 32991,
@@ -10511,9 +10511,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17865,
-    "difficulty": 2.1,
-    "interval": 8
+    "update": 17851,
+    "difficulty": 2,
+    "interval": 7
   },
   {
     "id": 32992,
@@ -10522,9 +10522,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17865,
-    "difficulty": 2.1,
-    "interval": 8
+    "update": 17851,
+    "difficulty": 2,
+    "interval": 7
   },
   {
     "id": 32993,
@@ -10533,9 +10533,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17864,
+    "update": 17851,
     "difficulty": 2,
-    "interval": 8
+    "interval": 7
   },
   {
     "id": 32994,
@@ -10544,9 +10544,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17864,
+    "update": 17851,
     "difficulty": 2,
-    "interval": 8
+    "interval": 7
   },
   {
     "id": 32995,
@@ -10555,9 +10555,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17858,
-    "difficulty": 2.7000000000000006,
-    "interval": 4
+    "update": 17852,
+    "difficulty": 2.6000000000000005,
+    "interval": 3
   },
   {
     "id": 32996,
@@ -10577,9 +10577,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17864,
+    "update": 17851,
     "difficulty": 2,
-    "interval": 8
+    "interval": 7
   },
   {
     "id": 33088,
@@ -10588,9 +10588,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17864,
-    "difficulty": 2,
-    "interval": 8
+    "update": 17851,
+    "difficulty": 1.9000000000000001,
+    "interval": 7
   },
   {
     "id": 33089,
@@ -10610,9 +10610,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17865,
-    "difficulty": 2.1,
-    "interval": 8
+    "update": 17851,
+    "difficulty": 2,
+    "interval": 7
   },
   {
     "id": 33091,
@@ -10621,9 +10621,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17873,
-    "difficulty": 2.5000000000000004,
-    "interval": 8
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 7
   },
   {
     "id": 33092,
@@ -10632,9 +10632,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17869,
-    "difficulty": 2.8000000000000007,
-    "interval": 6
+    "update": 17856,
+    "difficulty": 2.7000000000000006,
+    "interval": 5
   },
   {
     "id": 33093,
@@ -10643,9 +10643,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17869,
-    "difficulty": 2.8000000000000007,
-    "interval": 6
+    "update": 17856,
+    "difficulty": 2.7000000000000006,
+    "interval": 5
   },
   {
     "id": 33095,
@@ -10654,9 +10654,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17870,
-    "difficulty": 2.4000000000000004,
-    "interval": 8
+    "update": 17855,
+    "difficulty": 2.3000000000000003,
+    "interval": 7
   },
   {
     "id": 33101,
@@ -10665,9 +10665,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17870,
-    "difficulty": 2.4000000000000004,
-    "interval": 8
+    "update": 17855,
+    "difficulty": 2.3000000000000003,
+    "interval": 7
   },
   {
     "id": 33353,
@@ -10676,9 +10676,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17861,
-    "difficulty": 3.100000000000001,
-    "interval": 4
+    "update": 17854,
+    "difficulty": 3.000000000000001,
+    "interval": 3
   },
   {
     "id": 33354,
@@ -10687,9 +10687,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17867,
-    "difficulty": 2.8000000000000007,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.7000000000000006,
+    "interval": 6
   },
   {
     "id": 33355,
@@ -10698,9 +10698,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17866,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 33356,
@@ -10720,9 +10720,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17867,
-    "difficulty": 2.8000000000000007,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.7000000000000006,
+    "interval": 6
   },
   {
     "id": 33358,
@@ -10731,9 +10731,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17865,
+    "update": 17851,
     "difficulty": 2.4000000000000004,
-    "interval": 7
+    "interval": 6
   },
   {
     "id": 33359,
@@ -10742,9 +10742,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17867,
-    "difficulty": 2.8000000000000007,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.7000000000000006,
+    "interval": 6
   },
   {
     "id": 33360,
@@ -10753,9 +10753,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17865,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17851,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 33361,
@@ -10764,9 +10764,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17865,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17851,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 33362,
@@ -10775,9 +10775,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17867,
-    "difficulty": 2.8000000000000007,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.7000000000000006,
+    "interval": 6
   },
   {
     "id": 33363,
@@ -10797,9 +10797,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17865,
-    "difficulty": 3.200000000000001,
-    "interval": 6
+    "update": 17852,
+    "difficulty": 3.100000000000001,
+    "interval": 5
   },
   {
     "id": 33365,
@@ -10808,9 +10808,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17864,
+    "update": 17851,
     "difficulty": 2.3000000000000003,
-    "interval": 7
+    "interval": 6
   },
   {
     "id": 33366,
@@ -10819,9 +10819,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17864,
+    "update": 17851,
     "difficulty": 2.3000000000000003,
-    "interval": 7
+    "interval": 6
   },
   {
     "id": 33367,
@@ -10830,9 +10830,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17865,
+    "update": 17852,
     "difficulty": 2.5000000000000004,
-    "interval": 7
+    "interval": 6
   },
   {
     "id": 33368,
@@ -10841,9 +10841,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17867,
-    "difficulty": 2.8000000000000007,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.7000000000000006,
+    "interval": 6
   },
   {
     "id": 33369,
@@ -10852,9 +10852,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17851,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33370,
@@ -10874,9 +10874,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17867,
-    "difficulty": 2.8000000000000007,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.7000000000000006,
+    "interval": 6
   },
   {
     "id": 33372,
@@ -10885,9 +10885,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17867,
-    "difficulty": 2.8000000000000007,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.7000000000000006,
+    "interval": 6
   },
   {
     "id": 33682,
@@ -10896,9 +10896,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17851,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33683,
@@ -10907,9 +10907,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17851,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33684,
@@ -10918,9 +10918,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17851,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33685,
@@ -10929,9 +10929,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17851,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33686,
@@ -10940,9 +10940,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17851,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33699,
@@ -10951,9 +10951,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33711,
@@ -10962,9 +10962,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33723,
@@ -10973,9 +10973,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
+    "update": 17851,
     "difficulty": 2.4000000000000004,
-    "interval": 7
+    "interval": 6
   },
   {
     "id": 33724,
@@ -10984,9 +10984,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17851,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33742,
@@ -11006,9 +11006,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17863,
-    "difficulty": 3.000000000000001,
-    "interval": 3
+    "update": 17855,
+    "difficulty": 2.8000000000000007,
+    "interval": 5
   },
   {
     "id": 33767,
@@ -11017,9 +11017,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33768,
@@ -11028,9 +11028,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33773,
@@ -11039,9 +11039,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17869,
-    "difficulty": 2.8000000000000007,
-    "interval": 7
+    "update": 17854,
+    "difficulty": 2.7000000000000006,
+    "interval": 6
   },
   {
     "id": 33786,
@@ -11050,9 +11050,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33837,
@@ -11061,9 +11061,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17869,
-    "difficulty": 2.8000000000000007,
-    "interval": 7
+    "update": 17854,
+    "difficulty": 2.7000000000000006,
+    "interval": 6
   },
   {
     "id": 33838,
@@ -11072,9 +11072,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33839,
@@ -11083,9 +11083,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17867,
-    "difficulty": 2.900000000000001,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.8000000000000007,
+    "interval": 5
   },
   {
     "id": 33859,
@@ -11094,9 +11094,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 33914,
@@ -11105,9 +11105,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33915,
@@ -11116,9 +11116,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33916,
@@ -11127,9 +11127,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 33934,
@@ -11149,9 +11149,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 33939,
@@ -11160,9 +11160,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17865,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17852,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 33968,
@@ -11171,9 +11171,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17866,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17853,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 33969,
@@ -11182,9 +11182,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17860,
-    "difficulty": 2.900000000000001,
-    "interval": 4
+    "update": 17854,
+    "difficulty": 2.8000000000000007,
+    "interval": 3
   },
   {
     "id": 33986,
@@ -11193,9 +11193,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17869,
-    "difficulty": 2.6000000000000005,
-    "interval": 7
+    "update": 17855,
+    "difficulty": 2.5000000000000004,
+    "interval": 6
   },
   {
     "id": 33987,
@@ -11204,9 +11204,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17864,
+    "update": 17852,
     "difficulty": 2.2600000000000002,
-    "interval": 7
+    "interval": 6
   },
   {
     "id": 33988,
@@ -11215,9 +11215,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34022,
@@ -11226,9 +11226,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34023,
@@ -11237,9 +11237,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34024,
@@ -11248,9 +11248,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34025,
@@ -11259,9 +11259,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34026,
@@ -11270,9 +11270,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34027,
@@ -11281,9 +11281,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34028,
@@ -11292,9 +11292,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34145,
@@ -11303,9 +11303,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 34146,
@@ -11314,9 +11314,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34147,
@@ -11325,9 +11325,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34148,
@@ -11347,9 +11347,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34150,
@@ -11358,9 +11358,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34151,
@@ -11391,9 +11391,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17860,
-    "difficulty": 2.900000000000001,
-    "interval": 4
+    "update": 17854,
+    "difficulty": 2.8000000000000007,
+    "interval": 3
   },
   {
     "id": 34154,
@@ -11402,9 +11402,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
+    "update": 17856,
     "difficulty": 2.4000000000000004,
-    "interval": 7
+    "interval": 6
   },
   {
     "id": 34155,
@@ -11413,9 +11413,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17866,
+    "update": 17853,
     "difficulty": 2.4000000000000004,
-    "interval": 7
+    "interval": 6
   },
   {
     "id": 34177,
@@ -11446,9 +11446,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34256,
@@ -11479,9 +11479,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34259,
@@ -11523,9 +11523,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34278,
@@ -11534,9 +11534,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34279,
@@ -11556,9 +11556,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34312,
@@ -11578,9 +11578,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34367,
@@ -11589,9 +11589,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34368,
@@ -11600,9 +11600,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34369,
@@ -11611,9 +11611,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
+    "update": 17856,
     "difficulty": 2.4000000000000004,
-    "interval": 7
+    "interval": 6
   },
   {
     "id": 34372,
@@ -11622,9 +11622,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34373,
@@ -11633,9 +11633,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
+    "update": 17856,
     "difficulty": 2.4000000000000004,
-    "interval": 7
+    "interval": 6
   },
   {
     "id": 34374,
@@ -11644,9 +11644,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
+    "update": 17856,
     "difficulty": 2.4000000000000004,
-    "interval": 7
+    "interval": 6
   },
   {
     "id": 34388,
@@ -11655,9 +11655,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34389,
@@ -11666,9 +11666,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34433,
@@ -11677,9 +11677,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34434,
@@ -11688,9 +11688,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34435,
@@ -11699,9 +11699,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34436,
@@ -11710,9 +11710,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34437,
@@ -11721,9 +11721,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34485,
@@ -11732,9 +11732,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34486,
@@ -11743,9 +11743,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34487,
@@ -11754,9 +11754,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34488,
@@ -11765,9 +11765,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34593,
@@ -11776,9 +11776,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34594,
@@ -11787,9 +11787,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34595,
@@ -11798,9 +11798,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 3.000000000000001,
-    "interval": 6
+    "update": 17856,
+    "difficulty": 2.900000000000001,
+    "interval": 5
   },
   {
     "id": 34598,
@@ -11809,9 +11809,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 34599,
@@ -11820,9 +11820,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34600,
@@ -11831,9 +11831,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34738,
@@ -11842,9 +11842,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 34739,
@@ -11853,9 +11853,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34740,
@@ -11864,9 +11864,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17869,
-    "difficulty": 2.3600000000000003,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.2600000000000002,
+    "interval": 6
   },
   {
     "id": 34741,
@@ -11875,9 +11875,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34742,
@@ -11886,9 +11886,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34743,
@@ -11897,9 +11897,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 34744,
@@ -11908,9 +11908,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34745,
@@ -11919,9 +11919,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34747,
@@ -11930,9 +11930,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34748,
@@ -11941,9 +11941,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34749,
@@ -11952,9 +11952,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34751,
@@ -11963,9 +11963,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34752,
@@ -11974,9 +11974,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34770,
@@ -11985,9 +11985,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34771,
@@ -12007,9 +12007,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34788,
@@ -12018,9 +12018,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34789,
@@ -12029,9 +12029,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34801,
@@ -12040,9 +12040,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34848,
@@ -12051,9 +12051,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34849,
@@ -12062,9 +12062,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34850,
@@ -12073,9 +12073,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 34875,
@@ -12084,9 +12084,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34876,
@@ -12095,9 +12095,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34892,
@@ -12106,9 +12106,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34893,
@@ -12117,9 +12117,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34911,
@@ -12128,9 +12128,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34912,
@@ -12139,9 +12139,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34918,
@@ -12150,9 +12150,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17856,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34968,
@@ -12172,9 +12172,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34970,
@@ -12194,9 +12194,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 34972,
@@ -12216,9 +12216,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35011,
@@ -12227,9 +12227,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35012,
@@ -12238,9 +12238,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35013,
@@ -12249,9 +12249,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35088,
@@ -12260,9 +12260,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35089,
@@ -12271,9 +12271,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35090,
@@ -12282,9 +12282,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35091,
@@ -12293,9 +12293,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35092,
@@ -12304,9 +12304,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35093,
@@ -12315,9 +12315,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35094,
@@ -12326,9 +12326,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 35095,
@@ -12337,9 +12337,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35096,
@@ -12348,9 +12348,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35129,
@@ -12370,9 +12370,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35131,
@@ -12381,9 +12381,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35132,
@@ -12392,9 +12392,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35142,
@@ -12403,9 +12403,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35224,
@@ -12414,9 +12414,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 35225,
@@ -12425,9 +12425,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35226,
@@ -12436,9 +12436,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 35227,
@@ -12447,9 +12447,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.5000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.4000000000000004,
+    "interval": 6
   },
   {
     "id": 35228,
@@ -12458,9 +12458,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 17870,
-    "difficulty": 2.4000000000000004,
-    "interval": 7
+    "update": 17857,
+    "difficulty": 2.3000000000000003,
+    "interval": 6
   },
   {
     "id": 35234,
@@ -12502,9 +12502,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17871,
-    "difficulty": 2.18,
-    "interval": 8
+    "update": 17857,
+    "difficulty": 2.22,
+    "interval": 6
   },
   {
     "id": 35315,
@@ -12678,9 +12678,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35667,
@@ -12689,9 +12689,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35668,
@@ -12700,9 +12700,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35669,
@@ -12711,9 +12711,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35670,
@@ -12722,9 +12722,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35671,
@@ -12733,9 +12733,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35674,
@@ -12744,9 +12744,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 35675,
@@ -12755,9 +12755,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 35703,
@@ -12766,9 +12766,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35704,
@@ -12777,9 +12777,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35705,
@@ -12788,9 +12788,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17864,
+    "update": 17854,
     "difficulty": 2.4000000000000004,
-    "interval": 6
+    "interval": 5
   },
   {
     "id": 35706,
@@ -12799,9 +12799,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35707,
@@ -12810,9 +12810,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35719,
@@ -12821,9 +12821,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35720,
@@ -12832,9 +12832,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35721,
@@ -12843,9 +12843,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 35804,
@@ -12854,9 +12854,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 35805,
@@ -12865,9 +12865,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35806,
@@ -12876,9 +12876,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17863,
+    "update": 17853,
     "difficulty": 2.3000000000000003,
-    "interval": 6
+    "interval": 5
   },
   {
     "id": 35807,
@@ -12887,9 +12887,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17864,
+    "update": 17854,
     "difficulty": 2.4000000000000004,
-    "interval": 6
+    "interval": 5
   },
   {
     "id": 35831,
@@ -12898,9 +12898,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35832,
@@ -12909,9 +12909,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35860,
@@ -12920,9 +12920,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35861,
@@ -12931,9 +12931,9 @@
       "Physical Chemistry",
       "Moderne spektroskopische Methoden"
     ],
-    "update": 17865,
-    "difficulty": 2.5000000000000004,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.4000000000000004,
+    "interval": 5
   },
   {
     "id": 35903,
@@ -12942,9 +12942,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17865,
-    "difficulty": 2.6000000000000005,
-    "interval": 6
+    "update": 17854,
+    "difficulty": 2.5000000000000004,
+    "interval": 5
   },
   {
     "id": 35932,
@@ -12953,9 +12953,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17864,
+    "update": 17854,
     "difficulty": 2.4000000000000004,
-    "interval": 6
+    "interval": 5
   },
   {
     "id": 35933,
@@ -12964,9 +12964,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17864,
+    "update": 17854,
     "difficulty": 2.4000000000000004,
-    "interval": 6
+    "interval": 5
   },
   {
     "id": 35934,
@@ -12975,9 +12975,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17864,
+    "update": 17854,
     "difficulty": 2.4000000000000004,
-    "interval": 6
+    "interval": 5
   },
   {
     "id": 36044,
@@ -12986,9 +12986,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17864,
+    "update": 17854,
     "difficulty": 2.4000000000000004,
-    "interval": 6
+    "interval": 5
   },
   {
     "id": 36108,
@@ -12997,9 +12997,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 17866,
-    "difficulty": 2.6000000000000005,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.5000000000000004,
+    "interval": 5
   },
   {
     "id": 36130,
@@ -13008,9 +13008,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 17866,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 36167,
@@ -13030,9 +13030,9 @@
       "Bonding",
       "Covalent Bond"
     ],
-    "update": 17866,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 36197,
@@ -13041,9 +13041,9 @@
       "Bonding",
       "Covalent Bond"
     ],
-    "update": 17866,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 36198,
@@ -13052,9 +13052,9 @@
       "Bonding",
       "Covalent Bond"
     ],
-    "update": 17866,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 36199,
@@ -13063,9 +13063,9 @@
       "Bonding",
       "Covalent Bond"
     ],
-    "update": 17866,
-    "difficulty": 2.6000000000000005,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.5000000000000004,
+    "interval": 5
   },
   {
     "id": 36200,
@@ -13074,9 +13074,9 @@
       "Bonding",
       "Covalent Bond"
     ],
-    "update": 17866,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 36201,
@@ -13085,9 +13085,9 @@
       "Bonding",
       "Covalent Bond"
     ],
-    "update": 17866,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 36211,
@@ -13096,9 +13096,9 @@
       "Bonding",
       "Ionic Bond"
     ],
-    "update": 17861,
-    "difficulty": 2.3200000000000003,
-    "interval": 5
+    "update": 17854,
+    "difficulty": 2.3600000000000003,
+    "interval": 3
   },
   {
     "id": 36212,
@@ -13107,9 +13107,9 @@
       "Bonding",
       "Ionic Bond"
     ],
-    "update": 17866,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 36221,
@@ -13118,9 +13118,9 @@
       "Bonding",
       "Hydrogen Bond"
     ],
-    "update": 17866,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   },
   {
     "id": 36222,
@@ -13129,8 +13129,8 @@
       "Bonding",
       "Hydrogen Bond"
     ],
-    "update": 17866,
-    "difficulty": 2.7000000000000006,
-    "interval": 6
+    "update": 17855,
+    "difficulty": 2.6000000000000005,
+    "interval": 5
   }
 ]
