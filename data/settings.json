@@ -96,34 +96,34 @@
       ]
     },
     "cngtemp": false,
-    "contentPos": 0,
+    "contentPos": -1,
     "coor": {
-      "x": 397294,
-      "y": 251431
+      "x": 267065,
+      "y": 117654
     },
     "copy": {
       "num": 0,
       "numArray": [],
-      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"chem/pc/176t.png\",\"height\":100,\"width\":0}",
+      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"assets/images/chem/oc/Namensreaktionen-Modell/finkelsteinreaktion.gif\",\"width\":0,\"info\":\"gif\",\"height\":100,\"correct\":true}",
       "strgArray": [],
       "type": "content"
     },
     "copycolor": "#c79fc4",
     "currentMeta": {
-      "comment": "Kohn, Sham - Self-Consistent Equations Including Exchange and Correlation Effects",
-      "name": "PhysRev.140.A1133.pdf",
-      "path": "/home/pmk/cognimap/src/assets/pdf/paw/PhysRev.140.A1133.pdf",
+      "comment": "ChemTube3d",
+      "name": "Heck-Reaktion",
+      "path": "http://www.chemtube3d.com/Pdheck.html",
       "pos": "0",
-      "type": "pdf"
+      "type": "link"
     },
     "debug": true,
     "deletedcme": [
-      -3644636447,
-      -3644636447,
-      36447,
-      -3645736461,
-      -3645736461,
-      36461
+      -4042440783,
+      -4042440783,
+      40783,
+      -1315040794,
+      -1315040794,
+      40794
     ],
     "dev": false,
     "dirty": true,
@@ -131,7 +131,7 @@
     "epath": "",
     "id": 1,
     "latexcolor": "#000000",
-    "maxid": 36510,
+    "maxid": 40810,
     "menue": {
       "display": "block",
       "height": 400,
@@ -142,9 +142,9 @@
       "width": 600,
       "z-index": 490
     },
-    "minimapupdate": 1542877741160,
+    "minimapupdate": 1550067819892,
     "mnemocolor": "#05b4ff",
-    "mode": "edit",
+    "mode": "view",
     "pointArray": [],
     "selcmeo": {
       "cat": [],
@@ -368,7 +368,7 @@
       "shadowcolor": "#4f4f4f"
     },
     "tblayout0": {
-      "display": "none",
+      "display": "block",
       "height": 80,
       "left": 0,
       "opacity": 0.8,
@@ -378,7 +378,7 @@
       "z-index": 510
     },
     "tblayout1": {
-      "display": "block",
+      "display": "none",
       "height": 80,
       "left": 0,
       "opacity": 0.8,
@@ -387,10 +387,10 @@
       "width": 1800,
       "z-index": 515
     },
-    "widget0": "equation",
+    "widget0": "none",
     "widget1": "none",
     "wlayout0": {
-      "display": "block",
+      "display": "none",
       "height": 446.5,
       "left": 0,
       "opacity": 0.8,
