@@ -24,6 +24,7 @@ var quiztime = [];
 var quizcat = [];
 var quiz = '';
 var quizbool = true;
+var quizclick = 0;
 
 const WORST = 0;
 const BAD = 1;
@@ -37,7 +38,7 @@ const getDaysSinceEpoch = () => (
     Math.round(new Date().getTime() / DAY_IN_MINISECONDS)
 );
 
-const TODAY = getDaysSinceEpoch();
+var TODAY = getDaysSinceEpoch();
 
 const calculate = (word, performanceRating, today) => {
   var timeinterval;
@@ -816,7 +817,7 @@ const createDbWindow = function createDbWindow() {
 	  const t = parseInt(arg.t);
 	  const r = parseInt(arg.r);
 	  const b = parseInt(arg.b);
-	  // gets all elements within a expanded user view. Maybe should be made better
+	  // gets all elements within a expanded user view. Maybe should made better
 	  cme.find({
       $or: [
         {$and: [{x0: { $gt: l, $lt: r }}, {y0: { $gt: t, $lt: b }}]},
@@ -878,7 +879,7 @@ const createDbWindow = function createDbWindow() {
           }
         }
       })
-      const today0 = TODAY;
+      const today0 = TODAY + quizclick;
       var overduearray = [];
       quizcat = [];
       quizcmes = [];
@@ -903,7 +904,8 @@ const createDbWindow = function createDbWindow() {
             if (quizcatlen > 0) {
               quizcat[(quizcatlen - 1)].push(quiz.id);
             }
-            overduearray.push({id: quiz.id, od: (today0 - quiz.update), interval: quiz.interval, dif: quiz.difficulty});
+            overduearray.push({id: quiz.id, od: (today0 - quiz.update),
+              interval: quiz.interval, dif: quiz.difficulty});
           } else {
             const dueday = quiz.update - today0;
             if (quiztime[dueday]) {
@@ -919,8 +921,8 @@ const createDbWindow = function createDbWindow() {
       if (l > 0) {
         overduearray.sort(function(a, b){return b.od - a.od});
         overduearray.splice(arg);
-        getOverdueQuizes(overduearray, event);
       }
+      getOverdueQuizes(overduearray, event);
     }
   })
 
@@ -966,7 +968,8 @@ const createDbWindow = function createDbWindow() {
           }
           if (isshown) {
             // console.log(quiz);
-            overduearray.push({id: quiz.id, od: (today0 - quiz.update), interval: quiz.interval, dif: quiz.difficulty});
+            overduearray.push({id: quiz.id, od: (today0 - quiz.update),
+              interval: quiz.interval, dif: quiz.difficulty});
           }
         }
       })
@@ -975,6 +978,9 @@ const createDbWindow = function createDbWindow() {
       if (l > 0) {
         overduearray.sort(function(a, b){return b.od - a.od});
         quizcmes = [];
+        if (arg.length < 3 && l > 100) {
+          overduearray.splice(100)
+        }
         getOverdueQuizes(overduearray, event);
       }
     }
@@ -1216,7 +1222,14 @@ function getOverdueQuizes(overduearray0, event) {
       timelist: quiztime,
       quizes: []
     }
-    console.log('no quizes');
+    if (quizcmes.length === 0) {
+      console.log(
+        'No quizes ar due now, another click will load quizes due later.'
+      )
+      quizclick = 1
+    } else {
+      quizclick = 0
+    }
     event.sender.send('loadedQuizes', quizres);
     quizbool = true;
   } else {
@@ -1383,7 +1396,9 @@ function findCatChildren(arg, title0, title1, event) {
                               if (data) {
                                 selectLinks(data);
                               } else {
-                                console.log("Error (Child) at ParentID: ", cme0.id, " ChildId: ", link.targetId, " LinkId: ", link.id);
+                                console.log("Error (Child) at ParentID: ",
+                                cme0.id, " ChildId: ", link.targetId,
+                                " LinkId: ", link.id);
                               }
                             }
                           });

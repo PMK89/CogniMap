@@ -96,10 +96,10 @@
       ]
     },
     "cngtemp": false,
-    "contentPos": -1,
+    "contentPos": 0,
     "coor": {
-      "x": 267065,
-      "y": 117654
+      "x": 320487,
+      "y": 119092
     },
     "copy": {
       "num": 0,
@@ -144,7 +144,7 @@
     },
     "minimapupdate": 1550067819892,
     "mnemocolor": "#05b4ff",
-    "mode": "view",
+    "mode": "edit",
     "pointArray": [],
     "selcmeo": {
       "cat": [],
@@ -368,7 +368,7 @@
       "shadowcolor": "#4f4f4f"
     },
     "tblayout0": {
-      "display": "block",
+      "display": "none",
       "height": 80,
       "left": 0,
       "opacity": 0.8,
@@ -378,7 +378,7 @@
       "z-index": 510
     },
     "tblayout1": {
-      "display": "none",
+      "display": "block",
       "height": 80,
       "left": 0,
       "opacity": 0.8,

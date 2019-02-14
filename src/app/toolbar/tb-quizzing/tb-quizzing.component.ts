@@ -56,10 +56,12 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
                     if (arg['timelist']) {
                       this.timelist = arg['timelist'];
                     }
-                    if (arg['catlist'] && this.catlist.length === 0) {
-                      this.catlist = arg['catlist'];
-                      // console.info(this.catlist);
-                      this.fillcatlist();
+                    if (arg['catlist']) {
+                      if (this.catlist.length === 0) {
+                        this.catlist = arg['catlist'];
+                        // console.info(this.catlist);
+                        this.fillcatlist();
+                      }
                     }
                   }
                 });
@@ -69,7 +71,8 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
                         if (this.cmsettings.mode === 'quizing') {
                           this.mode = 'quizing';
                           console.log(this.nooverdue);
-                          if (this.nooverdue) {
+                          if (this.nooverdue ||
+                            this.overduearray.length === 0) {
                             this.getOverdue();
                           }
                         } else {
@@ -161,11 +164,19 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
         this.fillcatlist(this.quizcat0mod);
         break;
       case '2':
-        params = [this.allcat, this.quizcat0mod, this.quizcat1mod];
-        this.fillcatlist(this.quizcat0mod, this.quizcat1mod);
+        if (this.quizcat1mod === 'none') {
+          params = [this.allcat, this.quizcat0mod];
+        } else {
+          params = [this.allcat, this.quizcat0mod, this.quizcat1mod];
+          this.fillcatlist(this.quizcat0mod, this.quizcat1mod);
+        }
         break;
       case '3':
-        params = [this.allcat, this.quizcat0mod, this.quizcat1mod, this.quizcat2mod];
+        if (this.quizcat2mod === 'none') {
+          params = [this.allcat, this.quizcat0mod, this.quizcat1mod];
+        } else {
+          params = [this.allcat, this.quizcat0mod, this.quizcat1mod, this.quizcat2mod];
+        }
         break;
       default:
         break;
