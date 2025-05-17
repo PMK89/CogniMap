@@ -4,6 +4,8 @@ const exec = require('child_process').exec;
 // const getPixels = require("get-pixels")
 const PNG = require('pngjs').PNG;
 const mjAPI = require("mathjax-node");
+// Initialize @electron/remote
+const remoteMain = require("@electron/remote/main");
 
 let mediawin
 
@@ -14,7 +16,19 @@ let mediawin
 const createMediaWindow = function createMediaWindow () {
   console.log('Media Window');
   // Create the browser window.
-  mediawin = new BrowserWindow({width: 1, height: 1, show: false})
+  mediawin = new BrowserWindow({
+    width: 1, 
+    height: 1, 
+    show: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true
+    }
+  })
+  
+  // Enable remote module for this window
+  remoteMain.enable(mediawin.webContents);
 
   // Emitted when the window is closed.
   mediawin.on('closed', () => {

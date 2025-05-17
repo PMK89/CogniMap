@@ -98,8 +98,8 @@
     "cngtemp": false,
     "contentPos": -1,
     "coor": {
-      "x": 368864,
-      "y": 124011
+      "x": 198748.6875,
+      "y": 146302.890625
     },
     "copy": {
       "num": 0,
@@ -117,14 +117,16 @@
       "type": "link"
     },
     "debug": true,
-    "deletedcme": [],
+    "deletedcme": [
+      -808545048
+    ],
     "dev": false,
     "dirty": true,
     "dragging": false,
     "epath": "cm/pmk_1570782368982e.png",
     "id": 1,
     "latexcolor": "#098d0c",
-    "maxid": 45047,
+    "maxid": 45048,
     "menue": {
       "display": "block",
       "height": 400,
@@ -377,14 +379,14 @@
       "opacity": 0.8,
       "position": "fixed",
       "top": 0,
-      "width": 1800,
+      "width": 1801,
       "z-index": 515
     },
     "widget0": "none",
     "widget1": "none",
     "wlayout0": {
       "display": "none",
-      "height": 446.5,
+      "height": 447,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
@@ -394,11 +396,11 @@
     },
     "wlayout1": {
       "display": "none",
-      "height": 446.5,
+      "height": 447,
       "left": 0,
       "opacity": 0.8,
       "position": "fixed",
-      "top": 528.5,
+      "top": 529,
       "width": 600,
       "z-index": 510
     },

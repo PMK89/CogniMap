@@ -15,7 +15,7 @@ const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplaceme
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
+// const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const HtmlElementsPlugin = require('./html-elements-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
@@ -134,7 +134,8 @@ module.exports = function (options) {
             {
               loader: 'awesome-typescript-loader',
               options: {
-                configFileName: 'tsconfig.webpack.json'
+                configFileName: 'tsconfig.webpack.json',
+                transpileOnly: true
               }
             },
             {
@@ -172,8 +173,8 @@ module.exports = function (options) {
          */
         {
           test: /\.scss$/,
-          use: ['to-string-loader', 'css-loader', 'sass-loader'],
-          exclude: [helpers.root('src', 'styles')]
+          exclude: [helpers.root('src', 'styles')],
+          use: 'raw-loader'
         },
 
         /* Raw loader support for *.html
@@ -187,21 +188,15 @@ module.exports = function (options) {
           exclude: [helpers.root('src/index.html')]
         },
 
-        /*
-         * File loader for supporting images, for example, in CSS files.
-         */
         {
-          test: /\.(jpg|png|gif)$/,
-          use: 'file-loader',
-          exclude: [
-            path.resolve(__dirname, 'src/assets/images')
-          ]
+          test: /\.(jpe?g|png|gif|svg)$/i,
+          loader: 'null-loader'
         },
 
         /* File loader for supporting fonts, for example, in CSS files.
         */
         {
-          test: /\.(eot|woff2?|svg|ttf)([\?]?.*)$/,
+          test: /\.(eot|woff2?|ttf)([\?]?.*)$/,
           use: 'file-loader'
         }
 
@@ -228,7 +223,7 @@ module.exports = function (options) {
        *
        * See: https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
        */
-      new CheckerPlugin(),
+      // new CheckerPlugin(),
       /*
        * Plugin: CommonsChunkPlugin
        * Description: Shares common code between the pages.
@@ -276,10 +271,15 @@ module.exports = function (options) {
        *
        * See: https://www.npmjs.com/package/copy-webpack-plugin
        */
-      new CopyWebpackPlugin([
-        { from: 'src/assets', to: 'assets' },
-        { from: 'src/meta'}
-      ]),
+      new CopyWebpackPlugin(
+        [
+          { from: 'src/assets', to: 'assets' },
+          { from: 'src/meta' }
+        ],
+        {
+          ignore: ['**/*.JPG']
+        }
+      ),
 
 
       /*
