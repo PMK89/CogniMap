@@ -2,3 +2,5 @@ node_modules
 .git
 **.git**
 **node_modules**
+build
+compiled

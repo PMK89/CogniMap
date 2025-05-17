@@ -1,9 +1,7 @@
 [Dolphin]
-SortOrder=1
-SortRole=modificationtime
-Timestamp=2018,10,14,12,18,27
+HeaderColumnWidths=439,87,123,123,115
+PreviewsShown=false
+Timestamp=2023,1,17,20,7,36
 Version=4
 ViewMode=1
-
-[Settings]
-HiddenFilesShown=true
+VisibleRoles=Details_text,Details_size,Details_modificationtime,Details_accesstime,Details_creationtime,CustomizedDetails

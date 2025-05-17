@@ -54,6 +54,8 @@ export class CmapComponent implements OnInit {
                           this.quiz = '';
                         } else if (this.cmsettings.mode === 'progress') {
                           this.quiz = '';
+                        } else if ((this.cmsettings.mode === 'selecting' || this.cmsettings.mode === 'dragging') && this.quiz !== 'q') {
+                          this.quiz = '';
                         } else {
                           this.quiz = 'q';
                         }

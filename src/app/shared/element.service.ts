@@ -1515,7 +1515,7 @@ export class ElementService {
                   } else {
                     cme = this.selCME[key];
                   }
-                  // console.log(cme);
+                  console.log(cme);
                   cme.coor.x += x;
                   cme.coor.y += y;
                   cme.x0 += x;

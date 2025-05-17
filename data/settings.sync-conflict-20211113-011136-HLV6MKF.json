@@ -1,0 +1,407 @@
+[
+  {
+    "cmap": {
+      "display": "block",
+      "height": 500000,
+      "left": 0,
+      "opacity": 1,
+      "position": "absolute",
+      "top": 0,
+      "width": 500000,
+      "z-index": 0
+    },
+    "cmtbfont": {
+      "buttons": "tbfont",
+      "color": "tbfont",
+      "font": [
+        "\"Times New Roman\", Times, serif",
+        "Arial, Helvetica, sans-serif",
+        "\"Comic Sans MS\", cursive, sans-serif",
+        "\"Courier New\", Courier, monospace",
+        "\"Monotype Corsiva\", \"Apple Chancery\", \"ITC Zapf Chancery\", \"URW Chancery L\", cursive"
+      ],
+      "size": [
+        "++--",
+        "1",
+        "cmobject",
+        "style",
+        "title",
+        "size"
+      ]
+    },
+    "cmtbline": {
+      "buttons": "tbline",
+      "color0": "tbline0",
+      "color1": "tbline1",
+      "size0": [
+        "++--",
+        "1",
+        "cmline",
+        "size0"
+      ],
+      "size1": [
+        "++--",
+        "1",
+        "cmline",
+        "size1"
+      ],
+      "trans": [
+        "++--",
+        "10",
+        "cmline",
+        "trans"
+      ],
+      "z_pos": [
+        "++--",
+        "1",
+        "prio"
+      ]
+    },
+    "cmtbmarking": {
+      "color0": "none",
+      "color1": "#ff0000",
+      "prio": 4,
+      "trans": 0.8,
+      "types": [
+        "m",
+        "a",
+        "b"
+      ]
+    },
+    "cmtbobject": {
+      "buttons": "tbobject",
+      "color0": "tbobject0",
+      "color1": "tbobject1",
+      "trans": [
+        "++--",
+        "10",
+        "cmobject",
+        "trans"
+      ],
+      "z_pos": [
+        "++--",
+        "1",
+        "prio"
+      ]
+    },
+    "cmtbquizedit": {
+      "color0": "none",
+      "color1": "#1200ff",
+      "difficulty": 1.8,
+      "interval": "42",
+      "types": [
+        "q",
+        "a",
+        "b"
+      ]
+    },
+    "cngtemp": false,
+    "contentPos": -1,
+    "coor": {
+      "x": 365773,
+      "y": 155394
+    },
+    "copy": {
+      "num": 0,
+      "numArray": [],
+      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1572289715112.png\",\"width\":119.203125,\"info\":\"png\",\"height\":80,\"correct\":true}",
+      "strgArray": [],
+      "type": "content"
+    },
+    "copycolor": "#c79fc4",
+    "currentMeta": {
+      "comment": "pf5",
+      "name": "ChemTube3D",
+      "path": "http://chemtube3d.com/VSEPRShapePF5.html",
+      "pos": "",
+      "type": "link"
+    },
+    "debug": true,
+    "deletedcme": [],
+    "dev": false,
+    "dirty": true,
+    "dragging": false,
+    "epath": "cm/pmk_1570782368982e.png",
+    "id": 1,
+    "latexcolor": "#098d0c",
+    "maxid": 45027,
+    "menue": {
+      "display": "block",
+      "height": 400,
+      "left": 0,
+      "opacity": 0.8,
+      "position": "absolute",
+      "top": 0,
+      "width": 600,
+      "z-index": 490
+    },
+    "minimapupdate": 1627640360436,
+    "mnemocolor": "#05b4ff",
+    "mode": "edit",
+    "pointArray": [],
+    "selcmeo": {
+      "cat": [],
+      "cmobject": {
+        "content": [],
+        "links": [
+          {
+            "con": "e",
+            "id": -1356,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 356,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -1355,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 355,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -1354,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 354,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -1353,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 353,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -1352,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 352,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -17,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 7,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -16,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 6,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -15,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 5,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -14,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "start": true,
+            "targetId": 4,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -13,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "peer_coor": {
+              "schema": {
+                "x": 0,
+                "y": 0
+              },
+              "type": {},
+              "x": 35000,
+              "y": 30000
+            },
+            "start": true,
+            "targetId": 3,
+            "title": "",
+            "weight": -1
+          },
+          {
+            "con": "e",
+            "id": -12,
+            "peerCoor": {
+              "x": -1,
+              "y": -1
+            },
+            "peer_coor": {
+              "schema": {
+                "x": 0,
+                "y": 0
+              },
+              "type": {},
+              "x": 9965,
+              "y": 9949
+            },
+            "start": true,
+            "targetId": 2,
+            "title": "",
+            "weight": -1
+          }
+        ],
+        "meta": [],
+        "style": {
+          "object": {
+            "class_array": [],
+            "color0": "#0000ff",
+            "color1": "#0000ff",
+            "num_array": [],
+            "str": "",
+            "trans": 1,
+            "weight": 0
+          },
+          "title": {
+            "class_array": [
+              "f1_a "
+            ],
+            "color": "#000000",
+            "deco": "none",
+            "font": "'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive",
+            "size": 48
+          }
+        }
+      },
+      "coor": {
+        "schema": {
+          "x": 0,
+          "y": 0
+        },
+        "type": {},
+        "x": 4950,
+        "y": 99980
+      },
+      "id": 1,
+      "prep": "<ellipse cx=\"5041.28125\" cy=\"99966.7734375\" rx=\"97.17076583914914\" ry=\"55.859375\" fill=\"#0000ff\" id=\"cms1\" style=\"stroke-width: 1; opacity: 1;\"/><text x=\"4950\" y=\"99980\" fill=\"#000000\" title=\"1\" style=\"font-size: 48px; font-family: 'Monotype Corsiva', 'Apple Chancery', 'ITC Zapf Chancery', 'URW Chancery L', cursive; opacity: 1;\">CogniMap</text>",
+      "prep1": "",
+      "prio": 0,
+      "state": "selected",
+      "title": "CogniMap",
+      "types": [
+        "a",
+        "e",
+        "0"
+      ],
+      "x0": 4944.1103515625,
+      "x1": 5138.45166015625,
+      "y0": 99910.9140625,
+      "y1": 100022.6328125
+    },
+    "seltb": "",
+    "style": {
+      "bgcolor": "#ffffff",
+      "boxclass": "boxdefault",
+      "btnbgcolor0": "#ffffff",
+      "btnbgcolor1": "#f1f1f1",
+      "btnbordercolor": "#00004d",
+      "btnclass": "btndefault",
+      "btnclickcolor": "#0099cc",
+      "btncontentcolor": "#000066",
+      "btndeactcolor": "#bfbfbf",
+      "font": "\"Lucida Grande\", Helvetica, Arial, Sans-Serif",
+      "fontcolor": "#000000",
+      "fontsize": 12,
+      "linecolor": "#0f0f0f",
+      "name": "default",
+      "shadowcolor": "#4f4f4f"
+    },
+    "tblayout0": {
+      "display": "none",
+      "height": 80,
+      "left": 0,
+      "opacity": 0.8,
+      "position": "fixed",
+      "top": 0,
+      "width": 1800,
+      "z-index": 510
+    },
+    "tblayout1": {
+      "display": "block",
+      "height": 80,
+      "left": 0,
+      "opacity": 0.8,
+      "position": "fixed",
+      "top": 0,
+      "width": 1800,
+      "z-index": 515
+    },
+    "widget0": "navigator",
+    "widget1": "none",
+    "wlayout0": {
+      "display": "block",
+      "height": 446.5,
+      "left": 0,
+      "opacity": 0.8,
+      "position": "fixed",
+      "top": 81,
+      "width": 600,
+      "z-index": 510
+    },
+    "wlayout1": {
+      "display": "none",
+      "height": 446.5,
+      "left": 0,
+      "opacity": 0.8,
+      "position": "fixed",
+      "top": 528.5,
+      "width": 600,
+      "z-index": 510
+    },
+    "zoom": 1
+  }
+]

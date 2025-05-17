@@ -24,23 +24,14 @@ function createWindow () {
   win = new BrowserWindow({width: 1800, height: 1000, show: true})
 
   // and load the index.html of the app.
-  /*
-  const pathname = path.join(__dirname, 'dist/index.html');
-  win.loadURL(url.format({
-    pathname: pathname,
-    protocol: 'file',
-    slashes: true
-  }))
-  */
-
-  ///*
-  win.loadURL(url.format({
-    pathname: '//localhost:3000/index.html',
-    protocol: 'http:',
-    slashes: true
-  }))
-  //*/
-
+  // Serve from webpack dev server in development
+  const serve = process.argv.includes('--serve');
+  if (serve) {
+    win.loadURL('http://localhost:3000');
+  } else {
+    const pathname = path.join(__dirname, 'dist/index.html');
+    win.loadURL(url.format({pathname, protocol: 'file:', slashes: true}));
+  }
 
   // Modify the user agent for all requests to the following urls.
   const filter = {

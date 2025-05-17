@@ -218,7 +218,7 @@ const createMediaWindow = function createMediaWindow () {
       svg:true, //  svg:true,
     }, function (data) {
       if (data.errors) {
-        console.log(data.errors);
+        // console.log(data.errors);
         event.returnValue = 'error';
       } else {
         event.returnValue = data;

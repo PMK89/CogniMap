@@ -60,7 +60,7 @@
     "cmtbmarking": {
       "color0": "none",
       "color1": "#ff0000",
-      "prio": 4,
+      "prio": 7,
       "trans": 0.8,
       "types": [
         "m",
@@ -87,7 +87,7 @@
     "cmtbquizedit": {
       "color0": "none",
       "color1": "#1200ff",
-      "difficulty": 2.2,
+      "difficulty": 1.8,
       "interval": "42",
       "types": [
         "q",
@@ -96,42 +96,35 @@
       ]
     },
     "cngtemp": false,
-    "contentPos": 0,
+    "contentPos": -1,
     "coor": {
-      "x": 320487,
-      "y": 119092
+      "x": 368864,
+      "y": 124011
     },
     "copy": {
       "num": 0,
       "numArray": [],
-      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"assets/images/chem/oc/Namensreaktionen-Modell/finkelsteinreaktion.gif\",\"width\":0,\"info\":\"gif\",\"height\":100,\"correct\":true}",
+      "strg": "{\"cat\":\"i\",\"coor\":{\"x\":0,\"y\":0},\"object\":\"cm/pmk_1572289715112.png\",\"width\":119.203125,\"info\":\"png\",\"height\":80,\"correct\":true}",
       "strgArray": [],
       "type": "content"
     },
     "copycolor": "#c79fc4",
     "currentMeta": {
-      "comment": "ChemTube3d",
-      "name": "Heck-Reaktion",
-      "path": "http://www.chemtube3d.com/Pdheck.html",
-      "pos": "0",
+      "comment": "pf5",
+      "name": "ChemTube3D",
+      "path": "http://chemtube3d.com/VSEPRShapePF5.html",
+      "pos": "",
       "type": "link"
     },
     "debug": true,
-    "deletedcme": [
-      -4042440783,
-      -4042440783,
-      40783,
-      -1315040794,
-      -1315040794,
-      40794
-    ],
+    "deletedcme": [],
     "dev": false,
     "dirty": true,
     "dragging": false,
-    "epath": "",
+    "epath": "cm/pmk_1570782368982e.png",
     "id": 1,
-    "latexcolor": "#000000",
-    "maxid": 40810,
+    "latexcolor": "#098d0c",
+    "maxid": 45047,
     "menue": {
       "display": "block",
       "height": 400,
@@ -142,7 +135,7 @@
       "width": 600,
       "z-index": 490
     },
-    "minimapupdate": 1550067819892,
+    "minimapupdate": 1738244483295,
     "mnemocolor": "#05b4ff",
     "mode": "edit",
     "pointArray": [],

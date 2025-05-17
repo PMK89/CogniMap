@@ -140,7 +140,8 @@ export class MinimapComponent implements OnInit, OnDestroy {
     this.coory = y0;
     let x = (x0 / 100) * this.zoom - 250;
     let y = (y0 / 100) * this.zoom - 225;
-    this.minimap.nativeElement.scrollTo(x, y);
+    this.minimap.nativeElement.scrollLeft = x;
+    this.minimap.nativeElement.scrollTop =  y;
   }
 
   // moves to an point on the map and transports objects there if selected
