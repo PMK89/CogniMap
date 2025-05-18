@@ -38,7 +38,7 @@ git clone https://github.com/<your-org>/cognimap.git
 cd cognimap
 npm install
 npm run build:dev    # build assets
-npm start            # launch Electron app
+node_modules/electron/dist/electron  . --no-sandbox            # launch Electron app
 ```
 
 For live development with auto-reload:
