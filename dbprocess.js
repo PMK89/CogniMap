@@ -927,11 +927,13 @@ const createDbWindow = function createDbWindow() {
         data.prep = arg.prep;
         data.prep1 = arg.prep1;
         // saves changes to database
-        cme.update(data, function (err) {
+        cme.update({ id: arg.id }, data, { upsert: true }, function (err, numAffected, affectedDocs, upsert) {
           if (err) {
-            console.log(err); // #error message
+            console.error('Error updating CME:', err, data);
+            if (event) event.sender.send("changedCME", { error: true, message: err.message, data });
           } else {
-            console.log(data);
+            console.log('CME updated:', data);
+            if (event) event.sender.send("changedCME", data);
           }
         });
         if (event) {
@@ -1214,15 +1216,35 @@ const createDbWindow = function createDbWindow() {
   // deletes CME in Database
   ipcMain.on("delCME", (event, arg) => {
     cme.findOne({ id: arg }, function (err, data) {
-      if (err) console.log(err);
-      if (data) {
+      if (err) {
+        console.error('Error finding CME to delete:', err);
+        event.sender.send("deletedCME", { error: true, message: err.message });
+        return;
+      }
+      if (!data) {
+        console.warn('CME to delete not found:', arg);
+        event.sender.send("deletedCME", { error: true, message: "CME not found", id: arg });
+        return;
+      }
+      try {
         if (data.types[0] === "q" || data.types[0] === "q1") {
           deleteQuiz(data.id);
         }
         data.state = "del";
         datahistoryController(data, "insert");
-        event.sender.send("deletedCME", data);
-        data.remove(function (err) {});
+        // Remove the CME from the database
+        cme.remove({ id: arg }, {}, function (err, numRemoved) {
+          if (err) {
+            console.error('Error removing CME:', err);
+            event.sender.send("deletedCME", { error: true, message: err.message, id: arg });
+          } else {
+            console.log('CME removed:', arg, 'numRemoved:', numRemoved);
+            event.sender.send("deletedCME", { success: true, id: arg, data });
+          }
+        });
+      } catch (e) {
+        console.error('Exception during CME deletion:', e);
+        event.sender.send("deletedCME", { error: true, message: e.message, id: arg });
       }
     });
   });

@@ -307,6 +307,7 @@ export class ElementService {
       let newCME = this.newCME(cmeo);
       // console.log('newCME : ', newCME);
       this.store.dispatch({type: 'UPDATE_CME', payload: newCME });
+      this.changeDBCME(newCME); // Ensure persistence to DB
     }
   }
 

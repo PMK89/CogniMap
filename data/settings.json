@@ -98,8 +98,8 @@
     "cngtemp": false,
     "contentPos": -1,
     "coor": {
-      "x": 198748.6875,
-      "y": 146302.890625
+      "x": 249408,
+      "y": 149422.34375
     },
     "copy": {
       "num": 0,
@@ -118,7 +118,12 @@
     },
     "debug": true,
     "deletedcme": [
-      -808545048
+      -808545048,
+      -1145049,
+      -1145049,
+      -1145050,
+      -1145050,
+      45050
     ],
     "dev": false,
     "dirty": true,
@@ -126,7 +131,7 @@
     "epath": "cm/pmk_1570782368982e.png",
     "id": 1,
     "latexcolor": "#098d0c",
-    "maxid": 45048,
+    "maxid": 45050,
     "menue": {
       "display": "block",
       "height": 400,

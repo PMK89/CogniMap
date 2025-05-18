@@ -56,6 +56,7 @@ npm-debug.log
 .webpack.json
 /compiled/
 dll/
+build
 /data/cme/
 data/cme/
 /data/cme/*
@@ -81,3 +82,15 @@ git gc --prune=now --aggressive
 *.css.shim.ts
 *.ngsummary.json
 *.shim.ngstyle.ts
+
+# Ignore files larger than 100 MB (manual enforcement)
+# (Git itself cannot filter by size in .gitignore, but you can list known big types)
+*.zip
+*.tar
+*.gz
+*.7z
+*.mp4
+*.mkv
+*.avi
+*.mov
+*.iso
