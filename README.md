@@ -1,28 +1,110 @@
 # CogniMap
 
-# CogniMap Controls
+CogniMap is an Electron-based cognitive mapping tool built with Angular 2 and Webpack. It enables users to visually create, edit, and quiz themselves on interactive concept maps offline.
 
-# Keyboard shortcuts
+**Demo Video:** https://youtu.be/FcAghOkgQpI
 
+## Table of Contents
 
-# Electron Angular2 Webpack Starter with HMR and AOT
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Menu & Shortcuts](#menu--shortcuts)
+- [Data Management](#data-management)
+- [Multimedia & Assets](#multimedia--assets)
+- [Quiz Mode](#quiz-mode)
+- [Customization](#customization)
+- [Contributing](#contributing)
+- [License](#license)
 
-This Repo just appends the usage of `Electron` to the `awsome` [AngularClass/angular2-webpack-starter](https://github.com/AngularClass/angular2-webpack-starter):
-* Ready to go build system using Webpack for working with TypeScript.
-* Angular 2 examples that are ready to go when experimenting with Angular 2.
-* A great Angular 2 seed repo for anyone who wants to start their project.
-* Ahead of Time (AoT) compile for rapid page loads of your production builds.
-* Tree shaking to automatically remove unused code from your production bundle.
-* [Webpack DLLs](https://robertknight.github.io/posts/webpack-dll-plugins/) dramatically speed your development builds.
-* Testing Angular 2 code with Jasmine and Karma.
-* Coverage with Istanbul and Karma
-* End-to-end Angular 2 code using Protractor.
-* Type manager with @types
-* Hot Module Replacement with Webpack and [@angularclass/hmr](https://github.com/angularclass/angular2-hmr) and [@angularclass/hmr-loader](https://github.com/angularclass/angular2-hmr-loader)
-* Material Design with [angular/material2](https://github.com/angular/material2)
-* Angular 4 support via changing package.json and any future Angular versions
+## Features
 
-For further details please have a look at AngularClass/angular2-webpack-starter](https://github.com/AngularClass/angular2-webpack-starter).
+- **Visual Concept Mapping:** Drag-and-drop nodes and connect them with links to build cognitive maps.
+- **Offline-First Storage:** Local NeDB for persisting and loading maps without external dependencies.
+- **Import/Export:** Load external SVG/JSON maps and export your work.
+- **Multimedia Integration:** Open PDFs, text, images, audio, and video directly from the app.
+- **Spaced-Repetition Quiz:** Test recall of map elements with an adaptive scheduling algorithm.
+- **Fast Development:** Hot Module Replacement via Webpack HMR.
+- **Cross-Platform:** Compatible with Windows, macOS, and Linux.
 
-# License
- [MIT](/LICENSE)
+## Installation
+
+**Prerequisites:**
+- Node.js (LTS)
+- npm
+
+```bash
+git clone https://github.com/<your-org>/cognimap.git
+cd cognimap
+npm install
+npm run build:dev    # build assets
+npm start            # launch Electron app
+```
+
+For live development with auto-reload:
+
+```bash
+npm run start:hmr
+```
+
+## Usage
+
+1. **Create/Edit Map:** Add nodes and links on the main canvas.
+2. **Save Map:** `File → Save DB`.
+3. **Load Map:** `File → Load DB`.
+4. **Delete Map:** `File → Delete DB`.
+5. **Import File:** `File → Load File`.
+6. **Select Image Folder:** `File → Select IMG Folder`.
+
+## Menu & Shortcuts
+
+### File
+- Save DB
+- Load DB
+- Delete DB
+- Load File
+- Select IMG Folder
+- Quit: `Cmd/Ctrl + Alt + Q`
+
+### View
+- Zoom In: `Cmd/Ctrl + +`
+- Zoom Out: `Cmd/Ctrl + -`
+- Reset Zoom: `Cmd/Ctrl + 0`
+- Reload: `Cmd/Ctrl + R`
+- Toggle Full Screen: `F11` (Win/Linux) or `Ctrl+Cmd+F` (macOS)
+- Toggle DevTools: `Ctrl+Shift+I` (Win/Linux) or `Alt+Cmd+I` (macOS)
+
+## Data Management
+
+Maps are stored at `./data/cme.db` using NeDB. The app autoloads existing databases on startup.
+
+## Multimedia & Assets
+
+- **Open Files:** PDFs, text, links, audio, video, and images via built-in handlers.
+- **Asset Explorer:** Browse and load files from `src/assets`.
+
+## Quiz Mode
+
+Activate quiz mode to review nodes. CogniMap uses a spaced-repetition algorithm to schedule reviews based on performance.
+
+## Customization
+
+Use the **Settings** panel to adjust:
+- Application mode (edit, view, quiz)
+- Button layouts
+- Color palettes
+- Special characters
+- Node templates
+
+## Contributing
+
+We welcome contributions:
+
+1. Fork the repo
+2. Create a feature branch
+3. Ensure tests pass and build succeeds
+4. Submit a pull request
+
+## License
+
+This project is released under the MIT License. See [LICENSE](LICENSE) for details.
