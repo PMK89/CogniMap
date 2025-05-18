@@ -62,7 +62,12 @@ data/cme/
 data/cme/*
 data/cme
 .stversions/*
-
+src/assets/images/
+src/assets/pdf/
+src/assets/videos/
+src/assets/txt/
+git reflog expire --expire=now --all
+git gc --prune=now --aggressive
 # Doc #
 /doc/
 
