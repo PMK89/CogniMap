@@ -110,6 +110,9 @@
     "sm2-plus": "^1.0.5",
     "snapsvg": "^0.5.1",
     "snapsvg-cjs": "0.0.4",
+    "ts-helpers": "^1.1.2",
+    "tslib": "^1.14.1",
+    "web-animations-js": "^2.3.1",
     "zone.js": "0.7.6"
   },
   "devDependencies": {
@@ -169,11 +172,10 @@
     "style-loader": "^0.13.1",
     "to-string-loader": "^1.1.4",
     "ts-node": "^2.0.0",
-    "tslib": "^1.5.0",
     "tslint": "^4.4.2",
     "ignore-loader": "^0.1.2",
     "tslint-loader": "^3.3.0",
-    "typescript": "~2.2.1",
+    "typescript": "~2.3.4",
     "url-loader": "^0.5.7",
     "webpack": "2.2.0",
     "webpack-dev-middleware": "^1.10.0",

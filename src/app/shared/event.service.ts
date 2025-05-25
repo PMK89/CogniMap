@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { ElectronService } from 'ngx-electron';
 import 'rxjs/add/observable/fromEvent';
@@ -70,7 +70,7 @@ export class EventService {
                 this.store.select('selectedcmeo')
                 .subscribe((data) => {
                   if (data ) {
-                    if (data !== {}) {
+                    if (data && typeof data === 'object' && Object.keys(data).length > 0) {
                       this.selCMEoTime = Date.now();
                       this.selCMEoLinkPos = 0;
                       this.setSelCMEoLinkPos(0);
@@ -642,8 +642,16 @@ export class EventService {
         // turns on dragging mode
         if (this.cmsettings.mode === 'dragging') {
           this.cmsettings.mode = 'edit';
+          if (this.selCMEo && this.selCMEo.id) { 
+            this.selCMEo.state = 'edit'; 
+            this.elementService.updateSelCMEo(this.selCMEo);
+          }
         } else {
           this.cmsettings.mode = 'dragging';
+          if (this.selCMEo && this.selCMEo.id) { 
+            this.selCMEo.state = 'dragging';
+            this.elementService.updateSelCMEo(this.selCMEo);
+          }
         }
         this.settingsService.updateSettings(this.cmsettings);
       } else if (this.keyPressed.indexOf('u') !== -1) {
