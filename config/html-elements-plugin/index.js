@@ -1,3 +1,4 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 function HtmlElementsPlugin(locations) {
   this.locations = locations;
@@ -5,28 +6,35 @@ function HtmlElementsPlugin(locations) {
 
 HtmlElementsPlugin.prototype.apply = function(compiler) {
   var self = this;
-  compiler.plugin('compilation', function(compilation) {
+  compiler.hooks.compilation.tap('HtmlElementsPlugin', (compilation) => {
     compilation.options.htmlElements = compilation.options.htmlElements || {};
 
-    compilation.plugin('html-webpack-plugin-before-html-generation', function(htmlPluginData, callback) {
-      const locations = self.locations;
+    const allHooks = HtmlWebpackPlugin.getHooks(compilation);
+    console.log('HtmlElementsPlugin: All hooks from HtmlWebpackPlugin.getHooks():', allHooks); // Log all hooks
+    const targetHook = allHooks.beforeAssetTagGeneration;
+    console.log('HtmlElementsPlugin: targetHook (beforeAssetTagGeneration) is', typeof targetHook);
 
-      if (locations) {
-        const publicPath = htmlPluginData.assets.publicPath;
+    if (targetHook) {
+      targetHook.tapAsync(
+        'HtmlElementsPlugin',
+        (htmlPluginData, callback) => {
+          const locations = self.locations;
 
-        Object.getOwnPropertyNames(locations).forEach(function(loc) {
-          compilation.options.htmlElements[loc] = getHtmlElementString(locations[loc], publicPath);
-        });
-      }
+          if (locations) {
+            const publicPath = htmlPluginData.assets.publicPath;
 
-
-      callback(null, htmlPluginData);
-    });
+            Object.getOwnPropertyNames(locations).forEach(function(loc) {
+              compilation.options.htmlElements[loc] = getHtmlElementString(locations[loc], publicPath);
+            });
+          }
+          callback(null, htmlPluginData);
+        }
+      );
+    } else {
+      console.error('HtmlElementsPlugin: Error - targetHook (beforeAssetTagGeneration) is undefined!');
+    }
   });
-
 };
-
-const RE_ENDS_WITH_BS = /\/$/;
 
 /**
  * Create an HTML tag with attributes from a map.
@@ -105,4 +113,7 @@ function getHtmlElementString(dataSource, publicPath) {
     }, [])
     .join('\n\t');
 }
+
+const RE_ENDS_WITH_BS = /\/$/;
+
 module.exports = HtmlElementsPlugin;

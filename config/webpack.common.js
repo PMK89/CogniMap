@@ -13,12 +13,10 @@ const helpers = require('./helpers');
 const AssetsPlugin = require('assets-webpack-plugin');
 const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
-const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const HtmlElementsPlugin = require('./html-elements-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ngcWebpack = require('ngc-webpack');
 
@@ -41,7 +39,6 @@ const METADATA = {
 module.exports = function (options) {
   isProd = options.env === 'production';
   return {
-
     /*
      * Cache generated modules and chunks to improve performance for multiple incremental builds.
      * This is enabled by default in watch mode.
@@ -82,6 +79,21 @@ module.exports = function (options) {
       // An array of directory names to be resolved to the current directory
       modules: [helpers.root('src'), helpers.root('node_modules')],
 
+      fallback: { // Added for Webpack 5 Node.js core module polyfills
+        "crypto": require.resolve("crypto-browserify"),
+        "stream": require.resolve("stream-browserify"),
+        "path": require.resolve("path-browserify"),
+        "os": require.resolve("os-browserify/browser"),
+        "http": require.resolve("stream-http"),
+        "https": require.resolve("https-browserify"),
+        "zlib": require.resolve("browserify-zlib"),
+        "assert": require.resolve("assert/"),
+        "util": require.resolve("util/"),
+        "process": require.resolve("process/browser"),
+        "timers": require.resolve("timers-browserify"),
+        "buffer": require.resolve("buffer/")
+      }
+
     },
 
     /*
@@ -91,14 +103,11 @@ module.exports = function (options) {
      */
     module: {
 
-      loaders: [
+      rules: [
         {
           test: require.resolve('snapsvg'),
-          loader: 'imports-loader?this=>window,fix=>module.exports=0!snapsvg/dist/snap.svg.js'
-        }
-      ],
-
-      rules: [
+          use: 'imports-loader?this=>window,fix=>module.exports=0!snapsvg/dist/snap.svg.js'
+        },
 
         /*
          * Typescript loader support for .ts
@@ -204,13 +213,41 @@ module.exports = function (options) {
 
     },
 
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendor',
+            chunks: 'initial', // Process only initial chunks (e.g., 'main')
+            priority: 10,
+            enforce: true
+          },
+          polyfills_chunk: { // Ensure polyfills from the 'polyfills' entry are chunked
+            name: 'polyfills',
+            test: (module, { chunkGraph }) => {
+                // Check if the module belongs to the 'polyfills' entry chunk
+                for (const chunk of chunkGraph.getModuleChunks(module)) {
+                    if (chunk.name === 'polyfills') return true;
+                }
+                return false;
+            },
+            chunks: 'initial',
+            priority: 20, // Higher priority to ensure it's created separately
+            enforce: true
+          }
+        }
+      }
+    },
+
     /*
      * Add additional plugins to the compiler.
      *
      * See: http://webpack.github.io/docs/configuration.html#plugins
      */
     plugins: [
-      new webpack.IgnorePlugin(/images.*png/i),
+      new webpack.IgnorePlugin({ resourceRegExp: /images.*png/i }),
       new AssetsPlugin({
         path: helpers.root('dist'),
         filename: 'webpack-assets.json',
@@ -224,29 +261,6 @@ module.exports = function (options) {
        * See: https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
        */
       // new CheckerPlugin(),
-      /*
-       * Plugin: CommonsChunkPlugin
-       * Description: Shares common code between the pages.
-       * It identifies common modules and put them into a commons chunk.
-       *
-       * See: https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
-       * See: https://github.com/webpack/docs/wiki/optimization#multi-page-app
-       */
-      new CommonsChunkPlugin({
-        name: 'polyfills',
-        chunks: ['polyfills']
-      }),
-      // This enables tree shaking of the vendor modules
-      new CommonsChunkPlugin({
-        name: 'vendor',
-        chunks: ['main'],
-        minChunks: module => /node_modules/.test(module.resource)
-      }),
-      // Specify the correct order the scripts will be injected in
-      new CommonsChunkPlugin({
-        name: ['polyfills', 'vendor'].reverse()
-      }),
-
       /**
        * Plugin: ContextReplacementPlugin
        * Description: Provides context to Angular's use of System.import
@@ -271,16 +285,12 @@ module.exports = function (options) {
        *
        * See: https://www.npmjs.com/package/copy-webpack-plugin
        */
-      new CopyWebpackPlugin(
-        [
+      new CopyWebpackPlugin({
+        patterns: [
           { from: 'src/assets', to: 'assets' },
-          { from: 'src/meta' }
-        ],
-        {
-          ignore: ['**/*.JPG']
-        }
-      ),
-
+          { from: 'src/meta', to: '' } // Assuming 'to' should be root of dist
+        ]
+      }),
 
       /*
        * Plugin: HtmlWebpackPlugin
@@ -293,7 +303,6 @@ module.exports = function (options) {
       new HtmlWebpackPlugin({
         template: 'src/index.html',
         title: METADATA.title,
-        chunksSortMode: 'dependency',
         metadata: METADATA,
         inject: 'head'
       }),
@@ -335,14 +344,15 @@ module.exports = function (options) {
         headTags: require('./head-config.common')
       }),
 
-      /**
-       * Plugin LoaderOptionsPlugin (experimental)
-       *
-       * See: https://gist.github.com/sokra/27b24881210b56bbaff7
-       */
-      new LoaderOptionsPlugin({}),
+      // Reference: https://github.com/johnagan/clean-webpack-plugin
 
-      // Fix Angular 2
+      /**
+       * Plugin: NormalModuleReplacementPlugin
+       * Description: Replace resources that match resourceRegExp from
+       *              require, import and require.resolve, based on options object.
+       *
+       * See: https://webpack.github.io/docs/list-of-plugins.html#normalmodulereplacementplugin
+       */
       new NormalModuleReplacementPlugin(
         /facade(\\|\/)async/,
         helpers.root('node_modules/@angular/core/src/facade/async.js')
@@ -369,23 +379,10 @@ module.exports = function (options) {
         tsConfig: helpers.root('tsconfig.webpack.json'),
         resourceOverride: helpers.root('config/resource-override.js')
       })
+    ] // Correctly closing the plugins array
+    // Top-level 'node' object was here, now removed and handled by resolve.fallback
+  }; // Correctly closing the main object returned by the function
+}; // Correctly closing the module.exports function assignment
 
-    ],
-
-    /*
-     * Include polyfills or mocks for various node stuff
-     * Description: Node configuration
-     *
-     * See: https://webpack.github.io/docs/configuration.html#node
-     */
-    node: {
-      global: true,
-      crypto: 'empty',
-      process: true,
-      module: false,
-      clearImmediate: false,
-      setImmediate: false
-    }
-
-  };
-}
+// Export METADATA separately for webpack.dev.js to consume
+module.exports.METADATA = METADATA;

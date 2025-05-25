@@ -1068,9 +1068,9 @@
   },
   {
     "id": 15164,
-    "update": 20142,
-    "difficulty": 4.599999999999999,
-    "interval": 3,
+    "update": 20244,
+    "difficulty": 4.699999999999998,
+    "interval": 4,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -1673,9 +1673,9 @@
   },
   {
     "id": 16332,
-    "update": 20142,
-    "difficulty": 8.588235294117633,
-    "interval": 3,
+    "update": 20235,
+    "difficulty": 8.688235294117632,
+    "interval": 2,
     "cat": [
       "Physik",
       "Classical Physics",
@@ -1728,9 +1728,9 @@
   },
   {
     "id": 16374,
-    "update": 20143,
-    "difficulty": 4.899999999999998,
-    "interval": 7,
+    "update": 20264,
+    "difficulty": 4.999999999999997,
+    "interval": 8,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -2234,9 +2234,9 @@
   },
   {
     "id": 17014,
-    "update": 20142,
-    "difficulty": 5.7882352941176425,
-    "interval": 3,
+    "update": 20246,
+    "difficulty": 5.888235294117642,
+    "interval": 4,
     "cat": [
       "Mathematik",
       "Pure Mathematics",
@@ -2399,9 +2399,9 @@
   },
   {
     "id": 17285,
-    "update": 20142,
-    "difficulty": 7.841176470588223,
-    "interval": 3,
+    "update": 20250,
+    "difficulty": 7.941176470588223,
+    "interval": 4,
     "cat": [
       "Chemie",
       "Physical Chemistry",
@@ -4797,9 +4797,9 @@
   },
   {
     "id": 23603,
-    "update": 20144,
-    "difficulty": 6.499999999999992,
-    "interval": 6,
+    "update": 20267,
+    "difficulty": 6.599999999999992,
+    "interval": 7,
     "cat": [
       "Chemie",
       "Theoretical Chemistry",
@@ -5699,9 +5699,9 @@
   },
   {
     "id": 25929,
-    "update": 20142,
-    "difficulty": 6.699999999999992,
-    "interval": 3,
+    "update": 20248,
+    "difficulty": 6.799999999999992,
+    "interval": 4,
     "cat": [
       "Chemie",
       "Technical Chemistry",
@@ -9576,9 +9576,9 @@
       "Physical Chemistry",
       "Biophysikalische Chemie"
     ],
-    "update": 20143,
-    "difficulty": 6.199999999999994,
-    "interval": 6
+    "update": 20266,
+    "difficulty": 6.299999999999994,
+    "interval": 7
   },
   {
     "id": 31497,
@@ -10390,9 +10390,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 20142,
-    "difficulty": 4.899999999999999,
-    "interval": 4
+    "update": 20249,
+    "difficulty": 4.999999999999998,
+    "interval": 5
   },
   {
     "id": 32566,
@@ -10478,9 +10478,9 @@
       "Physical Chemistry",
       "Statistische Thermodynamik"
     ],
-    "update": 20142,
-    "difficulty": 6.399999999999993,
-    "interval": 3
+    "update": 20247,
+    "difficulty": 6.499999999999993,
+    "interval": 4
   },
   {
     "id": 32671,
@@ -11006,9 +11006,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 20142,
-    "difficulty": 5.599999999999996,
-    "interval": 3
+    "update": 20246,
+    "difficulty": 5.699999999999996,
+    "interval": 4
   },
   {
     "id": 33767,
@@ -11380,9 +11380,9 @@
       "Physical Chemistry",
       "Chemische Sensoren"
     ],
-    "update": 20142,
-    "difficulty": 11.599999999999975,
-    "interval": 3
+    "update": 20235,
+    "difficulty": 11.699999999999974,
+    "interval": 2
   },
   {
     "id": 34153,
@@ -14284,9 +14284,9 @@
       "Oberflächenphysik",
       "dünne Schichten"
     ],
-    "update": 20143,
-    "difficulty": 5.299999999999997,
-    "interval": 9
+    "update": 20278,
+    "difficulty": 5.399999999999997,
+    "interval": 10
   },
   {
     "id": 37401,
@@ -14350,9 +14350,9 @@
       "Oberflächenphysik",
       "dünne Schichten"
     ],
-    "update": 20142,
-    "difficulty": 6.799999999999992,
-    "interval": 3
+    "update": 20248,
+    "difficulty": 6.8999999999999915,
+    "interval": 4
   },
   {
     "id": 39327,
@@ -15747,9 +15747,9 @@
       "Organic Chemistry",
       "Organic Compounds"
     ],
-    "update": 20142,
-    "difficulty": 5.899999999999995,
-    "interval": 3
+    "update": 20246,
+    "difficulty": 5.999999999999995,
+    "interval": 4
   },
   {
     "id": 39533,
@@ -19916,9 +19916,9 @@
       "Quantum Physics",
       "Condensed Matter Physics"
     ],
-    "update": 20142,
+    "update": 20261,
     "difficulty": 2.6000000000000005,
-    "interval": 11
+    "interval": 12
   },
   {
     "id": 45026,
