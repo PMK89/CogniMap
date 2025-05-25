@@ -1,14 +1,21 @@
 {
   "name": "cognimap",
-  "version": "0.8.0",
-  "description": "A cognitive mapping tool",
+  "version": "0.9.1",
+  "description": "Electron-based cognitive mapping tool for creating, editing, and quizzing interactive concept maps offline.",
   "keywords": [
-    "angular2",
-    "webpack",
-    "typescript"
+    "cognitive mapping",
+    "concept maps",
+    "Electron",
+    "Angular",
+    "offline",
+    "spaced repetition",
+    "quiz",
+    "SVG",
+    "multimedia",
+    "cross-platform"
   ],
   "author": "Patrick Kaiser",
-  "homepage": "https://github.com/angularclass/angular2-webpack-starter",
+  "homepage": "https://github.com/PMK89/CogniMap",
   "license": "MIT",
   "main": "main.js",
   "scripts": {
