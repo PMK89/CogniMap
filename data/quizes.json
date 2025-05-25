@@ -1860,9 +1860,9 @@
   },
   {
     "id": 16605,
-    "update": 20142,
-    "difficulty": 4.499999999999999,
-    "interval": 3,
+    "update": 20244,
+    "difficulty": 4.599999999999999,
+    "interval": 4,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -2168,9 +2168,9 @@
   },
   {
     "id": 17002,
-    "update": 20142,
-    "difficulty": 8.970588235294102,
-    "interval": 3,
+    "update": 20253,
+    "difficulty": 9.070588235294101,
+    "interval": 4,
     "cat": [
       "Physik",
       "Quantum Physics",
@@ -7783,9 +7783,9 @@
       "Oberflächenphysik",
       "2D Kristallographie"
     ],
-    "update": 20142,
-    "difficulty": 4.6,
-    "interval": 3
+    "update": 20244,
+    "difficulty": 4.699999999999999,
+    "interval": 4
   },
   {
     "id": 30057,

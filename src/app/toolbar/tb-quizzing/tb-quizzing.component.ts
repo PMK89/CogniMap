@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subscription } from 'rxjs';
 import { SettingsService } from '../../shared/settings.service';
 import { ElementService } from '../../shared/element.service';
 import { ElectronService } from 'ngx-electron';
@@ -36,6 +36,7 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
   public nooverdue = true;
   public maxQ = '42';
   public mode = '';
+  private settingsSubscription: Subscription;
 
   constructor(private settingsService: SettingsService,
               private elementService: ElementService,
@@ -46,12 +47,17 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
                 this.buttons = store.select('buttons');
                 this.colors = store.select('colors');
                 this.electronService.ipcRenderer.on('loadedQuizes', (event, arg) => {
+                  console.log('[TbQuizzingComponent] Received loadedQuizes event with arg:', arg);
                   if (arg) {
-                    console.info(arg);
                     if (arg['quizes']) {
                       this.overduearray = arg['quizes'];
+                      console.log('[TbQuizzingComponent] overduearray populated. Length:', this.overduearray.length);
+                      if (this.overduearray.length > 0) {
+                        console.log('[TbQuizzingComponent] First overdue item title:', this.overduearray[0].title);
+                      }
                     } else {
                       this.overduearray = [];
+                      console.log('[TbQuizzingComponent] overduearray set to empty (no "quizes" property in arg).');
                     }
                     if (arg['timelist']) {
                       this.timelist = arg['timelist'];
@@ -59,31 +65,33 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
                     if (arg['catlist']) {
                       if (this.catlist.length === 0) {
                         this.catlist = arg['catlist'];
-                        // console.info(this.catlist);
                         this.fillcatlist();
                       }
                     }
                   }
                 });
-                this.settingsService.cmsettings
+                this.settingsSubscription = this.settingsService.cmsettings
                       .subscribe((data) => {
+                        console.log('[TbQuizzingComponent] Received settings:', data);
                         this.cmsettings = data;
                         if (this.cmsettings.mode === 'quizing') {
                           this.mode = 'quizing';
-                          console.log(this.nooverdue);
+                          console.log('[TbQuizzingComponent] Mode set to quizing. nooverdue:', this.nooverdue, 'overduearray.length:', this.overduearray.length);
                           if (this.nooverdue ||
                             this.overduearray.length === 0) {
+                            console.log('[TbQuizzingComponent] Calling getOverdue()');
                             this.getOverdue();
                           }
                         } else {
                           if (this.mode === 'quizing') {
+                            console.log('[TbQuizzingComponent] Mode changed from quizing. Calling unQuiz()');
                             this.unQuiz();
                             this.catlist = [];
                           }
                           this.mode = '';
                         }
-                        // console.log(data);
-                      }).unsubscribe();
+                        console.log('[TbQuizzingComponent] Final mode for this update:', this.mode);
+                      });
               }
 
   public ngOnInit() {
@@ -91,6 +99,9 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this.electronService.ipcRenderer.removeAllListeners('loadedQuizes');
+    if (this.settingsSubscription) {
+      this.settingsSubscription.unsubscribe();
+    }
     this.unQuiz();
     console.log('quiz toolbar destroyed');
   }
