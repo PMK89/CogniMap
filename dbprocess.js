@@ -47,7 +47,6 @@ var quizcmes = [];
 var quiztime = [];
 var quizcat = [];
 var quiz = "";
-var quizbool = true;
 var quizclick = 0;
 
 const WORST = 0;
@@ -456,9 +455,7 @@ const createDbWindow = function createDbWindow() {
                 });
                 oarray.forEach((e) => {
                   if (e) {
-                    if (
-                      e.prep === oarray[i].cmobject.links[j].targetId.toString()
-                    ) {
+                    if (e.id === oarray[i].cmobject.links[j].targetId) {
                       partner = e;
                     }
                   }
@@ -1006,138 +1003,132 @@ const createDbWindow = function createDbWindow() {
 
   // loads quizes that are due
   ipcMain.on("loadQuizes", (event, arg) => {
-    if (quizbool) {
-      quizbool = false;
-      if (quizes.length === 0) {
-        loadQuizes();
-      }
-      var quizid = [0];
-      quizes.forEach((quiz) => {
-        if (quiz) {
-          var qpos = quizid.indexOf(quiz.id);
-          if (qpos > -1) {
-            console.log(quiz.id);
-          } else {
-            quizid.push(quiz.id);
-          }
-        }
-      });
-      const today0 = TODAY + quizclick;
-      var overduearray = [];
-      quizcat = [];
-      quizcmes = [];
-      quizes.forEach((quiz) => {
-        if (quiz) {
-          // console.log(overdue);
-
-          if (quiz.cat.length > 3) {
-            quiz.cat = quiz.cat.slice(0, 3);
-          } else {
-            var cat = quiz.cat.slice();
-            for (var i = 0; i < 3 - quiz.cat.length; i++) {
-              cat.push("none");
-            }
-            quiz.cat = cat;
-          }
-
-          quizcat.push(quiz.cat.slice());
-          var quizcatlen = quizcat.length;
-          if (today0 >= quiz.update) {
-            // console.log(quiz);
-            if (quizcatlen > 0) {
-              quizcat[quizcatlen - 1].push(quiz.id);
-            }
-            overduearray.push({
-              id: quiz.id,
-              od: today0 - quiz.update,
-              interval: quiz.interval,
-              dif: quiz.difficulty,
-            });
-          } else {
-            const dueday = quiz.update - today0;
-            if (quiztime[dueday]) {
-              quiztime[dueday] += 1;
-            } else {
-              quiztime[dueday] = 1;
-            }
-          }
-        }
-      });
-      const l = overduearray.length;
-      console.log(l);
-      if (l > 0) {
-        overduearray.sort(function (a, b) {
-          return b.od - a.od;
-        });
-        overduearray.splice(arg);
-      }
-      getOverdueQuizes(overduearray, event);
+    if (quizes.length === 0) {
+      loadQuizes();
     }
+    var quizid = [0];
+    quizes.forEach((quiz) => {
+      if (quiz) {
+        var qpos = quizid.indexOf(quiz.id);
+        if (qpos > -1) {
+          console.log(quiz.id);
+        } else {
+          quizid.push(quiz.id);
+        }
+      }
+    });
+    const today0 = TODAY + quizclick;
+    var overduearray = [];
+    quizcat = [];
+    quizcmes = [];
+    quizes.forEach((quiz) => {
+      if (quiz) {
+        // console.log(overdue);
+
+        if (quiz.cat.length > 3) {
+          quiz.cat = quiz.cat.slice(0, 3);
+        } else {
+          var cat = quiz.cat.slice();
+          for (var i = 0; i < 3 - quiz.cat.length; i++) {
+            cat.push("none");
+          }
+          quiz.cat = cat;
+        }
+
+        quizcat.push(quiz.cat.slice());
+        var quizcatlen = quizcat.length;
+        if (today0 >= quiz.update) {
+          // console.log(quiz);
+          if (quizcatlen > 0) {
+            quizcat[quizcatlen - 1].push(quiz.id);
+          }
+          overduearray.push({
+            id: quiz.id,
+            od: today0 - quiz.update,
+            interval: quiz.interval,
+            dif: quiz.difficulty,
+          });
+        } else {
+          const dueday = quiz.update - today0;
+          if (quiztime[dueday]) {
+            quiztime[dueday] += 1;
+          } else {
+            quiztime[dueday] = 1;
+          }
+        }
+      }
+    });
+    const l = overduearray.length;
+    console.log(l);
+    if (l > 0) {
+      overduearray.sort(function (a, b) {
+        return b.od - a.od;
+      });
+      overduearray.splice(arg);
+    }
+    getOverdueQuizes(overduearray, event);
   });
 
   // loads quizes that are due
   ipcMain.on("loadQuizesbyCat", (event, arg) => {
-    if (quizbool) {
-      quizbool = false;
-      if (quizes.length === 0) {
-        loadQuizes();
-      }
-      const today0 = TODAY;
-      var overduearray = [];
-      console.log(arg);
-      quizes.forEach((quiz) => {
-        if (quiz) {
-          // console.log(overdue);
-          var isshown = false;
-          if (today0 >= quiz.update) {
+    if (quizes.length === 0) {
+      loadQuizes();
+    }
+    const today0 = TODAY;
+    var overduearray = [];
+    console.log(arg);
+    quizes.forEach((quiz) => {
+      if (quiz) {
+        // console.log(overdue);
+        var isshown = false;
+        if (today0 >= quiz.update) {
+          isshown = true;
+        } else if (arg[0]) {
+          isshown = true;
+        }
+        if (arg[1] && isshown) {
+          if (arg[1] === quiz.cat[0]) {
             isshown = true;
-          } else if (arg[0]) {
-            isshown = true;
-          }
-          if (arg[1] && isshown) {
-            if (arg[1] === quiz.cat[0]) {
-              isshown = true;
-            } else {
-              isshown = false;
-            }
-          }
-          if (arg[2] && isshown) {
-            if (arg[2] === quiz.cat[1]) {
-              isshown = true;
-            } else {
-              isshown = false;
-            }
-          }
-          if (arg[3] && isshown) {
-            if (arg[3] === quiz.cat[2]) {
-              isshown = true;
-            } else {
-              isshown = false;
-            }
-          }
-          if (isshown) {
-            // console.log(quiz);
-            overduearray.push({
-              id: quiz.id,
-              od: today0 - quiz.update,
-              interval: quiz.interval,
-              dif: quiz.difficulty,
-            });
+          } else {
+            isshown = false;
           }
         }
+        if (arg[2] && isshown) {
+          if (arg[2] === quiz.cat[1]) {
+            isshown = true;
+          } else {
+            isshown = false;
+          }
+        }
+        if (arg[3] && isshown) {
+          if (arg[3] === quiz.cat[2]) {
+            isshown = true;
+          } else {
+            isshown = false;
+          }
+        }
+        if (isshown) {
+          // console.log(quiz);
+          overduearray.push({
+            id: quiz.id,
+            od: today0 - quiz.update,
+            interval: quiz.interval,
+            dif: quiz.difficulty,
+          });
+        }
+      }
+    });
+    const l = overduearray.length;
+    console.log(l);
+    if (l > 0) {
+      overduearray.sort(function (a, b) {
+        return b.od - a.od;
       });
-      const l = overduearray.length;
-      console.log(l);
-      if (l > 0) {
-        overduearray.sort(function (a, b) {
-          return b.od - a.od;
-        });
-        quizcmes = [];
-        if (arg.length < 3 && l > 100) {
-          overduearray.splice(100);
-        }
-        getOverdueQuizes(overduearray, event);
+      quizcmes = [];
+      if (arg.length < 3 && l > 100) {
+        overduearray.splice(100);
       }
+      getOverdueQuizes(overduearray, event);
     }
   });
 
@@ -1218,7 +1209,7 @@ const createDbWindow = function createDbWindow() {
     cme.findOne({ id: arg }, function (err, data) {
       if (err) {
         console.error('Error finding CME to delete:', err);
-        event.sender.send("deletedCME", { error: true, message: err.message });
+        event.sender.send("deletedCME", { error: true, message: err.message, id: arg });
         return;
       }
       if (!data) {
@@ -1412,66 +1403,90 @@ function loadQuizes() {
 
 // gets overdue quizzes and sends them to frontend
 function getOverdueQuizes(overduearray0, event) {
+  console.log(`[DBPROCESS] getOverdueQuizes START. overduearray0.length: ${overduearray0.length}, event valid: ${!!(event && event.sender)}`);
+
   if (overduearray0.length === 0) {
-    var quizres = {
-      catlist: quizcat,
-      timelist: quiztime,
-      quizes: [],
-    };
-    if (quizcmes.length === 0) {
-      console.log(
-        "No quizes ar due now, another click will load quizes due later."
-      );
-      quizclick = 1;
-    } else {
-      quizclick = 0;
+    console.log('[DBPROCESS] getOverdueQuizes: overduearray0 is empty.');
+    const quizres = { catlist: quizcat, timelist: quiztime, quizes: quizcmes }; // quizcmes should be populated by now
+    console.log('[DBPROCESS] getOverdueQuizes: Sending loadedQuizes (Scenario 1). quizcmes.length:', quizcmes.length);
+    try {
+      // console.log('[DBPROCESS] Scenario 1 quizres content:', JSON.stringify(quizres)); // Avoid stringify for now
+      event.sender.send("loadedQuizes", quizres);
+    } catch (e) {
+      console.error('[DBPROCESS] Error sending loadedQuizes in Scenario 1:', e);
     }
-    event.sender.send("loadedQuizes", quizres);
-    quizbool = true;
+    quizclick = 0;
   } else {
-    // console.log('before shift: ', overduearray0);
-    const overduequiz = overduearray0.shift();
-    if (overduequiz) {
-      // console.log('before find: ', overduequiz.id);
-      cme.findOne({ id: overduequiz.id }, function (err, data0) {
-        if (err) console.log(err);
-        var data = data0;
-        // console.log('data0: ', data0);
-        if (data && overduequiz) {
-          data.types[0] = "q1";
-          var cmo = JSON.parse(data.cmobject);
-          if (cmo["style"]["object"]["str"]) {
-            cmo["style"]["object"]["str"] = String(overduequiz.interval);
-            cmo["style"]["object"]["weight"] = overduequiz.dif;
-            data.cmobject = JSON.stringify(cmo);
-            quizcmes.push(data);
-            // console.log('data id: ', data.id);
-            cme.update(data, function (err) {
-              if (err) {
-                console.log(err); // #error message
-              } else {
-                if (overduearray0.length === 0) {
-                  event.sender.send("changedCME", quizcmes);
-                  var quizres = {
-                    catlist: quizcat,
-                    timelist: quiztime,
-                    quizes: quizcmes,
-                  };
-                  // console.log('quizes send');
-                  event.sender.send("loadedQuizes", quizres);
-                  quizbool = true;
-                } else {
-                  getOverdueQuizes(overduearray0, event);
-                }
-              }
-            });
-          }
-        } else {
-          console.log("something wrong with: ", overduequiz);
-          getOverdueQuizes(overduearray0, event);
-        }
-      });
+    console.log('[DBPROCESS] getOverdueQuizes: overduearray0 has items. Processing one.');
+    let overduequiz;
+    try {
+      overduequiz = overduearray0.shift();
+      if (!overduequiz) {
+        console.error('[DBPROCESS] getOverdueQuizes: overduearray0.shift() returned falsy value despite length > 0!');
+        getOverdueQuizes(overduearray0, event); // Recurse: will hit length === 0 if array is now truly empty
+        return;
+      }
+    } catch (e) {
+      console.error('[DBPROCESS] getOverdueQuizes: Error during overduearray0.shift():', e.message);
+      getOverdueQuizes(overduearray0, event); // Attempt to continue with remaining items or finalize
+      return;
     }
+
+    const quizid = overduequiz.id;
+    console.log(`[DBPROCESS] getOverdueQuizes: Processing quizid: ${quizid}. Items remaining in array: ${overduearray0.length}`);
+
+    cme.findOne({ id: quizid }, (err, quizobj) => {
+      console.log(`[DBPROCESS] cme.findOne callback for quizid: ${quizid}. Error: ${err ? err.message : 'null'}. quizobj found: ${!!quizobj}`);
+      if (err) {
+        console.error(`[DBPROCESS] Error in cme.findOne for quizid ${quizid}:`, err.message);
+        // Continue with the next item or finalize if this was the last one
+        getOverdueQuizes(overduearray0, event);
+        return;
+      }
+
+      if (quizobj) {
+        // Modify quizobj for display as a quiz element on the map
+        quizobj.types = quizobj.types || []; // Ensure types array exists
+        quizobj.types[0] = "q1"; // Mark as quiz type
+        try {
+          let cmo = JSON.parse(quizobj.cmobject);
+          if (cmo && cmo.style && cmo.style.object) {
+            cmo.style.object.str = String(overduequiz.interval); // Display interval from overduequiz
+            cmo.style.object.weight = overduequiz.dif;       // Display difficulty from overduequiz
+            quizobj.cmobject = JSON.stringify(cmo);
+            console.log(`[DBPROCESS] Modified cmobject for quizid: ${quizid}`);
+          } else {
+            console.warn(`[DBPROCESS] cmobject.style.object not found for quizid: ${quizid}. cmobject:`, quizobj.cmobject);
+          }
+        } catch (parseError) {
+          console.error(`[DBPROCESS] Error parsing/modifying cmobject for quizid ${quizid}:`, parseError.message);
+        }
+
+        quizcmes.push(quizobj); // Add modified object to the list for changedCME
+
+        // Prepare update for the database: new due date and persisted quiz modifications
+        const nextDueDate = TODAY + quizobj.interval; // Use interval from DB record for scheduling
+        const updatePayload = {
+          $set: {
+            update: nextDueDate,
+            types: quizobj.types,
+            cmobject: quizobj.cmobject
+          }
+        };
+
+        cme.update({ id: quizid }, updatePayload, {}, (err_update, numReplaced) => {
+          console.log(`[DBPROCESS] cme.update callback for quizid: ${quizid}. Error: ${err_update ? err_update.message : 'null'}, numReplaced: ${numReplaced}`);
+          if (err_update) {
+            console.error(`[DBPROCESS] Error in cme.update for quizid ${quizid}:`, err_update.message);
+          }
+          // Continue processing the next item, regardless of update error for this one (to ensure all items are attempted)
+          getOverdueQuizes(overduearray0, event);
+        });
+      } else { // quizobj not found by findOne
+        console.warn(`[DBPROCESS] quizobj not found by cme.findOne for quizid: ${quizid}. Skipping.`);
+        getOverdueQuizes(overduearray0, event); // Process next item
+      }
+    });
   }
 }
 
