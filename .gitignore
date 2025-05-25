@@ -94,3 +94,7 @@ git gc --prune=now --aggressive
 *.avi
 *.mov
 *.iso
+
+# Ignore large data files
+data/cognimap25.json
+data/cme.db
