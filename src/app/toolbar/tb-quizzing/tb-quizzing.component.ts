@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { SettingsService } from '../../shared/settings.service';
 import { ElementService } from '../../shared/element.service';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from '../../shared/backend.service';
 import { NavigatorService } from '../../widgets/navigator/navigator.service';
 import { QuizService } from '../../shared/quiz.service';
 // import { SButtonComponent } from '../../shared/s-button/s-button.component';
@@ -40,7 +40,7 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
 
   constructor(private settingsService: SettingsService,
               private elementService: ElementService,
-              private electronService: ElectronService,
+              private electronService: BackendService,
               private navigatorService: NavigatorService,
               private quizService: QuizService,
               private store: Store<CMStore>) {

@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Http } from '@angular/http';
 import { Store } from '@ngrx/store';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from './backend.service';
 // import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/from';
@@ -30,7 +30,7 @@ export class TemplateService {
   public cmsettings: CMSettings;
 
   constructor(private http: Http,
-              private electronService: ElectronService,
+              private electronService: BackendService,
               private elementService: ElementService,
               private ngZone: NgZone,
               private settingsService: SettingsService,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from './backend.service';
 import 'rxjs/add/observable/fromEvent';
 
 // cognimap services
@@ -55,7 +55,7 @@ export class EventService {
 
   constructor(private windowService: WindowService,
               private settingsService: SettingsService,
-              private electronService: ElectronService,
+              private electronService: BackendService,
               private elementService: ElementService,
               private snapsvgService: SnapsvgService,
               private templateService: TemplateService,
@@ -712,9 +712,10 @@ export class EventService {
         this.settingsService.updateSettings(this.cmsettings);
       } */
       if (this.keyPressed.indexOf('v') !== -1) {
-        // pastes content from clipboard
+        // pastes content from clipboard: the browser paste event fires just
+        // after this keydown, so wait for it instead of reading synchronously
         if (['typing', 'new', 'edit'].indexOf(this.cmsettings.mode) !== -1) {
-          let arg = this.electronService.ipcRenderer.sendSync('getClipboard', '1');
+          this.electronService.ipcRenderer.nextPaste((arg) => {
           if (this.selCMEo) {
             if (arg['type']) {
               if (['png', 'LateX', 'svg', 'jsme-svg'].indexOf(arg.type) !== -1) {
@@ -750,6 +751,7 @@ export class EventService {
             this.cmsettings.mode = 'edit';
             this.settingsService.updateSettings(this.cmsettings);
           }
+          });
         }
       }
       // deleting function

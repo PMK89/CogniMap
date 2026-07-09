@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { SettingsService } from '../../shared/settings.service';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from '../../shared/backend.service';
 // models and reducers
 import { CMSettings } from '../../models/CMSettings';
 import { CMStore } from '../../models/CMStore';
@@ -21,7 +21,7 @@ export class TbNavigationComponent implements OnInit {
   public widgets: string[] = ['none', 'equation', 'formula', 'svg', 'navigator', 'minimap', 'mnemo', 'codeeditor'];
 
   constructor(private store: Store<CMStore>,
-              private electronService: ElectronService,
+              private electronService: BackendService,
               private settingsService: SettingsService) {
                 this.buttons = store.select('buttons');
                 this.settingsService.cmsettings

@@ -134,7 +134,11 @@ function createCmeRouter(options = {}) {
     if (!validators.cme(arg)) throw badRequest('invalid element payload', validators.cme.errors);
     quizSideEffect(arg, 'changeQuiz');
     const data = await db.findOneAsync({ id: arg.id });
-    if (!data) throw notFound(`no element with id ${arg.id}`);
+    if (!data) {
+      // legacy parity: dbprocess.js silently ignored changes to unknown ids
+      res.json({ data: null, catChanged: [] });
+      return;
+    }
     pushHistory(JSON.parse(JSON.stringify(data)));
 
     let catChanged = [];

@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 // import { Observable } from 'rxjs/Observable';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from './backend.service';
 import { CMStore } from '../models/CMStore';
 import { CMSettings } from '../models/CMSettings';
 // import { CMElement } from '../models/CMElement';
@@ -17,7 +17,7 @@ export class MetaService {
 
   constructor(private store: Store<CMStore>,
               private settingsService: SettingsService,
-              private electronService: ElectronService) {
+              private electronService: BackendService) {
                 this.settingsService.cmsettings
                     .subscribe((data) => {
                       this.cmsettings = data;

@@ -1,7 +1,7 @@
 import { Component, OnInit,  } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from '../../shared/backend.service';
 import { MetaService } from '../../shared/meta.service';
 // models and reducers
 import { CMStore } from '../../models/CMStore';
@@ -39,7 +39,7 @@ export class NavigatorComponent implements OnInit {
   };
 
   constructor(private store: Store<CMStore>,
-              private electronService: ElectronService,
+              private electronService: BackendService,
               private metaService: MetaService,
               private navigatorService: NavigatorService) { }
 

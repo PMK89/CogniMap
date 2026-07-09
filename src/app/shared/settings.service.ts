@@ -4,7 +4,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 import { Observable } from 'rxjs/Observable';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from './backend.service';
 import { CMStore } from '../models/CMStore';
 import { CMSettings } from '../models/CMSettings';
 import { CMColorbar } from '../models/CMColorbar';
@@ -18,7 +18,7 @@ export class SettingsService {
   public cms: any;
 
   constructor(private http: Http,
-              private electronService: ElectronService,
+              private electronService: BackendService,
               private store: Store<CMStore>) {
                 this.electronService.ipcRenderer.on('changedColors', (event, arg) => {
                   console.log('changeAllcolors:', arg);

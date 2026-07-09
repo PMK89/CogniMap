@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from '../../shared/backend.service';
 declare var Snap: any;
 
 // electron specific
@@ -29,7 +29,7 @@ export class MjEditorService {
   constructor(private settingsService: SettingsService,
               private elementService: ElementService,
               private quizService: QuizService,
-              private electronService: ElectronService) {
+              private electronService: BackendService) {
 
               }
 

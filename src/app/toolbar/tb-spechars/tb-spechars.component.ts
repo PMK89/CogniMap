@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from '../../shared/backend.service';
 import { SettingsService } from '../../shared/settings.service';
 import { ElementService } from '../../shared/element.service';
 // models and reducers
@@ -22,7 +22,7 @@ export class TbSpecharsComponent implements OnInit {
   ];
   public activeSpechars: string = this.fontarray[0];
 
-  constructor(private electronService: ElectronService,
+  constructor(private electronService: BackendService,
               private elementService: ElementService,
               private settingsService: SettingsService) {
     this.settingsService.cmsettings

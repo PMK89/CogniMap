@@ -2,7 +2,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NgxElectronModule } from 'ngx-electron';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
@@ -45,6 +44,7 @@ import { TbSettingsComponent } from './toolbar/tb-settings/tb-settings.component
 import { TbSpecharsComponent } from './toolbar/tb-spechars/tb-spechars.component';
 
 // Services and Reducers
+import { BackendService } from './shared/backend.service';
 import { LayoutService } from './layout.service';
 import { WindowService } from './shared/window.service';
 import { SettingsService } from './shared/settings.service';
@@ -80,7 +80,6 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
     JsonpModule,
     BrowserModule,
     CommonModule,
-    NgxElectronModule,
     CodemirrorModule,
     FormsModule,
     StoreModule.provideStore({ settings: settings,
@@ -125,7 +124,8 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
                   TbContentComponent,
                   TbSettingsComponent,
                   TbSpecharsComponent],
-  providers: [LayoutService,
+  providers: [BackendService,
+              LayoutService,
               WindowService,
               MathJaxService,
               SettingsService,
