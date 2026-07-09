@@ -26,6 +26,31 @@ function createCmeRouter(options = {}) {
   const quizman = new QuizManager(dataDir);
   const datahistory = [];
 
+  // Startup self-repair: types[0] === 'q1' marks an element as part of the
+  // CURRENTLY RUNNING quiz session, which lives in server memory. After a
+  // restart no such session exists, so any persisted 'q1' is stale and
+  // would overlay the map in every mode. Reset them to dormant 'q'.
+  // The db file is backed up before the first repair write.
+  (async () => {
+    try {
+      const stale = await db.findAsync({ 'types.0': 'q1' });
+      if (stale.length === 0) return;
+      const dbFile = options.dbPath || path.join(dataDir, 'cme.db');
+      if (fs.existsSync(dbFile)) {
+        ensureDir(BACKUP_DIR);
+        const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+        fs.copyFileSync(dbFile, path.join(BACKUP_DIR, `cme.db.${stamp}.bak`));
+      }
+      for (const doc of stale) {
+        doc.types[0] = 'q';
+        await db.updateAsync({ _id: doc._id }, doc, {});
+      }
+      console.log(`[cme] startup repair: reset ${stale.length} stale active-quiz (q1) elements to dormant (q)`);
+    } catch (err) {
+      console.error('[cme] startup quiz repair failed:', err.message);
+    }
+  })();
+
   function pushHistory(doc) {
     if (datahistory.length > 1000) datahistory.shift();
     datahistory.push(doc);

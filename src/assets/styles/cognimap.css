@@ -63,10 +63,18 @@
    Base
    ------------------------------------------------------------ */
 
+/* IMPORTANT: no global color/font on html/body — map content stored in the
+   database uses fill="currentColor" (MathJax SVGs) and inherited fonts, and
+   must render exactly as it did before (black on the user-styled canvas).
+   The design system applies to the application chrome only. */
 html, body {
   margin: 0;
-  font-family: var(--cm-font);
-  color: var(--cm-text);
+}
+
+/* pin the canvas' inherited color so currentColor content stays black in
+   dark mode, matching the legacy renderer */
+#cmap {
+  color: #000000;
 }
 
 /* initial loading state before Angular bootstraps */
@@ -100,6 +108,7 @@ app-root:not(:has(*))::after {
   border-radius: var(--cm-radius);
   box-shadow: var(--cm-shadow);
   color: var(--cm-text);
+  font-family: var(--cm-font);
   overflow: auto;
 }
 
