@@ -1,0 +1,591 @@
+'use strict';
+
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const Datastore = require('@seald-io/nedb');
+const { ROOT, DATA_DIR, BACKUP_DIR, resolveInside, ensureDir } = require('../lib/paths');
+const { badRequest, notFound, asyncRoute } = require('../lib/errors');
+const { validators } = require('../lib/validate');
+const { QuizManager } = require('../lib/quiz');
+
+/**
+ * Concept-map element (CME) database API — replaces the Electron
+ * dbprocess.js hidden window. Faithful port of its handlers onto NeDB's
+ * promise API. Concept-map documents keep their legacy shape
+ * (id, title, coor, x0..y1, prio, types, cat, cmobject (JSON string),
+ * cdate, vdate, state, prep, prep1).
+ */
+function createCmeRouter(options = {}) {
+  const router = express.Router();
+  const dataDir = options.dataDir || DATA_DIR;
+  const db = new Datastore({
+    filename: options.dbPath || path.join(dataDir, 'cme.db'),
+    autoload: true,
+  });
+  const quizman = new QuizManager(dataDir);
+  const datahistory = [];
+
+  function pushHistory(doc) {
+    if (datahistory.length > 1000) datahistory.shift();
+    datahistory.push(doc);
+  }
+
+  /** quiz side-effect shared by newCME/changeCME (ported verbatim) */
+  function quizSideEffect(arg, fn) {
+    if (arg.types && arg.types[0] === 'q') {
+      try {
+        const cmo = JSON.parse(arg.cmobject);
+        if (cmo.style && cmo.style.object &&
+            cmo.style.object.weight > -1 && cmo.style.object.str) {
+          const dif = cmo.style.object.weight;
+          const int = Number(cmo.style.object.str);
+          if (typeof dif === 'number' && typeof int === 'number' && dif >= 1.3) {
+            quizman[fn](arg.id, dif, int, arg.cat);
+          }
+        }
+      } catch (err) {
+        console.warn('[cme] quiz side-effect skipped:', err.message);
+      }
+    }
+  }
+
+  const viewportQuery = (arg) => {
+    const l = parseInt(arg.l, 10);
+    const t = parseInt(arg.t, 10);
+    const r = parseInt(arg.r, 10);
+    const b = parseInt(arg.b, 10);
+    if ([l, t, r, b].some(Number.isNaN)) throw badRequest('viewport requires numeric l,t,r,b');
+    return {
+      $or: [
+        { $and: [{ x0: { $gt: l, $lt: r } }, { y0: { $gt: t, $lt: b } }] },
+        { $and: [{ x1: { $gt: l, $lt: r } }, { y1: { $gt: t, $lt: b } }] },
+      ],
+    };
+  };
+
+  // ---- element queries ----
+
+  // old channel: loadCME -> loadedCME
+  router.post('/cme/query', asyncRoute(async (req, res) => {
+    const data = await db.findAsync(viewportQuery(req.body || {}));
+    res.json(data);
+  }));
+
+  // old channel: getCME
+  router.get('/cme/id/:id', asyncRoute(async (req, res) => {
+    const id = Number(req.params.id);
+    if (Number.isNaN(id)) throw badRequest('id must be numeric');
+    const data = await db.findOneAsync({ id });
+    res.json(data); // null when not found — matches old undefined returnValue
+  }));
+
+  // old channel: getCMETitle — case-insensitive regex search
+  router.get('/cme/title/:title', asyncRoute(async (req, res) => {
+    let regextitle;
+    try {
+      regextitle = new RegExp(req.params.title, 'i');
+    } catch (err) {
+      throw badRequest('invalid title pattern');
+    }
+    const data = await db.findAsync({ title: { $regex: regextitle } });
+    res.json(data);
+  }));
+
+  // old channel: getAllPrio
+  router.get('/cme/prio/:prio', asyncRoute(async (req, res) => {
+    const prio = Number(req.params.prio);
+    if (Number.isNaN(prio)) throw badRequest('prio must be numeric');
+    const data = await db.findAsync({ prio });
+    res.json(data);
+  }));
+
+  // old channel: getSince -> changedSince
+  router.get('/cme/since/:ts', asyncRoute(async (req, res) => {
+    const ts = Number(req.params.ts);
+    if (Number.isNaN(ts)) throw badRequest('ts must be numeric');
+    const data = await db.findAsync({ vdate: { $gt: ts } });
+    res.json(data);
+  }));
+
+  // old channel: getMaxID -> maxID
+  router.get('/cme/maxid', asyncRoute(async (req, res) => {
+    const gt = Number(req.query.gt || 0);
+    const data = await db.findAsync({ id: { $gt: gt } });
+    data.sort((a, b) => b.id - a.id);
+    res.json({ maxid: data.length > 0 ? data[0].id : gt });
+  }));
+
+  // ---- element mutations ----
+
+  // old channel: newCME
+  router.post('/cme', asyncRoute(async (req, res) => {
+    const arg = req.body;
+    if (!validators.cme(arg)) throw badRequest('invalid element payload', validators.cme.errors);
+    quizSideEffect(arg, 'makeQuiz');
+    delete arg._id; // never trust client _id on insert
+    const inserted = await db.insertAsync(arg);
+    res.json(inserted);
+  }));
+
+  // old channel: changeCME -> changedCME (+ category rename side effect)
+  router.put('/cme', asyncRoute(async (req, res) => {
+    const arg = req.body;
+    if (!validators.cme(arg)) throw badRequest('invalid element payload', validators.cme.errors);
+    quizSideEffect(arg, 'changeQuiz');
+    const data = await db.findOneAsync({ id: arg.id });
+    if (!data) throw notFound(`no element with id ${arg.id}`);
+    pushHistory(JSON.parse(JSON.stringify(data)));
+
+    let catChanged = [];
+    if (data.title !== arg.title) {
+      catChanged = await findCatChildren(data, data.title, arg.title);
+    }
+    data.coor = arg.coor;
+    data.x0 = arg.x0;
+    data.y0 = arg.y0;
+    data.x1 = arg.x1;
+    data.y1 = arg.y1;
+    data.prio = arg.prio;
+    data.types = arg.types;
+    data.cat = arg.cat;
+    data.cmobject = arg.cmobject;
+    data.cdate = arg.cdate;
+    data.vdate = Date.now();
+    data.title = arg.title;
+    data.state = arg.state;
+    data.prep = arg.prep;
+    data.prep1 = arg.prep1;
+    await db.updateAsync({ id: arg.id }, data, { upsert: true });
+    res.json({ data, catChanged });
+  }));
+
+  // old channel: delCME -> deletedCME
+  router.delete('/cme/:id', asyncRoute(async (req, res) => {
+    const id = Number(req.params.id);
+    if (Number.isNaN(id)) throw badRequest('id must be numeric');
+    const data = await db.findOneAsync({ id });
+    if (!data) {
+      res.json({ error: true, message: 'CME not found', id });
+      return;
+    }
+    if (data.types && (data.types[0] === 'q' || data.types[0] === 'q1')) {
+      quizman.deleteQuiz(data.id);
+    }
+    data.state = 'del';
+    pushHistory(data);
+    await db.removeAsync({ id }, {});
+    res.json({ success: true, id, data });
+  }));
+
+  // ---- selection traversals ----
+
+  /**
+   * old channel: findChildren -> selectedChildren
+   * Deterministic BFS replacement for the setTimeout-race version in
+   * dbprocess.js — same classification rules and quirks:
+   *  - only objects (id >= 1) are traversed
+   *  - a links array with length <= 1 is NOT iterated (legacy quirk)
+   *  - root links with start === false become border links
+   *  - link.weight === 0 -> border, otherwise selected; only weight !== 0
+   *    target objects are recursed into
+   */
+  router.post('/cme/children', asyncRoute(async (req, res) => {
+    const root = req.body;
+    if (!validators.cme(root)) throw badRequest('invalid element payload', validators.cme.errors);
+    const selCMEoArray = [];
+    const selCMElArray = [];
+    const selCMElArrayBorder = [];
+    const cmeArray = [];
+
+    async function selectLinks(cme0) {
+      if (!cme0 || typeof cme0.id !== 'number' || cme0.id < 1) return;
+      if (selCMEoArray.indexOf(cme0.id) !== -1) return;
+      cmeArray.push(cme0);
+      let cmobject;
+      try {
+        cmobject = typeof cme0.cmobject === 'string' ? JSON.parse(cme0.cmobject) : cme0.cmobject;
+      } catch (err) {
+        return;
+      }
+      if (!cmobject || !cmobject.links) {
+        selCMEoArray.push(cme0.id);
+        return;
+      }
+      selCMEoArray.push(cme0.id);
+      if (cmobject.links.length <= 1) return; // legacy quirk preserved
+      for (const link of cmobject.links) {
+        if (!link) continue;
+        if (cme0.id === root.id && link.start === false) {
+          const data = await db.findOneAsync({ id: link.id });
+          if (data) {
+            selCMElArrayBorder.push(data.id);
+            cmeArray.push(data);
+          }
+        } else {
+          if (link.id !== 0 && selCMElArray.indexOf(link.id) === -1) {
+            const data = await db.findOneAsync({ id: link.id });
+            if (data) {
+              if (link.weight === 0) selCMElArrayBorder.push(data.id);
+              else selCMElArray.push(data.id);
+              cmeArray.push(data);
+            }
+          }
+          if (selCMEoArray.indexOf(link.targetId) === -1 && link.weight !== 0) {
+            const target = await db.findOneAsync({ id: link.targetId });
+            if (target) await selectLinks(target);
+          }
+        }
+      }
+    }
+
+    await selectLinks(root);
+    res.json({
+      selCMEoArray,
+      selCMElArray,
+      selarray: cmeArray,
+      selCMElArrayBorder,
+      minimap: false,
+    });
+  }));
+
+  // old channel: findArea -> selectedChildren (minimap: true)
+  router.post('/cme/area', asyncRoute(async (req, res) => {
+    const arg = req.body || {};
+    const data = await db.findAsync(viewportQuery(arg));
+    const l = parseInt(arg.l, 10);
+    const t = parseInt(arg.t, 10);
+    const r = parseInt(arg.r, 10);
+    const b = parseInt(arg.b, 10);
+    const ids = [];
+    const selCMEoArray = [];
+    const selCMElArray = [];
+    const selCMElArrayBorder = [];
+    for (const data0 of data) {
+      if (!data0) continue;
+      if (data0.id >= 1) {
+        selCMEoArray.push(data0);
+      } else if (data0.id <= -1) {
+        // legacy substring parsing of the serialized cmobject to find the
+        // partner object id of a border-crossing line
+        if (l < data0.x0 && data0.x0 < r && t < data0.y0 && data0.y0 < b) {
+          if (l < data0.x1 && data0.x1 < r && t < data0.y1 && data0.y1 < b) {
+            selCMElArray.push(data0);
+          } else {
+            selCMElArrayBorder.push(data0);
+            const pos = data0.cmobject.indexOf('id1');
+            let id = data0.cmobject.slice(pos + 5, pos + 22);
+            id = parseInt(id.slice(0, id.indexOf(',')), 10);
+            ids.push(id);
+          }
+        } else if (l < data0.x1 && data0.x1 < r && t < data0.y1 && data0.y1 < b) {
+          selCMElArrayBorder.push(data0);
+          const pos = data0.cmobject.indexOf('id0');
+          let id = data0.cmobject.slice(pos + 5, pos + 22);
+          id = parseInt(id.slice(0, id.indexOf(',')), 10);
+          ids.push(id);
+        }
+      }
+    }
+    const cmeArray = await db.findAsync({ id: { $in: ids } });
+    res.json({
+      selCMEoArray,
+      selCMElArray,
+      selarray: cmeArray,
+      selCMElArrayBorder,
+      minimap: true,
+    });
+  }));
+
+  /**
+   * old function: findCatChildren — when an element is renamed, walk its
+   * link graph and rename matching category entries on children.
+   * Returns the changed documents (old code broadcast them as changedCME).
+   */
+  async function findCatChildren(arg, title0, title1) {
+    const selCMEoArray = [];
+    const cmeArray = [];
+    const catl = arg.cat ? arg.cat.length : 0;
+
+    async function selectLinks(cme0) {
+      if (!cme0 || typeof cme0.id !== 'number' || cme0.id < 1) return;
+      if (selCMEoArray.indexOf(cme0.id) !== -1) return;
+      // legacy quirk preserved: the comparison result of the LAST category
+      // index wins (iscat is overwritten each iteration)
+      let iscat = false;
+      for (let i = 0; i < catl; i++) {
+        if (arg.cat[i] && cme0.cat && cme0.cat[i]) {
+          iscat = arg.cat[i] === cme0.cat[i] || title0 === cme0.cat[i];
+        } else {
+          iscat = false;
+        }
+      }
+      if (!iscat) return;
+      const catpos = cme0.cat.indexOf(title0);
+      if (catpos === -1) return;
+      cme0.cat[catpos] = title1;
+      await db.updateAsync({ _id: cme0._id }, cme0, {});
+      cmeArray.push(cme0);
+      let cmobject;
+      try {
+        cmobject = typeof cme0.cmobject === 'string' ? JSON.parse(cme0.cmobject) : cme0.cmobject;
+      } catch (err) {
+        return;
+      }
+      if (!cmobject || !cmobject.links) return;
+      selCMEoArray.push(cme0.id);
+      if (cmobject.links.length <= 1) return; // legacy quirk preserved
+      for (const link of cmobject.links) {
+        if (!link) continue;
+        if (selCMEoArray.indexOf(link.targetId) === -1) {
+          const target = await db.findOneAsync({ id: link.targetId });
+          if (target) await selectLinks(target);
+        }
+      }
+    }
+
+    await selectLinks(arg);
+    return cmeArray;
+  }
+
+  // ---- minimap ----
+
+  // old channel: loadMM -> loadedMM
+  router.get('/minimap', (req, res) => {
+    const file = path.join(dataDir, 'minimap.json');
+    if (!fs.existsSync(file)) {
+      res.json(null);
+      return;
+    }
+    res.json(JSON.parse(fs.readFileSync(file, 'utf8')));
+  });
+
+  // old channel: saveMM
+  router.put('/minimap', (req, res) => {
+    const file = path.join(dataDir, 'minimap.json');
+    fs.writeFileSync(file, JSON.stringify(req.body, null, 2));
+    res.json({ ok: true });
+  });
+
+  // ---- database import/export ----
+
+  // old channel: saveDb — export all elements (sorted by cdate) to a JSON file
+  router.post('/db/save', asyncRoute(async (req, res) => {
+    const file = String((req.body || {}).file || '');
+    if (!file.endsWith('.json')) throw badRequest('export file must end with .json');
+    const abs = resolveInside(ROOT, file.replace(/^\.\//, '').replace(/^\/+/, ''));
+    const data = await db.findAsync({});
+    data.sort((a, b) => (a.cdate || 0) - (b.cdate || 0));
+    ensureDir(path.dirname(abs));
+    fs.writeFileSync(abs, JSON.stringify(data.filter(Boolean), null, 2));
+    res.json({ status: 'database saved to ' + file });
+  }));
+
+  // old channel: loadDb — import elements from a JSON file
+  router.post('/db/load', asyncRoute(async (req, res) => {
+    const file = String((req.body || {}).file || '');
+    const abs = resolveInside(ROOT, file.replace(/^\.\//, '').replace(/^\/+/, ''));
+    if (!fs.existsSync(abs)) throw notFound('import file not found: ' + file);
+    const docs = JSON.parse(fs.readFileSync(abs, 'utf8'));
+    if (!Array.isArray(docs)) throw badRequest('import file must contain a JSON array');
+    let inserted = 0;
+    for (const doc of docs) {
+      if (!doc) continue;
+      try {
+        await db.insertAsync(doc);
+        inserted++;
+      } catch (err) {
+        // duplicate _id etc. — old code logged and continued
+        console.warn('[db/load] skipped doc:', err.message);
+      }
+    }
+    res.json({ status: 'database loaded', inserted });
+  }));
+
+  // old channel: deleteDb — wipe all elements (backs up the db file first)
+  router.post('/db/delete', asyncRoute(async (req, res) => {
+    const dbFile = options.dbPath || path.join(dataDir, 'cme.db');
+    if (fs.existsSync(dbFile)) {
+      ensureDir(BACKUP_DIR);
+      const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+      fs.copyFileSync(dbFile, path.join(BACKUP_DIR, `cme.db.${stamp}.bak`));
+    }
+    await db.removeAsync({}, { multi: true });
+    res.json({ status: 'database deleted' });
+  }));
+
+  // old channel: searchDb — its body is commented out in dbprocess.js
+  router.post('/db/search', (req, res) => {
+    res.json({ status: 'noop' });
+  });
+
+  // ---- quiz ----
+
+  const quizResponse = () => ({
+    catlist: quizman.quizcat,
+    timelist: quizman.quiztime,
+    quizes: quizman.quizcmes,
+  });
+
+  /**
+   * old function: getOverdueQuizes — sequentially mark each due element as
+   * an active quiz (types[0]='q1'), persist, and collect it for the client.
+   */
+  async function collectOverdueQuizes(overduearray) {
+    for (const overduequiz of overduearray) {
+      if (!overduequiz) continue;
+      const quizobj = await db.findOneAsync({ id: overduequiz.id });
+      if (!quizobj) continue;
+      quizobj.types = quizobj.types || [];
+      quizobj.types[0] = 'q1';
+      try {
+        const cmo = JSON.parse(quizobj.cmobject);
+        if (cmo && cmo.style && cmo.style.object) {
+          cmo.style.object.str = String(overduequiz.interval);
+          cmo.style.object.weight = overduequiz.dif;
+          quizobj.cmobject = JSON.stringify(cmo);
+        }
+      } catch (err) {
+        console.warn('[quiz] cmobject parse failed for', overduequiz.id, err.message);
+      }
+      quizman.quizcmes.push(quizobj);
+      const nextDueDate = quizman.today + quizobj.interval;
+      await db.updateAsync(
+        { id: overduequiz.id },
+        { $set: { update: nextDueDate, types: quizobj.types, cmobject: quizobj.cmobject } },
+        {}
+      );
+    }
+    quizman.quizclick = 0;
+  }
+
+  // old channel: loadQuizes -> loadedQuizes
+  router.post('/quiz/load', asyncRoute(async (req, res) => {
+    const limit = Number((req.body || {}).limit || 42);
+    quizman.load();
+    const today0 = quizman.today + quizman.quizclick;
+    const overduearray = [];
+    quizman.quizcat = [];
+    quizman.quizcmes = [];
+    for (const quiz of quizman.quizes) {
+      if (!quiz) continue;
+      if (quiz.cat.length > 3) {
+        quiz.cat = quiz.cat.slice(0, 3);
+      } else {
+        const cat = quiz.cat.slice();
+        for (let i = 0; i < 3 - quiz.cat.length; i++) cat.push('none');
+        quiz.cat = cat;
+      }
+      quizman.quizcat.push(quiz.cat.slice());
+      const quizcatlen = quizman.quizcat.length;
+      if (today0 >= quiz.update) {
+        if (quizcatlen > 0) quizman.quizcat[quizcatlen - 1].push(quiz.id);
+        overduearray.push({
+          id: quiz.id,
+          od: today0 - quiz.update,
+          interval: quiz.interval,
+          dif: quiz.difficulty,
+        });
+      } else {
+        const dueday = quiz.update - today0;
+        quizman.quiztime[dueday] = (quizman.quiztime[dueday] || 0) + 1;
+      }
+    }
+    if (overduearray.length > 0) {
+      overduearray.sort((a, b) => b.od - a.od);
+      overduearray.splice(limit);
+    }
+    await collectOverdueQuizes(overduearray);
+    res.json(quizResponse());
+  }));
+
+  // old channel: loadQuizesbyCat -> loadedQuizes
+  router.post('/quiz/bycat', asyncRoute(async (req, res) => {
+    const arg = (req.body || {}).params || [];
+    if (!Array.isArray(arg)) throw badRequest('params must be an array');
+    quizman.load();
+    const today0 = quizman.today;
+    const overduearray = [];
+    for (const quiz of quizman.quizes) {
+      if (!quiz) continue;
+      let isshown = today0 >= quiz.update || Boolean(arg[0]);
+      if (arg[1] && isshown) isshown = arg[1] === quiz.cat[0];
+      if (arg[2] && isshown) isshown = arg[2] === quiz.cat[1];
+      if (arg[3] && isshown) isshown = arg[3] === quiz.cat[2];
+      if (isshown) {
+        overduearray.push({
+          id: quiz.id,
+          od: today0 - quiz.update,
+          interval: quiz.interval,
+          dif: quiz.difficulty,
+        });
+      }
+    }
+    if (overduearray.length > 0) {
+      overduearray.sort((a, b) => b.od - a.od);
+      quizman.quizcmes = [];
+      if (arg.length < 3 && overduearray.length > 100) overduearray.splice(100);
+      await collectOverdueQuizes(overduearray);
+    }
+    res.json(quizResponse());
+  }));
+
+  // old channel: unQuiz -> loadedQuizes
+  router.post('/quiz/unquiz', asyncRoute(async (req, res) => {
+    if (quizman.quizcmes.length > 0) {
+      for (const doc of quizman.quizcmes) {
+        if (!doc) continue;
+        doc.types[0] = 'q';
+        await db.updateAsync({ _id: doc._id }, doc, {});
+      }
+      quizman.quizcmes = [];
+    }
+    res.json({ quizes: quizman.quizcmes });
+  }));
+
+  // old channel: answerQuiz -> loadedQuizes
+  router.post('/quiz/answer', asyncRoute(async (req, res) => {
+    const arg = req.body || {};
+    if (!validators.quizAnswer(arg)) {
+      throw badRequest('invalid quiz answer', validators.quizAnswer.errors);
+    }
+    quizman.load();
+    const pos = quizman.quizes.findIndex((i) => i.id === arg.id);
+    if (pos === -1) {
+      res.json({ quizes: quizman.quizcmes, unchanged: true });
+      return;
+    }
+    const pos0 = quizman.quizcmes.findIndex((i) => i.id === arg.id);
+    if (pos0 === -1) {
+      res.json({ quizes: quizman.quizcmes, unchanged: true });
+      return;
+    }
+    const calc = quizman.calculate(quizman.quizes[pos], arg.scale, quizman.today);
+    quizman.quizes[pos].difficulty = calc.difficulty;
+    quizman.quizes[pos].interval = calc.interval;
+    quizman.quizes[pos].update = calc.update;
+    const data = quizman.quizcmes[pos0];
+    if (data) {
+      pushHistory(JSON.parse(JSON.stringify(data)));
+      try {
+        const cmo = JSON.parse(data.cmobject);
+        if (cmo.style && cmo.style.object && cmo.style.object.str) {
+          cmo.style.object.str = String(calc.interval);
+          cmo.style.object.weight = calc.difficulty;
+          data.types[0] = 'q';
+          data.cmobject = JSON.stringify(cmo);
+          await db.updateAsync({ _id: data._id }, data, {});
+          quizman.quizcmes.splice(pos0, 1);
+        }
+      } catch (err) {
+        console.warn('[quiz] answer cmobject parse failed:', err.message);
+      }
+    }
+    quizman.save();
+    res.json({ quizes: quizman.quizcmes });
+  }));
+
+  return router;
+}
+
+module.exports = { createCmeRouter };
