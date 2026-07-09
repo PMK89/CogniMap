@@ -172,6 +172,7 @@
     "karma-remap-coverage": "^0.1.4",
     "karma-sourcemap-loader": "^0.4.0",
     "karma-webpack": "^5.0.1",
+    "mini-css-extract-plugin": "^2.10.2",
     "ng-router-loader": "^2.1.0",
     "ngc-webpack": "1.1.0",
     "npm-run-all": "^4.0.1",
