@@ -7,6 +7,7 @@ import { BackendService } from '../../shared/backend.service';
 import { CMSettings } from '../../models/CMSettings';
 import { CMStore } from '../../models/CMStore';
 import { CMButton } from '../../models/CMButton';
+import { WIDGET_REGISTRY, WidgetDefinition, getWidget } from '../../widgets/widget-registry';
 
 @Component({
   selector: 'app-tb-navigation',
@@ -18,7 +19,8 @@ export class TbNavigationComponent implements OnInit {
   public widget0: string;
   public widget1: string;
   public buttons: Observable<CMButton[]>;
-  public widgets: string[] = ['none', 'equation', 'formula', 'svg', 'navigator', 'minimap', 'mnemo', 'codeeditor'];
+  // widget list comes from the plugin registry (single source of truth)
+  public widgets: WidgetDefinition[] = WIDGET_REGISTRY;
 
   constructor(private store: Store<CMStore>,
               private electronService: BackendService,
@@ -82,22 +84,14 @@ export class TbNavigationComponent implements OnInit {
     }
   }
 
-  // open widget in seperate window
+  // open widget in a separate window (browser popup)
   public openWidget(widget) {
-    if (widget === 'formula') {
+    const def = getWidget(widget);
+    if (def.kind === 'iframe' && def.iframeSrc) {
       this.electronService.ipcRenderer.send(
         'openWidget',
         {
-          url: '//localhost:3000/assets/widgets/JSME/JSME_editor_plus_SVG.html',
-          width: 1024,
-          height: 764
-        }
-      );
-    } else if (widget === 'svg') {
-      this.electronService.ipcRenderer.send(
-        'openWidget',
-        {
-          url: '//localhost:3000/assets/widgets/svgeditor/svg-editor.html',
+          url: def.iframeSrc,
           width: 1024,
           height: 764
         }

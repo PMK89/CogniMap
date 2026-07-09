@@ -78,6 +78,19 @@ export class AppComponent implements AfterViewInit {
                 // Sends Window Parameters
               }
 
+  // toggles between light and dark theme (persisted in localStorage)
+  public toggleTheme() {
+    const root = document.documentElement;
+    const prefersDark = window.matchMedia
+      && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const current = root.getAttribute('data-theme') || (prefersDark ? 'dark' : 'light');
+    const next = current === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try {
+      localStorage.setItem('cognimap-theme', next);
+    } catch (err) { /* storage unavailable */ }
+  }
+
   // after viewinit
   public ngAfterViewInit() {
     this.windowService.setOffset(window.pageXOffset, window.pageYOffset);

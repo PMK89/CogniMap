@@ -1,0 +1,271 @@
+/* ============================================================
+   CogniMap design system
+   ------------------------------------------------------------
+   Modernizes the application chrome (toolbars, panels, menus,
+   widgets, form controls) without touching the data-driven
+   styling of map elements, which continues to come from the
+   user's settings/colors configuration.
+
+   Theming: light is the default; dark follows the OS preference
+   and can be forced either way with html[data-theme="dark|light"]
+   (toggled from the app, persisted in localStorage).
+   ============================================================ */
+
+:root {
+  --cm-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --cm-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --cm-bg: #f5f6f8;
+  --cm-surface: #ffffff;
+  --cm-surface-2: #eef0f3;
+  --cm-border: #d4d8de;
+  --cm-text: #1c2430;
+  --cm-text-dim: #5a6472;
+  --cm-accent: #2f6fed;
+  --cm-accent-text: #ffffff;
+  --cm-danger: #d64545;
+  --cm-focus: #2f6fed;
+  --cm-shadow: 0 1px 3px rgba(16, 24, 40, 0.12), 0 1px 2px rgba(16, 24, 40, 0.06);
+  --cm-shadow-lg: 0 8px 24px rgba(16, 24, 40, 0.16);
+  --cm-radius: 8px;
+  --cm-radius-sm: 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --cm-bg: #14181f;
+    --cm-surface: #1d232d;
+    --cm-surface-2: #262e3a;
+    --cm-border: #39424f;
+    --cm-text: #e6eaf0;
+    --cm-text-dim: #9aa5b3;
+    --cm-accent: #5b8def;
+    --cm-accent-text: #0d1117;
+    --cm-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --cm-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.55);
+  }
+}
+
+:root[data-theme="dark"] {
+  --cm-bg: #14181f;
+  --cm-surface: #1d232d;
+  --cm-surface-2: #262e3a;
+  --cm-border: #39424f;
+  --cm-text: #e6eaf0;
+  --cm-text-dim: #9aa5b3;
+  --cm-accent: #5b8def;
+  --cm-accent-text: #0d1117;
+  --cm-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --cm-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.55);
+}
+
+/* ------------------------------------------------------------
+   Base
+   ------------------------------------------------------------ */
+
+html, body {
+  margin: 0;
+  font-family: var(--cm-font);
+  color: var(--cm-text);
+}
+
+/* initial loading state before Angular bootstraps */
+app-root:empty::after,
+app-root:not(:has(*))::after {
+  content: "Loading CogniMap…";
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--cm-text-dim);
+  background: var(--cm-bg);
+}
+
+/* ------------------------------------------------------------
+   Application chrome panels
+   ------------------------------------------------------------
+   The layout engine (LayoutService) positions these containers
+   absolutely; we style their surfaces.
+   ------------------------------------------------------------ */
+
+#toolbar0,
+#toolbar1,
+#menue,
+#widgets0,
+#widgets1 {
+  background: var(--cm-surface);
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius);
+  box-shadow: var(--cm-shadow);
+  color: var(--cm-text);
+  overflow: auto;
+}
+
+#toolbar0, #toolbar1 {
+  padding: 4px 6px;
+}
+
+#widgets0, #widgets1 {
+  box-shadow: var(--cm-shadow-lg);
+}
+
+#menue {
+  box-shadow: var(--cm-shadow-lg);
+  padding: 6px;
+}
+
+/* toolbar tables become flush, evenly spaced groups */
+#toolbar0 table, #toolbar1 table, #menue table {
+  border-collapse: collapse;
+}
+
+#toolbar0 td, #toolbar1 td, #menue td {
+  padding: 1px 2px;
+  vertical-align: middle;
+}
+
+/* subtle separators between toolbar sections */
+#toolbar1 > table > tr > td,
+#toolbar1 > table > tbody > tr > td {
+  border-right: 1px solid var(--cm-border);
+  padding: 0 6px;
+}
+
+#toolbar1 > table > tr > td:last-child,
+#toolbar1 > table > tbody > tr > td:last-child {
+  border-right: none;
+}
+
+/* ------------------------------------------------------------
+   Form controls inside the chrome
+   ------------------------------------------------------------ */
+
+#toolbar0 select, #toolbar1 select, #menue select, #widgets0 select, #widgets1 select,
+#toolbar0 input, #toolbar1 input, #menue input, #widgets0 input, #widgets1 input,
+#toolbar0 button, #toolbar1 button, #menue button, #widgets0 button, #widgets1 button,
+#toolbar0 textarea, #toolbar1 textarea, #widgets0 textarea, #widgets1 textarea {
+  font-family: var(--cm-font);
+  font-size: 13px;
+  color: var(--cm-text);
+  background: var(--cm-surface-2);
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius-sm);
+  padding: 3px 6px;
+  transition: border-color 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+}
+
+#toolbar0 select:hover, #toolbar1 select:hover, #menue select:hover,
+#toolbar0 button:hover, #toolbar1 button:hover, #menue button:hover,
+#widgets0 button:hover, #widgets1 button:hover {
+  border-color: var(--cm-accent);
+  cursor: pointer;
+}
+
+#toolbar0 :disabled, #toolbar1 :disabled, #menue :disabled,
+#widgets0 :disabled, #widgets1 :disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* visible keyboard focus everywhere in the chrome */
+:focus-visible {
+  outline: 2px solid var(--cm-focus);
+  outline-offset: 1px;
+  border-radius: var(--cm-radius-sm);
+}
+
+/* clickable toolbar icons (legacy div/img buttons) */
+#toolbar0 div[ng-reflect-ng-style], #toolbar1 div[ng-reflect-ng-style],
+#toolbar0 .lbtndefault, #toolbar1 .lbtndefault, #menue .lbtndefault,
+.sbtndefault, .pbtndefault {
+  border-radius: var(--cm-radius-sm);
+  transition: filter 120ms ease, transform 60ms ease;
+}
+
+#toolbar0 div[ng-reflect-ng-style]:hover, #toolbar1 div[ng-reflect-ng-style]:hover,
+.lbtndefault:hover, .sbtndefault:hover, .pbtndefault:hover {
+  filter: brightness(0.92);
+  cursor: pointer;
+}
+
+#toolbar0 div[ng-reflect-ng-style]:active, #toolbar1 div[ng-reflect-ng-style]:active,
+.lbtndefault:active, .sbtndefault:active, .pbtndefault:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   Widget panels
+   ------------------------------------------------------------ */
+
+#widgets0 iframe, #widgets1 iframe {
+  border: none;
+  border-radius: calc(var(--cm-radius) - 2px);
+  background: #ffffff; /* embedded editors expect a light canvas */
+}
+
+#widgets0 h1, #widgets1 h1, #widgets0 h2, #widgets1 h2,
+#widgets0 h3, #widgets1 h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 6px 4px;
+  color: var(--cm-text);
+}
+
+/* ------------------------------------------------------------
+   Scrollbars (chrome only — the map canvas keeps native ones)
+   ------------------------------------------------------------ */
+
+#toolbar0::-webkit-scrollbar, #toolbar1::-webkit-scrollbar,
+#widgets0::-webkit-scrollbar, #widgets1::-webkit-scrollbar,
+#menue::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+#toolbar0::-webkit-scrollbar-thumb, #toolbar1::-webkit-scrollbar-thumb,
+#widgets0::-webkit-scrollbar-thumb, #widgets1::-webkit-scrollbar-thumb,
+#menue::-webkit-scrollbar-thumb {
+  background: var(--cm-border);
+  border-radius: 4px;
+}
+
+/* ------------------------------------------------------------
+   Theme toggle (injected by AppComponent)
+   ------------------------------------------------------------ */
+
+.cm-theme-toggle {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  z-index: 10000;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  background: var(--cm-surface);
+  color: var(--cm-text);
+  border: 1px solid var(--cm-border);
+  border-radius: 50%;
+  box-shadow: var(--cm-shadow);
+  cursor: pointer;
+  user-select: none;
+}
+
+.cm-theme-toggle:hover {
+  border-color: var(--cm-accent);
+}
+
+/* ------------------------------------------------------------
+   Motion preferences
+   ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
