@@ -25,7 +25,8 @@ const { createCmeRouter } = require('./routes/cme');
  */
 function createApp(options = {}) {
   const app = express();
-  app.use(express.json({ limit: '100mb' }));
+  // strict:false — legacy payloads include bare JSON strings (minimap SVG)
+  app.use(express.json({ limit: '100mb', strict: false }));
 
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', version: require('../package.json').version });

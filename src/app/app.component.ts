@@ -95,6 +95,17 @@ export class AppComponent implements AfterViewInit {
   public ngAfterViewInit() {
     this.windowService.setOffset(window.pageXOffset, window.pageYOffset);
     window.scrollTo(this.cmsettings.coor.x, this.cmsettings.coor.y);
+    // load the initial viewport explicitly: when the browser restores the
+    // scroll position on reload, no scroll event fires and getParameters'
+    // movement-threshold logic returns nothing — the map would stay empty
+    // until the user scrolls a full window width/height
+    const size = this.windowService.getSize() || { width: 1600, height: 900 };
+    this.elementService.getElements({
+      l: window.pageXOffset - 2 * size.width,
+      r: window.pageXOffset + 3 * size.width,
+      t: window.pageYOffset - 2 * size.height,
+      b: window.pageYOffset + 3 * size.height
+    });
     this.renderer.listenGlobal('window', 'scroll', (evt) => {
       this.elementService.getElements(this.windowService.getParameters(
         window.pageXOffset, window.pageYOffset));

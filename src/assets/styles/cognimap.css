@@ -260,6 +260,34 @@ app-root:not(:has(*))::after {
 }
 
 /* ------------------------------------------------------------
+   Dark-theme surfaces
+   ------------------------------------------------------------
+   The legacy layout engine applies inline background styles to the
+   panel containers; the theme must win for the chrome surfaces
+   (data-driven colors of the controls inside are untouched).
+   ------------------------------------------------------------ */
+
+:root[data-theme="dark"] #toolbar0,
+:root[data-theme="dark"] #toolbar1,
+:root[data-theme="dark"] #menue,
+:root[data-theme="dark"] #widgets0,
+:root[data-theme="dark"] #widgets1 {
+  background: var(--cm-surface) !important;
+  color: var(--cm-text) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) #toolbar0,
+  :root:not([data-theme="light"]) #toolbar1,
+  :root:not([data-theme="light"]) #menue,
+  :root:not([data-theme="light"]) #widgets0,
+  :root:not([data-theme="light"]) #widgets1 {
+    background: var(--cm-surface) !important;
+    color: var(--cm-text) !important;
+  }
+}
+
+/* ------------------------------------------------------------
    Motion preferences
    ------------------------------------------------------------ */
 
