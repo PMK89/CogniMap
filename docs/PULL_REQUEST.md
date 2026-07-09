@@ -123,6 +123,19 @@ private key sits in the data directory; consider removing/rotating it.
 `data/` also contains Syncthing conflict copies and LevelDB leftovers the
 app never reads.
 
+## Data-protection guarantees
+
+- **Database files are never deleted.** The legacy "Delete DB" wipe is
+  disabled (403) unless explicitly re-enabled via `COGNIMAP_ALLOW_DB_WIPE=1`
+  — and even then the db file is backed up first and only emptied, never
+  removed from disk.
+- Exports (`/api/db/save`) refuse to write over live data files
+  (`cme.db`, `settings.json`, `colors.json`, `buttons.json`,
+  `templates.json`, `spechars.json`, `quizes.json`, `minimap.json`) and
+  back up any existing export before overwriting it.
+- Config writes snapshot the previous file state to `data/backups/` once
+  per server run; writes are atomic (temp file + rename).
+
 ## Security notes
 
 - Renderer no longer has Node access (was `nodeIntegration: true`,

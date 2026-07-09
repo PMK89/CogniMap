@@ -138,3 +138,39 @@ test('POST /api/cme/area resolves a border-crossing line via the legacy id1 pars
   assert.equal(body.selarray.length, 1);
   assert.equal(body.selarray[0].id, 30597);
 });
+
+// ---- database-file protection ----
+
+test('POST /api/db/delete is refused by default (database files are never deleted)', async () => {
+  const res = await fetch(`${url}/api/db/delete`, json('POST', {}));
+  assert.equal(res.status, 403);
+  const body = await res.json();
+  assert.equal(body.error.code, 'db_wipe_disabled');
+});
+
+test('POST /api/db/save refuses to overwrite live data files', async () => {
+  for (const file of ['data/quizes.json', 'data/settings.json', 'data/templates.json']) {
+    const res = await fetch(`${url}/api/db/save`, json('POST', { file }));
+    assert.equal(res.status, 400, file);
+    const body = await res.json();
+    assert.match(body.error.message, /refusing to overwrite/);
+  }
+});
+
+test('POST /api/db/save backs up an existing export before overwriting it', async () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const file = 'e2e-tmp-export-test.json';
+  const abs = path.join(process.cwd(), file);
+  try {
+    const first = await fetch(`${url}/api/db/save`, json('POST', { file }));
+    assert.equal(first.status, 200);
+    const second = await fetch(`${url}/api/db/save`, json('POST', { file }));
+    assert.equal(second.status, 200);
+    const backups = fs.readdirSync(path.join(process.env.COGNIMAP_DATA_DIR, 'backups'))
+      .filter((f) => f.startsWith(file));
+    assert.ok(backups.length >= 1, 'expected a backup of the overwritten export');
+  } finally {
+    fs.rmSync(abs, { force: true });
+  }
+});

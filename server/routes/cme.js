@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const Datastore = require('@seald-io/nedb');
 const { ROOT, DATA_DIR, BACKUP_DIR, resolveInside, ensureDir } = require('../lib/paths');
-const { badRequest, notFound, asyncRoute } = require('../lib/errors');
+const { ApiError, badRequest, notFound, asyncRoute } = require('../lib/errors');
 const { validators } = require('../lib/validate');
 const { QuizManager } = require('../lib/quiz');
 
@@ -373,11 +373,26 @@ function createCmeRouter(options = {}) {
 
   // ---- database import/export ----
 
+  // live data files that no API is ever allowed to delete or overwrite
+  const PROTECTED_FILES = [
+    'cme.db', 'settings.json', 'colors.json', 'buttons.json',
+    'templates.json', 'spechars.json', 'quizes.json', 'minimap.json',
+  ];
+
   // old channel: saveDb — export all elements (sorted by cdate) to a JSON file
   router.post('/db/save', asyncRoute(async (req, res) => {
     const file = String((req.body || {}).file || '');
     if (!file.endsWith('.json')) throw badRequest('export file must end with .json');
     const abs = resolveInside(ROOT, file.replace(/^\.\//, '').replace(/^\/+/, ''));
+    if (PROTECTED_FILES.indexOf(path.basename(abs)) !== -1) {
+      throw badRequest('refusing to overwrite a live data file: ' + path.basename(abs));
+    }
+    // never silently clobber an existing export either
+    if (fs.existsSync(abs)) {
+      ensureDir(BACKUP_DIR);
+      const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+      fs.copyFileSync(abs, path.join(BACKUP_DIR, path.basename(abs) + '.' + stamp + '.bak'));
+    }
     const data = await db.findAsync({});
     data.sort((a, b) => (a.cdate || 0) - (b.cdate || 0));
     ensureDir(path.dirname(abs));
@@ -406,8 +421,16 @@ function createCmeRouter(options = {}) {
     res.json({ status: 'database loaded', inserted });
   }));
 
-  // old channel: deleteDb — wipe all elements (backs up the db file first)
+  // old channel: deleteDb — wiping the element database is DISABLED by
+  // default: database files must never be deleted. The legacy menu action
+  // can only be re-enabled explicitly (COGNIMAP_ALLOW_DB_WIPE=1), and even
+  // then the db file is backed up first and only emptied, never removed.
   router.post('/db/delete', asyncRoute(async (req, res) => {
+    if (process.env.COGNIMAP_ALLOW_DB_WIPE !== '1') {
+      throw new ApiError(403, 'db_wipe_disabled',
+        'Deleting the database is disabled to protect user data. ' +
+        'Set COGNIMAP_ALLOW_DB_WIPE=1 to allow it (a backup is still taken).');
+    }
     const dbFile = options.dbPath || path.join(dataDir, 'cme.db');
     if (fs.existsSync(dbFile)) {
       ensureDir(BACKUP_DIR);

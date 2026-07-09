@@ -23,6 +23,7 @@ Nothing to migrate. All data files keep their exact formats and locations:
 | Clipboard paste | Electron clipboard API polled on Ctrl+V | browser paste events (Ctrl+V works as before; pasted images upload to the backend and land in `assets/images/cm/`) |
 | Widget pop-out windows | new `BrowserWindow` | browser popup window |
 | App menu (Load/Save/Delete DB with native dialogs) | native menu + dialogs | import/export APIs (`/api/db/save`, `/api/db/load`) — file names resolve inside the project directory |
+| Delete DB | wiped all elements | **disabled — database files are never deleted.** Exports also refuse to overwrite live data files and back up existing exports first. The legacy wipe can only be re-enabled with `COGNIMAP_ALLOW_DB_WIPE=1` (backup still taken, file only emptied, never removed) |
 | `getAllCME` / `getPicture` IPC channels | dead (no handler; always returned `undefined`) | unchanged (shim returns `undefined`) |
 
 ## Removed components
