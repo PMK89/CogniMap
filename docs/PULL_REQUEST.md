@@ -183,6 +183,20 @@ toolbar · import/export round-trip · media serving (PDF) · theme toggle
 persistence · keyboard focus visibility. Screenshots verified manually
 against the real 45k-element dataset (light, dark, edit mode with minimap).
 
+## Verified against the release demo video
+
+Every workflow shown in the YouTube demo (FcAghOkgQpI) was re-verified in
+the browser build by driving a real browser: node creation with inline
+title typing · automatic linking + link/shape styling · special-character
+panel · map panning across large maps · image paste onto a selected node
+(browser paste event → upload → content item) · LaTeX editor with symbol
+palette, live render and save-to-node · embedded videos/media (open in
+browser tab instead of VLC) · quiz mode (due list, check-answer boxes,
+rating buttons, interval) · JSME SMILES import/export · selection,
+dragging, deletion, undo. UI additions beyond the original: undo button +
+Ctrl+Z, toolbar collapse, default area selection in edit mode, tooltips,
+dark theme incl. dark canvas.
+
 ## Known limitations
 
 - Frontend remains Angular 2.4 + RxJS 5 + ngrx 2 (framework migration out
