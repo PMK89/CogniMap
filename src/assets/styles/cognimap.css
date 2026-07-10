@@ -122,9 +122,9 @@ html, body {
   }
 }
 
-/* initial loading state before Angular bootstraps */
-app-root:empty::after,
-app-root:not(:has(*))::after {
+/* initial loading state before Angular bootstraps (keep :empty — cheap;
+   never use :has() here, it re-evaluates on every DOM mutation) */
+app-root:empty::after {
   content: "Loading CogniMap…";
   position: fixed;
   inset: 0;
@@ -270,11 +270,14 @@ app-root:not(:has(*))::after {
   padding: 6px;
 }
 
-/* both slots open: widget0 takes the upper half, widget1 the lower */
-body:has(#widgets1[style*="display: block"]) #widgets0[style*="display: block"] {
+/* Both slots open: widget0 takes the upper half, widget1 the lower.
+   IMPORTANT: expressed via html-level classes (set by AppComponent from
+   the settings) — :has()/[style*=...] selectors were disastrous for
+   performance on this page's huge, constantly-mutating SVG DOM. */
+html.cm-w0-open.cm-w1-open #widgets0 {
   max-height: calc((100vh - var(--cm-safe-top, 148px)) / 2 - 16px);
 }
-body:has(#widgets0[style*="display: block"]) #widgets1[style*="display: block"] {
+html.cm-w0-open.cm-w1-open #widgets1 {
   top: calc(var(--cm-safe-top, 148px) + (100vh - var(--cm-safe-top, 148px)) / 2) !important;
   max-height: calc((100vh - var(--cm-safe-top, 148px)) / 2 - 24px);
 }
@@ -285,9 +288,39 @@ body:has(#widgets0[style*="display: block"]) #widgets1[style*="display: block"] 
   width: min(46vw, 880px) !important;
   height: calc(100vh - var(--cm-safe-top, 148px) - 44px) !important;
 }
-body:has(#widgets1[style*="display: block"]) #widgets0 iframe[src*="assets/widgets"],
-body:has(#widgets0[style*="display: block"]) #widgets1 iframe[src*="assets/widgets"] {
+html.cm-w0-open.cm-w1-open #widgets0 iframe[src*="assets/widgets"],
+html.cm-w0-open.cm-w1-open #widgets1 iframe[src*="assets/widgets"] {
   height: calc((100vh - var(--cm-safe-top, 148px)) / 2 - 48px) !important;
+}
+
+/* ------------------------------------------------------------
+   LaTeX editor: responsive symbol palette
+   ------------------------------------------------------------ */
+
+#mjeditor {
+  width: 100%;
+}
+
+#mjeditor textarea {
+  width: calc(100% - 12px);
+}
+
+#mjeditor > table {
+  display: block;
+}
+
+#mjeditor > table > tbody > tr,
+#mjeditor > table > tr {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* only the OUTER layout cells become flex items — the symbol grids
+   inside remain real tables */
+#mjeditor > table > tbody > tr > td,
+#mjeditor > table > tr > td {
+  display: block;
 }
 
 #widgets0 iframe, #widgets1 iframe {

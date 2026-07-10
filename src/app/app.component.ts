@@ -70,7 +70,16 @@ export class AppComponent implements AfterViewInit {
                         this.cmsettings = data;
                         // console.log(data);
                         this.setSizes(data);
-                        this.updateSafeTop();
+                        // widget-slot open state as cheap html classes for
+                        // the layout CSS (never use :has()/[style*] here —
+                        // catastrophic for perf on this page's huge DOM).
+                        // NOTE: no safe-top measurement here — forcing layout
+                        // on every settings update janks the whole app; the
+                        // ResizeObserver on the toolbars covers all cases.
+                        document.documentElement.classList.toggle(
+                          'cm-w0-open', !!(data.wlayout0 && data.wlayout0.display === 'block'));
+                        document.documentElement.classList.toggle(
+                          'cm-w1-open', !!(data.wlayout1 && data.wlayout1.display === 'block'));
                         this.windowService.setSize(window.innerWidth, window.innerHeight);
                       }
                     },
@@ -92,14 +101,32 @@ export class AppComponent implements AfterViewInit {
   }
 
   private safeTopObserved = false;
+  private safeTopPending = false;
+  private safeTopLast = 0;
 
   // measures the bottom edge of the visible toolbars and publishes it as
   // a CSS variable so widget panels can dock below without overlapping
   public updateSafeTop() {
-    setTimeout(() => this.measureSafeTop(), 50);
-    // the toolbars grow/shrink as panels populate — track their size
+    if (!this.safeTopPending) {
+      this.safeTopPending = true;
+      setTimeout(() => {
+        this.safeTopPending = false;
+        this.measureSafeTop();
+      }, 100);
+    }
+    // the toolbars grow/shrink as panels populate — track their size.
+    // The observer already delivers the new sizes, so no extra layout is
+    // forced; the actual measurement is throttled through updateSafeTop.
     if (!this.safeTopObserved && (window as any).ResizeObserver) {
-      const ro = new (window as any).ResizeObserver(() => this.measureSafeTop());
+      const ro = new (window as any).ResizeObserver(() => {
+        if (!this.safeTopPending) {
+          this.safeTopPending = true;
+          setTimeout(() => {
+            this.safeTopPending = false;
+            this.measureSafeTop();
+          }, 100);
+        }
+      });
       for (const id of ['toolbar0', 'toolbar1']) {
         const el = document.getElementById(id);
         if (el) {
@@ -121,7 +148,11 @@ export class AppComponent implements AfterViewInit {
         }
       }
     }
-    document.documentElement.style.setProperty('--cm-safe-top', safe + 'px');
+    // avoid style invalidation when nothing changed
+    if (Math.abs(safe - this.safeTopLast) > 1) {
+      this.safeTopLast = safe;
+      document.documentElement.style.setProperty('--cm-safe-top', safe + 'px');
+    }
   }
 
   // undoes the last element change or deletion
@@ -152,18 +183,29 @@ export class AppComponent implements AfterViewInit {
       }
     } catch (err) { /* storage unavailable */ }
     this.windowService.setOffset(window.pageXOffset, window.pageYOffset);
+    const priorX = window.pageXOffset;
+    const priorY = window.pageYOffset;
     window.scrollTo(this.cmsettings.coor.x, this.cmsettings.coor.y);
-    // load the initial viewport explicitly: when the browser restores the
-    // scroll position on reload, no scroll event fires and getParameters'
-    // movement-threshold logic returns nothing — the map would stay empty
-    // until the user scrolls a full window width/height
+    // When the browser restores the scroll position on reload, no scroll
+    // event fires and getParameters' movement-threshold logic loads
+    // nothing — the map would stay empty until the user scrolls a full
+    // window. Load the initial viewport explicitly in that case, but NOT
+    // when the scroll jump itself already triggers a load (a duplicate
+    // load re-renders every element twice and freezes large maps).
     const size = this.windowService.getSize() || { width: 1600, height: 900 };
-    this.elementService.getElements({
-      l: window.pageXOffset - 2 * size.width,
-      r: window.pageXOffset + 3 * size.width,
-      t: window.pageYOffset - 2 * size.height,
-      b: window.pageYOffset + 3 * size.height
-    });
+    const moved = Math.abs(window.pageXOffset - priorX) > 1
+      || Math.abs(window.pageYOffset - priorY) > 1;
+    const scrollWillLoad = moved
+      && (Math.abs(window.pageXOffset) > size.width
+          || Math.abs(window.pageYOffset) > size.height);
+    if (!scrollWillLoad) {
+      this.elementService.getElements({
+        l: window.pageXOffset - 2 * size.width,
+        r: window.pageXOffset + 3 * size.width,
+        t: window.pageYOffset - 2 * size.height,
+        b: window.pageYOffset + 3 * size.height
+      });
+    }
     this.renderer.listenGlobal('window', 'scroll', (evt) => {
       this.elementService.getElements(this.windowService.getParameters(
         window.pageXOffset, window.pageYOffset));
