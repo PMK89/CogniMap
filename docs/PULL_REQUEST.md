@@ -13,7 +13,11 @@
   widgets — elevated surfaces, consistent spacing/typography, hover/focus/
   disabled states, visible keyboard focus, reduced-motion support.
 - **Dark/light theme** with OS-preference default and a persistent manual
-  toggle (◐, bottom right), applied before first paint.
+  toggle (◐, bottom right), applied before first paint. Includes a dark
+  canvas variant: the map itself is inverted at the presentation layer
+  (stored element colors untouched; photos/videos counter-inverted to
+  keep true colors). Complex embedded vector figures with gradient fills
+  may show minor inversion artifacts — documented limitation.
 - **SVG editor integration repaired**: the vector editor's CogniMap bridge
   (`cminterface.js`) was an empty stub — drawings could never be exported.
   It now exports `{type:'svg'}` JSON (CM button) and accepts input, matching
