@@ -158,16 +158,29 @@ export class ElementService {
   public undoCME() {
     const res = this.electronService.ipcRenderer.sendSync('undoCME', '1');
     if (res && res.data) {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      this.getElements({
-        l: window.pageXOffset - 2 * w,
-        r: window.pageXOffset + 3 * w,
-        t: window.pageYOffset - 2 * h,
-        b: window.pageYOffset + 3 * h
-      });
+      this.reloadViewport();
     }
     return res;
+  }
+
+  // reapplies the change last reverted by undo (Ctrl+Shift+Z / redo button)
+  public redoCME() {
+    const res = this.electronService.ipcRenderer.sendSync('redoCME', '1');
+    if (res && (res.data || res.deletedId)) {
+      this.reloadViewport();
+    }
+    return res;
+  }
+
+  private reloadViewport() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    this.getElements({
+      l: window.pageXOffset - 2 * w,
+      r: window.pageXOffset + 3 * w,
+      t: window.pageYOffset - 2 * h,
+      b: window.pageYOffset + 3 * h
+    });
   }
 
   // gets data from database/server

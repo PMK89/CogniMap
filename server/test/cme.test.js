@@ -174,3 +174,45 @@ test('POST /api/db/save backs up an existing export before overwriting it', asyn
     fs.rmSync(abs, { force: true });
   }
 });
+
+// ---- undo / redo ----
+
+test('undo restores a change and redo reapplies it', async () => {
+  const doc = await (await fetch(`${url}/api/cme/id/30596`)).json();
+  const originalTitle = doc.title;
+  doc.title = 'undo-redo-test';
+  const put = await fetch(`${url}/api/cme`, json('PUT', doc));
+  assert.equal(put.status, 200);
+
+  const undo = await (await fetch(`${url}/api/cme/undo`, json('POST', {}))).json();
+  assert.equal(undo.data.title, originalTitle);
+  let now = await (await fetch(`${url}/api/cme/id/30596`)).json();
+  assert.equal(now.title, originalTitle);
+
+  const redo = await (await fetch(`${url}/api/cme/redo`, json('POST', {}))).json();
+  assert.equal(redo.data.title, 'undo-redo-test');
+  now = await (await fetch(`${url}/api/cme/id/30596`)).json();
+  assert.equal(now.title, 'undo-redo-test');
+
+  // undo again to leave the fixture element roughly as found
+  await fetch(`${url}/api/cme/undo`, json('POST', {}));
+});
+
+test('undo of a deletion restores; redo deletes again', async () => {
+  const doc = await (await fetch(`${url}/api/cme/id/30597`)).json();
+  assert.ok(doc && doc.id === 30597);
+  const del = await (await fetch(`${url}/api/cme/30597`, { method: 'DELETE' })).json();
+  assert.equal(del.success, true);
+
+  await fetch(`${url}/api/cme/undo`, json('POST', {}));
+  let now = await (await fetch(`${url}/api/cme/id/30597`)).json();
+  assert.ok(now && now.id === 30597, 'undo should restore the deleted element');
+
+  const redo = await (await fetch(`${url}/api/cme/redo`, json('POST', {}))).json();
+  assert.equal(redo.deletedId, 30597);
+  now = await (await fetch(`${url}/api/cme/id/30597`)).json();
+  assert.equal(now, null);
+
+  // restore for other tests
+  await fetch(`${url}/api/cme/undo`, json('POST', {}));
+});

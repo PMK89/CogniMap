@@ -157,6 +157,8 @@ export class IpcShim {
       }
       case 'undoCME':
         return this.xhrSync('POST', '/api/cme/undo', {});
+      case 'redoCME':
+        return this.xhrSync('POST', '/api/cme/redo', {});
       case 'getClipboard':
         return this.lastPasteAction;
       // dead legacy channels (had no main-process handler): keep old

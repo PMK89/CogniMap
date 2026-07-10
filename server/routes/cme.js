@@ -25,6 +25,7 @@ function createCmeRouter(options = {}) {
   });
   const quizman = new QuizManager(dataDir);
   const datahistory = [];
+  const redohistory = [];
 
   // Startup self-repair: types[0] === 'q1' marks an element as part of the
   // CURRENTLY RUNNING quiz session, which lives in server memory. After a
@@ -54,6 +55,8 @@ function createCmeRouter(options = {}) {
   function pushHistory(doc) {
     if (datahistory.length > 1000) datahistory.shift();
     datahistory.push(doc);
+    // a new change invalidates the redo branch
+    redohistory.length = 0;
   }
 
   /** quiz side-effect shared by newCME/changeCME (ported verbatim) */
@@ -224,9 +227,43 @@ function createCmeRouter(options = {}) {
     const doc = JSON.parse(JSON.stringify(entry));
     const wasDeleted = doc.state === 'del';
     if (wasDeleted) doc.state = '';
+    // capture the pre-undo state of this element for redo
+    const current = await db.findOneAsync({ id: doc.id });
+    if (redohistory.length > 1000) redohistory.shift();
+    redohistory.push(current
+      ? JSON.parse(JSON.stringify(current))
+      : { id: doc.id, __wasAbsent: true });
     delete doc._id;
     await db.updateAsync({ id: doc.id }, doc, { upsert: true });
     res.json({ data: doc, wasDeleted });
+  }));
+
+  // redo — reapply the change most recently reverted by undo
+  router.post('/cme/redo', asyncRoute(async (req, res) => {
+    const entry = redohistory.pop();
+    if (!entry) {
+      res.json({ data: null, message: 'redo history empty' });
+      return;
+    }
+    // put the pre-redo state back onto the undo stack (without clearing
+    // the remaining redo branch)
+    const current = await db.findOneAsync({ id: entry.id });
+    if (current) {
+      if (datahistory.length > 1000) datahistory.shift();
+      datahistory.push(entry.__wasAbsent
+        ? Object.assign(JSON.parse(JSON.stringify(current)), { state: 'del' })
+        : JSON.parse(JSON.stringify(current)));
+    }
+    if (entry.__wasAbsent) {
+      // the element did not exist before the undo — redo deletes it again
+      await db.removeAsync({ id: entry.id }, {});
+      res.json({ data: null, deletedId: entry.id });
+      return;
+    }
+    const doc = JSON.parse(JSON.stringify(entry));
+    delete doc._id;
+    await db.updateAsync({ id: doc.id }, doc, { upsert: true });
+    res.json({ data: doc });
   }));
 
   // ---- selection traversals ----

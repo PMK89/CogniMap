@@ -682,9 +682,14 @@ export class EventService {
           }
         }
       }
-      if (this.keyPressed.indexOf('z') !== -1) {
-        // undo the last change/deletion
-        this.elementService.undoCME();
+      if (this.keyPressed.indexOf('z') !== -1 || this.keyPressed.indexOf('Z') !== -1) {
+        // Ctrl+Z undoes, Ctrl+Shift+Z redoes (with Shift held the key
+        // reports as uppercase 'Z')
+        if (this.keyPressed.indexOf('Shift') !== -1 || this.keyPressed.indexOf('Z') !== -1) {
+          this.elementService.redoCME();
+        } else {
+          this.elementService.undoCME();
+        }
       } else if (this.keyPressed.indexOf('n') !== -1) {
         // turns on new element mode
         if (this.cmsettings.mode.indexOf('quiz') === -1) {

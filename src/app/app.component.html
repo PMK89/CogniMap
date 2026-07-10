@@ -20,6 +20,8 @@
         title="Toggle dark/light theme" aria-label="Toggle dark/light theme">◐</button>
 <button type="button" class="cm-undo" (click)="undo()"
         title="Undo last change (Ctrl+Z)" aria-label="Undo last change">↶</button>
+<button type="button" class="cm-redo" (click)="redo()"
+        title="Redo (Ctrl+Shift+Z)" aria-label="Redo last undone change">↷</button>
 <button type="button" class="cm-tb-toggle" (click)="toggleToolbar()"
         title="Collapse/expand toolbar" aria-label="Collapse or expand toolbar">{{tbCollapsed ? '▾' : '▴'}}</button>
 <div id="TPmain" style="display:none">

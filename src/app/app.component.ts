@@ -160,6 +160,11 @@ export class AppComponent implements AfterViewInit {
     this.elementService.undoCME();
   }
 
+  // reapplies the last undone change
+  public redo() {
+    this.elementService.redoCME();
+  }
+
   // toggles between light and dark theme (persisted in localStorage)
   public toggleTheme() {
     const root = document.documentElement;
