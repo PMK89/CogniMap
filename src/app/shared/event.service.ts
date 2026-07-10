@@ -36,6 +36,7 @@ export class EventService {
   public id: number;
   public keyPressed: string[] = [];
   public selecting = false;
+  public panning = false;
   public minimapselect = 0;
   public quiznew = false;
   public marking = false;
@@ -60,6 +61,13 @@ export class EventService {
               private snapsvgService: SnapsvgService,
               private templateService: TemplateService,
               private store: Store<CMStore>) {
+                // canvas panning: dragging on empty space (without Ctrl)
+                // in edit mode scrolls the view
+                document.addEventListener('mousemove', (e: MouseEvent) => {
+                  if (this.panning) {
+                    window.scrollBy(-e.movementX, -e.movementY);
+                  }
+                });
                 this.store.select('settings')
                 .subscribe((data) => {
                   if (data) {
@@ -241,13 +249,20 @@ export class EventService {
         }
       }
     } else if (this.cmsettings.mode === 'edit') {
-      // area selection is the default when dragging on unused canvas space
+      // dragging on unused canvas space: Ctrl+drag selects an area,
+      // plain drag pans the view
       if (evt.target.id === 'cmap' || evt.target.id === 'cmsvg') {
         this.startX = this.clickX;
         this.startY = this.clickY;
         this.dragX = 0;
         this.dragY = 0;
-        this.selecting = true;
+        if (evt.ctrlKey) {
+          this.selecting = true;
+        } else {
+          this.panning = true;
+          document.body.style.cursor = 'grabbing';
+          evt.preventDefault();
+        }
       }
     } else if (this.cmsettings.mode === 'pointing') {
       if ((typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '')
@@ -346,6 +361,10 @@ export class EventService {
   public onMouseUp(evt) {
     // used in edit mode to drag
     // console.log('event.service: onMouseUp');
+    if (this.panning) {
+      this.panning = false;
+      document.body.style.cursor = '';
+    }
     if (this.cmsettings.mode === 'dragging') {
       this.dragX = evt.clientX  + this.windowService.WinXOffset - this.startX;
       this.dragY = evt.clientY + this.windowService.WinYOffset - this.startY;

@@ -210,7 +210,8 @@ palette, live render and save-to-node · embedded videos/media (open in
 browser tab instead of VLC) · quiz mode (due list, check-answer boxes,
 rating buttons, interval) · JSME SMILES import/export · selection,
 dragging, deletion, undo. UI additions beyond the original: undo button +
-Ctrl+Z, toolbar collapse, default area selection in edit mode, tooltips,
+Ctrl+Z, toolbar collapse, canvas panning by dragging empty space
+(Ctrl+drag = area selection) in edit mode, tooltips,
 dark theme incl. dark canvas.
 
 ## Known limitations
