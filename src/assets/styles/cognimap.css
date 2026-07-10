@@ -77,6 +77,51 @@ html, body {
   color: #000000;
 }
 
+/* ------------------------------------------------------------
+   Dark canvas variant
+   ------------------------------------------------------------
+   Map colors are data-driven (stored per element), so the dark canvas
+   is produced at the presentation layer: invert + hue-rotate flips the
+   white surfaces dark and black text/formulas light while keeping hues
+   close to their originals — no stored data is touched. Raster images,
+   videos and embedded figures are counter-inverted so photographs and
+   diagrams keep their true colors.
+   ------------------------------------------------------------ */
+
+:root[data-theme="dark"] body {
+  background: var(--cm-bg);
+}
+
+:root[data-theme="dark"] #cmap {
+  filter: invert(1) hue-rotate(180deg);
+  background: #e2e6ea; /* inverts to a dark slate canvas */
+}
+
+:root[data-theme="dark"] #cmap img,
+:root[data-theme="dark"] #cmap image,
+:root[data-theme="dark"] #cmap video,
+:root[data-theme="dark"] #cmap iframe,
+:root[data-theme="dark"] #cmap embed {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body {
+    background: var(--cm-bg);
+  }
+  :root:not([data-theme="light"]) #cmap {
+    filter: invert(1) hue-rotate(180deg);
+    background: #e2e6ea;
+  }
+  :root:not([data-theme="light"]) #cmap img,
+  :root:not([data-theme="light"]) #cmap image,
+  :root:not([data-theme="light"]) #cmap video,
+  :root:not([data-theme="light"]) #cmap iframe,
+  :root:not([data-theme="light"]) #cmap embed {
+    filter: invert(1) hue-rotate(180deg);
+  }
+}
+
 /* initial loading state before Angular bootstraps */
 app-root:empty::after,
 app-root:not(:has(*))::after {

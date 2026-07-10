@@ -365,6 +365,14 @@ test('dark/light theme toggle works and persists', async ({ page }) => {
   await page.waitForSelector('#cmsvg');
   const persisted = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
   expect(persisted).toBe(after);
+
+  // dark canvas variant: the map canvas is inverted in dark mode only
+  const filterFor = (theme) => page.evaluate((t) => {
+    document.documentElement.setAttribute('data-theme', t);
+    return getComputedStyle(document.getElementById('cmap')).filter;
+  }, theme);
+  expect(await filterFor('dark')).toContain('invert');
+  expect(await filterFor('light')).toBe('none');
 });
 
 test('keyboard focus is visible on chrome controls', async ({ page }) => {
