@@ -557,11 +557,6 @@ export class EventService {
     if (this.keyPressed.indexOf(evt.key) === -1) {
       this.keyPressed.push(evt.key);
     }
-    // plain Delete removes the selection too (legacy only bound Ctrl+Delete);
-    // typing mode is excluded by the mode checks inside
-    if (evt.key === 'Delete' && this.keyPressed.indexOf('Control') === -1) {
-      this.handleDeleteKey();
-    }
     if (this.keyPressed.indexOf('Control') !== -1) {
       // uses arrow keys to choose links and move through cognimap
       if (this.keyPressed.indexOf('f') === -1 && this.keyPressed.indexOf('o') === -1 &&

@@ -1,0 +1,114 @@
+/* ============================================================
+   Bundled fonts
+   ------------------------------------------------------------
+   Concept-map data references classic system font names
+   ("Times New Roman", Arial, "Comic Sans MS", "Courier New",
+   "Monotype Corsiva"/Chancery). To render identically on every
+   machine, free metric-compatible (or visually close) fonts are
+   bundled and registered UNDER THOSE NAMES, so the app never
+   depends on the user's installed fonts:
+
+   - Liberation Serif  -> Times New Roman / Times   (OFL)
+   - Liberation Sans   -> Arial / Helvetica         (OFL)
+   - Liberation Mono   -> Courier New / Courier     (OFL)
+   - Comic Neue        -> Comic Sans MS             (OFL)
+   - TeX Gyre Chorus   -> Monotype Corsiva, Apple Chancery,
+                          ITC Zapf Chancery, URW Chancery L (GFL)
+
+   Locally installed real fonts win via local() where present.
+   ============================================================ */
+
+/* Times New Roman / Times */
+@font-face {
+  font-family: 'Times New Roman';
+  src: local('Times New Roman'), url('../fonts/LiberationSerif-Regular.ttf') format('truetype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Times New Roman';
+  src: local('Times New Roman Bold'), url('../fonts/LiberationSerif-Bold.ttf') format('truetype');
+  font-weight: bold; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Times New Roman';
+  src: local('Times New Roman Italic'), url('../fonts/LiberationSerif-Italic.ttf') format('truetype');
+  font-weight: normal; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Times';
+  src: local('Times'), url('../fonts/LiberationSerif-Regular.ttf') format('truetype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+
+/* Arial / Helvetica */
+@font-face {
+  font-family: 'Arial';
+  src: local('Arial'), url('../fonts/LiberationSans-Regular.ttf') format('truetype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Arial';
+  src: local('Arial Bold'), url('../fonts/LiberationSans-Bold.ttf') format('truetype');
+  font-weight: bold; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Arial';
+  src: local('Arial Italic'), url('../fonts/LiberationSans-Italic.ttf') format('truetype');
+  font-weight: normal; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Helvetica';
+  src: local('Helvetica'), url('../fonts/LiberationSans-Regular.ttf') format('truetype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+
+/* Courier New / Courier */
+@font-face {
+  font-family: 'Courier New';
+  src: local('Courier New'), url('../fonts/LiberationMono-Regular.ttf') format('truetype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Courier New';
+  src: local('Courier New Bold'), url('../fonts/LiberationMono-Bold.ttf') format('truetype');
+  font-weight: bold; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Courier';
+  src: local('Courier'), url('../fonts/LiberationMono-Regular.ttf') format('truetype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+
+/* Comic Sans MS */
+@font-face {
+  font-family: 'Comic Sans MS';
+  src: local('Comic Sans MS'), url('../fonts/ComicNeue-Regular.ttf') format('truetype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Comic Sans MS';
+  src: local('Comic Sans MS Bold'), url('../fonts/ComicNeue-Bold.ttf') format('truetype');
+  font-weight: bold; font-style: normal; font-display: swap;
+}
+
+/* Chancery family — the default map title font */
+@font-face {
+  font-family: 'Monotype Corsiva';
+  src: local('Monotype Corsiva'), url('../fonts/texgyrechorus-mediumitalic.otf') format('opentype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Apple Chancery';
+  src: local('Apple Chancery'), url('../fonts/texgyrechorus-mediumitalic.otf') format('opentype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'ITC Zapf Chancery';
+  src: local('ITC Zapf Chancery'), url('../fonts/texgyrechorus-mediumitalic.otf') format('opentype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'URW Chancery L';
+  src: local('URW Chancery L'), url('../fonts/texgyrechorus-mediumitalic.otf') format('opentype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}

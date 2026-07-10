@@ -250,13 +250,55 @@ app-root:not(:has(*))::after {
 }
 
 /* ------------------------------------------------------------
-   Widget panels
+   Widget panels — screen-size adaptive
+   ------------------------------------------------------------
+   The persisted layout gave the two widget slots fixed pixel
+   frames that overlapped the toolbar and left large empty areas.
+   They now dock below the toolbars (--cm-safe-top is measured by
+   the app), size themselves to their content up to the available
+   viewport, and split the left column when both are open.
    ------------------------------------------------------------ */
+
+#widgets0, #widgets1 {
+  top: var(--cm-safe-top, 148px) !important;
+  left: 8px !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 240px;
+  max-width: min(48vw, 920px);
+  max-height: calc(100vh - var(--cm-safe-top, 148px) - 16px);
+  padding: 6px;
+}
+
+/* both slots open: widget0 takes the upper half, widget1 the lower */
+body:has(#widgets1[style*="display: block"]) #widgets0[style*="display: block"] {
+  max-height: calc((100vh - var(--cm-safe-top, 148px)) / 2 - 16px);
+}
+body:has(#widgets0[style*="display: block"]) #widgets1[style*="display: block"] {
+  top: calc(var(--cm-safe-top, 148px) + (100vh - var(--cm-safe-top, 148px)) / 2) !important;
+  max-height: calc((100vh - var(--cm-safe-top, 148px)) / 2 - 24px);
+}
+
+/* iframe plugins (JSME / SVG editor) get real working space */
+#widgets0 iframe[src*="assets/widgets"],
+#widgets1 iframe[src*="assets/widgets"] {
+  width: min(46vw, 880px) !important;
+  height: calc(100vh - var(--cm-safe-top, 148px) - 44px) !important;
+}
+body:has(#widgets1[style*="display: block"]) #widgets0 iframe[src*="assets/widgets"],
+body:has(#widgets0[style*="display: block"]) #widgets1 iframe[src*="assets/widgets"] {
+  height: calc((100vh - var(--cm-safe-top, 148px)) / 2 - 48px) !important;
+}
 
 #widgets0 iframe, #widgets1 iframe {
   border: none;
   border-radius: calc(var(--cm-radius) - 2px);
   background: #ffffff; /* embedded editors expect a light canvas */
+}
+
+/* let widget content use the panel width instead of fixed columns */
+#widgets0 textarea, #widgets1 textarea {
+  max-width: 100%;
 }
 
 #widgets0 h1, #widgets1 h1, #widgets0 h2, #widgets1 h2,

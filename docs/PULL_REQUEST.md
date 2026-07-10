@@ -183,6 +183,22 @@ toolbar · import/export round-trip · media serving (PDF) · theme toggle
 persistence · keyboard focus visibility. Screenshots verified manually
 against the real 45k-element dataset (light, dark, edit mode with minimap).
 
+## Layout & typography
+
+- Widget panels (minimap, LaTeX editor, JSME, SVG editor, …) are
+  screen-size adaptive: they dock below the toolbars (measured via a
+  ResizeObserver-backed `--cm-safe-top`), size to their content up to the
+  viewport, split the column when both slots are open, and iframe plugins
+  (JSME resizes its applet dynamically) use the full panel.
+- Fonts are bundled: free metric-compatible/close fonts are registered
+  under the legacy family names stored in map data — Liberation
+  Serif/Sans/Mono for Times New Roman/Arial/Courier New (OFL), Comic Neue
+  for Comic Sans MS (OFL), TeX Gyre Chorus for Monotype Corsiva/Chancery
+  (GFL) — so rendering no longer depends on the user's installed fonts
+  (`assets/styles/fonts.css`; locally installed originals win via
+  `local()`).
+- Deleting is Ctrl+Delete (legacy binding), with undo via Ctrl+Z.
+
 ## Verified against the release demo video
 
 Every workflow shown in the YouTube demo (FcAghOkgQpI) was re-verified in

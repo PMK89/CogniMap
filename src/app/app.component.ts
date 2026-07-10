@@ -70,6 +70,7 @@ export class AppComponent implements AfterViewInit {
                         this.cmsettings = data;
                         // console.log(data);
                         this.setSizes(data);
+                        this.updateSafeTop();
                         this.windowService.setSize(window.innerWidth, window.innerHeight);
                       }
                     },
@@ -87,6 +88,40 @@ export class AppComponent implements AfterViewInit {
     try {
       localStorage.setItem('cognimap-tb-collapsed', this.tbCollapsed ? '1' : '0');
     } catch (err) { /* storage unavailable */ }
+    this.updateSafeTop();
+  }
+
+  private safeTopObserved = false;
+
+  // measures the bottom edge of the visible toolbars and publishes it as
+  // a CSS variable so widget panels can dock below without overlapping
+  public updateSafeTop() {
+    setTimeout(() => this.measureSafeTop(), 50);
+    // the toolbars grow/shrink as panels populate — track their size
+    if (!this.safeTopObserved && (window as any).ResizeObserver) {
+      const ro = new (window as any).ResizeObserver(() => this.measureSafeTop());
+      for (const id of ['toolbar0', 'toolbar1']) {
+        const el = document.getElementById(id);
+        if (el) {
+          ro.observe(el);
+          this.safeTopObserved = true;
+        }
+      }
+    }
+  }
+
+  private measureSafeTop() {
+    let safe = 12;
+    for (const id of ['toolbar0', 'toolbar1']) {
+      const el = document.getElementById(id);
+      if (el && getComputedStyle(el).display !== 'none') {
+        const rect = el.getBoundingClientRect();
+        if (rect.height > 0) {
+          safe = Math.max(safe, rect.bottom + 10);
+        }
+      }
+    }
+    document.documentElement.style.setProperty('--cm-safe-top', safe + 'px');
   }
 
   // undoes the last element change or deletion
@@ -135,7 +170,9 @@ export class AppComponent implements AfterViewInit {
     });
     this.renderer.listenGlobal('window', 'resize', (evt) => {
       this.windowService.setSize(window.innerWidth, window.innerHeight);
+      this.updateSafeTop();
     });
+    this.updateSafeTop();
     this.renderer.listenGlobal('window', 'mousedown', (evt) => {
       this.eventService.onMouseDown(evt);
     });
