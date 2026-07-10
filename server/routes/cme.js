@@ -164,7 +164,13 @@ function createCmeRouter(options = {}) {
       res.json({ data: null, catChanged: [] });
       return;
     }
-    pushHistory(JSON.parse(JSON.stringify(data)));
+    // record undo history only for meaningful changes — the app constantly
+    // PUTs pure UI-state flips (state/prep/vdate) that would drown out
+    // real edits in the undo buffer
+    const MEANINGFUL = ['coor', 'x0', 'y0', 'x1', 'y1', 'prio', 'types', 'cat', 'cmobject', 'title'];
+    if (MEANINGFUL.some((k) => JSON.stringify(data[k]) !== JSON.stringify(arg[k]))) {
+      pushHistory(JSON.parse(JSON.stringify(data)));
+    }
 
     let catChanged = [];
     if (data.title !== arg.title) {
@@ -205,6 +211,22 @@ function createCmeRouter(options = {}) {
     pushHistory(data);
     await db.removeAsync({ id }, {});
     res.json({ success: true, id, data });
+  }));
+
+  // undo — restore the most recent pre-change snapshot from the history
+  // buffer (dbprocess.js kept the same buffer but never exposed retrieval)
+  router.post('/cme/undo', asyncRoute(async (req, res) => {
+    const entry = datahistory.pop();
+    if (!entry) {
+      res.json({ data: null, message: 'history empty' });
+      return;
+    }
+    const doc = JSON.parse(JSON.stringify(entry));
+    const wasDeleted = doc.state === 'del';
+    if (wasDeleted) doc.state = '';
+    delete doc._id;
+    await db.updateAsync({ id: doc.id }, doc, { upsert: true });
+    res.json({ data: doc, wasDeleted });
   }));
 
   // ---- selection traversals ----

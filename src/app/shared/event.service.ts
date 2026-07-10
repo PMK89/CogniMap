@@ -240,6 +240,15 @@ export class EventService {
           this.marking = true;
         }
       }
+    } else if (this.cmsettings.mode === 'edit') {
+      // area selection is the default when dragging on unused canvas space
+      if (evt.target.id === 'cmap' || evt.target.id === 'cmsvg') {
+        this.startX = this.clickX;
+        this.startY = this.clickY;
+        this.dragX = 0;
+        this.dragY = 0;
+        this.selecting = true;
+      }
     } else if (this.cmsettings.mode === 'pointing') {
       if ((typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '')
       || evt.target.id === 'cmap' || evt.target.id === 'cmsvg') {
@@ -282,7 +291,7 @@ export class EventService {
           this.dragX = coor.x;
           this.dragY = coor.y;
           return dif;
-        } else if (this.cmsettings.mode === 'selecting') {
+        } else if (this.cmsettings.mode === 'selecting' || this.cmsettings.mode === 'edit') {
           if (this.selecting) {
             return {
               left: Math.min(coor.x, this.startX),
@@ -342,6 +351,22 @@ export class EventService {
       this.dragY = evt.clientY + this.windowService.WinYOffset - this.startY;
       this.elementService.moveElement(this.dragX, this.dragY);
       // console.log(this.dragX, this.dragY);
+    } else if (this.cmsettings.mode === 'edit' && this.selecting) {
+      // finish the default area selection started on unused canvas space;
+      // tiny drags stay ordinary clicks (deselection etc.)
+      this.selecting = false;
+      const endX = evt.clientX + this.windowService.WinXOffset;
+      const endY = evt.clientY + this.windowService.WinYOffset;
+      const w = Math.abs(endX - this.startX);
+      const h = Math.abs(endY - this.startY);
+      if (w > 10 && h > 10) {
+        const x0 = Math.min(endX, this.startX);
+        const y0 = Math.min(endY, this.startY);
+        this.elementService.areaSelection(x0, y0, x0 + w, y0 + h);
+        // continue in selecting mode so the selection can be moved/deleted
+        this.cmsettings.mode = 'selecting';
+        this.settingsService.updateSettings(this.cmsettings);
+      }
     } else if (this.cmsettings.mode === 'selecting' || this.cmsettings.mode === 'marking' ||
                 this.cmsettings.mode === 'quiznew') {
       console.log(evt.target);
@@ -511,10 +536,31 @@ export class EventService {
   }
 
   // handles keydown events
+  // deletes the current selection — shared by Delete and Ctrl+Delete
+  private handleDeleteKey() {
+    // deletes latest marked object
+    if (this.cmsettings.mode === 'marking') {
+      this.cmsettings.mode = 'edit';
+      this.settingsService.updateSettings(this.cmsettings);
+    }
+    if (this.cmsettings.mode === 'dragging' || this.cmsettings.mode === 'edit' || this.cmsettings.mode === 'quizedit') {
+      this.delCmd();
+    } else if (this.cmsettings.mode === 'selecting') {
+      if (this.elementService.selCMElArray.length > 0 && this.elementService.selCMEoArray.length > 0) {
+        this.elementService.delSel();
+      }
+    }
+  }
+
   public onKeyDown(evt) {
     // console.log(evt.key);
     if (this.keyPressed.indexOf(evt.key) === -1) {
       this.keyPressed.push(evt.key);
+    }
+    // plain Delete removes the selection too (legacy only bound Ctrl+Delete);
+    // typing mode is excluded by the mode checks inside
+    if (evt.key === 'Delete' && this.keyPressed.indexOf('Control') === -1) {
+      this.handleDeleteKey();
     }
     if (this.keyPressed.indexOf('Control') !== -1) {
       // uses arrow keys to choose links and move through cognimap
@@ -622,7 +668,10 @@ export class EventService {
           }
         }
       }
-      if (this.keyPressed.indexOf('n') !== -1) {
+      if (this.keyPressed.indexOf('z') !== -1) {
+        // undo the last change/deletion
+        this.elementService.undoCME();
+      } else if (this.keyPressed.indexOf('n') !== -1) {
         // turns on new element mode
         if (this.cmsettings.mode.indexOf('quiz') === -1) {
           if (this.cmsettings.mode === 'new') {
@@ -756,18 +805,7 @@ export class EventService {
       }
       // deleting function
       if (this.keyPressed.indexOf('Delete') !== -1) {
-        // deletes latest marked object
-        if (this.cmsettings.mode === 'marking') {
-          this.cmsettings.mode = 'edit';
-          this.settingsService.updateSettings(this.cmsettings);
-        }
-        if (this.cmsettings.mode === 'dragging' || this.cmsettings.mode === 'edit' || this.cmsettings.mode === 'quizedit') {
-          this.delCmd();
-        } else if (this.cmsettings.mode === 'selecting') {
-          if (this.elementService.selCMElArray.length > 0 && this.elementService.selCMEoArray.length > 0) {
-            this.elementService.delSel();
-          }
-        }
+        this.handleDeleteKey();
       }
       return true;
       // console.log(this.keyPressed);

@@ -18,6 +18,10 @@
 </div>
 <button type="button" class="cm-theme-toggle" (click)="toggleTheme()"
         title="Toggle dark/light theme" aria-label="Toggle dark/light theme">◐</button>
+<button type="button" class="cm-undo" (click)="undo()"
+        title="Undo last change (Ctrl+Z)" aria-label="Undo last change">↶</button>
+<button type="button" class="cm-tb-toggle" (click)="toggleToolbar()"
+        title="Collapse/expand toolbar" aria-label="Collapse or expand toolbar">{{tbCollapsed ? '▾' : '▴'}}</button>
 <div id="TPmain" style="display:none">
 	<div #TPid value="empty" id="TPid">
 	</div>

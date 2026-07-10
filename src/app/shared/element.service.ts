@@ -153,6 +153,23 @@ export class ElementService {
     }
   }
 
+  // undoes the last change/deletion (Ctrl+Z / undo button), then reloads
+  // the viewport so the store reflects the restored state
+  public undoCME() {
+    const res = this.electronService.ipcRenderer.sendSync('undoCME', '1');
+    if (res && res.data) {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      this.getElements({
+        l: window.pageXOffset - 2 * w,
+        r: window.pageXOffset + 3 * w,
+        t: window.pageYOffset - 2 * h,
+        b: window.pageYOffset + 3 * h
+      });
+    }
+    return res;
+  }
+
   // gets data from database/server
   public getAllElements() {
     if (this.cmap === false) {

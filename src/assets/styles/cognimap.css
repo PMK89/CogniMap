@@ -313,6 +313,132 @@ app-root:not(:has(*))::after {
   border-color: var(--cm-accent);
 }
 
+.cm-undo {
+  position: fixed;
+  right: 10px;
+  bottom: 52px;
+  z-index: 10000;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  background: var(--cm-surface);
+  color: var(--cm-text);
+  border: 1px solid var(--cm-border);
+  border-radius: 50%;
+  box-shadow: var(--cm-shadow);
+  cursor: pointer;
+  user-select: none;
+}
+
+.cm-undo:hover {
+  border-color: var(--cm-accent);
+}
+
+/* ------------------------------------------------------------
+   Toolbar sizing and collapse
+   ------------------------------------------------------------
+   The persisted layout gives the edit toolbar a fixed height that
+   clips its second row; let it grow to fit content, at most 50px
+   above the legacy 80px. A chrome-level toggle collapses it.
+   ------------------------------------------------------------ */
+
+#toolbar1 {
+  height: auto !important;
+  max-height: 130px;
+}
+
+/* every toolbar panel (.tbbox) had a hard 80px height that clipped its
+   second row of controls; let panels grow to fit, at most +50px */
+#toolbar1 .tbbox {
+  height: auto;
+  min-height: 80px;
+  max-height: 130px;
+  overflow-y: auto;
+  border-radius: var(--cm-radius-sm);
+  border-color: var(--cm-border);
+}
+
+html.cm-tb-collapsed #toolbar1 {
+  display: none !important;
+}
+
+.cm-tb-toggle {
+  position: fixed;
+  top: 0;
+  right: 10px;
+  z-index: 10001;
+  width: 34px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  background: var(--cm-surface);
+  color: var(--cm-text);
+  border: 1px solid var(--cm-border);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  box-shadow: var(--cm-shadow);
+  cursor: pointer;
+}
+
+.cm-tb-toggle:hover {
+  border-color: var(--cm-accent);
+}
+
+/* ------------------------------------------------------------
+   Dark-mode contrast for data-driven toolbar controls
+   ------------------------------------------------------------
+   Buttons/chips carry inline background colors from the user's
+   button/color configuration, designed for black text. In dark
+   mode:
+   - neutral white chips become dark chips with light content
+   - state-colored chips (active red/blue/...) keep their color
+     with dark text (the legacy contract)
+   - black SVG icon art is inverted to light
+   ------------------------------------------------------------ */
+
+:root[data-theme="dark"] #toolbar0 [style*="background"],
+:root[data-theme="dark"] #toolbar1 [style*="background"],
+:root[data-theme="dark"] #menue [style*="background"] {
+  color: #1c2430;
+}
+
+:root[data-theme="dark"] #toolbar0 [style*="background-color: rgb(255, 255, 255)"],
+:root[data-theme="dark"] #toolbar1 [style*="background-color: rgb(255, 255, 255)"],
+:root[data-theme="dark"] #menue [style*="background-color: rgb(255, 255, 255)"] {
+  background-color: var(--cm-surface-2) !important;
+  color: var(--cm-text) !important;
+}
+
+:root[data-theme="dark"] #toolbar0 img[src*="svgelements"],
+:root[data-theme="dark"] #toolbar1 img[src*="svgelements"],
+:root[data-theme="dark"] #menue img[src*="svgelements"] {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) #toolbar0 [style*="background"],
+  :root:not([data-theme="light"]) #toolbar1 [style*="background"],
+  :root:not([data-theme="light"]) #menue [style*="background"] {
+    color: #1c2430;
+  }
+  :root:not([data-theme="light"]) #toolbar0 [style*="background-color: rgb(255, 255, 255)"],
+  :root:not([data-theme="light"]) #toolbar1 [style*="background-color: rgb(255, 255, 255)"],
+  :root:not([data-theme="light"]) #menue [style*="background-color: rgb(255, 255, 255)"] {
+    background-color: var(--cm-surface-2) !important;
+    color: var(--cm-text) !important;
+  }
+  :root:not([data-theme="light"]) #toolbar0 img[src*="svgelements"],
+  :root:not([data-theme="light"]) #toolbar1 img[src*="svgelements"],
+  :root:not([data-theme="light"]) #menue img[src*="svgelements"] {
+    filter: invert(1) hue-rotate(180deg);
+  }
+}
+
 /* ------------------------------------------------------------
    Dark-theme surfaces
    ------------------------------------------------------------

@@ -155,6 +155,8 @@ export class IpcShim {
         }
         return res && res.status ? res.status : 'Can not open: ' + JSON.stringify(arg);
       }
+      case 'undoCME':
+        return this.xhrSync('POST', '/api/cme/undo', {});
       case 'getClipboard':
         return this.lastPasteAction;
       // dead legacy channels (had no main-process handler): keep old

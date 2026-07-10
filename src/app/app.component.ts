@@ -78,6 +78,22 @@ export class AppComponent implements AfterViewInit {
                 // Sends Window Parameters
               }
 
+  public tbCollapsed = false;
+
+  // collapses/expands the edit toolbar (persisted in localStorage)
+  public toggleToolbar() {
+    this.tbCollapsed = !this.tbCollapsed;
+    document.documentElement.classList.toggle('cm-tb-collapsed', this.tbCollapsed);
+    try {
+      localStorage.setItem('cognimap-tb-collapsed', this.tbCollapsed ? '1' : '0');
+    } catch (err) { /* storage unavailable */ }
+  }
+
+  // undoes the last element change or deletion
+  public undo() {
+    this.elementService.undoCME();
+  }
+
   // toggles between light and dark theme (persisted in localStorage)
   public toggleTheme() {
     const root = document.documentElement;
@@ -93,6 +109,13 @@ export class AppComponent implements AfterViewInit {
 
   // after viewinit
   public ngAfterViewInit() {
+    // restore persisted toolbar collapse state
+    try {
+      if (localStorage.getItem('cognimap-tb-collapsed') === '1') {
+        this.tbCollapsed = true;
+        document.documentElement.classList.add('cm-tb-collapsed');
+      }
+    } catch (err) { /* storage unavailable */ }
     this.windowService.setOffset(window.pageXOffset, window.pageYOffset);
     window.scrollTo(this.cmsettings.coor.x, this.cmsettings.coor.y);
     // load the initial viewport explicitly: when the browser restores the
