@@ -381,6 +381,8 @@ export class Scene3dService {
       const p = this.positions.get(doc.id);
       if (p) { sprite.position.set(p.x, p.y + 6.5, p.z); }
     }
+    this.lastLabelCull = 0;
+    this.cullLabels();
     this.requestRender();
   }
 
@@ -555,12 +557,47 @@ export class Scene3dService {
 
   public requestRender() { this.needsRender = true; }
 
+  private lastLabelCull = 0;
+
+  /**
+   * Distance-based label policy: only the labels nearest the camera stay
+   * visible (plus selected/hovered), keeping large maps legible instead
+   * of a label soup. Throttled — runs at most every 250ms of movement.
+   */
+  private cullLabels() {
+    const now = performance.now();
+    if (now - this.lastLabelCull < 250) { return; }
+    this.lastLabelCull = now;
+    const camPos = this.camera.position;
+    const budget = this.largeMode ? 40 : 90;
+    const entries: Array<{ id: number, sprite: any, d: number }> = [];
+    this.labelSprites.forEach((sprite, id) => {
+      entries.push({ id, sprite, d: sprite.position.distanceTo(camPos) });
+    });
+    entries.sort((a, b) => a.d - b.d);
+    for (let i = 0; i < entries.length; i++) {
+      const e = entries[i];
+      const keep = i < budget || this.selectionIds.has(e.id) || e.id === this.hoverId;
+      if (e.sprite.visible !== keep) {
+        e.sprite.visible = keep;
+        this.needsRender = true;
+      }
+      if (keep) {
+        // gentle distance attenuation so far labels do not dominate
+        const s = Math.max(0.7, Math.min(1.6, e.d / 140));
+        const aspect = e.sprite.material.map.image.width / e.sprite.material.map.image.height;
+        e.sprite.scale.set(5.2 * aspect * s, 5.2 * s, 1);
+      }
+    }
+  }
+
   private startLoop() {
     if (this.rafActive) { return; }
     this.rafActive = true;
     const tick = () => {
       if (this.disposed) { return; }
       const damping = this.controls && this.controls.update();
+      if (damping) { this.cullLabels(); }
       if (this.needsRender || damping) {
         this.needsRender = false;
         this.renderer.render(this.scene, this.camera);
