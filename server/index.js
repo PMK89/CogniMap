@@ -9,6 +9,7 @@ const { createConfigRouter } = require('./routes/config');
 const { createMediaRouter } = require('./routes/media');
 const { createAssetsRouter } = require('./routes/assets');
 const { createCmeRouter } = require('./routes/cme');
+const { createViz3dRouter } = require('./routes/viz3d');
 
 /**
  * CogniMap local backend.
@@ -36,6 +37,7 @@ function createApp(options = {}) {
   app.use('/api/media', createMediaRouter());
   app.use('/api/assets', createAssetsRouter());
   app.use('/api', createCmeRouter(options));
+  app.use('/api', createViz3dRouter());
 
   // media file access for pdf/video/audio/txt content referenced by maps;
   // only src/ and dist/ subtrees are exposed

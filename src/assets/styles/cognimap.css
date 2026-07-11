@@ -460,6 +460,101 @@ html.cm-w0-open.cm-w1-open #widgets1 iframe[src*="assets/widgets"] {
   border-color: var(--cm-accent);
 }
 
+.cm-3d-toggle {
+  position: fixed;
+  right: 10px;
+  bottom: 178px;
+  z-index: 10000;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--cm-surface);
+  color: var(--cm-text);
+  border: 1px solid var(--cm-border);
+  border-radius: 50%;
+  box-shadow: var(--cm-shadow);
+  cursor: pointer;
+  user-select: none;
+}
+
+.cm-3d-toggle:hover {
+  border-color: var(--cm-accent);
+}
+
+/* ------------------------------------------------------------
+   3D workspace overlay
+   ------------------------------------------------------------
+   Sits above the (still mounted) 2D canvas and below the toolbars,
+   so all existing panels, widgets and editors keep working while
+   the 3D scene shows the same map.
+   ------------------------------------------------------------ */
+
+#cmap3d {
+  position: fixed;
+  inset: 0;
+  z-index: 400; /* below fixed toolbars (z 515+) and widget panels */
+  background: var(--cm-bg);
+}
+
+#cmap3d app-cmap3d {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cmap3d-host canvas {
+  display: block;
+}
+
+html.cm-3d body {
+  overflow: hidden; /* 3D viewport does not scroll the 500k-px canvas */
+}
+
+.cmap3d-toolbar {
+  background: var(--cm-surface);
+  border: 1px solid var(--cm-border);
+  box-shadow: var(--cm-shadow);
+  color: var(--cm-text);
+  font-family: var(--cm-font);
+}
+
+.cmap3d-toolbar label {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.cmap3d-toolbar select,
+.cmap3d-toolbar button {
+  font-family: var(--cm-font);
+  font-size: 12px;
+  color: var(--cm-text);
+  background: var(--cm-surface-2);
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius-sm);
+  padding: 3px 8px;
+  cursor: pointer;
+}
+
+.cmap3d-toolbar button:hover:not(:disabled),
+.cmap3d-toolbar select:hover {
+  border-color: var(--cm-accent);
+}
+
+.cmap3d-toolbar button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.cmap3d-failure {
+  color: var(--cm-text);
+  font-family: var(--cm-font);
+}
+
 /* ------------------------------------------------------------
    Toolbar sizing and collapse
    ------------------------------------------------------------

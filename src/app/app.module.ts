@@ -42,6 +42,7 @@ import { TbQuizzingComponent } from './toolbar/tb-quizzing/tb-quizzing.component
 import { TbContentComponent } from './toolbar/tb-content/tb-content.component';
 import { TbSettingsComponent } from './toolbar/tb-settings/tb-settings.component';
 import { TbSpecharsComponent } from './toolbar/tb-spechars/tb-spechars.component';
+import { Cmap3dComponent } from './graph3d/cmap3d.component';
 
 // Services and Reducers
 import { BackendService } from './shared/backend.service';
@@ -123,7 +124,8 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
                   TbQuizzingComponent,
                   TbContentComponent,
                   TbSettingsComponent,
-                  TbSpecharsComponent],
+                  TbSpecharsComponent,
+                  Cmap3dComponent],
   providers: [BackendService,
               LayoutService,
               WindowService,

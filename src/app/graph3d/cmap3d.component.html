@@ -1,0 +1,25 @@
+<div class="cmap3d-shell">
+  <div class="cmap3d-toolbar" *ngIf="!failure">
+    <label>Layout
+      <select [(ngModel)]="preset" (change)="changePreset()" aria-label="3D layout preset" title="Layout preset">
+        <option *ngFor="let p of presets" value={{p}}>{{p}}</option>
+      </select>
+    </label>
+    <button type="button" (click)="relayout()" title="Recompute layout (discards manual 3D positions)">Relayout</button>
+    <button type="button" (click)="frameAll()" title="Frame the complete map">Frame all</button>
+    <button type="button" (click)="focusSelected()" [disabled]="!selectedId" title="Focus the selected node">Focus</button>
+    <label *ngIf="selectedId">Shape
+      <select [(ngModel)]="selectedShape" (change)="changeShape()" aria-label="Node shape" title="Geometry of the selected node">
+        <option *ngFor="let s of shapes" value={{s}}>{{s}}</option>
+      </select>
+    </label>
+    <span class="cmap3d-status" *ngIf="selectedId">▸ {{selectedTitle || selectedId}}</span>
+    <span class="cmap3d-status">{{nodeCount}} nodes</span>
+  </div>
+  <div class="cmap3d-failure" *ngIf="failure" role="alert">
+    <h3>3D view unavailable</h3>
+    <p>{{failure}}</p>
+    <p>The classic 2D map remains fully functional — switch back with the 3D toggle.</p>
+  </div>
+  <div #host class="cmap3d-host" [style.display]="failure ? 'none' : 'block'"></div>
+</div>

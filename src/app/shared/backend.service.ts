@@ -157,6 +157,8 @@ export class IpcShim {
       }
       case 'undoCME':
         return this.xhrSync('POST', '/api/cme/undo', {});
+      case 'loadViz3d':
+        return this.xhrSync('GET', '/api/viz3d');
       case 'redoCME':
         return this.xhrSync('POST', '/api/cme/redo', {});
       case 'getClipboard':
@@ -272,6 +274,9 @@ export class IpcShim {
         this.request('POST', '/api/quiz/answer', arg).then((res) => {
           if (res && !res.unchanged) { this.emit('loadedQuizes', res); }
         });
+        return;
+      case 'saveViz3d':
+        this.request('PUT', '/api/viz3d', arg);
         return;
       case 'openWidget':
         // old behavior: open a native BrowserWindow — now a browser popup

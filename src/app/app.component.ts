@@ -56,6 +56,17 @@ export class AppComponent implements AfterViewInit {
               private quizService: QuizService,
               private store: Store<CMStore>,
               private renderer: Renderer) {
+                // restore persisted view preferences before first change detection
+                try {
+                  if (localStorage.getItem('cognimap-tb-collapsed') === '1') {
+                    this.tbCollapsed = true;
+                    document.documentElement.classList.add('cm-tb-collapsed');
+                  }
+                  if (localStorage.getItem('cognimap-3d') === '1') {
+                    this.view3d = true;
+                    document.documentElement.classList.add('cm-3d');
+                  }
+                } catch (err) { /* storage unavailable */ }
                 this.windowService.setSize(window.innerWidth, window.innerHeight);
                 this.windowService.setOffset(window.pageXOffset, window.pageYOffset);
                 this.settingsService.getSettings();
@@ -89,6 +100,17 @@ export class AppComponent implements AfterViewInit {
               }
 
   public tbCollapsed = false;
+  public view3d = false;
+
+  // toggles the 3D workspace overlay (persisted client preference); the
+  // 2D canvas stays mounted underneath as the planar/legacy fallback
+  public toggle3d() {
+    this.view3d = !this.view3d;
+    document.documentElement.classList.toggle('cm-3d', this.view3d);
+    try {
+      localStorage.setItem('cognimap-3d', this.view3d ? '1' : '0');
+    } catch (err) { /* storage unavailable */ }
+  }
 
   // collapses/expands the edit toolbar (persisted in localStorage)
   public toggleToolbar() {
@@ -190,13 +212,8 @@ export class AppComponent implements AfterViewInit {
 
   // after viewinit
   public ngAfterViewInit() {
-    // restore persisted toolbar collapse state
-    try {
-      if (localStorage.getItem('cognimap-tb-collapsed') === '1') {
-        this.tbCollapsed = true;
-        document.documentElement.classList.add('cm-tb-collapsed');
-      }
-    } catch (err) { /* storage unavailable */ }
+    // (persisted toolbar/3D state is restored in the constructor — doing
+    // it here trips Angular's ExpressionChangedAfterItHasBeenChecked)
     this.windowService.setOffset(window.pageXOffset, window.pageYOffset);
     const priorX = window.pageXOffset;
     const priorY = window.pageYOffset;

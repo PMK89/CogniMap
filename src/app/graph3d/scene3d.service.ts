@@ -390,7 +390,7 @@ export class Scene3dService {
 
   public setSelection(ids: number[]) {
     this.selectionIds = new Set(ids);
-    for (const [id, mesh] of this.nodeMeshes) {
+    this.nodeMeshes.forEach((mesh, id) => {
       const selected = this.selectionIds.has(id);
       const hovered = id === this.hoverId;
       if (selected || hovered) {
@@ -405,7 +405,7 @@ export class Scene3dService {
         mesh.material.emissive = new THREE.Color(0x000000);
         mesh.material.emissiveIntensity = 0;
       }
-    }
+    });
     this.requestRender();
   }
 
@@ -521,7 +521,9 @@ export class Scene3dService {
   public frameAll() {
     if (!this.positions.size) { return; }
     const box = new THREE.Box3();
-    for (const [, p] of this.positions) { box.expandByPoint(new THREE.Vector3(p.x, p.y, p.z)); }
+    // NOTE: never use for..of over Maps here — the legacy TS target (es5,
+    // no downlevelIteration) silently compiles it to a broken loop
+    this.positions.forEach((p) => box.expandByPoint(new THREE.Vector3(p.x, p.y, p.z)));
     const center = box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3()).length() || 100;
     this.controls.target.copy(center);

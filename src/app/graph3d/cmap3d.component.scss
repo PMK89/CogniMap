@@ -1,0 +1,40 @@
+.cmap3d-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.cmap3d-host {
+  width: 100%;
+  height: 100%;
+}
+
+.cmap3d-toolbar {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 5;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.cmap3d-status {
+  opacity: 0.75;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cmap3d-failure {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 24px;
+}

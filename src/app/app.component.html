@@ -1,6 +1,9 @@
 <div [ngStyle]="cmapStyle" id="cmap" titel="cmap">
 	<app-cmap></app-cmap>
 </div>
+<div id="cmap3d" *ngIf="view3d">
+	<app-cmap3d></app-cmap3d>
+</div>
 <div [ngStyle]="toolbar0Style" id="toolbar0">
 	<app-toolbar0></app-toolbar0>
 </div>
@@ -22,6 +25,9 @@
 <button type="button" class="cm-theme-toggle" (click)="toggleTheme()"
         (mousedown)="$event.stopPropagation()" (mouseup)="$event.stopPropagation()"
         title="Toggle dark/light theme" aria-label="Toggle dark/light theme">◐</button>
+<button type="button" class="cm-3d-toggle" (click)="toggle3d()"
+        (mousedown)="$event.stopPropagation()" (mouseup)="$event.stopPropagation()"
+        title="Toggle 3D workspace" aria-label="Toggle 3D workspace">{{view3d ? '2D' : '3D'}}</button>
 <button type="button" class="cm-undo" (click)="undo()"
         (mousedown)="$event.stopPropagation()" (mouseup)="$event.stopPropagation()"
         title="Undo last change (Ctrl+Z)" aria-label="Undo last change">↶</button>
