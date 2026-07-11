@@ -165,6 +165,16 @@ export class AppComponent implements AfterViewInit {
     this.elementService.redoCME();
   }
 
+  // spaces the nodes of the current area selection evenly
+  public arrange() {
+    const moved = this.elementService.arrangeSelection();
+    if (moved === -1) {
+      alert('Please select an area first (Ctrl+drag on empty space)!');
+    } else if (moved === 0) {
+      alert('Select at least three nodes to arrange.');
+    }
+  }
+
   // toggles between light and dark theme (persisted in localStorage)
   public toggleTheme() {
     const root = document.documentElement;

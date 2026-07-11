@@ -436,6 +436,30 @@ html.cm-w0-open.cm-w1-open #widgets1 iframe[src*="assets/widgets"] {
   border-color: var(--cm-accent);
 }
 
+.cm-arrange {
+  position: fixed;
+  right: 10px;
+  bottom: 136px;
+  z-index: 10000;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  background: var(--cm-surface);
+  color: var(--cm-text);
+  border: 1px solid var(--cm-border);
+  border-radius: 50%;
+  box-shadow: var(--cm-shadow);
+  cursor: pointer;
+  user-select: none;
+}
+
+.cm-arrange:hover {
+  border-color: var(--cm-accent);
+}
+
 /* ------------------------------------------------------------
    Toolbar sizing and collapse
    ------------------------------------------------------------

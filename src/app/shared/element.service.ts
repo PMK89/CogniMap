@@ -172,6 +172,98 @@ export class ElementService {
     return res;
   }
 
+  /**
+   * Evenly distributes the nodes of the current area selection while
+   * keeping the map structure intact: x and y coordinates are clustered
+   * (nearby columns/rows stay together and become exactly aligned) and
+   * the clusters are redistributed at uniform intervals across the
+   * selection's original extent. Links follow their nodes.
+   * Returns the number of moved nodes, 0 if too few, -1 if no selection.
+   */
+  public arrangeSelection(): number {
+    if (!this.selCME || this.selCME.length === 0) {
+      return -1;
+    }
+    const nodes = [];
+    for (const key in this.selCME) {
+      if (this.selCME[key] && this.selCME[key].id > 0) {
+        nodes.push(this.CMEtoCMEol(JSON.parse(JSON.stringify(this.selCME[key]))));
+      }
+    }
+    if (nodes.length < 3) {
+      return 0;
+    }
+    const xTargets = this.evenTargets(nodes.map((n) => n.coor.x));
+    const yTargets = this.evenTargets(nodes.map((n) => n.coor.y));
+    let moved = 0;
+    for (let i = 0; i < nodes.length; i++) {
+      const cme = nodes[i];
+      const dx = Math.round(xTargets[i] - cme.coor.x);
+      const dy = Math.round(yTargets[i] - cme.coor.y);
+      if (dx === 0 && dy === 0) {
+        continue;
+      }
+      cme.coor.x += dx;
+      cme.coor.y += dy;
+      cme.x0 += dx;
+      cme.x1 += dx;
+      cme.y0 += dy;
+      cme.y1 += dy;
+      cme.prep = '';
+      cme.state = '';
+      this.updateCMEol(cme);
+      // links follow the node — same propagation the drag path uses
+      for (const j in cme.cmobject.links) {
+        if (cme.cmobject.links[j]) {
+          const link = cme.cmobject.links[j];
+          const conxy = this.conectionCoor(cme, link);
+          this.changeLink(link.id, conxy[0], conxy[1], link.start);
+        }
+      }
+      moved++;
+    }
+    return moved;
+  }
+
+  /**
+   * Clusters 1-D coordinates (values closer than the tolerance form one
+   * row/column and snap to their shared center) and spreads the cluster
+   * centers evenly across the original min..max extent, preserving order.
+   */
+  private evenTargets(values: number[]): number[] {
+    // only truly-aligned coordinates count as one row/column — a larger
+    // tolerance merges distinct rows and clumps the result
+    const TOL = 12;
+    const idx = values.map((v, i) => i).sort((a, b) => values[a] - values[b]);
+    const clusters: number[][] = [];
+    for (const i of idx) {
+      const last = clusters.length ? clusters[clusters.length - 1] : undefined;
+      if (last && values[i] - values[last[last.length - 1]] <= TOL) {
+        last.push(i);
+      } else {
+        clusters.push([i]);
+      }
+    }
+    const centers = clusters.map((c) => c.reduce((s, i) => s + values[i], 0) / c.length);
+    const targets = values.slice();
+    if (clusters.length > 1) {
+      const min = centers[0];
+      const max = centers[centers.length - 1];
+      const step = (max - min) / (clusters.length - 1);
+      clusters.forEach((c, k) => {
+        const t = min + k * step;
+        for (const i of c) {
+          targets[i] = t;
+        }
+      });
+    } else {
+      for (const i of clusters[0]) {
+        targets[i] = centers[0];
+      }
+    }
+    return targets;
+  }
+
   private reloadViewport() {
     const w = window.innerWidth;
     const h = window.innerHeight;
