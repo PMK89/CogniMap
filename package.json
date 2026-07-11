@@ -74,6 +74,7 @@
     "sm2-plus": "^1.0.5",
     "snapsvg": "^0.5.1",
     "snapsvg-cjs": "0.0.4",
+    "three": "^0.160.1",
     "ts-helpers": "^1.1.2",
     "tslib": "^1.14.1",
     "web-animations-js": "^2.3.1",
