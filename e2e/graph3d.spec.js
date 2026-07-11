@@ -38,7 +38,7 @@ function scene(page) {
 }
 
 const probe = (page, expr) => page.evaluate((e) => {
-  const inst = window['ng'].probe(document.querySelector('app-cmap3d')).componentInstance;
+  const inst = window['__cm3d'];
   // eslint-disable-next-line no-new-func
   return new Function('inst', 'scene', 'return ' + e)(inst, inst.scene);
 }, expr);
@@ -87,11 +87,11 @@ test('node selection in 3D syncs the application-wide selection', async ({ page 
   await open3d(page);
   const id = await probe(page, `inst['docs'].filter(d => d && d.id > 0)[0].id`);
   await page.evaluate((nid) => {
-    window['ng'].probe(document.querySelector('app-cmap3d')).componentInstance.selectNode(nid, false);
+    window['__cm3d'].selectNode(nid, false);
   }, id);
   await page.waitForTimeout(600);
   const sel = await page.evaluate(() => {
-    const es = window['ng'].probe(document.querySelector('app-root')).componentInstance.elementService;
+    const es = window['__cm3d']['elementService'];
     return es.selCMEo && es.selCMEo.id;
   });
   expect(sel).toBe(id);
@@ -119,7 +119,7 @@ test('manual node position persists across reload', async ({ page }) => {
   await open3d(page);
   const id = await probe(page, `inst['docs'].filter(d => d && d.id > 0)[0].id`);
   await page.evaluate((nid) => {
-    const inst = window['ng'].probe(document.querySelector('app-cmap3d')).componentInstance;
+    const inst = window['__cm3d'];
     inst.persistPosition(nid, { x: 111, y: 22, z: 33 });
     inst.saveViz(true);
   }, id);
@@ -128,7 +128,7 @@ test('manual node position persists across reload', async ({ page }) => {
   await page.waitForSelector('#cmap3d canvas');
   await page.waitForTimeout(2500);
   const p = await page.evaluate((nid) => {
-    const inst = window['ng'].probe(document.querySelector('app-cmap3d')).componentInstance;
+    const inst = window['__cm3d'];
     return inst.scene['positions'].get(nid);
   }, id);
   expect(Math.round(p.x)).toBe(111);
@@ -140,7 +140,7 @@ test('node geometry override applies and persists', async ({ page }) => {
   await open3d(page);
   const id = await probe(page, `inst['docs'].filter(d => d && d.id > 0)[0].id`);
   await page.evaluate((nid) => {
-    const inst = window['ng'].probe(document.querySelector('app-cmap3d')).componentInstance;
+    const inst = window['__cm3d'];
     inst.selectNode(nid, false);
     inst.selectedShape = 'torus';
     inst.changeShape();
@@ -148,7 +148,7 @@ test('node geometry override applies and persists', async ({ page }) => {
   }, id);
   await page.waitForTimeout(800);
   const shape = await page.evaluate((nid) => {
-    const inst = window['ng'].probe(document.querySelector('app-cmap3d')).componentInstance;
+    const inst = window['__cm3d'];
     return inst.scene['nodeMeshes'].get(nid).userData.shape;
   }, id);
   expect(shape).toBe('torus');

@@ -46,6 +46,9 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
               private store: Store<CMStore>) {}
 
   public ngOnInit() {
+    // deliberate diagnostic/test handle (works in production builds where
+    // Angular's dev-mode ng.probe is unavailable)
+    (window as any).__cm3d = this;
     // load persisted visualization state first (defaults if absent)
     const saved = this.backend.ipcRenderer.sendSync('loadViz3d', '1');
     if (saved && saved.version) {
