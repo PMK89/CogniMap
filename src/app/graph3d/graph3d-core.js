@@ -478,7 +478,9 @@ function relaxCollisions(pos, minDist, passes, radii) {
   if (radii) radii.forEach((r) => { if (r > maxR) maxR = r; });
   const cell = radii ? maxR * 2 : md;
   const keyOf = (p) => Math.floor(p.x / cell) + ':' + Math.floor(p.y / cell) + ':' + Math.floor(p.z / cell);
-  const passCount = ids.length > 20000 ? 1 : (passes || 3);
+  // two passes even on huge maps: one pass leaves visibly interpenetrating
+  // sheets in dense clusters (still bounded: grid relax is ~1.3 s/pass at 41k)
+  const passCount = ids.length > 20000 ? 2 : (passes || 3);
   for (let pass = 0; pass < passCount; pass++) {
     // rebuild the grid each pass (positions move)
     const grid = new Map();

@@ -57,6 +57,7 @@ export class Scene3dService {
   private labelSprites: Map<number, any> = new Map();
   private sheetTexts: Map<number, any[]> = new Map();
   private richPending: Set<number> = new Set();
+  private lastBillboardPos: any = null;
   private branchGroup: any;
   private crossGroup: any;
   private nodeGroup: any;
@@ -263,6 +264,9 @@ export class Scene3dService {
   private colorFor(doc: any): string {
     const c = this.parseCmo(doc);
     const style = c.style && c.style.object;
+    // color1 (the accent/stroke color) gives distinct topic regions at a
+    // distance; color0 is often near-black text color and reads as a dark
+    // mass (the near cards stream their real 2D rendering anyway)
     const col = style && (style.color1 || style.color0);
     if (col && /^#[0-9a-fA-F]{3,8}$/.test(col) && col !== '#ffffff') { return col; }
     // depth-tinted neutral default
@@ -285,6 +289,11 @@ export class Scene3dService {
       const s = core.sheetSize(doc);
       mesh.scale.set(s.w, s.h, 0.5);
     }
+    // static matrices: with tens of thousands of meshes, per-render auto
+    // matrix recomposition dominates the frame. Every code path that moves
+    // or rotates a node calls updateMatrix() explicitly.
+    mesh.matrixAutoUpdate = false;
+    mesh.updateMatrix();
     this.nodeGroup.add(mesh);
     this.nodeMeshes.set(doc.id, mesh);
   }
@@ -317,6 +326,9 @@ export class Scene3dService {
       m.position.z = f.z;
       m.rotation.y = f.ry;
       m.userData = { shared: true }; // plane geometry is cached/shared
+      // local transform never changes; the parent's matrix carries drags
+      m.matrixAutoUpdate = false;
+      m.updateMatrix();
       mesh.add(m); // inherits the node's scale, position and drags
       faces.push(m);
     });
@@ -335,7 +347,7 @@ export class Scene3dService {
   private upgradeSheet(id: number) {
     const faces = this.sheetTexts.get(id);
     if (!faces || faces[0].userData.rich || this.richPending.has(id)) { return; }
-    if (this.richPending.size >= 10) { return; } // in-flight cap
+    if (this.richPending.size >= 6) { return; } // in-flight cap
     this.richPending.add(id);
     fetch('/api/cme/id/' + id)
       .then((r) => (r.ok ? r.json() : null))
@@ -364,8 +376,11 @@ export class Scene3dService {
         const faces = this.sheetTexts.get(doc.id);
         if (!faces) { return; } // evicted while loading
         const canvas = document.createElement('canvas');
-        canvas.width = 512;
-        canvas.height = Math.max(56, Math.min(512, Math.round(512 * (h + 2 * pad) / (w + 2 * pad))));
+        // resolution scales with the sheet's real size so large diagrams
+        // stay sharp at reading distance
+        const s = core.sheetSize(doc);
+        canvas.width = Math.max(384, Math.min(800, Math.round(s.w * 26)));
+        canvas.height = Math.max(56, Math.min(800, Math.round(canvas.width * (h + 2 * pad) / (w + 2 * pad))));
         const ctx = canvas.getContext('2d');
         const dark = this.scene.background && this.scene.background.r < 0.5;
         ctx.fillStyle = dark ? '#14181f' : '#ffffff';
@@ -373,6 +388,10 @@ export class Scene3dService {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         const tex = new THREE.CanvasTexture(canvas);
         tex.anisotropy = 4;
+        // streamed content: skip mipmap generation — halves the GPU upload
+        // cost that caused hitches while flying into new areas
+        tex.generateMipmaps = false;
+        tex.minFilter = THREE.LinearFilter;
         const back = tex.clone();
         back.wrapS = THREE.RepeatWrapping;
         back.repeat.x = -1;
@@ -462,6 +481,8 @@ export class Scene3dService {
     ctx.fillText(shown, canvas.width / 2, canvas.height / 2);
     const tex = new THREE.CanvasTexture(canvas);
     tex.anisotropy = 4;
+    tex.generateMipmaps = false;
+    tex.minFilter = THREE.LinearFilter;
     return tex;
   }
 
@@ -491,7 +512,7 @@ export class Scene3dService {
     } else if (structural.length) {
       // one draw call for every branch: unit cylinder (base at origin,
       // pointing +Y) scaled to each edge's length and rotated into place
-      const geo = new THREE.CylinderGeometry(0.16, 0.16, 1, 5, 1, true);
+      const geo = new THREE.CylinderGeometry(0.09, 0.09, 1, 5, 1, true);
       geo.translate(0, 0.5, 0);
       const inst = new THREE.InstancedMesh(geo, this.branchMaterial(), structural.length);
       inst.userData.sharedMat = true;
@@ -529,8 +550,11 @@ export class Scene3dService {
 
   private branchMaterial(): any {
     if (!this.matCache['__branch']) {
+      // light and slightly translucent: connections should recede behind
+      // the content, not read as dark scaffolding in the foreground
       this.matCache['__branch'] = new THREE.MeshStandardMaterial({
-        color: 0x8a93a6, roughness: 0.9, metalness: 0,
+        color: 0xaab3c2, roughness: 1, metalness: 0,
+        transparent: true, opacity: 0.62,
       });
     }
     return this.matCache['__branch'];
@@ -694,12 +718,14 @@ export class Scene3dService {
         const hit = new THREE.Vector3();
         if (this.raycaster.ray.intersectPlane(this.dragState.plane, hit)) {
           this.dragState.mesh.position.copy(hit);
+          this.dragState.mesh.updateMatrix();
           const sprite = this.labelSprites.get(this.dragState.id);
           if (sprite) { sprite.position.set(hit.x, hit.y + 3.4, hit.z); }
           // children move relative to the parent
           for (let i = 0; i < this.dragState.subtree.length; i++) {
             const s = this.dragState.subtree[i];
             s.mesh.position.set(hit.x + s.off.x, hit.y + s.off.y, hit.z + s.off.z);
+            s.mesh.updateMatrix();
             const sp = this.labelSprites.get(s.id);
             if (sp) { sp.position.set(s.mesh.position.x, s.mesh.position.y + 3.4, s.mesh.position.z); }
           }
@@ -927,6 +953,21 @@ export class Scene3dService {
     if (now - this.lastLabelCull < 250) { this.needsRender = true; return; }
     this.lastLabelCull = now;
     const camPos = this.camera.position;
+    // signpost billboarding: sheets rotate around Y toward the camera so
+    // they are never seen edge-on as slivers — from every angle the map
+    // reads like cards, exactly as in 2D (text planes are children and
+    // turn with their node). Only when the camera actually moved, so an
+    // idle scene stays idle.
+    if (!this.lastBillboardPos || this.lastBillboardPos.distanceTo(camPos) > 0.5) {
+      this.lastBillboardPos = camPos.clone();
+      this.nodeMeshes.forEach((mesh) => {
+        if (mesh.userData.shape === 'sheet') {
+          mesh.rotation.y = Math.atan2(camPos.x - mesh.position.x, camPos.z - mesh.position.z);
+          mesh.updateMatrix();
+        }
+      });
+      this.needsRender = true;
+    }
     const budget = this.largeMode ? 220 : 300;
     // nearest nodes to the camera (single pass over positions, ~ms at 40k)
     const near: Array<{ id: number, d: number }> = [];
