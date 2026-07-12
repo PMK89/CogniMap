@@ -43,6 +43,17 @@ positions are persisted overrides that always win; adding a node does
 not move existing anchored nodes (`layered`/`planar` presets anchor to
 persisted 2D coordinates — covered by a unit test).
 
+## Density and spacing
+
+Legacy pixels map to scene units at 1/12 so typical 2D spacing (~100 px)
+clears the ~8-unit node geometry instead of overlapping it. Ring/shell
+presets grow their radius with the square root of the per-depth node
+count (a fixed step packs thousands of nodes of a large map onto one
+circle — a solid wall). Structural branches render as thin cylinders
+with a real diameter comparable to the 2D line thickness (one instanced
+draw call on large maps); labels are camera-aware — sprites exist for
+the nodes nearest the camera and follow it.
+
 ## Collision relaxation
 
 Spatial-hash grid (cell = min distance), bounded passes, deterministic

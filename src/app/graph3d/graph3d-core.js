@@ -235,7 +235,11 @@ const GOLDEN = Math.PI * (3 - Math.sqrt(5));
  * Legacy 2D coordinates land on the XZ plane (2D y -> scene z) so the
  * user's spatial memory of the map is preserved; scene y is "height".
  */
-const SCALE = 1 / 40; // legacy px -> scene units
+// legacy px -> scene units. Node geometry is ~6-8 units wide while typical
+// 2D spacing is ~100px; at 1/40 that mapped to 2.5 units — nodes physically
+// overlapped and collision relaxation packed them into a solid wall. 1/12
+// maps 100px to ~8.3 units: real 2D spacing clears real node size.
+const SCALE = 1 / 12;
 
 function centerOf(graph, ids) {
   let cx = 0;
@@ -300,19 +304,34 @@ function radialAssign(h, sizes, root, cx, cz, a0, a1, ringStep, pos, depthY, she
   }
 }
 
+/**
+ * Ring/shell radius must grow with how many nodes share a depth: a fixed
+ * step packs thousands of nodes of a large map onto one circle — the
+ * "solid wall". The multiplier is 1 for small maps and grows with the
+ * square root of the crowd so the circumference keeps pace.
+ */
+function crowdFactor(h) {
+  const count = {};
+  h.depth.forEach((d) => { count[d] = (count[d] || 0) + 1; });
+  return (depth) => Math.max(1, Math.sqrt((count[depth] || 1) / 60));
+}
+
 function layoutRadialTree(graph, h) {
   const sizes = subtreeSizes(h);
+  const crowd = crowdFactor(h);
   const pos = new Map();
   for (const root of h.roots) {
     const comp = h.components[h.roots.indexOf(root)];
     const c = centerOf(graph, comp);
-    radialAssign(h, sizes, root, c.x * SCALE, c.z * SCALE, 0, Math.PI * 2, 22, pos, null, null);
+    radialAssign(h, sizes, root, c.x * SCALE, c.z * SCALE, 0, Math.PI * 2, 22, pos, null,
+      (depth) => depth * 22 * crowd(depth));
   }
   return pos;
 }
 
 function layoutSpherical(graph, h) {
   const sizes = subtreeSizes(h);
+  const crowd = crowdFactor(h);
   const pos = new Map();
   for (const root of h.roots) {
     const comp = h.components[h.roots.indexOf(root)];
@@ -321,7 +340,7 @@ function layoutSpherical(graph, h) {
     radialAssign(
       h, sizes, root, c.x * SCALE, c.z * SCALE, 0, Math.PI * 2, 0, pos,
       (depth, id) => (depth === 0 ? 0 : Math.sin(id * GOLDEN) * depth * 12),
-      (depth) => depth * 20
+      (depth) => depth * 20 * crowd(depth)
     );
   }
   return pos;
@@ -491,7 +510,7 @@ function relaxCollisions(pos, minDist, passes) {
 function layoutCognitiveTree(graph, h) {
   const sizes = subtreeSizes(h);
   const pos = new Map();
-  const STEP = 24;
+  const STEP = 42;
   for (let ci = 0; ci < h.roots.length; ci++) {
     const root = h.roots[ci];
     const comp = h.components[ci];
@@ -545,15 +564,17 @@ function layoutCognitiveTree(graph, h) {
   return pos;
 }
 
+// relaxation min distances comfortably clear the ~8-unit node geometry so
+// neighbours never look fused into a wall
 const LAYOUTS = {
-  'cognitive-tree': (g, h) => relaxCollisions(layoutCognitiveTree(g, h), 7, 2),
+  'cognitive-tree': (g, h) => relaxCollisions(layoutCognitiveTree(g, h), 12, 2),
   'legacy-planar': (g, h) => layoutLegacyPlanar(g),
-  'layered-depth': (g, h) => relaxCollisions(layoutLayeredDepth(g, h), 6, 2),
-  'radial-tree': (g, h) => relaxCollisions(layoutRadialTree(g, h), 8, 3),
-  'spherical': (g, h) => relaxCollisions(layoutSpherical(g, h), 8, 3),
-  'organic': (g, h) => relaxCollisions(layoutOrganic(g, h), 8, 3),
+  'layered-depth': (g, h) => relaxCollisions(layoutLayeredDepth(g, h), 10, 2),
+  'radial-tree': (g, h) => relaxCollisions(layoutRadialTree(g, h), 12, 3),
+  'spherical': (g, h) => relaxCollisions(layoutSpherical(g, h), 12, 3),
+  'organic': (g, h) => relaxCollisions(layoutOrganic(g, h), 12, 3),
   'force-3d': (g, h) => layoutForce3d(g, h),
-  'compact-clusters': (g, h) => relaxCollisions(layoutCompactClusters(g, h), 6, 3),
+  'compact-clusters': (g, h) => relaxCollisions(layoutCompactClusters(g, h), 10, 3),
 };
 
 /**

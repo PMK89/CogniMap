@@ -180,6 +180,7 @@ export class Scene3dService {
       const children = group.children.slice();
       for (const c of children) {
         group.remove(c);
+        if (c.isInstancedMesh && c.dispose) { c.dispose(); } // frees instanceMatrix
         if (c.geometry && !c.userData.shared) { c.geometry.dispose(); }
         if (c.material && !c.userData.sharedMat) {
           if (c.material.map) { c.material.map.dispose(); }
@@ -278,25 +279,46 @@ export class Scene3dService {
       if (!a || !b) { continue; }
       (e.cross ? cross : structural).push([a, b, e]);
     }
-    // structural: tube curves for small maps, fat lines otherwise
+    // structural: tube curves for small maps, instanced thin cylinders
+    // otherwise — real geometric diameter comparable to the 2D line
+    // thickness (screen-space hairlines at tens of thousands of edges
+    // read as solid grey fog)
     if (!this.largeMode) {
       for (const [a, b] of structural) {
         const mid = new THREE.Vector3((a.x + b.x) / 2, (a.y + b.y) / 2 + 3, (a.z + b.z) / 2);
         const curve = new THREE.QuadraticBezierCurve3(
           new THREE.Vector3(a.x, a.y, a.z), mid, new THREE.Vector3(b.x, b.y, b.z));
-        const geo = new THREE.TubeGeometry(curve, 10, 0.45, 6, false);
+        const geo = new THREE.TubeGeometry(curve, 10, 0.2, 6, false);
         const mesh = new THREE.Mesh(geo, this.branchMaterial());
         mesh.userData.sharedMat = true;
         this.branchGroup.add(mesh);
       }
-    } else {
-      const pts = [];
-      for (const [a, b] of structural) { pts.push(a.x, a.y, a.z, b.x, b.y, b.z); }
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-      const lines = new THREE.LineSegments(geo, this.lineMaterial(0.8));
-      lines.userData.sharedMat = true;
-      this.branchGroup.add(lines);
+    } else if (structural.length) {
+      // one draw call for every branch: unit cylinder (base at origin,
+      // pointing +Y) scaled to each edge's length and rotated into place
+      const geo = new THREE.CylinderGeometry(0.16, 0.16, 1, 5, 1, true);
+      geo.translate(0, 0.5, 0);
+      const inst = new THREE.InstancedMesh(geo, this.branchMaterial(), structural.length);
+      inst.userData.sharedMat = true;
+      const m = new THREE.Matrix4();
+      const q = new THREE.Quaternion();
+      const up = new THREE.Vector3(0, 1, 0);
+      const dir = new THREE.Vector3();
+      const org = new THREE.Vector3();
+      const scl = new THREE.Vector3();
+      for (let i = 0; i < structural.length; i++) {
+        const a = structural[i][0];
+        const b = structural[i][1];
+        dir.set(b.x - a.x, b.y - a.y, b.z - a.z);
+        const len = dir.length() || 0.001;
+        q.setFromUnitVectors(up, dir.multiplyScalar(1 / len));
+        org.set(a.x, a.y, a.z);
+        scl.set(1, len, 1);
+        m.compose(org, q, scl);
+        inst.setMatrixAt(i, m);
+      }
+      inst.instanceMatrix.needsUpdate = true;
+      this.branchGroup.add(inst);
     }
     // cross-links: subtle dashed-look lines (lower opacity)
     const cpts = [];
@@ -354,39 +376,45 @@ export class Scene3dService {
   }
 
   /** create/refresh label sprites; when force, rebuild all */
+  /**
+   * Camera-aware labels: sprites exist only for the nodes nearest the
+   * camera and are created/evicted as it moves — wherever the user looks,
+   * the surrounding content is titled. (The old scheme pre-built sprites
+   * for the first N docs BY ID, so on a large map virtually nothing near
+   * the camera ever had text.)
+   */
   public updateLabels(force?: boolean) {
     if (!this.available) { return; }
-    const maxLabels = this.largeMode ? 250 : 2000;
-    let made = 0;
-    for (const doc of (this.graph ? this.graph.nodeList : [])) {
-      if (made >= maxLabels) { break; }
-      if (!doc.title) { continue; }
-      let sprite = this.labelSprites.get(doc.id);
-      if (!sprite || force) {
-        if (sprite) {
-          this.labelGroup.remove(sprite);
-          sprite.material.map.dispose();
-          sprite.material.dispose();
-        }
-        const tex = this.labelTexture(doc.title);
-        const mat = new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true });
-        sprite = new THREE.Sprite(mat);
-        // bottom-center anchor: the label visibly sits ON its node and
-        // moves with it, instead of floating detached above the scene
-        sprite.center.set(0.5, 0);
-        const aspect = tex.image.width / tex.image.height;
-        sprite.scale.set(5.2 * aspect, 5.2, 1);
-        sprite.userData = { id: doc.id };
-        this.labelGroup.add(sprite);
-        this.labelSprites.set(doc.id, sprite);
-        made++;
-      }
-      const p = this.positions.get(doc.id);
-      if (p) { sprite.position.set(p.x, p.y + 3.4, p.z); }
+    if (force) {
+      this.labelSprites.forEach((sprite) => {
+        this.labelGroup.remove(sprite);
+        sprite.material.map.dispose();
+        sprite.material.dispose();
+      });
+      this.labelSprites.clear();
     }
     this.lastLabelCull = 0;
     this.cullLabels();
     this.requestRender();
+  }
+
+  private ensureLabelSprite(id: number): any {
+    let sprite = this.labelSprites.get(id);
+    if (sprite) { return sprite; }
+    const doc = this.docsById && this.docsById.get(id);
+    if (!doc || !doc.title) { return undefined; }
+    const tex = this.labelTexture(doc.title);
+    const mat = new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true });
+    sprite = new THREE.Sprite(mat);
+    // bottom-center anchor: the label visibly sits ON its node and
+    // moves with it, instead of floating detached above the scene
+    sprite.center.set(0.5, 0);
+    const aspect = tex.image.width / tex.image.height;
+    sprite.scale.set(5.2 * aspect, 5.2, 1);
+    sprite.userData = { id };
+    this.labelGroup.add(sprite);
+    this.labelSprites.set(id, sprite);
+    return sprite;
   }
 
   // ----------------------------------------------------------------
@@ -652,29 +680,56 @@ export class Scene3dService {
    */
   private cullLabels() {
     const now = performance.now();
-    if (now - this.lastLabelCull < 250) { return; }
+    // throttled: keep the render loop hot so the skipped update happens
+    // right after the window elapses (otherwise a jump straight after an
+    // update would leave stale labels frozen on screen)
+    if (now - this.lastLabelCull < 250) { this.needsRender = true; return; }
     this.lastLabelCull = now;
     const camPos = this.camera.position;
-    const budget = this.largeMode ? 40 : 90;
-    const entries: Array<{ id: number, sprite: any, d: number }> = [];
-    this.labelSprites.forEach((sprite, id) => {
-      entries.push({ id, sprite, d: sprite.position.distanceTo(camPos) });
+    const budget = this.largeMode ? 220 : 300;
+    // nearest nodes to the camera (single pass over positions, ~ms at 40k)
+    const near: Array<{ id: number, d: number }> = [];
+    const v = new THREE.Vector3();
+    this.positions.forEach((p, id) => {
+      const d = camPos.distanceTo(v.set(p.x, p.y, p.z));
+      if (d < 420) { near.push({ id, d }); }
     });
-    entries.sort((a, b) => a.d - b.d);
-    for (let i = 0; i < entries.length; i++) {
-      const e = entries[i];
-      const keep = i < budget || this.selectionIds.has(e.id) || e.id === this.hoverId;
-      if (e.sprite.visible !== keep) {
-        e.sprite.visible = keep;
+    near.sort((a, b) => a.d - b.d);
+    const chosen = new Set<number>();
+    for (let i = 0; i < near.length && chosen.size < budget; i++) {
+      chosen.add(near[i].id);
+    }
+    this.selectionIds.forEach((id) => chosen.add(id));
+    if (this.hoverId) { chosen.add(this.hoverId); }
+    // hide everything else; evict far-away sprites to bound memory
+    this.labelSprites.forEach((sprite, id) => {
+      if (!chosen.has(id)) {
+        if (this.labelSprites.size > 700) {
+          this.labelGroup.remove(sprite);
+          sprite.material.map.dispose();
+          sprite.material.dispose();
+          this.labelSprites.delete(id);
+        } else if (sprite.visible) {
+          sprite.visible = false;
+          this.needsRender = true;
+        }
+      }
+    });
+    chosen.forEach((id) => {
+      const sprite = this.ensureLabelSprite(id);
+      const p = this.positions.get(id);
+      if (!sprite || !p) { return; }
+      sprite.position.set(p.x, p.y + 3.4, p.z);
+      if (!sprite.visible) {
+        sprite.visible = true;
         this.needsRender = true;
       }
-      if (keep) {
-        // gentle distance attenuation so far labels do not dominate
-        const s = Math.max(0.7, Math.min(1.6, e.d / 140));
-        const aspect = e.sprite.material.map.image.width / e.sprite.material.map.image.height;
-        e.sprite.scale.set(5.2 * aspect * s, 5.2 * s, 1);
-      }
-    }
+      // gentle distance attenuation so far labels do not dominate
+      const d = sprite.position.distanceTo(camPos);
+      const s = Math.max(0.7, Math.min(1.6, d / 140));
+      const aspect = sprite.material.map.image.width / sprite.material.map.image.height;
+      sprite.scale.set(5.2 * aspect * s, 5.2 * s, 1);
+    });
   }
 
   private startLoop() {
@@ -683,7 +738,10 @@ export class Scene3dService {
     const tick = () => {
       if (this.disposed) { return; }
       const damping = this.controls && this.controls.update();
-      if (damping) { this.cullLabels(); }
+      // re-evaluate labels on ANY view change (orbit damping ticks AND
+      // programmatic camera moves like frame/focus, which only set
+      // needsRender) — throttled internally to 250 ms
+      if (damping || this.needsRender) { this.cullLabels(); }
       if (this.needsRender || damping) {
         this.needsRender = false;
         this.renderer.render(this.scene, this.camera);
