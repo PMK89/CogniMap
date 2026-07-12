@@ -102,6 +102,31 @@ test('disconnected components stay separated', () => {
   assert.ok(d > 40, 'components too close: ' + d);
 });
 
+test('sheetSize preserves the 2D aspect ratio even when clamped', () => {
+  // a big diagram: 600 x 300 px
+  const big = core.sheetSize({ x0: 0, x1: 600, y0: 0, y1: 300 });
+  assert.ok(Math.abs(big.w / big.h - 2) < 0.01, 'aspect preserved: ' + (big.w / big.h));
+  assert.ok(Math.max(big.w, big.h) <= 36.01, 'clamped uniformly');
+  // a small note: 100 x 26 px
+  const small = core.sheetSize({ x0: 0, x1: 100, y0: 0, y1: 26 });
+  assert.ok(big.w > small.w * 2.5, 'big diagrams stay visibly larger than notes');
+});
+
+test('size-aware relaxation gives large sheets more room than small ones', () => {
+  const mk = () => new Map([[1, { x: 0, y: 0, z: 0 }], [2, { x: 1, y: 0, z: 0 }]]);
+  const small = mk();
+  core.relaxCollisions(small, 10, 4, new Map([[1, 4], [2, 4]]));
+  const big = mk();
+  core.relaxCollisions(big, 10, 4, new Map([[1, 20], [2, 20]]));
+  const dist = (m) => {
+    const a = m.get(1); const b = m.get(2);
+    return Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
+  };
+  assert.ok(dist(small) >= 7.9, 'small pair separated: ' + dist(small));
+  assert.ok(dist(big) >= 30, 'big pair claims more space: ' + dist(big));
+  assert.ok(dist(big) > dist(small) * 2, 'radius drives the spacing');
+});
+
 test('collision relaxation separates identical positions deterministically', () => {
   const pos = new Map([[1, { x: 0, y: 0, z: 0 }], [2, { x: 0, y: 0, z: 0 }]]);
   core.relaxCollisions(pos, 10, 4);

@@ -441,10 +441,42 @@ function layoutForce3d(graph, h, iterations) {
  * grid so cost stays O(V·k) — a naive O(V²) pass takes minutes on real
  * 40k-node maps.
  */
-function relaxCollisions(pos, minDist, passes) {
+/**
+ * Sheet footprint of a node in scene units — the exact proportions of its
+ * 2D object. Only extremes are clamped, and always UNIFORMLY so the aspect
+ * ratio (and with it the relative size of big diagrams vs small notes) is
+ * preserved.
+ */
+function sheetSize(doc) {
+  let w = ((doc.x1 - doc.x0) || 100) * SCALE;
+  let h = ((doc.y1 - doc.y0) || 26) * SCALE;
+  if (!(w > 0)) w = 8;
+  if (!(h > 0)) h = 2.2;
+  const maxDim = 36;
+  if (Math.max(w, h) > maxDim) { const f = maxDim / Math.max(w, h); w *= f; h *= f; }
+  if (h < 2.2) { const f = 2.2 / h; w *= f; h *= f; }
+  if (w < 3) { const f = 3 / w; w *= f; h *= f; }
+  return { w, h };
+}
+
+/** per-node collision radius derived from the real sheet footprint */
+function nodeRadii(graph) {
+  const radii = new Map();
+  graph.nodes.forEach((d, id) => {
+    const s = sheetSize(d);
+    radii.set(id, Math.min(20, Math.max(s.w, s.h) / 2) + 2);
+  });
+  return radii;
+}
+
+function relaxCollisions(pos, minDist, passes, radii) {
   const ids = Array.from(pos.keys()).sort((a, b) => a - b);
   const md = minDist || 8;
-  const cell = md;
+  // with per-node radii the pair distance is r_a + r_b, so the grid cell
+  // must cover the largest possible pair reach
+  let maxR = md / 2;
+  if (radii) radii.forEach((r) => { if (r > maxR) maxR = r; });
+  const cell = radii ? maxR * 2 : md;
   const keyOf = (p) => Math.floor(p.x / cell) + ':' + Math.floor(p.y / cell) + ':' + Math.floor(p.z / cell);
   const passCount = ids.length > 20000 ? 1 : (passes || 3);
   for (let pass = 0; pass < passCount; pass++) {
@@ -472,7 +504,10 @@ function relaxCollisions(pos, minDist, passes) {
               let dy = b.y - a.y;
               let dz = b.z - a.z;
               const d = Math.sqrt(dx * dx + dy * dy + dz * dz);
-              if (d >= md) continue;
+              const needed = radii
+                ? (radii.get(id) || md / 2) + (radii.get(jd) || md / 2)
+                : md;
+              if (d >= needed) continue;
               if (d < 0.001) {
                 // identical positions: deterministic separation direction
                 dx = Math.cos(jd * GOLDEN);
@@ -481,7 +516,7 @@ function relaxCollisions(pos, minDist, passes) {
               } else {
                 dx /= d; dy /= d; dz /= d;
               }
-              const push = (md - d) / 2;
+              const push = (needed - d) / 2;
               a.x -= dx * push; a.y -= dy * push; a.z -= dz * push;
               b.x += dx * push; b.y += dy * push; b.z += dz * push;
             }
@@ -564,17 +599,18 @@ function layoutCognitiveTree(graph, h) {
   return pos;
 }
 
-// relaxation min distances comfortably clear the ~8-unit node geometry so
-// neighbours never look fused into a wall
+// collision relaxation is size-aware: each node claims a radius from its
+// real sheet footprint, so large diagrams get room and small notes pack
+// tighter — neighbours never overlap regardless of their 2D size
 const LAYOUTS = {
-  'cognitive-tree': (g, h) => relaxCollisions(layoutCognitiveTree(g, h), 12, 2),
+  'cognitive-tree': (g, h) => relaxCollisions(layoutCognitiveTree(g, h), 12, 2, nodeRadii(g)),
   'legacy-planar': (g, h) => layoutLegacyPlanar(g),
-  'layered-depth': (g, h) => relaxCollisions(layoutLayeredDepth(g, h), 10, 2),
-  'radial-tree': (g, h) => relaxCollisions(layoutRadialTree(g, h), 12, 3),
-  'spherical': (g, h) => relaxCollisions(layoutSpherical(g, h), 12, 3),
-  'organic': (g, h) => relaxCollisions(layoutOrganic(g, h), 12, 3),
+  'layered-depth': (g, h) => relaxCollisions(layoutLayeredDepth(g, h), 10, 2, nodeRadii(g)),
+  'radial-tree': (g, h) => relaxCollisions(layoutRadialTree(g, h), 12, 3, nodeRadii(g)),
+  'spherical': (g, h) => relaxCollisions(layoutSpherical(g, h), 12, 3, nodeRadii(g)),
+  'organic': (g, h) => relaxCollisions(layoutOrganic(g, h), 12, 3, nodeRadii(g)),
   'force-3d': (g, h) => layoutForce3d(g, h),
-  'compact-clusters': (g, h) => relaxCollisions(layoutCompactClusters(g, h), 10, 3),
+  'compact-clusters': (g, h) => relaxCollisions(layoutCompactClusters(g, h), 10, 3, nodeRadii(g)),
 };
 
 /**
@@ -600,6 +636,8 @@ function computeLayout(docs, preset, overrides) {
 module.exports = {
   buildGraph,
   isOverlayDoc,
+  sheetSize,
+  nodeRadii,
   connectedComponents,
   deriveHierarchy,
   subtreeSizes,

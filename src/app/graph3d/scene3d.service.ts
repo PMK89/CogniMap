@@ -280,11 +280,10 @@ export class Scene3dService {
     mesh.position.set(p.x, p.y, p.z);
     mesh.userData = { id: doc.id, shape, shared: true, sharedMat: true };
     if (shape === 'sheet') {
-      // proportions of the real 2D object (clamped to stay readable)
-      const S = core.SCALE;
-      const w = Math.min(24, Math.max(5, ((doc.x1 - doc.x0) || 100) * S));
-      const h = Math.min(10, Math.max(2.2, ((doc.y1 - doc.y0) || 26) * S));
-      mesh.scale.set(w, h, 0.5);
+      // exact proportions of the real 2D object — shared with the layout's
+      // size-aware collision radii so spacing always matches the rendering
+      const s = core.sheetSize(doc);
+      mesh.scale.set(s.w, s.h, 0.5);
     }
     this.nodeGroup.add(mesh);
     this.nodeMeshes.set(doc.id, mesh);
