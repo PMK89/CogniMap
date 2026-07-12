@@ -37,7 +37,8 @@ const NODE_SHAPES = ['sphere', 'rounded-box', 'cube', 'capsule', 'cylinder',
 export class Scene3dService {
   public onSelect: (id: number, additive: boolean) => void = () => undefined;
   public onHover: (id: number) => void = () => undefined;
-  public onDragEnd: (id: number, pos: { x: number, y: number, z: number }) => void = () => undefined;
+  public onDragEnd: (id: number, pos: { x: number, y: number, z: number },
+    movedNodes?: Array<{ id: number, pos: { x: number, y: number, z: number } }>) => void = () => undefined;
   public onDoubleClick: (id: number) => void = () => undefined;
   public onBackgroundClick: () => void = () => undefined;
 
@@ -54,6 +55,7 @@ export class Scene3dService {
   private pointer: any;
   private nodeMeshes: Map<number, any> = new Map();
   private labelSprites: Map<number, any> = new Map();
+  private sheetTexts: Map<number, any[]> = new Map();
   private branchGroup: any;
   private crossGroup: any;
   private nodeGroup: any;
@@ -190,6 +192,15 @@ export class Scene3dService {
     }
     this.nodeMeshes.clear();
     this.labelSprites.clear();
+    // sheet text faces were children of the removed node meshes — release
+    // their textures/materials explicitly (plane geometry is shared)
+    this.sheetTexts.forEach((faces) => {
+      for (const f of faces) {
+        f.material.map.dispose();
+        f.material.dispose();
+      }
+    });
+    this.sheetTexts.clear();
   }
 
   /** geometry factory with shared cache */
@@ -199,6 +210,8 @@ export class Scene3dService {
     switch (shape) {
       case 'cube': g = new THREE.BoxGeometry(6, 6, 6); break;
       case 'rounded-box': g = new THREE.BoxGeometry(8, 5, 3); break;
+      // unit slab, scaled per node to the real 2D object proportions
+      case 'sheet': g = new THREE.BoxGeometry(1, 1, 1); break;
       case 'capsule': g = new THREE.CapsuleGeometry(2.4, 5, 6, 12); break;
       case 'cylinder': g = new THREE.CylinderGeometry(3, 3, 6, 20); break;
       case 'cone': g = new THREE.ConeGeometry(3.4, 7, 20); break;
@@ -226,7 +239,9 @@ export class Scene3dService {
     if (doc.types && doc.types[0] === 'q') { return 'octahedron'; }
     if (doc.types && doc.types[0] === 'm') { return 'capsule'; }
     if ((this.hierarchy && this.hierarchy.roots.indexOf(doc.id) !== -1)) { return 'sphere'; }
-    return 'rounded-box';
+    // default: a flat sheet in the proportions of the 2D object, carrying
+    // its own text when near the camera (readable from both sides)
+    return 'sheet';
   }
 
   private parseCmo(doc: any): any {
@@ -266,8 +281,92 @@ export class Scene3dService {
     const mesh = new THREE.Mesh(geo, this.materialFor(this.colorFor(doc), shape));
     mesh.position.set(p.x, p.y, p.z);
     mesh.userData = { id: doc.id, shape, shared: true, sharedMat: true };
+    if (shape === 'sheet') {
+      // proportions of the real 2D object (clamped to stay readable)
+      const S = core.SCALE;
+      const w = Math.min(24, Math.max(5, ((doc.x1 - doc.x0) || 100) * S));
+      const h = Math.min(10, Math.max(2.2, ((doc.y1 - doc.y0) || 26) * S));
+      mesh.scale.set(w, h, 0.5);
+    }
     this.nodeGroup.add(mesh);
     this.nodeMeshes.set(doc.id, mesh);
+  }
+
+  /**
+   * Renders the node's text ONTO the sheet: two text planes hugging the
+   * slab's front and back faces (the back one mirrored), so the title is
+   * readable from both sides and moves/drags as part of the node itself.
+   * Created only for nodes near the camera and evicted with distance.
+   */
+  private ensureSheetText(id: number) {
+    if (this.sheetTexts.has(id)) { return; }
+    const mesh = this.nodeMeshes.get(id);
+    const doc = this.docsById && this.docsById.get(id);
+    if (!mesh || !doc || !doc.title) { return; }
+    const tex = this.sheetTexture(doc, mesh.scale.x / mesh.scale.y);
+    const back = tex.clone();
+    back.wrapS = THREE.RepeatWrapping;
+    back.repeat.x = -1;
+    back.needsUpdate = true;
+    if (!this.geoCache['__sheetface']) {
+      this.geoCache['__sheetface'] = new THREE.PlaneGeometry(1, 1);
+    }
+    const faces = [];
+    [{ t: tex, z: 0.52, ry: 0 }, { t: back, z: -0.52, ry: Math.PI }].forEach((f) => {
+      const m = new THREE.Mesh(this.geoCache['__sheetface'],
+        new THREE.MeshBasicMaterial({ map: f.t }));
+      m.position.z = f.z;
+      m.rotation.y = f.ry;
+      m.userData = { shared: true }; // plane geometry is cached/shared
+      mesh.add(m); // inherits the node's scale, position and drags
+      faces.push(m);
+    });
+    this.sheetTexts.set(id, faces);
+  }
+
+  private removeSheetText(id: number) {
+    const faces = this.sheetTexts.get(id);
+    if (!faces) { return; }
+    for (const f of faces) {
+      if (f.parent) { f.parent.remove(f); }
+      f.material.map.dispose();
+      f.material.dispose();
+    }
+    this.sheetTexts.delete(id);
+  }
+
+  /** canvas texture mimicking the 2D object: fill color, border, title */
+  private sheetTexture(doc: any, aspect: number): any {
+    const canvas = document.createElement('canvas');
+    canvas.width = 320;
+    canvas.height = Math.max(48, Math.min(220, Math.round(320 / Math.max(1, aspect))));
+    const ctx = canvas.getContext('2d');
+    const bg = this.colorFor(doc);
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
+    // black or white text depending on background luminance
+    const c = parseInt(bg.slice(1), 16);
+    const lum = 0.299 * ((c >> 16) & 255) + 0.587 * ((c >> 8) & 255) + 0.114 * (c & 255);
+    ctx.fillStyle = lum > 140 ? '#14181f' : '#f4f6f9';
+    const title = String(doc.title);
+    let size = Math.min(Math.round(canvas.height * 0.5), 46);
+    ctx.font = size + 'px system-ui, sans-serif';
+    while (size > 15 && ctx.measureText(title).width > canvas.width - 24) {
+      size -= 2;
+      ctx.font = size + 'px system-ui, sans-serif';
+    }
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'center';
+    const shown = ctx.measureText(title).width > canvas.width - 24
+      ? title.slice(0, Math.floor(title.length * (canvas.width - 40) / ctx.measureText(title).width)) + '…'
+      : title;
+    ctx.fillText(shown, canvas.width / 2, canvas.height / 2);
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.anisotropy = 4;
+    return tex;
   }
 
   private buildBranches() {
@@ -392,6 +491,9 @@ export class Scene3dService {
         sprite.material.dispose();
       });
       this.labelSprites.clear();
+      const ids: number[] = [];
+      this.sheetTexts.forEach((f, id) => ids.push(id));
+      for (const id of ids) { this.removeSheetText(id); }
     }
     this.lastLabelCull = 0;
     this.cullLabels();
@@ -468,7 +570,20 @@ export class Scene3dService {
         const normal = new THREE.Vector3();
         this.camera.getWorldDirection(normal);
         plane.setFromNormalAndCoplanarPoint(normal, mesh.position);
-        this.dragState = { id: downId, plane, mesh };
+        // tree drag: the whole subtree follows the dragged node, each
+        // descendant keeping its offset relative to the parent
+        const origin = this.positions.get(downId) || mesh.position;
+        const subtree = [];
+        this.subtreeIds(downId).forEach((did) => {
+          const dm = this.nodeMeshes.get(did);
+          const dp = this.positions.get(did);
+          if (dm && dp) {
+            subtree.push({ id: did, mesh: dm, off: {
+              x: dp.x - origin.x, y: dp.y - origin.y, z: dp.z - origin.z,
+            } });
+          }
+        });
+        this.dragState = { id: downId, plane, mesh, subtree };
       }
     });
     el.addEventListener('pointermove', (evt: any) => {
@@ -485,6 +600,13 @@ export class Scene3dService {
           this.dragState.mesh.position.copy(hit);
           const sprite = this.labelSprites.get(this.dragState.id);
           if (sprite) { sprite.position.set(hit.x, hit.y + 3.4, hit.z); }
+          // children move relative to the parent
+          for (let i = 0; i < this.dragState.subtree.length; i++) {
+            const s = this.dragState.subtree[i];
+            s.mesh.position.set(hit.x + s.off.x, hit.y + s.off.y, hit.z + s.off.z);
+            const sp = this.labelSprites.get(s.id);
+            if (sp) { sp.position.set(s.mesh.position.x, s.mesh.position.y + 3.4, s.mesh.position.z); }
+          }
           this.requestRender();
         }
       } else if (!downAt) {
@@ -502,8 +624,15 @@ export class Scene3dService {
         const m = this.dragState.mesh.position;
         const id = this.dragState.id;
         this.positions.set(id, { x: m.x, y: m.y, z: m.z });
+        const movedNodes = [{ id, pos: { x: m.x, y: m.y, z: m.z } }];
+        for (let i = 0; i < this.dragState.subtree.length; i++) {
+          const s = this.dragState.subtree[i];
+          const sp = { x: s.mesh.position.x, y: s.mesh.position.y, z: s.mesh.position.z };
+          this.positions.set(s.id, sp);
+          movedNodes.push({ id: s.id, pos: sp });
+        }
         this.rebuildEdgesFor();
-        this.onDragEnd(id, { x: m.x, y: m.y, z: m.z });
+        this.onDragEnd(id, { x: m.x, y: m.y, z: m.z }, movedNodes);
       } else if (!moved) {
         if (downId) {
           this.onSelect(downId, evt.shiftKey || evt.ctrlKey || evt.metaKey);
@@ -526,6 +655,22 @@ export class Scene3dService {
   }
 
   /** cheap edge refresh after a drag (full rebuild of the line groups) */
+  /** all descendants of a node in the derived hierarchy (excluding it) */
+  private subtreeIds(id: number): number[] {
+    const out: number[] = [];
+    if (!this.hierarchy || !this.hierarchy.childrenOf) { return out; }
+    const stack = [id];
+    while (stack.length) {
+      const cur = stack.pop();
+      const kids = this.hierarchy.childrenOf.get(cur) || [];
+      for (let i = 0; i < kids.length; i++) {
+        out.push(kids[i]);
+        stack.push(kids[i]);
+      }
+    }
+    return out;
+  }
+
   private rebuildEdgesFor() {
     for (const group of [this.branchGroup, this.crossGroup]) {
       const children = group.children.slice();
@@ -715,7 +860,26 @@ export class Scene3dService {
         }
       }
     });
+    const sheetIds: number[] = [];
+    this.sheetTexts.forEach((faces, id) => { if (!chosen.has(id)) { sheetIds.push(id); } });
+    if (this.sheetTexts.size > 500) {
+      for (const id of sheetIds) { this.removeSheetText(id); this.needsRender = true; }
+    }
+    // canvas-texture creation is the expensive part — cap it per tick and
+    // let the remainder stream in over the next culls (keeps frames smooth
+    // while flying instead of one big hitch per area)
+    let created = 0;
     chosen.forEach((id) => {
+      const mesh = this.nodeMeshes.get(id);
+      // sheets carry their text on the node itself
+      if (mesh && mesh.userData.shape === 'sheet') {
+        if (!this.sheetTexts.has(id) && created < 40) {
+          this.ensureSheetText(id);
+          created++;
+          this.needsRender = true;
+        }
+        return;
+      }
       const sprite = this.ensureLabelSprite(id);
       const p = this.positions.get(id);
       if (!sprite || !p) { return; }

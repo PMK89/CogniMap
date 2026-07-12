@@ -66,7 +66,17 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
       }
       this.scene.onSelect = (id, additive) => this.ngZone.run(() => this.selectNode(id, additive));
       this.scene.onBackgroundClick = () => this.ngZone.run(() => this.clearSelection());
-      this.scene.onDragEnd = (id, pos) => this.ngZone.run(() => this.persistPosition(id, pos));
+      this.scene.onDragEnd = (id, pos, movedNodes) => this.ngZone.run(() => {
+        // tree drag: every node that followed the parent is persisted
+        if (movedNodes && movedNodes.length) {
+          for (const n of movedNodes) {
+            this.viz.positions[n.id] = { x: n.pos.x, y: n.pos.y, z: n.pos.z };
+          }
+          this.saveViz();
+        } else {
+          this.persistPosition(id, pos);
+        }
+      });
       this.scene.onDoubleClick = (id) => this.ngZone.run(() => this.editNode(id));
     });
     if (!this.scene.available) { return; }

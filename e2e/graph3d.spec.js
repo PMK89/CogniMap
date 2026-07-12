@@ -225,6 +225,68 @@ test('manual node position persists across reload', async ({ page }) => {
   expect(Math.round(p.z)).toBe(33);
 });
 
+test('tree drag: the whole subtree follows the dragged parent', async ({ page }) => {
+  await open3d(page);
+  // pick a parent that has children in the derived hierarchy
+  const picked = await probe(page, `(() => {
+    const h = scene['hierarchy'];
+    let found = null;
+    h.childrenOf.forEach((kids, id) => {
+      if (!found && kids.length >= 1 && scene['positions'].has(id)) { found = { id, kids: kids.slice(0, 4) }; }
+    });
+    return found;
+  })()`);
+  expect(picked).not.toBeNull();
+  const before = await probe(page, `(() => {
+    const out = {};
+    [${'' + picked.id}].concat(${JSON.stringify(picked.kids)}).forEach((id) => {
+      const p = scene['positions'].get(id); out[id] = { x: p.x, y: p.y, z: p.z };
+    });
+    return out;
+  })()`);
+  // select, then drag via real mouse on the canvas
+  await page.evaluate((nid) => { window['__cm3d'].selectNode(nid, false); }, picked.id);
+  await page.waitForTimeout(400);
+  const screen = await page.evaluate((nid) => {
+    const inst = window['__cm3d'];
+    const s = inst.scene;
+    const p = s['positions'].get(nid);
+    const v = new (Object.getPrototypeOf(s['camera'].position).constructor)(p.x, p.y, p.z);
+    v.project(s['camera']);
+    const el = s['renderer'].domElement.getBoundingClientRect();
+    return { x: el.left + (v.x + 1) / 2 * el.width, y: el.top + (1 - v.y) / 2 * el.height };
+  }, picked.id);
+  await page.mouse.move(screen.x, screen.y);
+  await page.mouse.down();
+  for (let i = 1; i <= 10; i++) { await page.mouse.move(screen.x + i * 12, screen.y + i * 6); }
+  await page.mouse.up();
+  await page.waitForTimeout(800);
+  const after = await probe(page, `(() => {
+    const out = {};
+    [${'' + picked.id}].concat(${JSON.stringify(picked.kids)}).forEach((id) => {
+      const p = scene['positions'].get(id); out[id] = { x: p.x, y: p.y, z: p.z };
+    });
+    return out;
+  })()`);
+  const dx = after[picked.id].x - before[picked.id].x;
+  const dy = after[picked.id].y - before[picked.id].y;
+  const dz = after[picked.id].z - before[picked.id].z;
+  expect(Math.hypot(dx, dy, dz)).toBeGreaterThan(2); // the parent moved
+  for (const kid of picked.kids) {
+    // every child moved by the SAME delta (relative structure preserved)
+    expect(after[kid].x - before[kid].x).toBeCloseTo(dx, 1);
+    expect(after[kid].y - before[kid].y).toBeCloseTo(dy, 1);
+    expect(after[kid].z - before[kid].z).toBeCloseTo(dz, 1);
+  }
+  // and the subtree positions persist
+  await page.evaluate(() => window['__cm3d'].saveViz(true));
+  await page.waitForTimeout(600);
+  const saved = await page.evaluate(() => fetch('/api/viz3d').then((r) => r.json()));
+  for (const kid of picked.kids) {
+    expect(saved.positions[String(kid)]).toBeTruthy();
+  }
+});
+
 test('node geometry override applies and persists', async ({ page }) => {
   await open3d(page);
   // pick a node that is actually in the 3D scene (overlays are excluded)
