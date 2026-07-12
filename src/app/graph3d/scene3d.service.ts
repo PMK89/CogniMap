@@ -56,6 +56,7 @@ export class Scene3dService {
   private nodeMeshes: Map<number, any> = new Map();
   private labelSprites: Map<number, any> = new Map();
   private sheetTexts: Map<number, any[]> = new Map();
+  private richPending: Set<number> = new Set();
   private branchGroup: any;
   private crossGroup: any;
   private nodeGroup: any;
@@ -231,16 +232,13 @@ export class Scene3dService {
   /** shape resolution: explicit viz override -> content type -> default */
   public shapeFor(doc: any, viz: Viz3dState): string {
     if (viz && viz.shapes && viz.shapes[doc.id]) { return viz.shapes[doc.id]; }
-    const c = this.parseCmo(doc);
-    const content = (c.content || []);
-    if (content.some((x) => x && x.cat === 'i')) { return 'image-plane'; }
-    if (content.some((x) => x && (x.cat === 'LateX' || x.cat === 'svg' || x.cat === 'jsme-svg'))) { return 'panel'; }
-    if (content.some((x) => x && x.cat === 'html')) { return 'prism'; }
     if (doc.types && doc.types[0] === 'q') { return 'octahedron'; }
     if (doc.types && doc.types[0] === 'm') { return 'capsule'; }
     if ((this.hierarchy && this.hierarchy.roots.indexOf(doc.id) !== -1)) { return 'sphere'; }
-    // default: a flat sheet in the proportions of the 2D object, carrying
-    // its own text when near the camera (readable from both sides)
+    // default: a flat sheet in the proportions of the 2D object that
+    // streams the object's REAL 2D rendering (text, LaTeX, images,
+    // formulas) onto both faces when near the camera. Content-specific
+    // geometric shapes remain available as explicit per-node overrides.
     return 'sheet';
   }
 
@@ -302,7 +300,9 @@ export class Scene3dService {
     if (this.sheetTexts.has(id)) { return; }
     const mesh = this.nodeMeshes.get(id);
     const doc = this.docsById && this.docsById.get(id);
-    if (!mesh || !doc || !doc.title) { return; }
+    // untitled nodes (images, formulas) still get faces: the title card is
+    // just the placeholder until the real 2D rendering streams in
+    if (!mesh || !doc) { return; }
     const tex = this.sheetTexture(doc, mesh.scale.x / mesh.scale.y);
     const back = tex.clone();
     back.wrapS = THREE.RepeatWrapping;
@@ -322,6 +322,103 @@ export class Scene3dService {
       faces.push(m);
     });
     this.sheetTexts.set(id, faces);
+  }
+
+  /**
+   * Upgrades a sheet from the quick title card to the node's REAL 2D
+   * rendering: `prep` is the pre-rendered SVG of the whole 2D object
+   * (LaTeX, chemical formulas, images, styled text). It is intentionally
+   * excluded from the bulk graph payload, so it streams in per node for
+   * sheets near the camera. External <image> refs are inlined as data
+   * URLs (SVG loaded through <img> cannot fetch), then the SVG rasterizes
+   * onto both faces.
+   */
+  private upgradeSheet(id: number) {
+    const faces = this.sheetTexts.get(id);
+    if (!faces || faces[0].userData.rich || this.richPending.has(id)) { return; }
+    if (this.richPending.size >= 10) { return; } // in-flight cap
+    this.richPending.add(id);
+    fetch('/api/cme/id/' + id)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((doc) => {
+        this.richPending.delete(id);
+        if (!doc || !doc.prep || !this.sheetTexts.has(id)) { return; }
+        this.renderPrepTexture(doc);
+      })
+      .catch(() => this.richPending.delete(id));
+  }
+
+  private renderPrepTexture(doc: any) {
+    const w = Math.max(1, (doc.x1 - doc.x0) || 100);
+    const h = Math.max(1, (doc.y1 - doc.y0) || 26);
+    const pad = 4;
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" '
+      + 'xmlns:xlink="http://www.w3.org/1999/xlink" '
+      + 'viewBox="' + (doc.x0 - pad) + ' ' + (doc.y0 - pad) + ' '
+      + (w + 2 * pad) + ' ' + (h + 2 * pad) + '">' + doc.prep + '</svg>';
+    this.inlineSvgImages(svg).then((finalSvg) => {
+      const blob = new Blob([finalSvg], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const faces = this.sheetTexts.get(doc.id);
+        if (!faces) { return; } // evicted while loading
+        const canvas = document.createElement('canvas');
+        canvas.width = 512;
+        canvas.height = Math.max(56, Math.min(512, Math.round(512 * (h + 2 * pad) / (w + 2 * pad))));
+        const ctx = canvas.getContext('2d');
+        const dark = this.scene.background && this.scene.background.r < 0.5;
+        ctx.fillStyle = dark ? '#14181f' : '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const tex = new THREE.CanvasTexture(canvas);
+        tex.anisotropy = 4;
+        const back = tex.clone();
+        back.wrapS = THREE.RepeatWrapping;
+        back.repeat.x = -1;
+        back.needsUpdate = true;
+        const maps = [tex, back];
+        for (let i = 0; i < faces.length; i++) {
+          faces[i].material.map.dispose();
+          faces[i].material.map = maps[i];
+          faces[i].material.needsUpdate = true;
+          faces[i].userData.rich = true;
+        }
+        this.requestRender();
+      };
+      img.onerror = () => URL.revokeObjectURL(url);
+      img.src = url;
+    });
+  }
+
+  /** replaces external image hrefs with data URLs (bounded) */
+  private inlineSvgImages(svg: string): Promise<string> {
+    const hrefs: string[] = [];
+    const re = /(?:xlink:href|href)="([^"]+)"/g;
+    let m = re.exec(svg);
+    while (m) {
+      if (m[1].indexOf('data:') !== 0 && m[1].indexOf('#') !== 0) { hrefs.push(m[1]); }
+      m = re.exec(svg);
+    }
+    if (!hrefs.length) { return Promise.resolve(svg); }
+    const uniq = Array.from(new Set(hrefs)).slice(0, 4);
+    return Promise.all(uniq.map((u) => fetch(u)
+      .then((r) => (r.ok ? r.blob() : null))
+      .then((b) => (b ? new Promise((res) => {
+        const fr = new FileReader();
+        fr.onload = () => res([u, fr.result]);
+        fr.onerror = () => res([u, null]);
+        fr.readAsDataURL(b);
+      }) : [u, null]))
+      .catch(() => [u, null]),
+    )).then((pairs: any[]) => {
+      let out = svg;
+      for (const [u, data] of pairs) {
+        if (data) { out = out.split('"' + u + '"').join('"' + data + '"'); }
+      }
+      return out;
+    });
   }
 
   private removeSheetText(id: number) {
@@ -351,7 +448,7 @@ export class Scene3dService {
     const c = parseInt(bg.slice(1), 16);
     const lum = 0.299 * ((c >> 16) & 255) + 0.587 * ((c >> 8) & 255) + 0.114 * (c & 255);
     ctx.fillStyle = lum > 140 ? '#14181f' : '#f4f6f9';
-    const title = String(doc.title);
+    const title = String(doc.title || '');
     let size = Math.min(Math.round(canvas.height * 0.5), 46);
     ctx.font = size + 'px system-ui, sans-serif';
     while (size > 15 && ctx.measureText(title).width > canvas.width - 24) {
@@ -878,6 +975,9 @@ export class Scene3dService {
           created++;
           this.needsRender = true;
         }
+        // stream the real 2D rendering (LaTeX/images/formulas) onto the
+        // sheet, nearest first; in-flight bounded inside upgradeSheet
+        this.upgradeSheet(id);
         return;
       }
       const sprite = this.ensureLabelSprite(id);

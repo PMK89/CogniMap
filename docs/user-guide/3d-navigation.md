@@ -24,9 +24,11 @@ entire map.
 | Move node | drag a selected node (moves on the camera-facing plane) |
 | Move subtree | dragging a parent moves all its children with it (relative positions kept) |
 
-Nodes render as flat sheets in the proportions of their 2D objects,
-carrying their own title text — readable from both sides — for
-everything near the camera. Root/hub nodes keep floating labels.
+Nodes render as flat sheets in the proportions of their 2D objects.
+Near the camera each sheet shows the node's REAL 2D rendering — text,
+LaTeX formulas, chemical structures, images and diagrams — readable
+from both sides; far sheets stay plain colored cards. Root/hub nodes
+keep floating labels.
 
 Camera limits prevent extreme zoom (min 2 / max 8000 units) and the
 `Frame all` button always recovers the whole map if you get lost.

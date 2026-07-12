@@ -225,6 +225,30 @@ test('manual node position persists across reload', async ({ page }) => {
   expect(Math.round(p.z)).toBe(33);
 });
 
+test('sheets stream the real 2D rendering (prep SVG) onto near nodes', async ({ page }) => {
+  await open3d(page);
+  // pick a sheet node whose doc has a pre-rendered SVG
+  const id = await probe(page, `(() => {
+    let found = 0;
+    scene['nodeMeshes'].forEach((mesh, nid) => {
+      if (!found && mesh.userData.shape === 'sheet') {
+        const d = inst['docIndex'][nid];
+        if (d) { found = nid; }
+      }
+    });
+    return found;
+  })()`);
+  expect(id).toBeGreaterThan(0);
+  await page.evaluate((nid) => { window['__cm3d'].scene.focusNode(nid); }, id);
+  // the real 2D rendering streams in and replaces the title card
+  await page.waitForFunction((nid) => {
+    const faces = window['__cm3d'].scene['sheetTexts'].get(nid);
+    return !!(faces && faces[0].userData.rich);
+  }, id, { timeout: 20000 });
+  const rich = await probe(page, `scene['sheetTexts'].get(${id})[0].userData.rich`);
+  expect(rich).toBe(true);
+});
+
 test('tree drag: the whole subtree follows the dragged parent', async ({ page }) => {
   await open3d(page);
   // pick a parent that has children in the derived hierarchy
