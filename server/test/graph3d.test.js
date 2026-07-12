@@ -186,7 +186,8 @@ test('cognitive-tree anchors roots to real 2D centers and preserves bearings', (
   const rp = positions.get(root);
   // component A nodes are around x 0..200, y 0..100 (2D) -> scaled center
   assert.ok(Math.abs(rp.x - (75 * core.SCALE)) < 40, 'root x near 2D center');
-  assert.equal(rp.y, 0, 'root sits at height 0');
+  // near height 0 (collision relaxation may nudge it slightly)
+  assert.ok(Math.abs(rp.y) < 8, 'root near height 0: ' + rp.y);
   // bearing preservation: node 2 lies east of node 1 in 2D -> stays east in 3D
   const p2 = positions.get(2);
   assert.ok(p2.x > rp.x, 'child keeps its real-world direction from the parent');

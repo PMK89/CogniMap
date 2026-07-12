@@ -846,36 +846,32 @@ export class Scene3dService {
    */
   public frameInitial() {
     if (!this.positions.size) { return; }
-    const h = this.hierarchy;
-    if (!h || !h.roots || !h.roots.length) { this.frameAll(); return; }
-    // root of the LARGEST component
-    let bestRoot = h.roots[0];
-    let bestSize = -1;
-    const comps = h.components || [];
-    for (let i = 0; i < h.roots.length; i++) {
-      const sz = comps[i] ? comps[i].length : 0;
-      if (sz > bestSize) { bestSize = sz; bestRoot = h.roots[i]; }
-    }
-    // collect the root + two levels of descendants
-    const ids = [bestRoot];
-    const kids = (h.childrenOf && h.childrenOf.get(bestRoot)) || [];
-    for (let i = 0; i < kids.length; i++) {
-      ids.push(kids[i]);
-      const gk = (h.childrenOf && h.childrenOf.get(kids[i])) || [];
-      for (let j = 0; j < gk.length; j++) { ids.push(gk[j]); }
-    }
-    const box = new THREE.Box3();
-    for (let i = 0; i < ids.length; i++) {
-      const p = this.positions.get(ids[i]);
-      if (p) { box.expandByPoint(new THREE.Vector3(p.x, p.y, p.z)); }
-    }
-    if (box.isEmpty()) { this.frameAll(); return; }
-    const center = box.getCenter(new THREE.Vector3());
-    // keep a floor so a lone root (no children) still gets a sensible zoom
-    const size = Math.max(box.getSize(new THREE.Vector3()).length(), 120);
-    this.controls.maxDistance = Math.max(8000, size * 4);
-    this.controls.target.copy(center);
-    this.camera.position.set(center.x + size * 0.4, center.y + size * 0.55, center.z + size * 0.9);
+    // land on the DENSEST region of the map: a deterministic coarse-grid
+    // density pass over all node positions. Framing everything shows
+    // sub-pixel nodes, and a component root can sit geographically far
+    // from its own children — density is where the map actually lives.
+    const CELL = 250;
+    const counts: { [k: string]: number } = {};
+    const sums: { [k: string]: { x: number, y: number, z: number, n: number } } = {};
+    this.positions.forEach((p) => {
+      const k = Math.floor(p.x / CELL) + ':' + Math.floor(p.z / CELL);
+      counts[k] = (counts[k] || 0) + 1;
+      if (!sums[k]) { sums[k] = { x: 0, y: 0, z: 0, n: 0 }; }
+      sums[k].x += p.x; sums[k].y += p.y; sums[k].z += p.z; sums[k].n++;
+    });
+    let bestKey = '';
+    let bestCount = -1;
+    // deterministic tie-break by key order
+    Object.keys(counts).sort().forEach((k) => {
+      if (counts[k] > bestCount) { bestCount = counts[k]; bestKey = k; }
+    });
+    if (!bestKey) { this.frameAll(); return; }
+    const s = sums[bestKey];
+    const anchor = new THREE.Vector3(s.x / s.n, s.y / s.n, s.z / s.n);
+    const size = 420; // comfortable reading distance for the dense area
+    this.controls.maxDistance = 8000;
+    this.controls.target.copy(anchor);
+    this.camera.position.set(anchor.x + size * 0.4, anchor.y + size * 0.55, anchor.z + size * 0.9);
     this.controls.update();
     this.requestRender();
   }
@@ -968,18 +964,23 @@ export class Scene3dService {
       });
       this.needsRender = true;
     }
-    const budget = this.largeMode ? 220 : 300;
+    // two tiers: title cards for a wide radius (everything you can make
+    // out gets at least its text), full 2D content for the nearest nodes
+    const budget = this.largeMode ? 500 : 600;
+    const RICH_DIST = 300;
     // nearest nodes to the camera (single pass over positions, ~ms at 40k)
     const near: Array<{ id: number, d: number }> = [];
     const v = new THREE.Vector3();
     this.positions.forEach((p, id) => {
       const d = camPos.distanceTo(v.set(p.x, p.y, p.z));
-      if (d < 420) { near.push({ id, d }); }
+      if (d < 700) { near.push({ id, d }); }
     });
     near.sort((a, b) => a.d - b.d);
     const chosen = new Set<number>();
+    const distOf: { [id: number]: number } = {};
     for (let i = 0; i < near.length && chosen.size < budget; i++) {
       chosen.add(near[i].id);
+      distOf[near[i].id] = near[i].d;
     }
     this.selectionIds.forEach((id) => chosen.add(id));
     if (this.hoverId) { chosen.add(this.hoverId); }
@@ -999,7 +1000,7 @@ export class Scene3dService {
     });
     const sheetIds: number[] = [];
     this.sheetTexts.forEach((faces, id) => { if (!chosen.has(id)) { sheetIds.push(id); } });
-    if (this.sheetTexts.size > 500) {
+    if (this.sheetTexts.size > 900) {
       for (const id of sheetIds) { this.removeSheetText(id); this.needsRender = true; }
     }
     // canvas-texture creation is the expensive part — cap it per tick and
@@ -1015,9 +1016,11 @@ export class Scene3dService {
           created++;
           this.needsRender = true;
         }
-        // stream the real 2D rendering (LaTeX/images/formulas) onto the
-        // sheet, nearest first; in-flight bounded inside upgradeSheet
-        this.upgradeSheet(id);
+        // full 2D content (LaTeX/images/formulas) only at reading distance
+        // — title cards handle the mid field; in-flight bounded inside
+        if (distOf[id] === undefined || distOf[id] < RICH_DIST) {
+          this.upgradeSheet(id);
+        }
         return;
       }
       const sprite = this.ensureLabelSprite(id);

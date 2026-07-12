@@ -279,9 +279,13 @@ test('tree drag: the whole subtree follows the dragged parent', async ({ page })
     });
     return out;
   })()`);
-  // select, then drag via real mouse on the canvas
-  await page.evaluate((nid) => { window['__cm3d'].selectNode(nid, false); }, picked.id);
-  await page.waitForTimeout(400);
+  // bring the node on screen (the initial view may be elsewhere), select,
+  // then drag via real mouse on the canvas
+  await page.evaluate((nid) => {
+    window['__cm3d'].scene.focusNode(nid);
+    window['__cm3d'].selectNode(nid, false);
+  }, picked.id);
+  await page.waitForTimeout(600);
   const screen = await page.evaluate((nid) => {
     const inst = window['__cm3d'];
     const s = inst.scene;
