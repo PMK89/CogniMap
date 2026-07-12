@@ -39,12 +39,23 @@ function cmo(doc) {
  * @returns {{nodes: Map, edges: Array, nodeList: Array}}
  *  edges: { linkId, source, target, weight, directed, cross, doc }
  */
+/**
+ * Quiz covers ('q'/'q1'), markings ('m') and signs ('s') are 2D overlay
+ * artifacts glued over another element via weight -1 pseudo-links — they
+ * hide elements for spaced repetition and are not knowledge nodes. In 3D
+ * they must neither appear as nodes nor distort the tree as fake children.
+ */
+function isOverlayDoc(d) {
+  const t = d && d.types && d.types[0] ? String(d.types[0]) : '';
+  return t === 'm' || t === 's' || t.indexOf('q') === 0;
+}
+
 function buildGraph(docs) {
   const nodes = new Map();
   const linkDocs = new Map();
   for (const d of docs) {
     if (!d || typeof d.id !== 'number') continue;
-    if (d.id > 0) nodes.set(d.id, d);
+    if (d.id > 0) { if (!isOverlayDoc(d)) nodes.set(d.id, d); }
     else linkDocs.set(d.id, d);
   }
   // collect edges from node link metadata (authoritative for direction)
@@ -54,6 +65,11 @@ function buildGraph(docs) {
     const links = cmo(node).links || [];
     for (const l of links) {
       if (!l || typeof l.targetId !== 'number') continue;
+      // id-0 links are attachment/parentage metadata (quiz covers,
+      // markings, creation parentage), never knowledge edges — real links
+      // always carry the id of their link document. NOTE: ordinary links
+      // use weight -1 in real data, so weight cannot discriminate here.
+      if (!l.id) continue;
       if (!nodes.has(l.targetId)) continue;
       const a = node.id;
       const b = l.targetId;
@@ -562,6 +578,7 @@ function computeLayout(docs, preset, overrides) {
 
 module.exports = {
   buildGraph,
+  isOverlayDoc,
   connectedComponents,
   deriveHierarchy,
   subtreeSizes,

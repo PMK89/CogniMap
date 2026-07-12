@@ -547,7 +547,24 @@ export class Scene3dService {
   }
 
   public setCameraState(state: any) {
-    if (!state || !state.position) { return; }
+    if (!state || !state.position) { this.frameAll(); return; }
+    // stale-camera guard: a camera saved for a different layout, preset or
+    // viewport can point at empty space thousands of units from where the
+    // content now is — the user would be dropped into a white void. Only
+    // restore it if it still relates to the current content bounds.
+    if (this.positions.size) {
+      const box = new THREE.Box3();
+      this.positions.forEach((p) => box.expandByPoint(new THREE.Vector3(p.x, p.y, p.z)));
+      const center = box.getCenter(new THREE.Vector3());
+      const diag = box.getSize(new THREE.Vector3()).length() || 100;
+      const target = new THREE.Vector3().fromArray(state.target || [0, 0, 0]);
+      const eye = new THREE.Vector3().fromArray(state.position);
+      if (target.distanceTo(center) > diag * 1.5 + 60
+        || eye.distanceTo(center) > diag * 4 + 240) {
+        this.frameAll();
+        return;
+      }
+    }
     this.camera.position.fromArray(state.position);
     this.controls.target.fromArray(state.target || [0, 0, 0]);
     this.controls.update();

@@ -129,6 +129,30 @@ test('incremental insertion: adding a node keeps existing tree positions stable'
   }
 });
 
+test('overlay elements (quiz covers, markings) are excluded from the 3D graph', () => {
+  const cover = node(20, 100, 0, [{ id: 0, targetId: 2, weight: -1, con: 'e', start: false }]);
+  cover.types = ['q', 'a', 'b'];
+  const mark = node(21, 0, 0, [{ id: 0, targetId: 1, weight: -1, con: 'e', start: false }]);
+  mark.types = ['m'];
+  // the covered node carries the reciprocal pseudo-link
+  const covered = node(2, 100, 0, [
+    { id: -12, targetId: 1, weight: 1, start: false, con: 'e' },
+    link(2, 3),
+    { id: 0, targetId: 20, weight: -1, con: 'e', start: true },
+  ]);
+  const docs = FIXTURE.map((d) => (d.id === 2 ? covered : d)).concat([cover, mark]);
+  const g = core.buildGraph(docs);
+  // overlays are not nodes and their pseudo-links are not edges
+  assert.equal(g.nodes.has(20), false);
+  assert.equal(g.nodes.has(21), false);
+  assert.equal(g.nodes.size, 6);
+  assert.equal(g.edges.length, 6);
+  assert.ok(g.edges.every((e) => e.linkId !== 0), 'no pseudo id-0 edges');
+  // layouts still cover exactly the real nodes
+  const { positions } = core.computeLayout(docs, 'cognitive-tree');
+  assert.equal(positions.size, 6);
+});
+
 test('cognitive-tree anchors roots to real 2D centers and preserves bearings', () => {
   const { positions, hierarchy, graph } = core.computeLayout(FIXTURE, 'cognitive-tree');
   // root of component A is node 1

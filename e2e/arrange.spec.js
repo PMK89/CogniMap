@@ -15,6 +15,8 @@ test.describe.configure({ mode: 'serial' });
 
 const CLUSTER = { x: 372600, y: 124800 }; // empty area near the fixture viewport
 let createdIds = [];
+let coverId = 0;
+let coveredId = 0;
 
 async function openApp(page) {
   // area selection lives in edit mode
@@ -83,9 +85,28 @@ test('setup: create a deliberately cluttered cluster', async ({ page }) => {
       await fetch('/api/cme', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(c) });
       made.push(c.id);
     }
-    return made;
-  }, CLUSTER);
+    // a quiz cover glued over the third clone (spaced-repetition overlay)
+    const target = made[2];
+    const t = await (await fetch('/api/cme/id/' + target)).json();
+    const q = JSON.parse(JSON.stringify(t));
+    delete q._id;
+    q.id = maxid + 100;
+    q.title = '';
+    q.types = ['q', 'a', 'b'];
+    q.x0 = t.x0 - 2; q.y0 = t.y0 - 2; q.x1 = t.x1 + 2; q.y1 = t.y1 + 2;
+    q.coor = { x: q.x0, y: q.y0 };
+    const qo = JSON.parse(q.cmobject);
+    qo.links = [{ id: 0, targetId: target, title: t.title, weight: -1, con: 'e', start: false }];
+    q.cmobject = JSON.stringify(qo);
+    await fetch('/api/cme', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(q) });
+    const to = JSON.parse(t.cmobject);
+    to.links.push({ id: 0, targetId: q.id, title: '', weight: -1, con: 'e', start: true });
+    t.cmobject = JSON.stringify(to);
+    await fetch('/api/cme', { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify(t) });
+    return { made, coverId: q.id, coveredId: target };
+  }, CLUSTER).then((r) => { coverId = r.coverId; coveredId = r.coveredId; return r.made; });
   expect(createdIds.length).toBe(6);
+  expect(coverId).toBeGreaterThan(0);
 });
 
 test('Evenly Space moves only the real elements — no duplicates, no ghosts', async ({ page }) => {
@@ -93,7 +114,7 @@ test('Evenly Space moves only the real elements — no duplicates, no ghosts', a
   await page.evaluate((C) => window.scrollTo(C.x - 700, C.y - 450), CLUSTER);
   await page.waitForTimeout(2500);
   const before = await apiCounts(page);
-  const posBefore = await clusterPositions(page, createdIds);
+  const posBefore = await clusterPositions(page, createdIds.concat([coverId]));
 
   // real Ctrl+drag selection around the cluster
   await page.keyboard.down('Control');
@@ -113,7 +134,14 @@ test('Evenly Space moves only the real elements — no duplicates, no ghosts', a
   expect(after.ids).toEqual(before.ids);
 
   // positions actually changed and no longer overlap
-  const posAfter = await clusterPositions(page, createdIds);
+  const posAfter = await clusterPositions(page, createdIds.concat([coverId]));
+
+  // the quiz cover keeps hiding its element: it moved by the exact same
+  // delta as the element it covers, never got a slot of its own
+  expect(posAfter[coverId].x - posAfter[coveredId].x)
+    .toBeCloseTo(posBefore[coverId].x - posBefore[coveredId].x, 0);
+  expect(posAfter[coverId].y - posAfter[coveredId].y)
+    .toBeCloseTo(posBefore[coverId].y - posBefore[coveredId].y, 0);
   let movedCount = 0;
   for (const id of createdIds) {
     if (Math.abs(posAfter[id].x - posBefore[id].x) > 1
@@ -159,7 +187,7 @@ test('Evenly Space moves only the real elements — no duplicates, no ghosts', a
   // clearing the selection must not alter the result
   await page.mouse.click(1700, 850);
   await page.waitForTimeout(800);
-  const posCleared = await clusterPositions(page, createdIds);
+  const posCleared = await clusterPositions(page, createdIds.concat([coverId]));
   expect(posCleared).toEqual(posAfter);
 });
 

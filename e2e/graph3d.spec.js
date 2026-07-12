@@ -86,6 +86,35 @@ test('camera orbit, pan and zoom work', async ({ page }) => {
   expect(Math.hypot(targetAfter[0] - targetBefore[0], targetAfter[1] - targetBefore[1], targetAfter[2] - targetBefore[2])).toBeGreaterThan(0.5);
 });
 
+test('a stale saved camera is ignored and the map is framed instead', async ({ page }) => {
+  // poison the saved camera: it points at empty space near the origin,
+  // thousands of units from the cognitive-tree content (the exact state
+  // that used to drop the user into a white void)
+  await page.request.get('/api/viz3d').then(async (r) => {
+    const v = await r.json();
+    v.camera = { position: [58, 81, 121], target: [-5, 0, -5] };
+    await page.request.put('/api/viz3d', { data: v });
+  });
+  await open3d(page);
+  const state = await probe(page, `(() => {
+    let min = [1e9, 1e9, 1e9], max = [-1e9, -1e9, -1e9];
+    scene['positions'].forEach((p) => {
+      [p.x, p.y, p.z].forEach((v, i) => {
+        if (v < min[i]) { min[i] = v; }
+        if (v > max[i]) { max[i] = v; }
+      });
+    });
+    return { target: scene['controls'].target.toArray(), min, max, nodes: scene['nodeMeshes'].size };
+  })()`);
+  expect(state.nodes).toBeGreaterThan(0);
+  // the camera target must sit inside the content bounds — not at the
+  // poisoned target near the origin
+  const center = state.min.map((v, i) => (v + state.max[i]) / 2);
+  const diag = Math.hypot(state.max[0] - state.min[0], state.max[1] - state.min[1], state.max[2] - state.min[2]);
+  const dist = Math.hypot(state.target[0] - center[0], state.target[1] - center[1], state.target[2] - center[2]);
+  expect(dist).toBeLessThanOrEqual(diag * 1.5 + 60);
+});
+
 test('node selection in 3D syncs the application-wide selection', async ({ page }) => {
   await open3d(page);
   const id = await probe(page, `inst['docs'].filter(d => d && d.id > 0)[0].id`);

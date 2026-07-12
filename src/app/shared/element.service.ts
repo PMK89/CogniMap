@@ -185,9 +185,16 @@ export class ElementService {
       return -1;
     }
     const nodes = [];
+    const overlays = [];
     for (const key in this.selCME) {
       if (this.selCME[key] && this.selCME[key].id > 0) {
-        nodes.push(this.CMEtoCMEol(JSON.parse(JSON.stringify(this.selCME[key]))));
+        const cme = this.CMEtoCMEol(JSON.parse(JSON.stringify(this.selCME[key])));
+        const anchor = this.overlayAnchorId(cme);
+        if (anchor) {
+          overlays.push({ cme: cme, anchor: anchor });
+        } else {
+          nodes.push(cme);
+        }
       }
     }
     if (nodes.length < 3) {
@@ -198,6 +205,7 @@ export class ElementService {
     const xTargets = this.evenTargets(nodes.map((n) => n.coor.x), 110);
     const yTargets = this.evenTargets(nodes.map((n) => n.coor.y), 34);
     let moved = 0;
+    const deltas = {};
     for (let i = 0; i < nodes.length; i++) {
       const cme = nodes[i];
       const dx = Math.round(xTargets[i] - cme.coor.x);
@@ -205,29 +213,70 @@ export class ElementService {
       if (dx === 0 && dy === 0) {
         continue;
       }
-      cme.coor.x += dx;
-      cme.coor.y += dy;
-      cme.x0 += dx;
-      cme.x1 += dx;
-      cme.y0 += dy;
-      cme.y1 += dy;
-      cme.prep = '';
-      cme.state = '';
-      this.updateCMEol(cme);
-      // links follow the node — same propagation the drag path uses
-      for (const j in cme.cmobject.links) {
-        if (cme.cmobject.links[j]) {
-          const link = cme.cmobject.links[j];
-          const conxy = this.conectionCoor(cme, link);
-          this.changeLink(link.id, conxy[0], conxy[1], link.start);
-        }
-      }
+      deltas[cme.id] = { dx: dx, dy: dy };
+      this.shiftCMEol(cme, dx, dy);
       moved++;
+    }
+    // overlays (quiz covers, markings) never get positions of their own:
+    // they follow the element they cover by the exact same delta, so they
+    // keep hiding it for spaced repetition. Anchors outside the selection
+    // did not move, so their overlays stay put too.
+    for (let i = 0; i < overlays.length; i++) {
+      const d = deltas[overlays[i].anchor];
+      if (d) {
+        this.shiftCMEol(overlays[i].cme, d.dx, d.dy);
+        moved++;
+      }
     }
     if (moved > 0) {
       this.refreshSelectionAfterArrange();
     }
     return moved;
+  }
+
+  /**
+   * Quiz covers ('q'/'q1'), markings ('m') and signs ('s') are separate
+   * elements glued over the element they reference via a weight -1
+   * pseudo-link (start === false on the overlay side). Returns that
+   * anchor id, or 0 for ordinary elements. Ordinary elements also carry
+   * weight -1 parentage links, so the type check is required.
+   */
+  private overlayAnchorId(cme: any): number {
+    const t = cme.types && cme.types[0] ? String(cme.types[0]) : '';
+    if (t !== 'm' && t !== 's' && t.indexOf('q') !== 0) {
+      return 0;
+    }
+    const links = (cme.cmobject && cme.cmobject.links) || [];
+    for (const j in links) {
+      // the anchor is the id-0 pseudo-link (real links carry the id of
+      // their link document; ordinary links also use weight -1)
+      if (links[j] && !links[j].id && links[j].start === false
+        && links[j].targetId > 0) {
+        return links[j].targetId;
+      }
+    }
+    return 0;
+  }
+
+  /** moves one element by (dx, dy) through the canonical update path */
+  private shiftCMEol(cme: any, dx: number, dy: number) {
+    cme.coor.x += dx;
+    cme.coor.y += dy;
+    cme.x0 += dx;
+    cme.x1 += dx;
+    cme.y0 += dy;
+    cme.y1 += dy;
+    cme.prep = '';
+    cme.state = '';
+    this.updateCMEol(cme);
+    // links follow the node — same propagation the drag path uses
+    for (const j in cme.cmobject.links) {
+      if (cme.cmobject.links[j]) {
+        const link = cme.cmobject.links[j];
+        const conxy = this.conectionCoor(cme, link);
+        this.changeLink(link.id, conxy[0], conxy[1], link.start);
+      }
+    }
   }
 
   /**
