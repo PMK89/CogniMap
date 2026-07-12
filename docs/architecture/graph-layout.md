@@ -28,8 +28,9 @@ as a cross-link.
 
 | Preset | Description |
 |---|---|
+| `cognitive-tree` | **default** — horizontal organic tree: component roots at their real 2D centers, each subtree in an angular window whose direction is blended with the child's actual 2D bearing (semantic arrangement preserved), positions chaining outward from parents so branches split at several spatial levels, gentle deterministic height variation per major branch |
 | `legacy-planar` | legacy 2D coordinates on the XZ plane (spatial memory preserved) |
-| `layered-depth` | legacy XZ + hierarchy depth as height (default) |
+| `layered-depth` | legacy XZ + hierarchy depth as height |
 | `radial-tree` | subtree-size-weighted angular rings per depth |
 | `spherical` | depth shells with golden-angle elevation |
 | `organic` | radial + deterministic hash-based branch offsets |

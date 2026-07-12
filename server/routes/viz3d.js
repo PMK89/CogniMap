@@ -22,7 +22,7 @@ function createViz3dRouter() {
 
   const DEFAULT = {
     version: 1,
-    preset: 'layered-depth',
+    preset: 'cognitive-tree',
     positions: {},
     shapes: {},
     locked: {},

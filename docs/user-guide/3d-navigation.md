@@ -20,9 +20,12 @@ Camera limits prevent extreme zoom (min 2 / max 8000 units) and the
 
 ## Toolbar
 
-- **Layout** — deterministic presets (`layered-depth` default keeps your
-  2D arrangement and lifts children by hierarchy depth; `legacy-planar`
-  is the flat arrangement in the 3D renderer)
+- **Layout** — deterministic presets. `cognitive-tree` (default) builds a
+  horizontal organic tree that mirrors your real map: the central concept
+  sits at the map's center, major branches extend outward in the same
+  directions they have in 2D, and children fan out around their parents.
+  `legacy-planar` is the flat arrangement in the 3D renderer;
+  `layered-depth` lifts children by hierarchy depth.
 - **Relayout** — recompute the preset (drops manual 3D positions)
 - **Frame all** — frame the complete map
 - **Focus** — fly to the selected node

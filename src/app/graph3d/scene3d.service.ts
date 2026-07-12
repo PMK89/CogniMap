@@ -156,7 +156,7 @@ export class Scene3dService {
   public setDocs(docs: any[], viz: Viz3dState) {
     if (!this.available) { return; }
     this.clearScene();
-    const preset = (viz && viz.preset) || 'layered-depth';
+    const preset = (viz && viz.preset) || 'cognitive-tree';
     const result = core.computeLayout(docs, preset, viz && viz.positions);
     this.graph = result.graph;
     this.hierarchy = result.hierarchy;
@@ -371,6 +371,9 @@ export class Scene3dService {
         const tex = this.labelTexture(doc.title);
         const mat = new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true });
         sprite = new THREE.Sprite(mat);
+        // bottom-center anchor: the label visibly sits ON its node and
+        // moves with it, instead of floating detached above the scene
+        sprite.center.set(0.5, 0);
         const aspect = tex.image.width / tex.image.height;
         sprite.scale.set(5.2 * aspect, 5.2, 1);
         sprite.userData = { id: doc.id };
@@ -379,7 +382,7 @@ export class Scene3dService {
         made++;
       }
       const p = this.positions.get(doc.id);
-      if (p) { sprite.position.set(p.x, p.y + 6.5, p.z); }
+      if (p) { sprite.position.set(p.x, p.y + 3.4, p.z); }
     }
     this.lastLabelCull = 0;
     this.cullLabels();
@@ -453,7 +456,7 @@ export class Scene3dService {
         if (this.raycaster.ray.intersectPlane(this.dragState.plane, hit)) {
           this.dragState.mesh.position.copy(hit);
           const sprite = this.labelSprites.get(this.dragState.id);
-          if (sprite) { sprite.position.set(hit.x, hit.y + 6.5, hit.z); }
+          if (sprite) { sprite.position.set(hit.x, hit.y + 3.4, hit.z); }
           this.requestRender();
         }
       } else if (!downAt) {

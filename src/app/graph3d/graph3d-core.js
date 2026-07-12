@@ -458,7 +458,79 @@ function relaxCollisions(pos, minDist, passes) {
   return pos;
 }
 
+/**
+ * cognitive-tree — the default: a horizontal organic 3D tree that
+ * mirrors the real cognitive map.
+ *
+ * - each component root sits at its real 2D center (scaled), height 0
+ * - every subtree occupies an angular window; a child's direction is the
+ *   window allocation BLENDED with its actual 2D bearing from the parent,
+ *   so the user's semantic arrangement (chemistry left, physics right, …)
+ *   is preserved while guaranteeing separation
+ * - positions chain outward from the parent (limbs, not concentric
+ *   rings), so branches split at several spatial levels
+ * - height varies gently and deterministically per major branch to
+ *   reduce overlap without hiding the hierarchy
+ */
+function layoutCognitiveTree(graph, h) {
+  const sizes = subtreeSizes(h);
+  const pos = new Map();
+  const STEP = 24;
+  for (let ci = 0; ci < h.roots.length; ci++) {
+    const root = h.roots[ci];
+    const comp = h.components[ci];
+    const c = centerOf(graph, comp);
+    pos.set(root, { x: c.x * SCALE, y: 0, z: c.z * SCALE });
+    const bearingOf = (parentId, kidId) => {
+      const pd = graph.nodes.get(parentId);
+      const kd = graph.nodes.get(kidId);
+      if (pd && pd.coor && kd && kd.coor
+          && (kd.coor.x !== pd.coor.x || kd.coor.y !== pd.coor.y)) {
+        return Math.atan2(kd.coor.y - pd.coor.y, kd.coor.x - pd.coor.x);
+      }
+      return hash01(kidId, 3) * Math.PI * 2;
+    };
+    // explicit stack — real maps reach depth ~40 with thousands of nodes
+    const stack = [{ id: root, a0: 0, a1: Math.PI * 2, depth: 0, salt: root }];
+    while (stack.length) {
+      const { id, a0, a1, depth, salt } = stack.pop();
+      const kids = h.childrenOf.get(id) || [];
+      if (!kids.length) continue;
+      const parentPos = pos.get(id);
+      const ordered = kids.slice().sort((p, q) => bearingOf(id, p) - bearingOf(id, q) || p - q);
+      const total = ordered.reduce((s, k) => s + sizes.get(k), 0);
+      let acc = a0;
+      for (const k of ordered) {
+        const span = ((a1 - a0) * sizes.get(k)) / total;
+        let ang = acc + span / 2;
+        // pull toward the real 2D bearing when it lies near the window
+        let d = bearingOf(id, k) - ang;
+        while (d > Math.PI) d -= 2 * Math.PI;
+        while (d < -Math.PI) d += 2 * Math.PI;
+        if (Math.abs(d) < Math.max(span, 0.35)) ang += d * 0.5;
+        const branchSalt = depth === 0 ? k : salt;
+        const r = STEP * (0.85 + 0.5 * hash01(k, 5)) * (1 + Math.min(2, sizes.get(k) / 40));
+        const y = parentPos.y
+          + (hash01(branchSalt, 9) - 0.5) * (depth === 0 ? 30 : 0)
+          + (hash01(k, 11) - 0.5) * 6;
+        pos.set(k, {
+          x: parentPos.x + Math.cos(ang) * r,
+          y,
+          z: parentPos.z + Math.sin(ang) * r,
+        });
+        // the child's own window opens around its outward direction and
+        // widens for large subtrees so deep branches stay readable
+        const childHalf = Math.max(span * 0.75, Math.min(1.4, 0.25 + sizes.get(k) / 60)) / 2;
+        stack.push({ id: k, a0: ang - childHalf, a1: ang + childHalf, depth: depth + 1, salt: branchSalt });
+        acc += span;
+      }
+    }
+  }
+  return pos;
+}
+
 const LAYOUTS = {
+  'cognitive-tree': (g, h) => relaxCollisions(layoutCognitiveTree(g, h), 7, 2),
   'legacy-planar': (g, h) => layoutLegacyPlanar(g),
   'layered-depth': (g, h) => relaxCollisions(layoutLayeredDepth(g, h), 6, 2),
   'radial-tree': (g, h) => relaxCollisions(layoutRadialTree(g, h), 8, 3),

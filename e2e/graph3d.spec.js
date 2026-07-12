@@ -26,6 +26,9 @@ async function open3d(page) {
     s.widget0 = 'none'; s.widget1 = 'none';
     if (s.wlayout0) { s.wlayout0.display = 'none'; }
     if (s.wlayout1) { s.wlayout1.display = 'none'; }
+    // earlier specs may have scrolled elsewhere — pin the viewport to the
+    // linked fixture cluster so the scene has structural branches
+    s.coor = { x: 273600, y: 96200 };
     await page.request.put('/api/settings', { data: s });
   });
   await page.goto('/');

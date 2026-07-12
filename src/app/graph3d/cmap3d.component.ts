@@ -27,13 +27,13 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
   public presets: string[] = core.LAYOUT_PRESETS;
   public shapes: string[] = ['auto', 'sphere', 'rounded-box', 'cube', 'capsule', 'cylinder',
     'cone', 'torus', 'prism', 'octahedron', 'lowpoly', 'panel', 'image-plane'];
-  public preset = 'layered-depth';
+  public preset = 'cognitive-tree';
   public failure = '';
   public selectedId = 0;
   public selectedTitle = '';
   public selectedShape = 'auto';
   public nodeCount = 0;
-  public viz: any = { version: 1, preset: 'layered-depth', positions: {}, shapes: {}, locked: {} };
+  public viz: any = { version: 1, preset: 'cognitive-tree', positions: {}, shapes: {}, locked: {} };
   private docs: any[] = [];
   private sub: any;
   private saveTimer: any;

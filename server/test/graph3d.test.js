@@ -128,3 +128,29 @@ test('incremental insertion: adding a node keeps existing tree positions stable'
     assert.ok(Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z) < 7, 'node ' + id + ' moved');
   }
 });
+
+test('cognitive-tree anchors roots to real 2D centers and preserves bearings', () => {
+  const { positions, hierarchy, graph } = core.computeLayout(FIXTURE, 'cognitive-tree');
+  // root of component A is node 1
+  const root = hierarchy.roots[0];
+  assert.equal(root, 1);
+  const rp = positions.get(root);
+  // component A nodes are around x 0..200, y 0..100 (2D) -> scaled center
+  assert.ok(Math.abs(rp.x - (75 * core.SCALE)) < 40, 'root x near 2D center');
+  assert.equal(rp.y, 0, 'root sits at height 0');
+  // bearing preservation: node 2 lies east of node 1 in 2D -> stays east in 3D
+  const p2 = positions.get(2);
+  assert.ok(p2.x > rp.x, 'child keeps its real-world direction from the parent');
+  // children of the same parent are separated
+  const p4 = positions.get(4);
+  const d = Math.hypot(p2.x - p4.x, p2.y - p4.y, p2.z - p4.z);
+  assert.ok(d > 5, 'siblings separated: ' + d);
+});
+
+test('cognitive-tree keeps disconnected components apart and covers all nodes', () => {
+  const { positions } = core.computeLayout(FIXTURE, 'cognitive-tree');
+  assert.equal(positions.size, 6);
+  const a = positions.get(1);
+  const b = positions.get(10);
+  assert.ok(Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z) > 15, 'components separated');
+});

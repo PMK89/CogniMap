@@ -193,8 +193,10 @@ export class ElementService {
     if (nodes.length < 3) {
       return 0;
     }
-    const xTargets = this.evenTargets(nodes.map((n) => n.coor.x));
-    const yTargets = this.evenTargets(nodes.map((n) => n.coor.y));
+    // minimum spacing per axis so genuinely cluttered clusters separate
+    // (typical node: ~100px wide, ~24px tall)
+    const xTargets = this.evenTargets(nodes.map((n) => n.coor.x), 110);
+    const yTargets = this.evenTargets(nodes.map((n) => n.coor.y), 34);
     let moved = 0;
     for (let i = 0; i < nodes.length; i++) {
       const cme = nodes[i];
@@ -222,7 +224,40 @@ export class ElementService {
       }
       moved++;
     }
+    if (moved > 0) {
+      this.refreshSelectionAfterArrange();
+    }
     return moved;
+  }
+
+  /**
+   * The area-selection overlay is built from CLONES of the rendered
+   * element groups plus a bounding rectangle. After arranging, the real
+   * elements move but those clones would linger at the old positions as
+   * ghost copies — so refresh the selection bookkeeping from the store
+   * (same membership, new coordinates) and rebuild the overlay once the
+   * moved elements have re-rendered.
+   */
+  private refreshSelectionAfterArrange() {
+    this.cmelements
+      .subscribe((data) => {
+        for (let i = 0; i < this.selCME.length; i++) {
+          const cur = this.selCME[i];
+          if (!cur || !cur.id) { continue; }
+          for (const key in data) {
+            if (data[key] && data[key].id === cur.id) {
+              this.selCME[i] = data[key];
+              break;
+            }
+          }
+        }
+      }).unsubscribe();
+    setTimeout(() => {
+      this.clearselectionGroup();
+      if (this.selCMEoArray.length > 1) {
+        this.selectionGroup(this.selCMEoArray, this.selCMElArray);
+      }
+    }, 200);
   }
 
   /**
@@ -230,7 +265,7 @@ export class ElementService {
    * row/column and snap to their shared center) and spreads the cluster
    * centers evenly across the original min..max extent, preserving order.
    */
-  private evenTargets(values: number[]): number[] {
+  private evenTargets(values: number[], minStep?: number): number[] {
     // only truly-aligned coordinates count as one row/column — a larger
     // tolerance merges distinct rows and clumps the result
     const TOL = 12;
@@ -249,9 +284,18 @@ export class ElementService {
     if (clusters.length > 1) {
       const min = centers[0];
       const max = centers[centers.length - 1];
-      const step = (max - min) / (clusters.length - 1);
+      let step = (max - min) / (clusters.length - 1);
+      let start = min;
+      // enforce a minimum spacing: genuinely cluttered clusters expand
+      // symmetrically around their original center instead of staying
+      // squeezed inside a too-small extent
+      if (minStep && step < minStep) {
+        step = minStep;
+        const mid = (min + max) / 2;
+        start = mid - (step * (clusters.length - 1)) / 2;
+      }
       clusters.forEach((c, k) => {
-        const t = min + k * step;
+        const t = start + k * step;
         for (const i of c) {
           targets[i] = t;
         }
