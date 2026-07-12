@@ -1,6 +1,9 @@
 <div [ngStyle]="cmapStyle" id="cmap" titel="cmap">
 	<app-cmap></app-cmap>
 </div>
+<div id="cmap3d" *ngIf="view3d">
+	<app-cmap3d></app-cmap3d>
+</div>
 <div [ngStyle]="toolbar0Style" id="toolbar0">
 	<app-toolbar0></app-toolbar0>
 </div>
@@ -16,6 +19,28 @@
 <div [ngStyle]="menueStyle" id="menue">
 	<app-menue></app-menue>
 </div>
+<!-- chrome buttons stop mouse propagation: the global mousedown/mouseup
+     handlers misread any titled element as a map element and would clear
+     the current area selection -->
+<button type="button" class="cm-theme-toggle" (click)="toggleTheme()"
+        (mousedown)="$event.stopPropagation()" (mouseup)="$event.stopPropagation()"
+        title="Toggle dark/light theme" aria-label="Toggle dark/light theme">◐</button>
+<button type="button" class="cm-3d-toggle" (click)="toggle3d()"
+        (mousedown)="$event.stopPropagation()" (mouseup)="$event.stopPropagation()"
+        title="Toggle 3D workspace" aria-label="Toggle 3D workspace">{{view3d ? '2D' : '3D'}}</button>
+<button type="button" class="cm-undo" (click)="undo()"
+        (mousedown)="$event.stopPropagation()" (mouseup)="$event.stopPropagation()"
+        title="Undo last change (Ctrl+Z)" aria-label="Undo last change">↶</button>
+<button type="button" class="cm-redo" (click)="redo()"
+        (mousedown)="$event.stopPropagation()" (mouseup)="$event.stopPropagation()"
+        title="Redo (Ctrl+Shift+Z)" aria-label="Redo last undone change">↷</button>
+<button type="button" class="cm-arrange" (click)="arrange()"
+        (mousedown)="$event.stopPropagation()" (mouseup)="$event.stopPropagation()"
+        title="Space selected nodes evenly (select an area first)"
+        aria-label="Space selected nodes evenly">⇹</button>
+<button type="button" class="cm-tb-toggle" (click)="toggleToolbar()"
+        (mousedown)="$event.stopPropagation()" (mouseup)="$event.stopPropagation()"
+        title="Collapse/expand toolbar" aria-label="Collapse or expand toolbar">{{tbCollapsed ? '▾' : '▴'}}</button>
 <div id="TPmain" style="display:none">
 	<div #TPid value="empty" id="TPid">
 	</div>

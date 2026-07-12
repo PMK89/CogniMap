@@ -1,0 +1,697 @@
+/* ============================================================
+   CogniMap design system
+   ------------------------------------------------------------
+   Modernizes the application chrome (toolbars, panels, menus,
+   widgets, form controls) without touching the data-driven
+   styling of map elements, which continues to come from the
+   user's settings/colors configuration.
+
+   Theming: light is the default; dark follows the OS preference
+   and can be forced either way with html[data-theme="dark|light"]
+   (toggled from the app, persisted in localStorage).
+   ============================================================ */
+
+:root {
+  --cm-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --cm-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --cm-bg: #f5f6f8;
+  --cm-surface: #ffffff;
+  --cm-surface-2: #eef0f3;
+  --cm-border: #d4d8de;
+  --cm-text: #1c2430;
+  --cm-text-dim: #5a6472;
+  --cm-accent: #2f6fed;
+  --cm-accent-text: #ffffff;
+  --cm-danger: #d64545;
+  --cm-focus: #2f6fed;
+  --cm-shadow: 0 1px 3px rgba(16, 24, 40, 0.12), 0 1px 2px rgba(16, 24, 40, 0.06);
+  --cm-shadow-lg: 0 8px 24px rgba(16, 24, 40, 0.16);
+  --cm-radius: 8px;
+  --cm-radius-sm: 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --cm-bg: #14181f;
+    --cm-surface: #1d232d;
+    --cm-surface-2: #262e3a;
+    --cm-border: #39424f;
+    --cm-text: #e6eaf0;
+    --cm-text-dim: #9aa5b3;
+    --cm-accent: #5b8def;
+    --cm-accent-text: #0d1117;
+    --cm-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --cm-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.55);
+  }
+}
+
+:root[data-theme="dark"] {
+  --cm-bg: #14181f;
+  --cm-surface: #1d232d;
+  --cm-surface-2: #262e3a;
+  --cm-border: #39424f;
+  --cm-text: #e6eaf0;
+  --cm-text-dim: #9aa5b3;
+  --cm-accent: #5b8def;
+  --cm-accent-text: #0d1117;
+  --cm-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --cm-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.55);
+}
+
+/* ------------------------------------------------------------
+   Base
+   ------------------------------------------------------------ */
+
+/* IMPORTANT: no global color/font on html/body — map content stored in the
+   database uses fill="currentColor" (MathJax SVGs) and inherited fonts, and
+   must render exactly as it did before (black on the user-styled canvas).
+   The design system applies to the application chrome only. */
+html, body {
+  margin: 0;
+}
+
+/* pin the canvas' inherited color so currentColor content stays black in
+   dark mode, matching the legacy renderer */
+#cmap {
+  color: #000000;
+}
+
+/* ------------------------------------------------------------
+   Dark canvas variant
+   ------------------------------------------------------------
+   Map colors are data-driven (stored per element), so the dark canvas
+   is produced at the presentation layer: invert + hue-rotate flips the
+   white surfaces dark and black text/formulas light while keeping hues
+   close to their originals — no stored data is touched. Raster images,
+   videos and embedded figures are counter-inverted so photographs and
+   diagrams keep their true colors.
+   ------------------------------------------------------------ */
+
+:root[data-theme="dark"] body {
+  background: var(--cm-bg);
+}
+
+:root[data-theme="dark"] #cmap {
+  filter: invert(1) hue-rotate(180deg);
+  background: #e2e6ea; /* inverts to a dark slate canvas */
+}
+
+:root[data-theme="dark"] #cmap img,
+:root[data-theme="dark"] #cmap image,
+:root[data-theme="dark"] #cmap video,
+:root[data-theme="dark"] #cmap iframe,
+:root[data-theme="dark"] #cmap embed {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body {
+    background: var(--cm-bg);
+  }
+  :root:not([data-theme="light"]) #cmap {
+    filter: invert(1) hue-rotate(180deg);
+    background: #e2e6ea;
+  }
+  :root:not([data-theme="light"]) #cmap img,
+  :root:not([data-theme="light"]) #cmap image,
+  :root:not([data-theme="light"]) #cmap video,
+  :root:not([data-theme="light"]) #cmap iframe,
+  :root:not([data-theme="light"]) #cmap embed {
+    filter: invert(1) hue-rotate(180deg);
+  }
+}
+
+/* initial loading state before Angular bootstraps (keep :empty — cheap;
+   never use :has() here, it re-evaluates on every DOM mutation) */
+app-root:empty::after {
+  content: "Loading CogniMap…";
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--cm-text-dim);
+  background: var(--cm-bg);
+}
+
+/* ------------------------------------------------------------
+   Application chrome panels
+   ------------------------------------------------------------
+   The layout engine (LayoutService) positions these containers
+   absolutely; we style their surfaces.
+   ------------------------------------------------------------ */
+
+#toolbar0,
+#toolbar1,
+#menue,
+#widgets0,
+#widgets1 {
+  background: var(--cm-surface);
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius);
+  box-shadow: var(--cm-shadow);
+  color: var(--cm-text);
+  font-family: var(--cm-font);
+  overflow: auto;
+}
+
+#toolbar0, #toolbar1 {
+  padding: 4px 6px;
+}
+
+#widgets0, #widgets1 {
+  box-shadow: var(--cm-shadow-lg);
+}
+
+#menue {
+  box-shadow: var(--cm-shadow-lg);
+  padding: 6px;
+}
+
+/* toolbar tables become flush, evenly spaced groups */
+#toolbar0 table, #toolbar1 table, #menue table {
+  border-collapse: collapse;
+}
+
+#toolbar0 td, #toolbar1 td, #menue td {
+  padding: 1px 2px;
+  vertical-align: middle;
+}
+
+/* subtle separators between toolbar sections */
+#toolbar1 > table > tr > td,
+#toolbar1 > table > tbody > tr > td {
+  border-right: 1px solid var(--cm-border);
+  padding: 0 6px;
+}
+
+#toolbar1 > table > tr > td:last-child,
+#toolbar1 > table > tbody > tr > td:last-child {
+  border-right: none;
+}
+
+/* ------------------------------------------------------------
+   Form controls inside the chrome
+   ------------------------------------------------------------ */
+
+#toolbar0 select, #toolbar1 select, #menue select, #widgets0 select, #widgets1 select,
+#toolbar0 input, #toolbar1 input, #menue input, #widgets0 input, #widgets1 input,
+#toolbar0 button, #toolbar1 button, #menue button, #widgets0 button, #widgets1 button,
+#toolbar0 textarea, #toolbar1 textarea, #widgets0 textarea, #widgets1 textarea {
+  font-family: var(--cm-font);
+  font-size: 13px;
+  color: var(--cm-text);
+  background: var(--cm-surface-2);
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius-sm);
+  padding: 3px 6px;
+  transition: border-color 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+}
+
+#toolbar0 select:hover, #toolbar1 select:hover, #menue select:hover,
+#toolbar0 button:hover, #toolbar1 button:hover, #menue button:hover,
+#widgets0 button:hover, #widgets1 button:hover {
+  border-color: var(--cm-accent);
+  cursor: pointer;
+}
+
+#toolbar0 :disabled, #toolbar1 :disabled, #menue :disabled,
+#widgets0 :disabled, #widgets1 :disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* visible keyboard focus everywhere in the chrome */
+:focus-visible {
+  outline: 2px solid var(--cm-focus);
+  outline-offset: 1px;
+  border-radius: var(--cm-radius-sm);
+}
+
+/* clickable toolbar icons (legacy div/img buttons) */
+#toolbar0 div[ng-reflect-ng-style], #toolbar1 div[ng-reflect-ng-style],
+#toolbar0 .lbtndefault, #toolbar1 .lbtndefault, #menue .lbtndefault,
+.sbtndefault, .pbtndefault {
+  border-radius: var(--cm-radius-sm);
+  transition: filter 120ms ease, transform 60ms ease;
+}
+
+#toolbar0 div[ng-reflect-ng-style]:hover, #toolbar1 div[ng-reflect-ng-style]:hover,
+.lbtndefault:hover, .sbtndefault:hover, .pbtndefault:hover {
+  filter: brightness(0.92);
+  cursor: pointer;
+}
+
+#toolbar0 div[ng-reflect-ng-style]:active, #toolbar1 div[ng-reflect-ng-style]:active,
+.lbtndefault:active, .sbtndefault:active, .pbtndefault:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   Widget panels — screen-size adaptive
+   ------------------------------------------------------------
+   The persisted layout gave the two widget slots fixed pixel
+   frames that overlapped the toolbar and left large empty areas.
+   They now dock below the toolbars (--cm-safe-top is measured by
+   the app), size themselves to their content up to the available
+   viewport, and split the left column when both are open.
+   ------------------------------------------------------------ */
+
+#widgets0, #widgets1 {
+  top: var(--cm-safe-top, 148px) !important;
+  left: 8px !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 240px;
+  max-width: min(48vw, 920px);
+  max-height: calc(100vh - var(--cm-safe-top, 148px) - 16px);
+  padding: 6px;
+}
+
+/* Both slots open: widget0 takes the upper half, widget1 the lower.
+   IMPORTANT: expressed via html-level classes (set by AppComponent from
+   the settings) — :has()/[style*=...] selectors were disastrous for
+   performance on this page's huge, constantly-mutating SVG DOM. */
+html.cm-w0-open.cm-w1-open #widgets0 {
+  max-height: calc((100vh - var(--cm-safe-top, 148px)) / 2 - 16px);
+}
+html.cm-w0-open.cm-w1-open #widgets1 {
+  top: calc(var(--cm-safe-top, 148px) + (100vh - var(--cm-safe-top, 148px)) / 2) !important;
+  max-height: calc((100vh - var(--cm-safe-top, 148px)) / 2 - 24px);
+}
+
+/* iframe plugins (JSME / SVG editor) get real working space */
+#widgets0 iframe[src*="assets/widgets"],
+#widgets1 iframe[src*="assets/widgets"] {
+  width: min(46vw, 880px) !important;
+  height: calc(100vh - var(--cm-safe-top, 148px) - 44px) !important;
+}
+html.cm-w0-open.cm-w1-open #widgets0 iframe[src*="assets/widgets"],
+html.cm-w0-open.cm-w1-open #widgets1 iframe[src*="assets/widgets"] {
+  height: calc((100vh - var(--cm-safe-top, 148px)) / 2 - 48px) !important;
+}
+
+/* ------------------------------------------------------------
+   LaTeX editor: responsive symbol palette
+   ------------------------------------------------------------ */
+
+#mjeditor {
+  width: 100%;
+}
+
+#mjeditor textarea {
+  width: calc(100% - 12px);
+}
+
+#mjeditor > table {
+  display: block;
+}
+
+#mjeditor > table > tbody > tr,
+#mjeditor > table > tr {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* only the OUTER layout cells become flex items — the symbol grids
+   inside remain real tables */
+#mjeditor > table > tbody > tr > td,
+#mjeditor > table > tr > td {
+  display: block;
+}
+
+#widgets0 iframe, #widgets1 iframe {
+  border: none;
+  border-radius: calc(var(--cm-radius) - 2px);
+  background: #ffffff; /* embedded editors expect a light canvas */
+}
+
+/* let widget content use the panel width instead of fixed columns */
+#widgets0 textarea, #widgets1 textarea {
+  max-width: 100%;
+}
+
+#widgets0 h1, #widgets1 h1, #widgets0 h2, #widgets1 h2,
+#widgets0 h3, #widgets1 h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 6px 4px;
+  color: var(--cm-text);
+}
+
+/* ------------------------------------------------------------
+   Scrollbars (chrome only — the map canvas keeps native ones)
+   ------------------------------------------------------------ */
+
+#toolbar0::-webkit-scrollbar, #toolbar1::-webkit-scrollbar,
+#widgets0::-webkit-scrollbar, #widgets1::-webkit-scrollbar,
+#menue::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+#toolbar0::-webkit-scrollbar-thumb, #toolbar1::-webkit-scrollbar-thumb,
+#widgets0::-webkit-scrollbar-thumb, #widgets1::-webkit-scrollbar-thumb,
+#menue::-webkit-scrollbar-thumb {
+  background: var(--cm-border);
+  border-radius: 4px;
+}
+
+/* ------------------------------------------------------------
+   Theme toggle (injected by AppComponent)
+   ------------------------------------------------------------ */
+
+.cm-theme-toggle {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  z-index: 10000;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  background: var(--cm-surface);
+  color: var(--cm-text);
+  border: 1px solid var(--cm-border);
+  border-radius: 50%;
+  box-shadow: var(--cm-shadow);
+  cursor: pointer;
+  user-select: none;
+}
+
+.cm-theme-toggle:hover {
+  border-color: var(--cm-accent);
+}
+
+.cm-undo {
+  position: fixed;
+  right: 10px;
+  bottom: 52px;
+  z-index: 10000;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  background: var(--cm-surface);
+  color: var(--cm-text);
+  border: 1px solid var(--cm-border);
+  border-radius: 50%;
+  box-shadow: var(--cm-shadow);
+  cursor: pointer;
+  user-select: none;
+}
+
+.cm-undo:hover {
+  border-color: var(--cm-accent);
+}
+
+.cm-redo {
+  position: fixed;
+  right: 10px;
+  bottom: 94px;
+  z-index: 10000;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  background: var(--cm-surface);
+  color: var(--cm-text);
+  border: 1px solid var(--cm-border);
+  border-radius: 50%;
+  box-shadow: var(--cm-shadow);
+  cursor: pointer;
+  user-select: none;
+}
+
+.cm-redo:hover {
+  border-color: var(--cm-accent);
+}
+
+.cm-arrange {
+  position: fixed;
+  right: 10px;
+  bottom: 136px;
+  z-index: 10000;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  background: var(--cm-surface);
+  color: var(--cm-text);
+  border: 1px solid var(--cm-border);
+  border-radius: 50%;
+  box-shadow: var(--cm-shadow);
+  cursor: pointer;
+  user-select: none;
+}
+
+.cm-arrange:hover {
+  border-color: var(--cm-accent);
+}
+
+.cm-3d-toggle {
+  position: fixed;
+  right: 10px;
+  bottom: 178px;
+  z-index: 10000;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--cm-surface);
+  color: var(--cm-text);
+  border: 1px solid var(--cm-border);
+  border-radius: 50%;
+  box-shadow: var(--cm-shadow);
+  cursor: pointer;
+  user-select: none;
+}
+
+.cm-3d-toggle:hover {
+  border-color: var(--cm-accent);
+}
+
+/* ------------------------------------------------------------
+   3D workspace overlay
+   ------------------------------------------------------------
+   Sits above the (still mounted) 2D canvas and below the toolbars,
+   so all existing panels, widgets and editors keep working while
+   the 3D scene shows the same map.
+   ------------------------------------------------------------ */
+
+#cmap3d {
+  position: fixed;
+  inset: 0;
+  z-index: 400; /* below fixed toolbars (z 515+) and widget panels */
+  background: var(--cm-bg);
+}
+
+#cmap3d app-cmap3d {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cmap3d-host canvas {
+  display: block;
+}
+
+html.cm-3d body {
+  overflow: hidden; /* 3D viewport does not scroll the 500k-px canvas */
+}
+
+.cmap3d-toolbar {
+  background: var(--cm-surface);
+  border: 1px solid var(--cm-border);
+  box-shadow: var(--cm-shadow);
+  color: var(--cm-text);
+  font-family: var(--cm-font);
+}
+
+.cmap3d-toolbar label {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.cmap3d-toolbar select,
+.cmap3d-toolbar button {
+  font-family: var(--cm-font);
+  font-size: 12px;
+  color: var(--cm-text);
+  background: var(--cm-surface-2);
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius-sm);
+  padding: 3px 8px;
+  cursor: pointer;
+}
+
+.cmap3d-toolbar button:hover:not(:disabled),
+.cmap3d-toolbar select:hover {
+  border-color: var(--cm-accent);
+}
+
+.cmap3d-toolbar button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.cmap3d-failure {
+  color: var(--cm-text);
+  font-family: var(--cm-font);
+}
+
+/* ------------------------------------------------------------
+   Toolbar sizing and collapse
+   ------------------------------------------------------------
+   The persisted layout gives the edit toolbar a fixed height that
+   clips its second row; let it grow to fit content, at most 50px
+   above the legacy 80px. A chrome-level toggle collapses it.
+   ------------------------------------------------------------ */
+
+#toolbar1 {
+  height: auto !important;
+  max-height: 130px;
+}
+
+/* every toolbar panel (.tbbox) had a hard 80px height that clipped its
+   second row of controls; let panels grow to fit, at most +50px */
+#toolbar1 .tbbox {
+  height: auto;
+  min-height: 80px;
+  max-height: 130px;
+  overflow-y: auto;
+  border-radius: var(--cm-radius-sm);
+  border-color: var(--cm-border);
+}
+
+html.cm-tb-collapsed #toolbar1 {
+  display: none !important;
+}
+
+.cm-tb-toggle {
+  position: fixed;
+  top: 0;
+  right: 10px;
+  z-index: 10001;
+  width: 34px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  background: var(--cm-surface);
+  color: var(--cm-text);
+  border: 1px solid var(--cm-border);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  box-shadow: var(--cm-shadow);
+  cursor: pointer;
+}
+
+.cm-tb-toggle:hover {
+  border-color: var(--cm-accent);
+}
+
+/* ------------------------------------------------------------
+   Dark-mode contrast for data-driven toolbar controls
+   ------------------------------------------------------------
+   Buttons/chips carry inline background colors from the user's
+   button/color configuration, designed for black text. In dark
+   mode:
+   - neutral white chips become dark chips with light content
+   - state-colored chips (active red/blue/...) keep their color
+     with dark text (the legacy contract)
+   - black SVG icon art is inverted to light
+   ------------------------------------------------------------ */
+
+:root[data-theme="dark"] #toolbar0 [style*="background"],
+:root[data-theme="dark"] #toolbar1 [style*="background"],
+:root[data-theme="dark"] #menue [style*="background"] {
+  color: #1c2430;
+}
+
+:root[data-theme="dark"] #toolbar0 [style*="background-color: rgb(255, 255, 255)"],
+:root[data-theme="dark"] #toolbar1 [style*="background-color: rgb(255, 255, 255)"],
+:root[data-theme="dark"] #menue [style*="background-color: rgb(255, 255, 255)"] {
+  background-color: var(--cm-surface-2) !important;
+  color: var(--cm-text) !important;
+}
+
+:root[data-theme="dark"] #toolbar0 img[src*="svgelements"],
+:root[data-theme="dark"] #toolbar1 img[src*="svgelements"],
+:root[data-theme="dark"] #menue img[src*="svgelements"] {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) #toolbar0 [style*="background"],
+  :root:not([data-theme="light"]) #toolbar1 [style*="background"],
+  :root:not([data-theme="light"]) #menue [style*="background"] {
+    color: #1c2430;
+  }
+  :root:not([data-theme="light"]) #toolbar0 [style*="background-color: rgb(255, 255, 255)"],
+  :root:not([data-theme="light"]) #toolbar1 [style*="background-color: rgb(255, 255, 255)"],
+  :root:not([data-theme="light"]) #menue [style*="background-color: rgb(255, 255, 255)"] {
+    background-color: var(--cm-surface-2) !important;
+    color: var(--cm-text) !important;
+  }
+  :root:not([data-theme="light"]) #toolbar0 img[src*="svgelements"],
+  :root:not([data-theme="light"]) #toolbar1 img[src*="svgelements"],
+  :root:not([data-theme="light"]) #menue img[src*="svgelements"] {
+    filter: invert(1) hue-rotate(180deg);
+  }
+}
+
+/* ------------------------------------------------------------
+   Dark-theme surfaces
+   ------------------------------------------------------------
+   The legacy layout engine applies inline background styles to the
+   panel containers; the theme must win for the chrome surfaces
+   (data-driven colors of the controls inside are untouched).
+   ------------------------------------------------------------ */
+
+:root[data-theme="dark"] #toolbar0,
+:root[data-theme="dark"] #toolbar1,
+:root[data-theme="dark"] #menue,
+:root[data-theme="dark"] #widgets0,
+:root[data-theme="dark"] #widgets1 {
+  background: var(--cm-surface) !important;
+  color: var(--cm-text) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) #toolbar0,
+  :root:not([data-theme="light"]) #toolbar1,
+  :root:not([data-theme="light"]) #menue,
+  :root:not([data-theme="light"]) #widgets0,
+  :root:not([data-theme="light"]) #widgets1 {
+    background: var(--cm-surface) !important;
+    color: var(--cm-text) !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   Motion preferences
+   ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

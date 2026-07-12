@@ -1,7 +1,7 @@
 import { Component, OnInit,  } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from '../../shared/backend.service';
 import { MetaService } from '../../shared/meta.service';
 // models and reducers
 declare var Snap: any;
@@ -37,7 +37,7 @@ export class MnemoComponent implements OnInit {
   public actionpics = [];
 
   constructor(private store: Store<CMStore>,
-              private electronService: ElectronService,
+              private electronService: BackendService,
               private metaService: MetaService,
               private mnemoService: MnemoService) {
                 this.colors = store.select('colors');

@@ -4,10 +4,9 @@ import { Observable } from 'rxjs/Observable';
 // models and reducers
 import { CMStore } from '../models/CMStore';
 import { CMSettings } from '../models/CMSettings';
-
-//  electron specific
-// declare var electron: any;
-// const ipc = electron.ipcRenderer;
+// widget plugin architecture
+import { getWidget, WidgetDefinition } from './widget-registry';
+import { WidgetIframeAdapter } from './widget-iframe.adapter';
 
 @Component({
   selector: 'app-widgets0',
@@ -18,6 +17,7 @@ export class Widgets0Component implements OnInit {
   @ViewChild('iframe0') public iframe0: ElementRef;
   public cmsettings: Observable<CMSettings> = this.store.select('settings');
   public widget0 = 'none';
+  public widgetDef: WidgetDefinition = getWidget('none');
   public w0width = '100px';
   public w0height = '100px';
 
@@ -27,48 +27,29 @@ export class Widgets0Component implements OnInit {
     this.cmsettings.subscribe((data) => {
       if (data) {
         this.widget0 = data.widget0;
+        this.widgetDef = getWidget(data.widget0);
         this.w0width = data.wlayout0.width.toString() + 'px';
         this.w0height = data.wlayout0.height.toString() + 'px';
-        // console.log('settings ', data);
       }
     });
-    // listens on electron ipc
-    /*
-    ipc.on('snap-out', function (event, arg) {
-      console.log(arg);
-    });
-    */
+  }
+
+  /** typed bridge to the iframe plugin (JSME / SVG editor) */
+  public adapter(): WidgetIframeAdapter {
+    return new WidgetIframeAdapter(this.iframe0);
   }
 
   public cminterface0() {
-    console.log('cminterface');
-    let iframe = this.iframe0.nativeElement.contentDocument
-    || this.iframe0.nativeElement.contentWindow;
-    let output = iframe.getElementById('svg_textarea');
+    const output = this.adapter().readOutput();
     if (output) {
-      console.log(output.value);
-    } else {
-      console.log('no output');
-    }
-    let input = iframe.getElementById('cminput');
-    if (input) {
-      input.innerHTML = 'wabadabadu';
-      console.log('input: ', input.innerHTML);
-    } else {
-      console.log('no input');
+      console.log('[widget0] plugin output:', output.type);
     }
   }
 
   // loads Smiles structure to JSME
   public loadStructure(structure) {
-    let iframe = this.iframe0.nativeElement.contentDocument
-    || this.iframe0.nativeElement.contentWindow;
-    let JSMEstructure = iframe.getElementById('structure');
-    if (JSMEstructure) {
-      JSMEstructure.value = structure;
-    } else {
+    if (!this.adapter().loadStructure(structure)) {
       console.log('no structure');
     }
   }
-
 }

@@ -3,8 +3,9 @@
     <div *ngIf="button.blocked" style="z-index: 10">
       <img src="assets/images/basic/empty.png">
     </div>
-    <div (click)="clicked(button)" [ngStyle]="getState(button)" [class]="getClass()">
-      <img *ngIf="button.contenttype==='g'" [src]="button.content">
+    <div (click)="clicked(button)" [ngStyle]="getState(button)" [class]="getClass()"
+         [title]="button.name" [attr.aria-label]="button.name">
+      <img *ngIf="button.contenttype==='g'" [src]="button.content" [alt]="button.name">
     </div>
   </div>
 </div>

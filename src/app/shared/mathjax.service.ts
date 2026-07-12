@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 import { Observable } from 'rxjs/Observable';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from './backend.service';
 import { CMStore } from '../models/CMStore';
 import { CMSettings } from '../models/CMSettings';
 // import { CMElement } from '../models/CMElement';
@@ -15,7 +15,7 @@ export class MathJaxService {
   public cmsettings: Observable<CMSettings> = this.store.select('settings');
 
   constructor(private store: Store<CMStore>,
-              private electronService: ElectronService) {
+              private electronService: BackendService) {
 
   }
 

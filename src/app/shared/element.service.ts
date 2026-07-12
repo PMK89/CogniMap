@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Http } from '@angular/http';
 import { Store } from '@ngrx/store';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from './backend.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
@@ -53,7 +53,7 @@ export class ElementService {
   public mPpath = '';
 
   constructor(private http: Http,
-              private electronService: ElectronService,
+              private electronService: BackendService,
               private ngZone: NgZone,
               // private snapsvgService: SnapsvgService,
               private settingsService: SettingsService,
@@ -153,6 +153,221 @@ export class ElementService {
     }
   }
 
+  // undoes the last change/deletion (Ctrl+Z / undo button), then reloads
+  // the viewport so the store reflects the restored state
+  public undoCME() {
+    const res = this.electronService.ipcRenderer.sendSync('undoCME', '1');
+    if (res && res.data) {
+      this.reloadViewport();
+    }
+    return res;
+  }
+
+  // reapplies the change last reverted by undo (Ctrl+Shift+Z / redo button)
+  public redoCME() {
+    const res = this.electronService.ipcRenderer.sendSync('redoCME', '1');
+    if (res && (res.data || res.deletedId)) {
+      this.reloadViewport();
+    }
+    return res;
+  }
+
+  /**
+   * Evenly distributes the nodes of the current area selection while
+   * keeping the map structure intact: x and y coordinates are clustered
+   * (nearby columns/rows stay together and become exactly aligned) and
+   * the clusters are redistributed at uniform intervals across the
+   * selection's original extent. Links follow their nodes.
+   * Returns the number of moved nodes, 0 if too few, -1 if no selection.
+   */
+  public arrangeSelection(): number {
+    if (!this.selCME || this.selCME.length === 0) {
+      return -1;
+    }
+    const nodes = [];
+    const overlays = [];
+    for (const key in this.selCME) {
+      if (this.selCME[key] && this.selCME[key].id > 0) {
+        const cme = this.CMEtoCMEol(JSON.parse(JSON.stringify(this.selCME[key])));
+        const anchor = this.overlayAnchorId(cme);
+        if (anchor) {
+          overlays.push({ cme: cme, anchor: anchor });
+        } else {
+          nodes.push(cme);
+        }
+      }
+    }
+    if (nodes.length < 3) {
+      return 0;
+    }
+    // minimum spacing per axis so genuinely cluttered clusters separate
+    // (typical node: ~100px wide, ~24px tall)
+    const xTargets = this.evenTargets(nodes.map((n) => n.coor.x), 110);
+    const yTargets = this.evenTargets(nodes.map((n) => n.coor.y), 34);
+    let moved = 0;
+    const deltas = {};
+    for (let i = 0; i < nodes.length; i++) {
+      const cme = nodes[i];
+      const dx = Math.round(xTargets[i] - cme.coor.x);
+      const dy = Math.round(yTargets[i] - cme.coor.y);
+      if (dx === 0 && dy === 0) {
+        continue;
+      }
+      deltas[cme.id] = { dx: dx, dy: dy };
+      this.shiftCMEol(cme, dx, dy);
+      moved++;
+    }
+    // overlays (quiz covers, markings) never get positions of their own:
+    // they follow the element they cover by the exact same delta, so they
+    // keep hiding it for spaced repetition. Anchors outside the selection
+    // did not move, so their overlays stay put too.
+    for (let i = 0; i < overlays.length; i++) {
+      const d = deltas[overlays[i].anchor];
+      if (d) {
+        this.shiftCMEol(overlays[i].cme, d.dx, d.dy);
+        moved++;
+      }
+    }
+    if (moved > 0) {
+      this.refreshSelectionAfterArrange();
+    }
+    return moved;
+  }
+
+  /**
+   * Quiz covers ('q'/'q1'), markings ('m') and signs ('s') are separate
+   * elements glued over the element they reference via a weight -1
+   * pseudo-link (start === false on the overlay side). Returns that
+   * anchor id, or 0 for ordinary elements. Ordinary elements also carry
+   * weight -1 parentage links, so the type check is required.
+   */
+  private overlayAnchorId(cme: any): number {
+    const t = cme.types && cme.types[0] ? String(cme.types[0]) : '';
+    if (t !== 'm' && t !== 's' && t.indexOf('q') !== 0) {
+      return 0;
+    }
+    const links = (cme.cmobject && cme.cmobject.links) || [];
+    for (const j in links) {
+      // the anchor is the id-0 pseudo-link (real links carry the id of
+      // their link document; ordinary links also use weight -1)
+      if (links[j] && !links[j].id && links[j].start === false
+        && links[j].targetId > 0) {
+        return links[j].targetId;
+      }
+    }
+    return 0;
+  }
+
+  /** moves one element by (dx, dy) through the canonical update path */
+  private shiftCMEol(cme: any, dx: number, dy: number) {
+    cme.coor.x += dx;
+    cme.coor.y += dy;
+    cme.x0 += dx;
+    cme.x1 += dx;
+    cme.y0 += dy;
+    cme.y1 += dy;
+    cme.prep = '';
+    cme.state = '';
+    this.updateCMEol(cme);
+    // links follow the node — same propagation the drag path uses
+    for (const j in cme.cmobject.links) {
+      if (cme.cmobject.links[j]) {
+        const link = cme.cmobject.links[j];
+        const conxy = this.conectionCoor(cme, link);
+        this.changeLink(link.id, conxy[0], conxy[1], link.start);
+      }
+    }
+  }
+
+  /**
+   * The area-selection overlay is built from CLONES of the rendered
+   * element groups plus a bounding rectangle. After arranging, the real
+   * elements move but those clones would linger at the old positions as
+   * ghost copies — so refresh the selection bookkeeping from the store
+   * (same membership, new coordinates) and rebuild the overlay once the
+   * moved elements have re-rendered.
+   */
+  private refreshSelectionAfterArrange() {
+    this.cmelements
+      .subscribe((data) => {
+        for (let i = 0; i < this.selCME.length; i++) {
+          const cur = this.selCME[i];
+          if (!cur || !cur.id) { continue; }
+          for (const key in data) {
+            if (data[key] && data[key].id === cur.id) {
+              this.selCME[i] = data[key];
+              break;
+            }
+          }
+        }
+      }).unsubscribe();
+    setTimeout(() => {
+      this.clearselectionGroup();
+      if (this.selCMEoArray.length > 1) {
+        this.selectionGroup(this.selCMEoArray, this.selCMElArray);
+      }
+    }, 200);
+  }
+
+  /**
+   * Clusters 1-D coordinates (values closer than the tolerance form one
+   * row/column and snap to their shared center) and spreads the cluster
+   * centers evenly across the original min..max extent, preserving order.
+   */
+  private evenTargets(values: number[], minStep?: number): number[] {
+    // only truly-aligned coordinates count as one row/column — a larger
+    // tolerance merges distinct rows and clumps the result
+    const TOL = 12;
+    const idx = values.map((v, i) => i).sort((a, b) => values[a] - values[b]);
+    const clusters: number[][] = [];
+    for (const i of idx) {
+      const last = clusters.length ? clusters[clusters.length - 1] : undefined;
+      if (last && values[i] - values[last[last.length - 1]] <= TOL) {
+        last.push(i);
+      } else {
+        clusters.push([i]);
+      }
+    }
+    const centers = clusters.map((c) => c.reduce((s, i) => s + values[i], 0) / c.length);
+    const targets = values.slice();
+    if (clusters.length > 1) {
+      const min = centers[0];
+      const max = centers[centers.length - 1];
+      let step = (max - min) / (clusters.length - 1);
+      let start = min;
+      // enforce a minimum spacing: genuinely cluttered clusters expand
+      // symmetrically around their original center instead of staying
+      // squeezed inside a too-small extent
+      if (minStep && step < minStep) {
+        step = minStep;
+        const mid = (min + max) / 2;
+        start = mid - (step * (clusters.length - 1)) / 2;
+      }
+      clusters.forEach((c, k) => {
+        const t = start + k * step;
+        for (const i of c) {
+          targets[i] = t;
+        }
+      });
+    } else {
+      for (const i of clusters[0]) {
+        targets[i] = centers[0];
+      }
+    }
+    return targets;
+  }
+
+  private reloadViewport() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    this.getElements({
+      l: window.pageXOffset - 2 * w,
+      r: window.pageXOffset + 3 * w,
+      t: window.pageYOffset - 2 * h,
+      b: window.pageYOffset + 3 * h
+    });
+  }
+
   // gets data from database/server
   public getAllElements() {
     if (this.cmap === false) {
@@ -165,6 +380,28 @@ export class ElementService {
   // gets CME from database/server by ID
   public getDBCMEbyId(id: number) {
     return this.electronService.ipcRenderer.sendSync('getCME', id);
+  }
+
+  /**
+   * Ensures a node is present in the `cmes` store so selection and every
+   * editor/widget can operate on it. The 3D workspace shows the whole map
+   * while the 2D store only holds the current viewport; selecting a node
+   * outside that viewport would otherwise find nothing. Loads the single
+   * doc from the database on demand (no-op if already present).
+   */
+  public ensureLoaded(id: number) {
+    let present = false;
+    this.cmelements.subscribe((data) => {
+      for (const key in data) {
+        if (data[key] && data[key].id === id) { present = true; break; }
+      }
+    }).unsubscribe();
+    if (!present) {
+      const doc = this.getDBCMEbyId(id);
+      if (doc && doc.id === id) {
+        this.store.dispatch({ type: 'ADD_CME', payload: doc });
+      }
+    }
   }
 
   // gets CME from database/server by title

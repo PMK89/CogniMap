@@ -209,10 +209,13 @@ module.exports = function (options) {
       port: METADATA.port,
       host: METADATA.host,
       historyApiFallback: true,
-      watchOptions: {
-        aggregateTimeout: 300,
-        poll: 1000
-      }
+      // API and media requests are served by the local backend (server/)
+      proxy: [
+        {
+          context: ['/api', '/files'],
+          target: 'http://127.0.0.1:3210'
+        }
+      ]
     },
 
   });

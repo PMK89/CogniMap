@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from './backend.service';
 import { MathJaxService } from './mathjax.service';
 // import { Observable } from 'rxjs/Observable';
 declare var Snap: any;
@@ -25,7 +25,7 @@ export class QuizService {
 
   constructor(private cmosvgService: CmosvgService,
               private settingsService: SettingsService,
-              private electronService: ElectronService,
+              private electronService: BackendService,
               private elementService: ElementService,
               private mathjaxService: MathJaxService,
               private cmlsvgService: CmlsvgService) {

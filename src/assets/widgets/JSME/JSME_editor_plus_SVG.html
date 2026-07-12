@@ -6,13 +6,25 @@
 
 <script>
     //this function will be called after the JavaScriptApplet code has been loaded.
+    function jsmeSize() {
+        // fill the hosting panel (leave room for the CM export row)
+        return {
+            w: Math.max(320, window.innerWidth - 4) + "px",
+            h: Math.max(240, window.innerHeight - 34) + "px"
+        };
+    }
     function jsmeOnLoad() {
         var startingStructure = document.getElementById('structure').value;
-        jsmeApplet = new JSApplet.JSME("jsme_container", "580px", "370px", {
+        var size = jsmeSize();
+        jsmeApplet = new JSApplet.JSME("jsme_container", size.w, size.h, {
             "options" : "oldlook",
             "smiles" : startingStructure
         });
         jsmeApplet.setNotifyStructuralChangeJSfunction("showSVG");
+        window.addEventListener("resize", function () {
+            var s = jsmeSize();
+            jsmeApplet.setSize(s.w, s.h);
+        });
    }
    function showSVG() {
      var text = {

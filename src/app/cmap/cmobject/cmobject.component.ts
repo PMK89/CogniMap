@@ -328,7 +328,11 @@ export class CmobjectComponent implements OnInit, AfterViewInit, OnDestroy {
         // generates marking for different states
         if (this.cmelement.state !== '') {
           let cmBBox = this.cmgroup.getBBox();
-          let marking = s.ellipse(cmBBox.cx, cmBBox.cy, (cmBBox.r0), (cmBBox.h));
+          // fit the selection ellipse to the element: the legacy r0 (enclosing
+          // circle radius) and full height made it hugely oversized for wide
+          // elements such as text markers
+          let marking = s.ellipse(cmBBox.cx, cmBBox.cy,
+            (cmBBox.width / 2) + 10, (cmBBox.height / 2) + 10);
           marking.attr({
             fill: 'none',
             opacity: 0.5,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from './backend.service';
 import 'rxjs/add/observable/fromEvent';
 
 // cognimap services
@@ -36,6 +36,7 @@ export class EventService {
   public id: number;
   public keyPressed: string[] = [];
   public selecting = false;
+  public panning = false;
   public minimapselect = 0;
   public quiznew = false;
   public marking = false;
@@ -55,11 +56,18 @@ export class EventService {
 
   constructor(private windowService: WindowService,
               private settingsService: SettingsService,
-              private electronService: ElectronService,
+              private electronService: BackendService,
               private elementService: ElementService,
               private snapsvgService: SnapsvgService,
               private templateService: TemplateService,
               private store: Store<CMStore>) {
+                // canvas panning: dragging on empty space (without Ctrl)
+                // in edit mode scrolls the view
+                document.addEventListener('mousemove', (e: MouseEvent) => {
+                  if (this.panning) {
+                    window.scrollBy(-e.movementX, -e.movementY);
+                  }
+                });
                 this.store.select('settings')
                 .subscribe((data) => {
                   if (data) {
@@ -240,6 +248,22 @@ export class EventService {
           this.marking = true;
         }
       }
+    } else if (this.cmsettings.mode === 'edit') {
+      // dragging on unused canvas space: Ctrl+drag selects an area,
+      // plain drag pans the view
+      if (evt.target.id === 'cmap' || evt.target.id === 'cmsvg') {
+        this.startX = this.clickX;
+        this.startY = this.clickY;
+        this.dragX = 0;
+        this.dragY = 0;
+        if (evt.ctrlKey) {
+          this.selecting = true;
+        } else {
+          this.panning = true;
+          document.body.style.cursor = 'grabbing';
+          evt.preventDefault();
+        }
+      }
     } else if (this.cmsettings.mode === 'pointing') {
       if ((typeof parseInt(evt.target.title, 10) === 'number' && evt.target.title !== '')
       || evt.target.id === 'cmap' || evt.target.id === 'cmsvg') {
@@ -282,7 +306,7 @@ export class EventService {
           this.dragX = coor.x;
           this.dragY = coor.y;
           return dif;
-        } else if (this.cmsettings.mode === 'selecting') {
+        } else if (this.cmsettings.mode === 'selecting' || this.cmsettings.mode === 'edit') {
           if (this.selecting) {
             return {
               left: Math.min(coor.x, this.startX),
@@ -337,11 +361,31 @@ export class EventService {
   public onMouseUp(evt) {
     // used in edit mode to drag
     // console.log('event.service: onMouseUp');
+    if (this.panning) {
+      this.panning = false;
+      document.body.style.cursor = '';
+    }
     if (this.cmsettings.mode === 'dragging') {
       this.dragX = evt.clientX  + this.windowService.WinXOffset - this.startX;
       this.dragY = evt.clientY + this.windowService.WinYOffset - this.startY;
       this.elementService.moveElement(this.dragX, this.dragY);
       // console.log(this.dragX, this.dragY);
+    } else if (this.cmsettings.mode === 'edit' && this.selecting) {
+      // finish the default area selection started on unused canvas space;
+      // tiny drags stay ordinary clicks (deselection etc.)
+      this.selecting = false;
+      const endX = evt.clientX + this.windowService.WinXOffset;
+      const endY = evt.clientY + this.windowService.WinYOffset;
+      const w = Math.abs(endX - this.startX);
+      const h = Math.abs(endY - this.startY);
+      if (w > 10 && h > 10) {
+        const x0 = Math.min(endX, this.startX);
+        const y0 = Math.min(endY, this.startY);
+        this.elementService.areaSelection(x0, y0, x0 + w, y0 + h);
+        // continue in selecting mode so the selection can be moved/deleted
+        this.cmsettings.mode = 'selecting';
+        this.settingsService.updateSettings(this.cmsettings);
+      }
     } else if (this.cmsettings.mode === 'selecting' || this.cmsettings.mode === 'marking' ||
                 this.cmsettings.mode === 'quiznew') {
       console.log(evt.target);
@@ -511,6 +555,22 @@ export class EventService {
   }
 
   // handles keydown events
+  // deletes the current selection — shared by Delete and Ctrl+Delete
+  private handleDeleteKey() {
+    // deletes latest marked object
+    if (this.cmsettings.mode === 'marking') {
+      this.cmsettings.mode = 'edit';
+      this.settingsService.updateSettings(this.cmsettings);
+    }
+    if (this.cmsettings.mode === 'dragging' || this.cmsettings.mode === 'edit' || this.cmsettings.mode === 'quizedit') {
+      this.delCmd();
+    } else if (this.cmsettings.mode === 'selecting') {
+      if (this.elementService.selCMElArray.length > 0 && this.elementService.selCMEoArray.length > 0) {
+        this.elementService.delSel();
+      }
+    }
+  }
+
   public onKeyDown(evt) {
     // console.log(evt.key);
     if (this.keyPressed.indexOf(evt.key) === -1) {
@@ -622,7 +682,15 @@ export class EventService {
           }
         }
       }
-      if (this.keyPressed.indexOf('n') !== -1) {
+      if (this.keyPressed.indexOf('z') !== -1 || this.keyPressed.indexOf('Z') !== -1) {
+        // Ctrl+Z undoes, Ctrl+Shift+Z redoes (with Shift held the key
+        // reports as uppercase 'Z')
+        if (this.keyPressed.indexOf('Shift') !== -1 || this.keyPressed.indexOf('Z') !== -1) {
+          this.elementService.redoCME();
+        } else {
+          this.elementService.undoCME();
+        }
+      } else if (this.keyPressed.indexOf('n') !== -1) {
         // turns on new element mode
         if (this.cmsettings.mode.indexOf('quiz') === -1) {
           if (this.cmsettings.mode === 'new') {
@@ -712,9 +780,10 @@ export class EventService {
         this.settingsService.updateSettings(this.cmsettings);
       } */
       if (this.keyPressed.indexOf('v') !== -1) {
-        // pastes content from clipboard
+        // pastes content from clipboard: the browser paste event fires just
+        // after this keydown, so wait for it instead of reading synchronously
         if (['typing', 'new', 'edit'].indexOf(this.cmsettings.mode) !== -1) {
-          let arg = this.electronService.ipcRenderer.sendSync('getClipboard', '1');
+          this.electronService.ipcRenderer.nextPaste((arg) => {
           if (this.selCMEo) {
             if (arg['type']) {
               if (['png', 'LateX', 'svg', 'jsme-svg'].indexOf(arg.type) !== -1) {
@@ -750,22 +819,12 @@ export class EventService {
             this.cmsettings.mode = 'edit';
             this.settingsService.updateSettings(this.cmsettings);
           }
+          });
         }
       }
       // deleting function
       if (this.keyPressed.indexOf('Delete') !== -1) {
-        // deletes latest marked object
-        if (this.cmsettings.mode === 'marking') {
-          this.cmsettings.mode = 'edit';
-          this.settingsService.updateSettings(this.cmsettings);
-        }
-        if (this.cmsettings.mode === 'dragging' || this.cmsettings.mode === 'edit' || this.cmsettings.mode === 'quizedit') {
-          this.delCmd();
-        } else if (this.cmsettings.mode === 'selecting') {
-          if (this.elementService.selCMElArray.length > 0 && this.elementService.selCMEoArray.length > 0) {
-            this.elementService.delSel();
-          }
-        }
+        this.handleDeleteKey();
       }
       return true;
       // console.log(this.keyPressed);

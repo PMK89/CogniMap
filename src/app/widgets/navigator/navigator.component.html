@@ -20,8 +20,8 @@
             <tr>
               <td *ngFor="let subarray of cmearray; let i = index">
                 <div *ngFor="let cme of subarray" class="subarrayDiv">
-                  <u (click)="getLinkedCME(cme, i)">{{cme.title}}</u>
-                  <b (click)="goTo(cme.coor.x, cme.coor.y)">⊗</b>
+                  <u *ngIf="cme" (click)="getLinkedCME(cme, i)">{{cme.title}}</u>
+                  <b *ngIf="cme && cme.coor" (click)="goTo(cme.coor.x, cme.coor.y)">⊗</b>
                 </div>
               </td>
             </tr>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { ElectronService } from 'ngx-electron';
+import { BackendService } from '../../shared/backend.service';
 declare var Snap: any;
 import { MetaService } from '../../shared/meta.service';
 import { ElementService } from '../../shared/element.service';
@@ -38,7 +38,7 @@ export class MinimapComponent implements OnInit, OnDestroy {
   @ViewChild('minimapsvg') public minimapsvg: ElementRef;
 
   constructor(private store: Store<CMStore>,
-              private electronService: ElectronService,
+              private electronService: BackendService,
               private elementService: ElementService,
               private metaService: MetaService,
               private minimapService: MinimapService) {

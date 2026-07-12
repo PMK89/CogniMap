@@ -56,6 +56,17 @@ export class AppComponent implements AfterViewInit {
               private quizService: QuizService,
               private store: Store<CMStore>,
               private renderer: Renderer) {
+                // restore persisted view preferences before first change detection
+                try {
+                  if (localStorage.getItem('cognimap-tb-collapsed') === '1') {
+                    this.tbCollapsed = true;
+                    document.documentElement.classList.add('cm-tb-collapsed');
+                  }
+                  if (localStorage.getItem('cognimap-3d') === '1') {
+                    this.view3d = true;
+                    document.documentElement.classList.add('cm-3d');
+                  }
+                } catch (err) { /* storage unavailable */ }
                 this.windowService.setSize(window.innerWidth, window.innerHeight);
                 this.windowService.setOffset(window.pageXOffset, window.pageYOffset);
                 this.settingsService.getSettings();
@@ -70,6 +81,16 @@ export class AppComponent implements AfterViewInit {
                         this.cmsettings = data;
                         // console.log(data);
                         this.setSizes(data);
+                        // widget-slot open state as cheap html classes for
+                        // the layout CSS (never use :has()/[style*] here —
+                        // catastrophic for perf on this page's huge DOM).
+                        // NOTE: no safe-top measurement here — forcing layout
+                        // on every settings update janks the whole app; the
+                        // ResizeObserver on the toolbars covers all cases.
+                        document.documentElement.classList.toggle(
+                          'cm-w0-open', !!(data.wlayout0 && data.wlayout0.display === 'block'));
+                        document.documentElement.classList.toggle(
+                          'cm-w1-open', !!(data.wlayout1 && data.wlayout1.display === 'block'));
                         this.windowService.setSize(window.innerWidth, window.innerHeight);
                       }
                     },
@@ -78,17 +99,154 @@ export class AppComponent implements AfterViewInit {
                 // Sends Window Parameters
               }
 
+  public tbCollapsed = false;
+  public view3d = false;
+
+  // toggles the 3D workspace overlay (persisted client preference); the
+  // 2D canvas stays mounted underneath as the planar/legacy fallback
+  public toggle3d() {
+    this.view3d = !this.view3d;
+    document.documentElement.classList.toggle('cm-3d', this.view3d);
+    try {
+      localStorage.setItem('cognimap-3d', this.view3d ? '1' : '0');
+    } catch (err) { /* storage unavailable */ }
+  }
+
+  // collapses/expands the edit toolbar (persisted in localStorage)
+  public toggleToolbar() {
+    this.tbCollapsed = !this.tbCollapsed;
+    document.documentElement.classList.toggle('cm-tb-collapsed', this.tbCollapsed);
+    try {
+      localStorage.setItem('cognimap-tb-collapsed', this.tbCollapsed ? '1' : '0');
+    } catch (err) { /* storage unavailable */ }
+    this.updateSafeTop();
+  }
+
+  private safeTopObserved = false;
+  private safeTopPending = false;
+  private safeTopLast = 0;
+
+  // measures the bottom edge of the visible toolbars and publishes it as
+  // a CSS variable so widget panels can dock below without overlapping
+  public updateSafeTop() {
+    if (!this.safeTopPending) {
+      this.safeTopPending = true;
+      setTimeout(() => {
+        this.safeTopPending = false;
+        this.measureSafeTop();
+      }, 100);
+    }
+    // the toolbars grow/shrink as panels populate — track their size.
+    // The observer already delivers the new sizes, so no extra layout is
+    // forced; the actual measurement is throttled through updateSafeTop.
+    if (!this.safeTopObserved && (window as any).ResizeObserver) {
+      const ro = new (window as any).ResizeObserver(() => {
+        if (!this.safeTopPending) {
+          this.safeTopPending = true;
+          setTimeout(() => {
+            this.safeTopPending = false;
+            this.measureSafeTop();
+          }, 100);
+        }
+      });
+      for (const id of ['toolbar0', 'toolbar1']) {
+        const el = document.getElementById(id);
+        if (el) {
+          ro.observe(el);
+          this.safeTopObserved = true;
+        }
+      }
+    }
+  }
+
+  private measureSafeTop() {
+    let safe = 12;
+    for (const id of ['toolbar0', 'toolbar1']) {
+      const el = document.getElementById(id);
+      if (el && getComputedStyle(el).display !== 'none') {
+        const rect = el.getBoundingClientRect();
+        if (rect.height > 0) {
+          safe = Math.max(safe, rect.bottom + 10);
+        }
+      }
+    }
+    // avoid style invalidation when nothing changed
+    if (Math.abs(safe - this.safeTopLast) > 1) {
+      this.safeTopLast = safe;
+      document.documentElement.style.setProperty('--cm-safe-top', safe + 'px');
+    }
+  }
+
+  // undoes the last element change or deletion
+  public undo() {
+    this.elementService.undoCME();
+  }
+
+  // reapplies the last undone change
+  public redo() {
+    this.elementService.redoCME();
+  }
+
+  // spaces the nodes of the current area selection evenly
+  public arrange() {
+    const moved = this.elementService.arrangeSelection();
+    if (moved === -1) {
+      alert('Please select an area first (Ctrl+drag on empty space)!');
+    } else if (moved === 0) {
+      alert('Select at least three nodes to arrange.');
+    }
+  }
+
+  // toggles between light and dark theme (persisted in localStorage)
+  public toggleTheme() {
+    const root = document.documentElement;
+    const prefersDark = window.matchMedia
+      && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const current = root.getAttribute('data-theme') || (prefersDark ? 'dark' : 'light');
+    const next = current === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try {
+      localStorage.setItem('cognimap-theme', next);
+    } catch (err) { /* storage unavailable */ }
+  }
+
   // after viewinit
   public ngAfterViewInit() {
+    // (persisted toolbar/3D state is restored in the constructor — doing
+    // it here trips Angular's ExpressionChangedAfterItHasBeenChecked)
     this.windowService.setOffset(window.pageXOffset, window.pageYOffset);
+    const priorX = window.pageXOffset;
+    const priorY = window.pageYOffset;
     window.scrollTo(this.cmsettings.coor.x, this.cmsettings.coor.y);
+    // When the browser restores the scroll position on reload, no scroll
+    // event fires and getParameters' movement-threshold logic loads
+    // nothing — the map would stay empty until the user scrolls a full
+    // window. Load the initial viewport explicitly in that case, but NOT
+    // when the scroll jump itself already triggers a load (a duplicate
+    // load re-renders every element twice and freezes large maps).
+    const size = this.windowService.getSize() || { width: 1600, height: 900 };
+    const moved = Math.abs(window.pageXOffset - priorX) > 1
+      || Math.abs(window.pageYOffset - priorY) > 1;
+    const scrollWillLoad = moved
+      && (Math.abs(window.pageXOffset) > size.width
+          || Math.abs(window.pageYOffset) > size.height);
+    if (!scrollWillLoad) {
+      this.elementService.getElements({
+        l: window.pageXOffset - 2 * size.width,
+        r: window.pageXOffset + 3 * size.width,
+        t: window.pageYOffset - 2 * size.height,
+        b: window.pageYOffset + 3 * size.height
+      });
+    }
     this.renderer.listenGlobal('window', 'scroll', (evt) => {
       this.elementService.getElements(this.windowService.getParameters(
         window.pageXOffset, window.pageYOffset));
     });
     this.renderer.listenGlobal('window', 'resize', (evt) => {
       this.windowService.setSize(window.innerWidth, window.innerHeight);
+      this.updateSafeTop();
     });
+    this.updateSafeTop();
     this.renderer.listenGlobal('window', 'mousedown', (evt) => {
       this.eventService.onMouseDown(evt);
     });

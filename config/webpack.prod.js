@@ -3,20 +3,17 @@
  */
 
 const helpers = require('./helpers');
-const webpackMerge = require('webpack-merge'); // used to merge webpack configs
-const commonConfig = require('./webpack.common.js'); // the settings that are common to prod and dev
+const { merge } = require('webpack-merge'); // used to merge webpack configs
+const commonConfigFn = require('./webpack.common.js'); // the settings that are common to prod and dev
+const COMMON_METADATA = require('./webpack.common.js').METADATA;
 
 /**
  * Webpack Plugins
  */
 const DefinePlugin = require('webpack/lib/DefinePlugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const IgnorePlugin = require('webpack/lib/IgnorePlugin');
-const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
-const ProvidePlugin = require('webpack/lib/ProvidePlugin');
-const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
-const OptimizeJsPlugin = require('optimize-js-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 /**
  * Webpack Constants
@@ -24,9 +21,7 @@ const OptimizeJsPlugin = require('optimize-js-plugin');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
-const METADATA = webpackMerge(commonConfig({
-  env: ENV
-}).metadata, {
+const METADATA = merge(COMMON_METADATA, {
   host: HOST,
   port: PORT,
   ENV: ENV,
@@ -35,9 +30,11 @@ const METADATA = webpackMerge(commonConfig({
 });
 
 module.exports = function (env) {
-  return webpackMerge(commonConfig({
+  return merge(commonConfigFn({
     env: ENV
   }), {
+
+    mode: 'production',
 
     /**
      * Developer tool to enhance debugging
@@ -67,7 +64,7 @@ module.exports = function (env) {
        *
        * See: http://webpack.github.io/docs/configuration.html#output-filename
        */
-      filename: '[name].[chunkhash].bundle.js',
+      filename: '[name].bundle.js',
 
       /**
        * The filename of the SourceMaps for the JavaScript files.
@@ -75,7 +72,7 @@ module.exports = function (env) {
        *
        * See: http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
        */
-      sourceMapFilename: '[name].[chunkhash].bundle.map',
+      sourceMapFilename: '[file].map',
 
       /**
        * The filename of non-entry chunks as relative path
@@ -83,8 +80,20 @@ module.exports = function (env) {
        *
        * See: http://webpack.github.io/docs/configuration.html#output-chunkfilename
        */
-      chunkFilename: '[id].[chunkhash].chunk.js'
+      chunkFilename: '[id].chunk.js'
 
+    },
+
+    optimization: {
+      // The bundled svgeditor widget ships locale files with malformed JS
+      // string literals (unescaped newlines inside quotes). They are static
+      // assets copied as-is by CopyWebpackPlugin and never parsed as
+      // modules, so exclude them from Terser to avoid a parse error.
+      minimizer: [
+        new TerserPlugin({
+          exclude: /assets[\\/]widgets[\\/]svgeditor[\\/]locale/
+        })
+      ]
     },
 
     module: {
@@ -96,10 +105,7 @@ module.exports = function (env) {
          */
         {
           test: /\.css$/,
-          loader: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: 'css-loader'
-          }),
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
           include: [helpers.root('src', 'styles')]
         },
 
@@ -108,10 +114,11 @@ module.exports = function (env) {
          */
         {
           test: /\.scss$/,
-          loader: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: 'css-loader!sass-loader'
-          }),
+          use: [
+            MiniCssExtractPlugin.loader,
+            { loader: 'css-loader', options: { url: false, importLoaders: 1 } },
+            { loader: 'sass-loader', options: { implementation: require('sass'), webpackImporter: false } }
+          ],
           include: [helpers.root('src', 'styles')]
         },
 
@@ -127,23 +134,14 @@ module.exports = function (env) {
     plugins: [
 
       /**
-       * Webpack plugin to optimize a JavaScript file for faster initial load
-       * by wrapping eagerly-invoked functions.
-       *
-       * See: https://github.com/vigneshshanmugam/optimize-js-plugin
-       */
-
-      new OptimizeJsPlugin({
-        sourceMap: false
-      }),
-
-      /**
-       * Plugin: ExtractTextPlugin
+       * Plugin: MiniCssExtractPlugin
        * Description: Extracts imported CSS files into external stylesheet
        *
-       * See: https://github.com/webpack/extract-text-webpack-plugin
+       * See: https://github.com/webpack-contrib/mini-css-extract-plugin
        */
-      new ExtractTextPlugin('[name].[contenthash].css'),
+      new MiniCssExtractPlugin({
+        filename: '[name].css'
+      }),
 
       /**
        * Plugin: DefinePlugin
@@ -166,52 +164,6 @@ module.exports = function (env) {
       }),
 
       /**
-       * Plugin: UglifyJsPlugin
-       * Description: Minimize all JavaScript output of chunks.
-       * Loaders are switched into minimizing mode.
-       *
-       * See: https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
-       */
-      // NOTE: To debug prod builds uncomment //debug lines and comment //prod lines
-      new UglifyJsPlugin({
-        // beautify: true, //debug
-        // mangle: false, //debug
-        // dead_code: false, //debug
-        // unused: false, //debug
-        // deadCode: false, //debug
-        // compress: {
-        //   screw_ie8: true,
-        //   keep_fnames: true,
-        //   drop_debugger: false,
-        //   dead_code: false,
-        //   unused: false
-        // }, // debug
-        // comments: true, //debug
-
-
-        beautify: false, //prod
-        output: {
-          comments: false
-        }, //prod
-        mangle: {
-          screw_ie8: true
-        }, //prod
-        compress: {
-          screw_ie8: true,
-          warnings: false,
-          conditionals: true,
-          unused: true,
-          comparisons: true,
-          sequences: true,
-          dead_code: true,
-          evaluate: true,
-          if_return: true,
-          join_vars: true,
-          negate_iife: false // we need this for lazy v8
-        },
-      }),
-
-      /**
        * Plugin: NormalModuleReplacementPlugin
        * Description: Replace resources that matches resourceRegExp with newResource
        *
@@ -228,107 +180,7 @@ module.exports = function (env) {
         helpers.root('config/empty.js')
       ),
 
-
-      // AoT
-      // new NormalModuleReplacementPlugin(
-      //   /@angular(\\|\/)upgrade/,
-      //   helpers.root('config/empty.js')
-      // ),
-      // new NormalModuleReplacementPlugin(
-      //   /@angular(\\|\/)compiler/,
-      //   helpers.root('config/empty.js')
-      // ),
-      // new NormalModuleReplacementPlugin(
-      //   /@angular(\\|\/)platform-browser-dynamic/,
-      //   helpers.root('config/empty.js')
-      // ),
-      // new NormalModuleReplacementPlugin(
-      //   /dom(\\|\/)debug(\\|\/)ng_probe/,
-      //   helpers.root('config/empty.js')
-      // ),
-      // new NormalModuleReplacementPlugin(
-      //   /dom(\\|\/)debug(\\|\/)by/,
-      //   helpers.root('config/empty.js')
-      // ),
-      // new NormalModuleReplacementPlugin(
-      //   /src(\\|\/)debug(\\|\/)debug_node/,
-      //   helpers.root('config/empty.js')
-      // ),
-      // new NormalModuleReplacementPlugin(
-      //   /src(\\|\/)debug(\\|\/)debug_renderer/,
-      //   helpers.root('config/empty.js')
-      // ),
-
-      /**
-       * Plugin: CompressionPlugin
-       * Description: Prepares compressed versions of assets to serve
-       * them with Content-Encoding
-       *
-       * See: https://github.com/webpack/compression-webpack-plugin
-       */
-      //  install compression-webpack-plugin
-      // new CompressionPlugin({
-      //   regExp: /\.css$|\.html$|\.js$|\.map$/,
-      //   threshold: 2 * 1024
-      // })
-
-      /**
-       * Plugin LoaderOptionsPlugin (experimental)
-       *
-       * See: https://gist.github.com/sokra/27b24881210b56bbaff7
-       */
-      new LoaderOptionsPlugin({
-        minimize: true,
-        debug: false,
-        options: {
-
-          /**
-           * Html loader advanced options
-           *
-           * See: https://github.com/webpack/html-loader#advanced-options
-           */
-          // TODO: Need to workaround Angular 2's html syntax => #id [bind] (event) *ngFor
-          htmlLoader: {
-            minimize: true,
-            removeAttributeQuotes: false,
-            caseSensitive: true,
-            customAttrSurround: [
-              [/#/, /(?:)/],
-              [/\*/, /(?:)/],
-              [/\[?\(?/, /(?:)/]
-            ],
-            customAttrAssign: [/\)?\]?=/]
-          },
-
-        }
-      }),
-
-      /**
-       * Plugin: BundleAnalyzerPlugin
-       * Description: Webpack plugin and CLI utility that represents
-       * bundle content as convenient interactive zoomable treemap
-       *
-       * `npm run build:prod -- --env.analyze` to use
-       *
-       * See: https://github.com/th0r/webpack-bundle-analyzer
-       */
-
     ],
-
-    /*
-     * Include polyfills or mocks for various node stuff
-     * Description: Node configuration
-     *
-     * See: https://webpack.github.io/docs/configuration.html#node
-     */
-    node: {
-      global: true,
-      crypto: 'empty',
-      process: false,
-      module: false,
-      clearImmediate: false,
-      setImmediate: false
-    }
 
   });
 }

@@ -5,9 +5,9 @@
         <app-s-button [buttons]="buttons" [selector]="601"></app-s-button>
       </td>
       <td colspan="2">
-        <select [(ngModel)]="widget0" (change)="changeWidget(0)">
-          <option *ngFor="let widget of widgets" value= {{widget}}>
-             {{widget}}
+        <select [(ngModel)]="widget0" (change)="changeWidget(0)" aria-label="Widget slot 0" title="Select widget for slot 0">
+          <option *ngFor="let widget of widgets" value={{widget.id}}>
+             {{widget.label}}
           </option>
         </select>
       </td>
@@ -27,9 +27,9 @@
         <app-s-button [buttons]="buttons" [selector]="602"></app-s-button>
       </td>
       <td colspan="2">
-        <select [(ngModel)]="widget1" (change)="changeWidget(1)">
-          <option *ngFor="let widget of widgets" value={{widget}}>
-             {{widget}}
+        <select [(ngModel)]="widget1" (change)="changeWidget(1)" aria-label="Widget slot 1" title="Select widget for slot 1">
+          <option *ngFor="let widget of widgets" value={{widget.id}}>
+             {{widget.label}}
           </option>
         </select>
       </td>
