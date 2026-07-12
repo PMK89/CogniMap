@@ -182,7 +182,9 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
     this.viz.preset = this.preset;
     this.ngZone.runOutsideAngular(() => {
       this.scene.setDocs(this.docs, this.viz);
-      this.scene.frameAll();
+      // land on the main cluster: framing ALL of a large map puts every
+      // node at sub-pixel size — an apparently white screen
+      this.scene.frameInitial();
     });
     this.saveViz();
   }

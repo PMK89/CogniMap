@@ -192,6 +192,17 @@ test('layout presets are deterministic and switchable', async ({ page }) => {
   await page.waitForTimeout(1200);
   const posRadial = await probe(page, `Array.from(scene['positions'].entries()).slice(0,5)`);
   expect(JSON.stringify(posRadial)).not.toEqual(JSON.stringify(posA));
+  // switching must land the camera at reading distance of the content,
+  // never frame-the-galaxy (which shows sub-pixel nodes: a white screen)
+  const view = await probe(page, `(() => {
+    let min=[1e9,1e9,1e9], max=[-1e9,-1e9,-1e9];
+    scene['positions'].forEach((p)=>{[p.x,p.y,p.z].forEach((v,i)=>{if(v<min[i])min[i]=v;if(v>max[i])max[i]=v;});});
+    const diag = Math.hypot(max[0]-min[0], max[1]-min[1], max[2]-min[2]);
+    return { camDist: scene['camera'].position.distanceTo(scene['controls'].target), diag };
+  })()`);
+  if (view.diag > 200) {
+    expect(view.camDist).toBeLessThan(view.diag);
+  }
   // reload: radial persists and produces the identical arrangement
   await page.reload();
   await page.waitForSelector('#cmap3d canvas');
