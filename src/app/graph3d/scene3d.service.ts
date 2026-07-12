@@ -531,8 +531,56 @@ export class Scene3dService {
     this.positions.forEach((p) => box.expandByPoint(new THREE.Vector3(p.x, p.y, p.z)));
     const center = box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3()).length() || 100;
+    // large maps (tens of thousands of nodes) span thousands of units; the
+    // default 8000 cap would clamp the camera inside the cloud. Grow the
+    // zoom-out limit to fit whatever we are framing.
+    this.controls.maxDistance = Math.max(8000, size * 1.6);
     this.controls.target.copy(center);
     this.camera.position.set(center.x + size * 0.35, center.y + size * 0.45, center.z + size * 0.7);
+    this.controls.update();
+    this.requestRender();
+  }
+
+  /**
+   * Initial view for a freshly opened map with no saved camera. Framing the
+   * ENTIRE map is useless at scale — a 40k-node map spans ~8000 units while
+   * a node is ~6 units, so every node would be sub-pixel (a white void).
+   * Instead land on the largest component's root and its first two levels of
+   * branches: the recognizable "central concept + outward branches" view.
+   * `Frame all` remains one click away for the whole-galaxy overview.
+   */
+  public frameInitial() {
+    if (!this.positions.size) { return; }
+    const h = this.hierarchy;
+    if (!h || !h.roots || !h.roots.length) { this.frameAll(); return; }
+    // root of the LARGEST component
+    let bestRoot = h.roots[0];
+    let bestSize = -1;
+    const comps = h.components || [];
+    for (let i = 0; i < h.roots.length; i++) {
+      const sz = comps[i] ? comps[i].length : 0;
+      if (sz > bestSize) { bestSize = sz; bestRoot = h.roots[i]; }
+    }
+    // collect the root + two levels of descendants
+    const ids = [bestRoot];
+    const kids = (h.childrenOf && h.childrenOf.get(bestRoot)) || [];
+    for (let i = 0; i < kids.length; i++) {
+      ids.push(kids[i]);
+      const gk = (h.childrenOf && h.childrenOf.get(kids[i])) || [];
+      for (let j = 0; j < gk.length; j++) { ids.push(gk[j]); }
+    }
+    const box = new THREE.Box3();
+    for (let i = 0; i < ids.length; i++) {
+      const p = this.positions.get(ids[i]);
+      if (p) { box.expandByPoint(new THREE.Vector3(p.x, p.y, p.z)); }
+    }
+    if (box.isEmpty()) { this.frameAll(); return; }
+    const center = box.getCenter(new THREE.Vector3());
+    // keep a floor so a lone root (no children) still gets a sensible zoom
+    const size = Math.max(box.getSize(new THREE.Vector3()).length(), 120);
+    this.controls.maxDistance = Math.max(8000, size * 4);
+    this.controls.target.copy(center);
+    this.camera.position.set(center.x + size * 0.4, center.y + size * 0.55, center.z + size * 0.9);
     this.controls.update();
     this.requestRender();
   }
@@ -547,7 +595,7 @@ export class Scene3dService {
   }
 
   public setCameraState(state: any) {
-    if (!state || !state.position) { this.frameAll(); return; }
+    if (!state || !state.position) { this.frameInitial(); return; }
     // stale-camera guard: a camera saved for a different layout, preset or
     // viewport can point at empty space thousands of units from where the
     // content now is — the user would be dropped into a white void. Only
@@ -561,9 +609,27 @@ export class Scene3dService {
       const eye = new THREE.Vector3().fromArray(state.position);
       if (target.distanceTo(center) > diag * 1.5 + 60
         || eye.distanceTo(center) > diag * 4 + 240) {
-        this.frameAll();
+        this.frameInitial();
         return;
       }
+      // in-bounds is not enough: a camera saved against a different data
+      // set (e.g. when the scene held only the 2D-viewport subset) can sit
+      // inside the cloud yet look at nothing. Only restore it if actual
+      // content is near its target; otherwise land on the main cluster.
+      const near = Math.max(eye.distanceTo(target) * 1.5, 60);
+      let visible = 0;
+      this.positions.forEach((p) => {
+        if (visible < 5 && target.distanceTo(new THREE.Vector3(p.x, p.y, p.z)) < near) {
+          visible++;
+        }
+      });
+      if (visible < 5 && this.positions.size > 10) {
+        this.frameInitial();
+        return;
+      }
+      // a valid saved camera may still have been captured under the old 8000
+      // cap; make sure it isn't clamped now
+      this.controls.maxDistance = Math.max(8000, diag * 1.6);
     }
     this.camera.position.fromArray(state.position);
     this.controls.target.fromArray(state.target || [0, 0, 0]);

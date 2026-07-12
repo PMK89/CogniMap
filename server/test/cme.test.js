@@ -34,6 +34,21 @@ test('POST /api/cme/query returns fixture docs with legacy fields intact', async
   assert.ok('x0' in node && 'y0' in node && 'x1' in node && 'y1' in node);
 });
 
+test('GET /api/cme/graph returns the WHOLE map with the heavy prep dropped', async () => {
+  const res = await fetch(`${url}/api/cme/graph`);
+  assert.equal(res.status, 200);
+  const data = await res.json();
+  // every document, viewport-independent (the 2D query above returned 3)
+  assert.ok(data.length > 3, 'returns more than a single viewport');
+  const node = data.find((d) => d.id === 30596);
+  assert.ok(node, 'a known node is present');
+  // the light projection drops the heavy pre-rendered SVG but keeps the
+  // fields the 3D graph needs
+  assert.ok(!('prep' in node), 'prep is excluded');
+  assert.equal(typeof node.cmobject, 'string');
+  assert.ok('coor' in node && 'x0' in node && 'types' in node);
+});
+
 test('GET /api/cme/id/:id returns a doc', async () => {
   const res = await fetch(`${url}/api/cme/id/30596`);
   assert.equal(res.status, 200);

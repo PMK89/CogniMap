@@ -100,6 +100,18 @@ function createCmeRouter(options = {}) {
     res.json(data);
   }));
 
+  // Full-map graph load for the 3D workspace. Returns EVERY document with a
+  // light projection: the 3D scene needs geometry, type, title and links,
+  // never the heavy pre-rendered `prep` SVG — dropping it keeps the 41k-node
+  // payload manageable. Independent of the 2D viewport so the 3D view shows
+  // the whole knowledge map, not just what the 2D canvas has lazy-loaded.
+  router.get('/cme/graph', asyncRoute(async (req, res) => {
+    const data = await db.findAsync({}, {
+      prep: 0, cmpicture: 0, thumb: 0,
+    });
+    res.json(data);
+  }));
+
   // old channel: getCME
   router.get('/cme/id/:id', asyncRoute(async (req, res) => {
     const id = Number(req.params.id);

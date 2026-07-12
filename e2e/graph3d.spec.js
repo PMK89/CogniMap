@@ -26,9 +26,8 @@ async function open3d(page) {
     s.widget0 = 'none'; s.widget1 = 'none';
     if (s.wlayout0) { s.wlayout0.display = 'none'; }
     if (s.wlayout1) { s.wlayout1.display = 'none'; }
-    // earlier specs may have scrolled elsewhere — pin the viewport to the
-    // linked fixture cluster so the scene has structural branches
-    s.coor = { x: 273600, y: 96200 };
+    // the 3D view loads the WHOLE map (not the 2D viewport subset), so the
+    // scroll position no longer affects which nodes appear — leave it alone
     await page.request.put('/api/settings', { data: s });
   });
   await page.goto('/');
@@ -86,6 +85,62 @@ test('camera orbit, pan and zoom work', async ({ page }) => {
   expect(Math.hypot(targetAfter[0] - targetBefore[0], targetAfter[1] - targetBefore[1], targetAfter[2] - targetBefore[2])).toBeGreaterThan(0.5);
 });
 
+test('3D loads the WHOLE map regardless of the 2D viewport position', async ({ page }) => {
+  // reproduce the reported bug: scroll the 2D map to a sparse/empty region
+  // where the viewport store would hold almost nothing, then open 3D. The
+  // 3D scene must still contain (nearly) every node, not the viewport subset.
+  await page.addInitScript(() => localStorage.setItem('cognimap-3d', '1'));
+  await page.request.get('/api/settings/1').then(async (r) => {
+    const s = await r.json();
+    s.widget0 = 'none'; s.widget1 = 'none';
+    s.coor = { x: 5000, y: 5000 }; // corner far from the fixture clusters
+    await page.request.put('/api/settings', { data: s });
+  });
+  // ground truth: how many real (non-overlay) nodes does the full map hold?
+  // quiz covers / markings / signs are intentionally excluded from 3D.
+  const isOverlay = (t) => t && (t === 'm' || t === 's' || String(t).indexOf('q') === 0);
+  const total = await page.request.get('/api/cme/graph').then(async (r) => {
+    const all = await r.json();
+    return all.filter((d) => d.id > 0 && !isOverlay(d.types && d.types[0])).length;
+  });
+  // what the 2D viewport at this corner would actually load (the old source)
+  const inViewport = await page.request.post('/api/cme/query', {
+    data: { l: 5000 - 3200, t: 5000 - 1800, r: 5000 + 4800, b: 5000 + 2700 },
+  }).then(async (r) => (await r.json()).filter((d) => d.id > 0).length);
+  await page.goto('/');
+  await page.waitForSelector('#cmap3d canvas', { timeout: 30000 });
+  await page.waitForTimeout(3000);
+  const loaded = await probe(page, `scene['nodeMeshes'].size`);
+  // the 3D scene holds the entire map, not the viewport subset (the bug
+  // showed a single node here); overlays are the only excluded elements
+  expect(total).toBeGreaterThanOrEqual(10);
+  expect(loaded).toBe(total);
+  // and it is strictly more than the sparse 2D viewport would have loaded
+  expect(loaded).toBeGreaterThan(inViewport);
+});
+
+test('initial view frames the main cluster, not the whole galaxy (nodes visible)', async ({ page }) => {
+  // clear any saved camera so the initial framing logic runs
+  await page.request.get('/api/viz3d').then(async (r) => {
+    const v = await r.json();
+    v.camera = null;
+    await page.request.put('/api/viz3d', { data: v });
+  });
+  await open3d(page);
+  const st = await probe(page, `(() => {
+    let min=[1e9,1e9,1e9], max=[-1e9,-1e9,-1e9];
+    scene['positions'].forEach((p)=>{[p.x,p.y,p.z].forEach((v,i)=>{if(v<min[i])min[i]=v;if(v>max[i])max[i]=v;});});
+    const diag = Math.hypot(max[0]-min[0], max[1]-min[1], max[2]-min[2]);
+    return { camDist: scene['camera'].position.distanceTo(scene['controls'].target), diag, nodes: scene['nodeMeshes'].size };
+  })()`);
+  expect(st.nodes).toBeGreaterThanOrEqual(10);
+  // the camera must NOT be pulled all the way out to frame the entire map
+  // (that is the sub-pixel "white void"); it sits close to the main cluster
+  if (st.diag > 200) {
+    expect(st.camDist).toBeLessThan(st.diag);
+  }
+});
+
 test('a stale saved camera is ignored and the map is framed instead', async ({ page }) => {
   // poison the saved camera: it points at empty space near the origin,
   // thousands of units from the cognitive-tree content (the exact state
@@ -117,7 +172,8 @@ test('a stale saved camera is ignored and the map is framed instead', async ({ p
 
 test('node selection in 3D syncs the application-wide selection', async ({ page }) => {
   await open3d(page);
-  const id = await probe(page, `inst['docs'].filter(d => d && d.id > 0)[0].id`);
+  // pick a node that is actually in the 3D scene (overlays are excluded)
+  const id = await probe(page, `Array.from(scene['positions'].keys())[0]`);
   await page.evaluate((nid) => {
     window['__cm3d'].selectNode(nid, false);
   }, id);
@@ -149,7 +205,8 @@ test('layout presets are deterministic and switchable', async ({ page }) => {
 
 test('manual node position persists across reload', async ({ page }) => {
   await open3d(page);
-  const id = await probe(page, `inst['docs'].filter(d => d && d.id > 0)[0].id`);
+  // pick a node that is actually in the 3D scene (overlays are excluded)
+  const id = await probe(page, `Array.from(scene['positions'].keys())[0]`);
   await page.evaluate((nid) => {
     const inst = window['__cm3d'];
     inst.persistPosition(nid, { x: 111, y: 22, z: 33 });
@@ -170,7 +227,8 @@ test('manual node position persists across reload', async ({ page }) => {
 
 test('node geometry override applies and persists', async ({ page }) => {
   await open3d(page);
-  const id = await probe(page, `inst['docs'].filter(d => d && d.id > 0)[0].id`);
+  // pick a node that is actually in the 3D scene (overlays are excluded)
+  const id = await probe(page, `Array.from(scene['positions'].keys())[0]`);
   await page.evaluate((nid) => {
     const inst = window['__cm3d'];
     inst.selectNode(nid, false);
@@ -225,6 +283,13 @@ test('WebGL failure falls back gracefully with data intact', async ({ page }) =>
       if (String(type).indexOf('webgl') !== -1) { return null; }
       return orig.call(this, type, ...rest);
     };
+  });
+  // point the 2D viewport at a populated cluster (an earlier spec may have
+  // scrolled to a sparse corner) so the planar fallback has content to show
+  await page.request.get('/api/settings/1').then(async (r) => {
+    const s = await r.json();
+    s.coor = { x: 273600, y: 96200 };
+    await page.request.put('/api/settings', { data: s });
   });
   await page.goto('/');
   await page.waitForSelector('#cmap3d', { timeout: 20000 });

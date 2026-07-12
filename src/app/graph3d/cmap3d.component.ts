@@ -35,6 +35,9 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
   public nodeCount = 0;
   public viz: any = { version: 1, preset: 'cognitive-tree', positions: {}, shapes: {}, locked: {} };
   private docs: any[] = [];
+  private docIndex: any = {};
+  private graphLoaded = false;
+  private rebuildTimer: any;
   private sub: any;
   private saveTimer: any;
   private themeObserver: any;
@@ -67,16 +70,33 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
       this.scene.onDoubleClick = (id) => this.ngZone.run(() => this.editNode(id));
     });
     if (!this.scene.available) { return; }
+    // Load the ENTIRE map for 3D, independent of the 2D viewport. The 2D
+    // canvas lazy-loads only a window around the scroll position into the
+    // `cmes` store; driving the 3D scene from that store showed only the
+    // handful of nodes near wherever the user happened to be scrolled.
+    this.backend.ipcRenderer.on('loadedGraph3d', (event, all: any[]) => {
+      this.ngZone.runOutsideAngular(() => this.buildScene(all || []));
+    });
+    this.backend.ipcRenderer.send('loadGraph3d', '1');
+    // the 2D viewport store is now only a source of live edits: patch the
+    // full set by id and rebuild, never replace it with the viewport subset
     this.sub = this.store.select('cmes').subscribe((docs: any[]) => {
-      if (docs && docs.length) {
-        this.docs = docs;
-        this.nodeCount = docs.filter((d) => d && d.id > 0).length;
-        this.ngZone.runOutsideAngular(() => {
-          this.scene.setDocs(docs, this.viz);
-          if (this.viz.camera) { this.scene.setCameraState(this.viz.camera); }
-          else { this.scene.frameAll(); }
-        });
+      if (!this.graphLoaded || !docs || !docs.length) { return; }
+      let changed = false;
+      const byId = this.docIndex;
+      for (const d of docs) {
+        if (!d || typeof d.id !== 'number') { continue; }
+        const prev = byId[d.id];
+        if (!prev) { this.docs.push(d); byId[d.id] = d; changed = true; }
+        else if (prev.coor && d.coor
+          && (prev.coor.x !== d.coor.x || prev.coor.y !== d.coor.y
+            || prev.title !== d.title || prev.cmobject !== d.cmobject)) {
+          const i = this.docs.indexOf(prev);
+          if (i !== -1) { this.docs[i] = d; }
+          byId[d.id] = d; changed = true;
+        }
       }
+      if (changed) { this.scheduleRebuild(); }
     });
     // theme changes recolor the scene
     this.themeObserver = new MutationObserver(() => this.scene.applyTheme());
@@ -86,8 +106,33 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     if (this.sub) { this.sub.unsubscribe(); }
     if (this.themeObserver) { this.themeObserver.disconnect(); }
+    if (this.rebuildTimer) { clearTimeout(this.rebuildTimer); }
     this.saveViz(true);
     this.scene.dispose();
+  }
+
+  /** builds (or rebuilds) the whole scene from the full doc set */
+  private buildScene(all: any[]) {
+    this.docs = all;
+    this.docIndex = {};
+    for (const d of all) { if (d && typeof d.id === 'number') { this.docIndex[d.id] = d; } }
+    this.nodeCount = all.filter((d) => d && d.id > 0).length;
+    this.scene.setDocs(all, this.viz);
+    this.graphLoaded = true;
+    if (this.viz.camera) { this.scene.setCameraState(this.viz.camera); }
+    else { this.scene.frameInitial(); }
+  }
+
+  /** coalesce live edits into a single rebuild (edits arrive in bursts) */
+  private scheduleRebuild() {
+    if (this.rebuildTimer) { clearTimeout(this.rebuildTimer); }
+    this.rebuildTimer = setTimeout(() => {
+      this.rebuildTimer = undefined;
+      this.ngZone.runOutsideAngular(() => {
+        this.nodeCount = this.docs.filter((d) => d && d.id > 0).length;
+        this.scene.setDocs(this.docs, this.viz);
+      });
+    }, 400);
   }
 
   // ---- selection sync with the rest of the application ----
@@ -97,6 +142,9 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
     const doc = this.docs.filter((d) => d && d.id === id)[0];
     this.selectedTitle = doc ? doc.title : '';
     this.selectedShape = (this.viz.shapes && this.viz.shapes[id]) || 'auto';
+    // the node may live outside the 2D viewport store (3D shows the whole
+    // map); make sure it is loaded before selecting so editors/widgets work
+    this.elementService.ensureLoaded(id);
     // drive the app-wide selection so editors/toolbars operate on it
     this.elementService.setSelectedCME(id);
     this.scene.setSelection([id]);

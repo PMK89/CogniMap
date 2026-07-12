@@ -382,6 +382,28 @@ export class ElementService {
     return this.electronService.ipcRenderer.sendSync('getCME', id);
   }
 
+  /**
+   * Ensures a node is present in the `cmes` store so selection and every
+   * editor/widget can operate on it. The 3D workspace shows the whole map
+   * while the 2D store only holds the current viewport; selecting a node
+   * outside that viewport would otherwise find nothing. Loads the single
+   * doc from the database on demand (no-op if already present).
+   */
+  public ensureLoaded(id: number) {
+    let present = false;
+    this.cmelements.subscribe((data) => {
+      for (const key in data) {
+        if (data[key] && data[key].id === id) { present = true; break; }
+      }
+    }).unsubscribe();
+    if (!present) {
+      const doc = this.getDBCMEbyId(id);
+      if (doc && doc.id === id) {
+        this.store.dispatch({ type: 'ADD_CME', payload: doc });
+      }
+    }
+  }
+
   // gets CME from database/server by title
   public getDBCMEbyTitle(title: string) {
     return this.electronService.ipcRenderer.sendSync('getCMETitle', title);

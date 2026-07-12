@@ -184,6 +184,11 @@ export class IpcShim {
       case 'loadButtons':
         this.request('GET', '/api/buttons').then((res) => this.emit('loadedButtons', res));
         return;
+      // full-map load for the 3D workspace (light projection, viewport-
+      // independent) — kept separate from the 2D `cmes` viewport store
+      case 'loadGraph3d':
+        this.request('GET', '/api/cme/graph').then((res) => this.emit('loadedGraph3d', res || []));
+        return;
       case 'loadColors':
         this.request('GET', '/api/colors').then((res) => this.emit('loadedColors', res));
         return;

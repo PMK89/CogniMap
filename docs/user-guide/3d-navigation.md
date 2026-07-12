@@ -4,6 +4,14 @@ Toggle the 3D workspace with the **3D** button (bottom-right). The
 classic 2D map stays one click away (**2D**) and remains the fallback
 when WebGL is unavailable.
 
+The 3D view always loads the **whole map** (via a light server-side
+projection without the pre-rendered SVG), independent of where the 2D
+canvas is scrolled. Quiz covers, markings and signs are 2D overlay
+artifacts and never appear as 3D nodes. On first open (or when a saved
+camera no longer matches the content) the view lands on the largest
+component's root and its first branch levels — `Frame all` shows the
+entire map.
+
 ## Mouse / trackpad
 
 | Action | Control |
