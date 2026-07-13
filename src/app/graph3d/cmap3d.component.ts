@@ -27,13 +27,13 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
   public presets: string[] = core.LAYOUT_PRESETS;
   public shapes: string[] = ['auto', 'sphere', 'rounded-box', 'cube', 'capsule', 'cylinder',
     'cone', 'torus', 'prism', 'octahedron', 'lowpoly', 'panel', 'image-plane'];
-  public preset = 'cognitive-tree';
+  public preset = '2d-parity';
   public failure = '';
   public selectedId = 0;
   public selectedTitle = '';
   public selectedShape = 'auto';
   public nodeCount = 0;
-  public viz: any = { version: 1, preset: 'cognitive-tree', positions: {}, shapes: {}, locked: {} };
+  public viz: any = { version: 1, preset: '2d-parity', positions: {}, shapes: {}, locked: {} };
   private docs: any[] = [];
   private docIndex: any = {};
   private graphLoaded = false;
@@ -56,7 +56,16 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
     const saved = this.backend.ipcRenderer.sendSync('loadViz3d', '1');
     if (saved && saved.version) {
       this.viz = saved;
-      this.preset = saved.preset || this.preset;
+      // migration: only the four supported modes may be restored as the
+      // active layout — legacy/experimental saved presets (spherical,
+      // force-3d, ...) fall back to the 2D-parity default. force-3d stays
+      // selectable but is never the restored default.
+      const allowedRestore = ['2d-parity', 'layered-2.5d', 'cognitive-tree'];
+      if (saved.preset && allowedRestore.indexOf(saved.preset) === -1) {
+        this.viz.preset = '2d-parity';
+        this.viz.camera = null; // the old camera framed a different layout
+      }
+      this.preset = this.viz.preset || this.preset;
     }
     this.ngZone.runOutsideAngular(() => {
       const ok = this.scene.init(this.host.nativeElement);
@@ -176,6 +185,19 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
   public persistPosition(id: number, pos: any) {
     this.viz.positions[id] = { x: pos.x, y: pos.y, z: pos.z };
     this.saveViz();
+  }
+
+  public crossVisible = true;
+
+  /** return to the 2D-equivalent top-down viewpoint */
+  public frame2D() {
+    this.ngZone.runOutsideAngular(() => this.scene.frame2D());
+  }
+
+  public toggleCross() {
+    this.crossVisible = !this.crossVisible;
+    this.scene.crossVisible = this.crossVisible;
+    this.scene.requestRender();
   }
 
   public changePreset() {

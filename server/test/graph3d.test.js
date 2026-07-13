@@ -178,6 +178,36 @@ test('overlay elements (quiz covers, markings) are excluded from the 3D graph', 
   assert.equal(positions.size, 6);
 });
 
+test('2d-parity is the default-listed preset and reproduces 2D coordinates EXACTLY', () => {
+  assert.equal(core.LAYOUT_PRESETS[0], '2d-parity');
+  assert.deepEqual(core.LAYOUT_PRESETS, ['2d-parity', 'layered-2.5d', 'cognitive-tree', 'force-3d']);
+  const { positions } = core.computeLayout(FIXTURE, '2d-parity');
+  for (const d of FIXTURE) {
+    const p = positions.get(d.id);
+    // exact normalized coordinates — no relaxation, no synthetic layout
+    assert.equal(p.x, d.coor.x * core.SCALE, 'x parity for ' + d.id);
+    assert.equal(p.z, d.coor.y * core.SCALE, 'z parity for ' + d.id);
+    assert.equal(p.y, 0, 'flat plane for ' + d.id);
+  }
+});
+
+test('layered-2.5d keeps exact X/Z parity and lifts by hierarchy depth only', () => {
+  const { positions, hierarchy } = core.computeLayout(FIXTURE, 'layered-2.5d');
+  for (const d of FIXTURE) {
+    const p = positions.get(d.id);
+    assert.equal(p.x, d.coor.x * core.SCALE, 'x parity for ' + d.id);
+    assert.equal(p.z, d.coor.y * core.SCALE, 'z parity for ' + d.id);
+    assert.equal(p.y, -(hierarchy.depth.get(d.id) || 0) * 14, 'depth-only Z for ' + d.id);
+  }
+});
+
+test('legacy saved presets still resolve (spherical, layered-depth, ...)', () => {
+  for (const legacy of ['legacy-planar', 'layered-depth', 'radial-tree', 'spherical', 'organic', 'compact-clusters']) {
+    const { positions } = core.computeLayout(FIXTURE, legacy);
+    assert.equal(positions.size, 6, legacy + ' resolves');
+  }
+});
+
 test('cognitive-tree anchors roots to real 2D centers and preserves bearings', () => {
   const { positions, hierarchy, graph } = core.computeLayout(FIXTURE, 'cognitive-tree');
   // root of component A is node 1

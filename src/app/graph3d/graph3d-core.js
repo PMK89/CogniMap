@@ -614,6 +614,13 @@ function layoutCognitiveTree(graph, h) {
 // real sheet footprint, so large diagrams get room and small notes pack
 // tighter — neighbours never overlap regardless of their 2D size
 const LAYOUTS = {
+  // 2D parity (DEFAULT): the authoritative 2D arrangement, exactly — no
+  // relaxation, no synthetic placement. The 2D map is already laid out
+  // without overlaps; Z stays flat so the scene reads as the original map
+  // in a 3D workspace.
+  '2d-parity': (g, h) => layoutLegacyPlanar(g),
+  // layered 2.5D: exact X/Y with restrained hierarchy depth on Z
+  'layered-2.5d': (g, h) => layoutLayeredDepth(g, h),
   'cognitive-tree': (g, h) => relaxCollisions(layoutCognitiveTree(g, h), 12, 2, nodeRadii(g)),
   'legacy-planar': (g, h) => layoutLegacyPlanar(g),
   'layered-depth': (g, h) => relaxCollisions(layoutLayeredDepth(g, h), 10, 2, nodeRadii(g)),
@@ -655,6 +662,9 @@ module.exports = {
   computeLayout,
   relaxCollisions,
   hash01,
-  LAYOUT_PRESETS: Object.keys(LAYOUTS),
+  // the four supported modes, in dropdown order; other LAYOUTS keys remain
+  // resolvable so previously saved states keep working
+  LAYOUT_PRESETS: ['2d-parity', 'layered-2.5d', 'cognitive-tree', 'force-3d'],
+  ALL_LAYOUTS: Object.keys(LAYOUTS),
   SCALE,
 };

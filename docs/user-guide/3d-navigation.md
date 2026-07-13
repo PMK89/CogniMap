@@ -35,12 +35,14 @@ Camera limits prevent extreme zoom (min 2 / max 8000 units) and the
 
 ## Toolbar
 
-- **Layout** — deterministic presets. `cognitive-tree` (default) builds a
-  horizontal organic tree that mirrors your real map: the central concept
-  sits at the map's center, major branches extend outward in the same
-  directions they have in 2D, and children fan out around their parents.
-  `legacy-planar` is the flat arrangement in the 3D renderer;
-  `layered-depth` lifts children by hierarchy depth.
+- **Layout** — four modes. `2d-parity` (default) IS your 2D map in a 3D
+  workspace: exact positions, flat sheets, blue links, near-top-down
+  start. `layered-2.5d` adds restrained hierarchy depth. `cognitive-tree`
+  is the organic tree anchored to the map geography. `force-3d` is
+  experimental and never the default.
+- **2D view** — return to the top-down 2D-equivalent viewpoint
+- **Cross-links** — toggle secondary links (they also fade automatically
+  at overview distances)
 - **Relayout** — recompute the preset (drops manual 3D positions)
 - **Frame all** — frame the complete map
 - **Focus** — fly to the selected node

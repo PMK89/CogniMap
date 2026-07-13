@@ -67,6 +67,11 @@ export class Scene3dService {
   private instanceIndexById: Map<number, number> = new Map();
   private promoted: Set<number> = new Set();
   private sheetDims: Map<number, any> = new Map();
+  // 2D-parity family: sheets lie FLAT on the map plane (like the 2D canvas
+  // seen from above) instead of billboarding toward the camera
+  private flatMode = false;
+  public crossVisible = true;
+  private highlightGroup: any;
   private branchGroup: any;
   private crossGroup: any;
   private nodeGroup: any;
@@ -116,7 +121,8 @@ export class Scene3dService {
     this.branchGroup = new THREE.Group();
     this.crossGroup = new THREE.Group();
     this.labelGroup = new THREE.Group();
-    this.scene.add(this.branchGroup, this.crossGroup, this.nodeGroup, this.labelGroup);
+    this.highlightGroup = new THREE.Group();
+    this.scene.add(this.branchGroup, this.crossGroup, this.highlightGroup, this.nodeGroup, this.labelGroup);
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
@@ -169,7 +175,9 @@ export class Scene3dService {
   public setDocs(docs: any[], viz: Viz3dState) {
     if (!this.available) { return; }
     this.clearScene();
-    const preset = (viz && viz.preset) || 'cognitive-tree';
+    const preset = (viz && viz.preset) || '2d-parity';
+    this.flatMode = preset === '2d-parity' || preset === 'layered-2.5d'
+      || preset === 'legacy-planar' || preset === 'layered-depth';
     const result = core.computeLayout(docs, preset, viz && viz.positions);
     this.graph = result.graph;
     this.hierarchy = result.hierarchy;
@@ -210,7 +218,7 @@ export class Scene3dService {
     const inst = new THREE.InstancedMesh(geo, this.matCache['__sheetpool'], items.length);
     inst.userData = { isSheetPool: true, shared: true, sharedMat: true };
     const m = new THREE.Matrix4();
-    const q = new THREE.Quaternion();
+    const q = this.flatMode ? this.flatQuat() : new THREE.Quaternion();
     const sc = new THREE.Vector3();
     const pv = new THREE.Vector3();
     const col = new THREE.Color();
@@ -221,7 +229,7 @@ export class Scene3dService {
       this.sheetDims.set(doc.id, s);
       this.instanceIds.push(doc.id);
       this.instanceIndexById.set(doc.id, i);
-      m.compose(pv.set(p.x, p.y, p.z), q.identity(), sc.set(s.w, s.h, 0.5));
+      m.compose(pv.set(p.x, p.y, p.z), q, sc.set(s.w, s.h, 0.5));
       inst.setMatrixAt(i, m);
       inst.setColorAt(i, col.set(this.colorFor(doc)));
     }
@@ -229,6 +237,11 @@ export class Scene3dService {
     if (inst.instanceColor) { inst.instanceColor.needsUpdate = true; }
     this.nodeGroup.add(inst);
     this.sheetInstances = inst;
+  }
+
+  /** flat-on-the-map orientation: exactly the 2D canvas seen from above */
+  private flatQuat(): any {
+    return new THREE.Quaternion().setFromEuler(new THREE.Euler(-Math.PI / 2, 0, 0));
   }
 
   /** near sheet: swap the instance for an individual mesh (texturable) */
@@ -242,8 +255,12 @@ export class Scene3dService {
     const mesh = new THREE.Mesh(this.geometryFor('sheet'), this.materialFor(this.colorFor(doc), 'sheet'));
     mesh.position.set(p.x, p.y, p.z);
     mesh.scale.set(s.w, s.h, 0.5);
-    const cam = this.camera.position;
-    mesh.rotation.y = Math.atan2(cam.x - p.x, cam.z - p.z);
+    if (this.flatMode) {
+      mesh.rotation.x = -Math.PI / 2;
+    } else {
+      const cam = this.camera.position;
+      mesh.rotation.y = Math.atan2(cam.x - p.x, cam.z - p.z);
+    }
     mesh.userData = { id, shape: 'sheet', shared: true, sharedMat: true };
     mesh.matrixAutoUpdate = false;
     mesh.updateMatrix();
@@ -272,7 +289,7 @@ export class Scene3dService {
     const s = this.sheetDims.get(id);
     if (idx !== undefined && p && s && this.sheetInstances) {
       const cam = this.camera.position;
-      const q = new THREE.Quaternion().setFromAxisAngle(
+      const q = this.flatMode ? this.flatQuat() : new THREE.Quaternion().setFromAxisAngle(
         new THREE.Vector3(0, 1, 0), Math.atan2(cam.x - p.x, cam.z - p.z));
       const m = new THREE.Matrix4().compose(
         new THREE.Vector3(p.x, p.y, p.z), q, new THREE.Vector3(s.w, s.h, 0.5));
@@ -283,7 +300,7 @@ export class Scene3dService {
   }
 
   private clearScene() {
-    for (const group of [this.nodeGroup, this.branchGroup, this.crossGroup, this.labelGroup]) {
+    for (const group of [this.nodeGroup, this.branchGroup, this.crossGroup, this.labelGroup, this.highlightGroup]) {
       if (!group) { continue; }
       const children = group.children.slice();
       for (const c of children) {
@@ -344,7 +361,8 @@ export class Scene3dService {
     if (viz && viz.shapes && viz.shapes[doc.id]) { return viz.shapes[doc.id]; }
     if (doc.types && doc.types[0] === 'q') { return 'octahedron'; }
     if (doc.types && doc.types[0] === 'm') { return 'capsule'; }
-    if ((this.hierarchy && this.hierarchy.roots.indexOf(doc.id) !== -1)) { return 'sphere'; }
+    if (!this.flatMode
+      && (this.hierarchy && this.hierarchy.roots.indexOf(doc.id) !== -1)) { return 'sphere'; }
     // default: a flat sheet in the proportions of the 2D object that
     // streams the object's REAL 2D rendering (text, LaTeX, images,
     // formulas) onto both faces when near the camera. Content-specific
@@ -661,9 +679,10 @@ export class Scene3dService {
     if (!this.matCache['__branch']) {
       // light and slightly translucent: connections should recede behind
       // the content, not read as dark scaffolding in the foreground
+      // the 2D map draws its links in blue — keep that identity in 3D
       this.matCache['__branch'] = new THREE.MeshStandardMaterial({
-        color: 0xaab3c2, roughness: 1, metalness: 0,
-        transparent: true, opacity: 0.62,
+        color: 0x5b74cc, roughness: 1, metalness: 0,
+        transparent: true, opacity: 0.6,
       });
     }
     return this.matCache['__branch'];
@@ -752,12 +771,44 @@ export class Scene3dService {
   // selection / hover / drag
   // ----------------------------------------------------------------
 
+  /** the selected node's own links become prominent */
+  private rebuildSelectionLinks(ids: number[]) {
+    if (!this.highlightGroup) { return; }
+    const old = this.highlightGroup.children.slice();
+    for (const c of old) {
+      this.highlightGroup.remove(c);
+      if (c.geometry) { c.geometry.dispose(); }
+      if (c.material && !c.userData.sharedMat) { c.material.dispose(); }
+    }
+    if (!ids.length || !this.graph) { return; }
+    const idset = new Set(ids);
+    const pts: number[] = [];
+    for (const e of this.graph.edges) {
+      if (!idset.has(e.source) && !idset.has(e.target)) { continue; }
+      const a = this.positions.get(e.source);
+      const b = this.positions.get(e.target);
+      if (a && b) { pts.push(a.x, a.y, a.z, b.x, b.y, b.z); }
+    }
+    if (!pts.length) { return; }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+    if (!this.matCache['__sellink']) {
+      this.matCache['__sellink'] = new THREE.LineBasicMaterial({
+        color: 0x2f6fed, transparent: true, opacity: 0.95,
+      });
+    }
+    const lines = new THREE.LineSegments(geo, this.matCache['__sellink']);
+    lines.userData.sharedMat = true;
+    this.highlightGroup.add(lines);
+  }
+
   public setSelection(ids: number[]) {
     this.selectionIds = new Set(ids);
     // a selected far sheet is promoted immediately so it can highlight
     for (const id of ids) {
       if (this.instanceIndexById.has(id) && !this.promoted.has(id)) { this.promoteSheet(id); }
     }
+    this.rebuildSelectionLinks(ids);
     this.nodeMeshes.forEach((mesh, id) => {
       const selected = this.selectionIds.has(id);
       const hovered = id === this.hoverId;
@@ -879,8 +930,9 @@ export class Scene3dService {
             const dims = this.sheetDims.get(s.id);
             if (dims) {
               const cam = this.camera.position;
-              const q = new THREE.Quaternion().setFromAxisAngle(
-                new THREE.Vector3(0, 1, 0), Math.atan2(cam.x - sp.x, cam.z - sp.z));
+              const q = this.flatMode ? this.flatQuat()
+                : new THREE.Quaternion().setFromAxisAngle(
+                  new THREE.Vector3(0, 1, 0), Math.atan2(cam.x - sp.x, cam.z - sp.z));
               const mm = new THREE.Matrix4().compose(
                 new THREE.Vector3(sp.x, sp.y, sp.z), q,
                 new THREE.Vector3(dims.w, dims.h, 0.5));
@@ -1007,7 +1059,24 @@ export class Scene3dService {
     const size = 420; // comfortable reading distance for the dense area
     this.controls.maxDistance = 8000;
     this.controls.target.copy(anchor);
-    this.camera.position.set(anchor.x + size * 0.4, anchor.y + size * 0.55, anchor.z + size * 0.9);
+    if (this.flatMode) {
+      // near-top-down at 2D-like magnification: the map plane fills the
+      // view like the 2D canvas, with a slight tilt so orbiting stays
+      // stable
+      const h = 280;
+      this.camera.position.set(anchor.x, anchor.y + h, anchor.z + h * 0.28);
+    } else {
+      this.camera.position.set(anchor.x + size * 0.4, anchor.y + size * 0.55, anchor.z + size * 0.9);
+    }
+    this.controls.update();
+    this.requestRender();
+  }
+
+  /** return to the 2D-equivalent viewpoint (top-down over the current spot) */
+  public frame2D() {
+    const t = this.controls.target;
+    const d = Math.max(140, this.camera.position.distanceTo(t));
+    this.camera.position.set(t.x, t.y + d, t.z + d * 0.28);
     this.controls.update();
     this.requestRender();
   }
@@ -1092,7 +1161,18 @@ export class Scene3dService {
     // reads like cards, exactly as in 2D (text planes are children and
     // turn with their node). Only when the camera actually moved, so an
     // idle scene stays idle.
-    if (!this.lastBillboardPos || this.lastBillboardPos.distanceTo(camPos) > 0.5) {
+    // cross-links fade out at overview distances (they read as noise) and
+    // can be toggled off entirely
+    if (this.crossGroup) {
+      const cd = camPos.distanceTo(this.controls.target);
+      const vis = this.crossVisible && cd < 2200;
+      if (this.crossGroup.visible !== vis) {
+        this.crossGroup.visible = vis;
+        this.needsRender = true;
+      }
+    }
+    if (!this.flatMode
+      && (!this.lastBillboardPos || this.lastBillboardPos.distanceTo(camPos) > 0.5)) {
       this.lastBillboardPos = camPos.clone();
       this.nodeMeshes.forEach((mesh) => {
         if (mesh.userData.shape === 'sheet') {
@@ -1123,7 +1203,7 @@ export class Scene3dService {
     // two tiers: title cards for a wide radius (everything you can make
     // out gets at least its text), full 2D content for the nearest nodes
     const budget = this.largeMode ? 500 : 600;
-    const RICH_DIST = 300;
+    const RICH_DIST = 220;
     // nearest nodes to the camera (single pass over positions, ~ms at 40k)
     const near: Array<{ id: number, d: number }> = [];
     const v = new THREE.Vector3();
@@ -1177,11 +1257,11 @@ export class Scene3dService {
           created++;
           this.needsRender = true;
         }
-        // full 2D content (LaTeX/images/formulas) when the sheet is big
-        // enough ON SCREEN to read it: close by, or large even at range
-        const dims = this.sheetDims.get(id);
+        // full 2D content (LaTeX/images/formulas) only at reading
+        // distance or for the selected/hovered node — large media and
+        // chemistry previews must not dominate the overview
         const d = distOf[id];
-        if (d === undefined || d < RICH_DIST || (dims && dims.w / d > 0.055)) {
+        if (d === undefined || d < RICH_DIST) {
           this.upgradeSheet(id);
         }
         return;
