@@ -58,6 +58,15 @@ export class Scene3dService {
   private sheetTexts: Map<number, any[]> = new Map();
   private richPending: Set<number> = new Set();
   private lastBillboardPos: any = null;
+  private cullPending = false;
+  // far-field sheet pool: ONE InstancedMesh renders every sheet that is not
+  // near the camera (one draw call instead of tens of thousands). Near
+  // sheets are "promoted" to individual meshes so they can carry textures.
+  private sheetInstances: any = null;
+  private instanceIds: number[] = [];
+  private instanceIndexById: Map<number, number> = new Map();
+  private promoted: Set<number> = new Set();
+  private sheetDims: Map<number, any> = new Map();
   private branchGroup: any;
   private crossGroup: any;
   private nodeGroup: any;
@@ -169,13 +178,108 @@ export class Scene3dService {
     const n = result.graph.nodes.size;
     this.largeMode = n > 800;
 
+    // fill rate dominates on huge maps — cap the pixel ratio there
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, this.largeMode ? 1.5 : 2));
+
+    const sheetItems = [];
     for (const doc of result.graph.nodeList) {
       const p = result.positions.get(doc.id);
-      this.addNodeMesh(doc, p, viz);
+      if (this.shapeFor(doc, viz) === 'sheet') { sheetItems.push([doc, p]); }
+      else { this.addNodeMesh(doc, p, viz); }
     }
+    this.buildSheetPool(sheetItems);
     this.buildBranches();
     this.updateLabels(true);
     this.requestRender();
+  }
+
+  /** all far sheets in one instanced draw call, colored per node */
+  private buildSheetPool(items: any[]) {
+    this.sheetInstances = null;
+    this.instanceIds = [];
+    this.instanceIndexById.clear();
+    this.promoted.clear();
+    this.sheetDims.clear();
+    if (!items.length) { return; }
+    const geo = this.geometryFor('sheet');
+    if (!this.matCache['__sheetpool']) {
+      this.matCache['__sheetpool'] = new THREE.MeshStandardMaterial({
+        color: 0xffffff, roughness: 0.85, metalness: 0.05,
+      });
+    }
+    const inst = new THREE.InstancedMesh(geo, this.matCache['__sheetpool'], items.length);
+    inst.userData = { isSheetPool: true, shared: true, sharedMat: true };
+    const m = new THREE.Matrix4();
+    const q = new THREE.Quaternion();
+    const sc = new THREE.Vector3();
+    const pv = new THREE.Vector3();
+    const col = new THREE.Color();
+    for (let i = 0; i < items.length; i++) {
+      const doc = items[i][0];
+      const p = items[i][1];
+      const s = core.sheetSize(doc);
+      this.sheetDims.set(doc.id, s);
+      this.instanceIds.push(doc.id);
+      this.instanceIndexById.set(doc.id, i);
+      m.compose(pv.set(p.x, p.y, p.z), q.identity(), sc.set(s.w, s.h, 0.5));
+      inst.setMatrixAt(i, m);
+      inst.setColorAt(i, col.set(this.colorFor(doc)));
+    }
+    inst.instanceMatrix.needsUpdate = true;
+    if (inst.instanceColor) { inst.instanceColor.needsUpdate = true; }
+    this.nodeGroup.add(inst);
+    this.sheetInstances = inst;
+  }
+
+  /** near sheet: swap the instance for an individual mesh (texturable) */
+  private promoteSheet(id: number): any {
+    if (this.promoted.has(id)) { return this.nodeMeshes.get(id); }
+    const doc = this.docsById && this.docsById.get(id);
+    const p = this.positions.get(id);
+    const s = this.sheetDims.get(id);
+    const idx = this.instanceIndexById.get(id);
+    if (!doc || !p || !s || idx === undefined || !this.sheetInstances) { return undefined; }
+    const mesh = new THREE.Mesh(this.geometryFor('sheet'), this.materialFor(this.colorFor(doc), 'sheet'));
+    mesh.position.set(p.x, p.y, p.z);
+    mesh.scale.set(s.w, s.h, 0.5);
+    const cam = this.camera.position;
+    mesh.rotation.y = Math.atan2(cam.x - p.x, cam.z - p.z);
+    mesh.userData = { id, shape: 'sheet', shared: true, sharedMat: true };
+    mesh.matrixAutoUpdate = false;
+    mesh.updateMatrix();
+    this.nodeGroup.add(mesh);
+    this.nodeMeshes.set(id, mesh);
+    // hide the pooled instance
+    const zero = new THREE.Matrix4().makeScale(0, 0, 0);
+    this.sheetInstances.setMatrixAt(idx, zero);
+    this.sheetInstances.instanceMatrix.needsUpdate = true;
+    this.promoted.add(id);
+    return mesh;
+  }
+
+  /** sheet left the near set: back into the instanced pool */
+  private demoteSheet(id: number) {
+    if (!this.promoted.has(id)) { return; }
+    this.removeSheetText(id);
+    const mesh = this.nodeMeshes.get(id);
+    if (mesh) {
+      this.nodeGroup.remove(mesh);
+      if (!mesh.userData.sharedMat) { mesh.material.dispose(); }
+      this.nodeMeshes.delete(id);
+    }
+    const idx = this.instanceIndexById.get(id);
+    const p = this.positions.get(id);
+    const s = this.sheetDims.get(id);
+    if (idx !== undefined && p && s && this.sheetInstances) {
+      const cam = this.camera.position;
+      const q = new THREE.Quaternion().setFromAxisAngle(
+        new THREE.Vector3(0, 1, 0), Math.atan2(cam.x - p.x, cam.z - p.z));
+      const m = new THREE.Matrix4().compose(
+        new THREE.Vector3(p.x, p.y, p.z), q, new THREE.Vector3(s.w, s.h, 0.5));
+      this.sheetInstances.setMatrixAt(idx, m);
+      this.sheetInstances.instanceMatrix.needsUpdate = true;
+    }
+    this.promoted.delete(id);
   }
 
   private clearScene() {
@@ -203,6 +307,11 @@ export class Scene3dService {
       }
     });
     this.sheetTexts.clear();
+    this.sheetInstances = null;
+    this.instanceIds = [];
+    this.instanceIndexById.clear();
+    this.promoted.clear();
+    this.sheetDims.clear();
   }
 
   /** geometry factory with shared cache */
@@ -645,6 +754,10 @@ export class Scene3dService {
 
   public setSelection(ids: number[]) {
     this.selectionIds = new Set(ids);
+    // a selected far sheet is promoted immediately so it can highlight
+    for (const id of ids) {
+      if (this.instanceIndexById.has(id) && !this.promoted.has(id)) { this.promoteSheet(id); }
+    }
     this.nodeMeshes.forEach((mesh, id) => {
       const selected = this.selectionIds.has(id);
       const hovered = id === this.hoverId;
@@ -670,7 +783,12 @@ export class Scene3dService {
     this.pointer.y = -((evt.clientY - rect.top) / rect.height) * 2 + 1;
     this.raycaster.setFromCamera(this.pointer, this.camera);
     const hits = this.raycaster.intersectObjects(this.nodeGroup.children, false);
-    return hits.length ? hits[0].object.userData.id : 0;
+    if (!hits.length) { return 0; }
+    const h = hits[0];
+    if (h.object.userData.isSheetPool && h.instanceId !== undefined) {
+      return this.instanceIds[h.instanceId] || 0;
+    }
+    return h.object.userData.id || 0;
   }
 
   private bindPointerEvents() {
@@ -695,10 +813,11 @@ export class Scene3dService {
         const origin = this.positions.get(downId) || mesh.position;
         const subtree = [];
         this.subtreeIds(downId).forEach((did) => {
-          const dm = this.nodeMeshes.get(did);
           const dp = this.positions.get(did);
-          if (dm && dp) {
-            subtree.push({ id: did, mesh: dm, off: {
+          if (dp) {
+            // mesh is undefined for pooled (instanced) descendants: they
+            // move on release via the instance matrices
+            subtree.push({ id: did, mesh: this.nodeMeshes.get(did), off: {
               x: dp.x - origin.x, y: dp.y - origin.y, z: dp.z - origin.z,
             } });
           }
@@ -721,9 +840,11 @@ export class Scene3dService {
           this.dragState.mesh.updateMatrix();
           const sprite = this.labelSprites.get(this.dragState.id);
           if (sprite) { sprite.position.set(hit.x, hit.y + 3.4, hit.z); }
-          // children move relative to the parent
+          // children move relative to the parent (pooled instances follow
+          // on release — their matrices update once in pointerup)
           for (let i = 0; i < this.dragState.subtree.length; i++) {
             const s = this.dragState.subtree[i];
+            if (!s.mesh) { continue; }
             s.mesh.position.set(hit.x + s.off.x, hit.y + s.off.y, hit.z + s.off.z);
             s.mesh.updateMatrix();
             const sp = this.labelSprites.get(s.id);
@@ -749,10 +870,25 @@ export class Scene3dService {
         const movedNodes = [{ id, pos: { x: m.x, y: m.y, z: m.z } }];
         for (let i = 0; i < this.dragState.subtree.length; i++) {
           const s = this.dragState.subtree[i];
-          const sp = { x: s.mesh.position.x, y: s.mesh.position.y, z: s.mesh.position.z };
+          const sp = { x: m.x + s.off.x, y: m.y + s.off.y, z: m.z + s.off.z };
           this.positions.set(s.id, sp);
           movedNodes.push({ id: s.id, pos: sp });
+          // pooled descendants: update their instance matrix now
+          const idx = this.instanceIndexById.get(s.id);
+          if (!s.mesh && idx !== undefined && this.sheetInstances) {
+            const dims = this.sheetDims.get(s.id);
+            if (dims) {
+              const cam = this.camera.position;
+              const q = new THREE.Quaternion().setFromAxisAngle(
+                new THREE.Vector3(0, 1, 0), Math.atan2(cam.x - sp.x, cam.z - sp.z));
+              const mm = new THREE.Matrix4().compose(
+                new THREE.Vector3(sp.x, sp.y, sp.z), q,
+                new THREE.Vector3(dims.w, dims.h, 0.5));
+              this.sheetInstances.setMatrixAt(idx, mm);
+            }
+          }
         }
+        if (this.sheetInstances) { this.sheetInstances.instanceMatrix.needsUpdate = true; }
         this.rebuildEdgesFor();
         this.onDragEnd(id, { x: m.x, y: m.y, z: m.z }, movedNodes);
       } else if (!moved) {
@@ -943,11 +1079,13 @@ export class Scene3dService {
    */
   private cullLabels() {
     const now = performance.now();
-    // throttled: keep the render loop hot so the skipped update happens
-    // right after the window elapses (otherwise a jump straight after an
-    // update would leave stale labels frozen on screen)
-    if (now - this.lastLabelCull < 250) { this.needsRender = true; return; }
+    // throttled: remember that work is pending so the loop retries right
+    // after the window elapses (setting needsRender instead would be
+    // cleared by the same tick's render and the streaming would stall —
+    // content then only appeared on hover)
+    if (now - this.lastLabelCull < 250) { this.cullPending = true; return; }
     this.lastLabelCull = now;
+    this.cullPending = false;
     const camPos = this.camera.position;
     // signpost billboarding: sheets rotate around Y toward the camera so
     // they are never seen edge-on as slivers — from every angle the map
@@ -962,6 +1100,24 @@ export class Scene3dService {
           mesh.updateMatrix();
         }
       });
+      if (this.sheetInstances) {
+        const m = new THREE.Matrix4();
+        const q = new THREE.Quaternion();
+        const up = new THREE.Vector3(0, 1, 0);
+        const pv = new THREE.Vector3();
+        const sc = new THREE.Vector3();
+        for (let i = 0; i < this.instanceIds.length; i++) {
+          const id = this.instanceIds[i];
+          if (this.promoted.has(id)) { continue; }
+          const p = this.positions.get(id);
+          const s = this.sheetDims.get(id);
+          if (!p || !s) { continue; }
+          q.setFromAxisAngle(up, Math.atan2(camPos.x - p.x, camPos.z - p.z));
+          m.compose(pv.set(p.x, p.y, p.z), q, sc.set(s.w, s.h, 0.5));
+          this.sheetInstances.setMatrixAt(i, m);
+        }
+        this.sheetInstances.instanceMatrix.needsUpdate = true;
+      }
       this.needsRender = true;
     }
     // two tiers: title cards for a wide radius (everything you can make
@@ -998,27 +1154,34 @@ export class Scene3dService {
         }
       }
     });
-    const sheetIds: number[] = [];
-    this.sheetTexts.forEach((faces, id) => { if (!chosen.has(id)) { sheetIds.push(id); } });
-    if (this.sheetTexts.size > 900) {
-      for (const id of sheetIds) { this.removeSheetText(id); this.needsRender = true; }
-    }
+    // sheets that left the near set go back into the instanced pool
+    const toDemote: number[] = [];
+    this.promoted.forEach((id) => { if (!chosen.has(id)) { toDemote.push(id); } });
+    for (const id of toDemote) { this.demoteSheet(id); this.needsRender = true; }
     // canvas-texture creation is the expensive part — cap it per tick and
     // let the remainder stream in over the next culls (keeps frames smooth
     // while flying instead of one big hitch per area)
     let created = 0;
     chosen.forEach((id) => {
-      const mesh = this.nodeMeshes.get(id);
       // sheets carry their text on the node itself
-      if (mesh && mesh.userData.shape === 'sheet') {
-        if (!this.sheetTexts.has(id) && created < 40) {
+      if (this.instanceIndexById.has(id)) {
+        let mesh = this.nodeMeshes.get(id);
+        if (!mesh && created < 80) {
+          mesh = this.promoteSheet(id);
+          created++;
+          this.needsRender = true;
+        }
+        if (!mesh) { return; }
+        if (!this.sheetTexts.has(id) && created < 80) {
           this.ensureSheetText(id);
           created++;
           this.needsRender = true;
         }
-        // full 2D content (LaTeX/images/formulas) only at reading distance
-        // — title cards handle the mid field; in-flight bounded inside
-        if (distOf[id] === undefined || distOf[id] < RICH_DIST) {
+        // full 2D content (LaTeX/images/formulas) when the sheet is big
+        // enough ON SCREEN to read it: close by, or large even at range
+        const dims = this.sheetDims.get(id);
+        const d = distOf[id];
+        if (d === undefined || d < RICH_DIST || (dims && dims.w / d > 0.055)) {
           this.upgradeSheet(id);
         }
         return;
@@ -1037,6 +1200,9 @@ export class Scene3dService {
       const aspect = sprite.material.map.image.width / sprite.material.map.image.height;
       sprite.scale.set(5.2 * aspect * s, 5.2 * s, 1);
     });
+    // the per-tick creation cap was hit or rich fetches are in flight:
+    // keep streaming on the next window instead of waiting for movement
+    if (created >= 80 || this.richPending.size > 0) { this.cullPending = true; }
   }
 
   private startLoop() {
@@ -1047,8 +1213,9 @@ export class Scene3dService {
       const damping = this.controls && this.controls.update();
       // re-evaluate labels on ANY view change (orbit damping ticks AND
       // programmatic camera moves like frame/focus, which only set
-      // needsRender) — throttled internally to 250 ms
-      if (damping || this.needsRender) { this.cullLabels(); }
+      // needsRender) and while streaming work is pending — throttled
+      // internally to 250 ms
+      if (damping || this.needsRender || this.cullPending) { this.cullLabels(); }
       if (this.needsRender || damping) {
         this.needsRender = false;
         this.renderer.render(this.scene, this.camera);

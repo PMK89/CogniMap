@@ -48,7 +48,7 @@ const probe = (page, expr) => page.evaluate((e) => {
 test('3D scene renders nodes and branches without console errors', async ({ page }) => {
   await open3d(page);
   const state = await probe(page, `({
-    nodes: scene['nodeMeshes'].size,
+    nodes: scene['positions'].size,
     branches: scene['branchGroup'].children.length,
     available: scene.available,
   })`);
@@ -110,7 +110,7 @@ test('3D loads the WHOLE map regardless of the 2D viewport position', async ({ p
   await page.goto('/');
   await page.waitForSelector('#cmap3d canvas', { timeout: 30000 });
   await page.waitForTimeout(3000);
-  const loaded = await probe(page, `scene['nodeMeshes'].size`);
+  const loaded = await probe(page, `scene['positions'].size`);
   // the 3D scene holds the entire map, not the viewport subset (the bug
   // showed a single node here); overlays are the only excluded elements
   expect(total).toBeGreaterThanOrEqual(10);
@@ -131,7 +131,7 @@ test('initial view frames the main cluster, not the whole galaxy (nodes visible)
     let min=[1e9,1e9,1e9], max=[-1e9,-1e9,-1e9];
     scene['positions'].forEach((p)=>{[p.x,p.y,p.z].forEach((v,i)=>{if(v<min[i])min[i]=v;if(v>max[i])max[i]=v;});});
     const diag = Math.hypot(max[0]-min[0], max[1]-min[1], max[2]-min[2]);
-    return { camDist: scene['camera'].position.distanceTo(scene['controls'].target), diag, nodes: scene['nodeMeshes'].size };
+    return { camDist: scene['camera'].position.distanceTo(scene['controls'].target), diag, nodes: scene['positions'].size };
   })()`);
   expect(st.nodes).toBeGreaterThanOrEqual(10);
   // the camera must NOT be pulled all the way out to frame the entire map
@@ -159,7 +159,7 @@ test('a stale saved camera is ignored and the map is framed instead', async ({ p
         if (v > max[i]) { max[i] = v; }
       });
     });
-    return { target: scene['controls'].target.toArray(), min, max, nodes: scene['nodeMeshes'].size };
+    return { target: scene['controls'].target.toArray(), min, max, nodes: scene['positions'].size };
   })()`);
   expect(state.nodes).toBeGreaterThan(0);
   // the camera target must sit inside the content bounds — not at the
@@ -241,8 +241,8 @@ test('sheets stream the real 2D rendering (prep SVG) onto near nodes', async ({ 
   // pick a sheet node whose doc has a pre-rendered SVG
   const id = await probe(page, `(() => {
     let found = 0;
-    scene['nodeMeshes'].forEach((mesh, nid) => {
-      if (!found && mesh.userData.shape === 'sheet') {
+    scene['instanceIndexById'].forEach((idx, nid) => {
+      if (!found) {
         const d = inst['docIndex'][nid];
         if (d) { found = nid; }
       }
