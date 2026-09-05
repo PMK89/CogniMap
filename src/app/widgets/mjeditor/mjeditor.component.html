@@ -1,4 +1,5 @@
 <div id="mjeditor">
+  <div class="cm-math-actions"><button type="button" (click)="saveLateX()" [disabled]="mjeditorService.pending || mjeditorService.error">Save expression</button><button type="button" (click)="copySource()">Copy LaTeX</button><label><input type="checkbox" [(ngModel)]="mjeditorService.inline" (change)="makeLatex(latexInput, latexInput.value)"> Inline</label><span role="status">{{mjeditorService.pending ? 'Rendering…' : copyStatus}}</span><span role="alert">{{mjeditorService.error}}</span></div>
   <div id="output">
     <svg width="550px" height="60px" id="mjeditorsvg"></svg>
   </div>
@@ -32,7 +33,7 @@
     </tr>
   </table>
   <div id="input">
-    <textarea #latexInput value="{{inputtext}}" rows="4" cols="60"
+    <textarea aria-label="LaTeX source" #latexInput value="{{inputtext}}" rows="4" cols="60"
     (keyup)="makeLatex(latexInput, latexInput.value)"
     (mouseup)="makeLatex(latexInput, latexInput.value)"
     (change)="makeLatex(latexInput, latexInput.value)"></textarea>

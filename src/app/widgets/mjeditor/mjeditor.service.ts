@@ -25,6 +25,10 @@ export class MjEditorService {
   public inputtextarray = [];
   public inputtextarraypos: number;
   public svgoutput;
+  public error = '';
+  public pending = false;
+  public inline = false;
+  private renderSequence = 0;
 
   constructor(private settingsService: SettingsService,
               private elementService: ElementService,
@@ -149,6 +153,7 @@ export class MjEditorService {
 
   // save Latex or make new object
   public saveLateX(element, key) {
+    if (this.pending || this.error) return;
     if (element) {
       if (this.elementService.cmsettings.mode === 'quizing' && element['cmobject']['meta'][0]['type'] === 'LaTeXquiz') {
         let latexsvg = element['cmobject']['meta'][0]['path'];
@@ -189,22 +194,24 @@ export class MjEditorService {
 
   // place svg with snap
   public placeSvg(tex, old?) {
-    if (tex || tex === '') {
-      this.inputtext = tex;
-      if (!old) {
-        this.saveInputTxt(tex);
-      }
-      this.svgoutput = this.electronService.ipcRenderer.sendSync('makeMjSVG', tex);
-      this.svgWidth = this.svgoutput.width;
-      if (this.svgoutput.svg) {
-        this.svgStrg = JSON.stringify(this.svgoutput.svg);
-        // console.log(this.svgStrg);
-        let s = Snap('#mjeditorsvg');
-        s.clear();
-        let mjo = Snap.parse(this.svgoutput.svg);
-        s.add(mjo);
-      }
-    }
+    if (typeof tex !== 'string') return;
+    this.inputtext = tex;
+    if (!old) this.saveInputTxt(tex);
+    const sequence = ++this.renderSequence;
+    this.pending = true; this.error = '';
+    fetch('/api/media/mathjax', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tex, inline: this.inline }) })
+      .then(async response => {
+        const result = await response.json();
+        if (!response.ok || !result.svg) throw new Error(result.error ? result.error.message : 'Expression could not be rendered');
+        if (sequence !== this.renderSequence) return;
+        this.svgoutput = result;
+        this.svgWidth = result.width;
+        this.svgStrg = JSON.stringify(result.svg);
+        const host = document.getElementById('mjeditorsvg');
+        if (host) { const s = Snap(host); s.clear(); s.add(Snap.parse(result.svg)); }
+      })
+      .catch(err => { if (sequence === this.renderSequence) this.error = err.message; })
+      .then(() => { if (sequence === this.renderSequence) this.pending = false; });
   }
 
   // saves last 100 changes in an array

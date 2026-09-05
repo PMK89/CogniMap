@@ -1,3 +1,6 @@
+import * as CodeMirror from 'codemirror';
+import 'codemirror/addon/runmode/runmode';
+const { codeSvg } = require('./code-serialization');
 import { Injectable } from '@angular/core';
 // import { Observable } from 'rxjs/Observable';
 declare var Snap: any;
@@ -32,28 +35,9 @@ export class CodeeditorService {
               }
 
   // finds element by title
-  public processCode(code, width, text, change) {
-    console.log(code);
-    // this.codeedit.instance.runMode(this.code, 'text/x-go', this.cmOutput());
-    let codestring = '<svg><foreignObject id="fo" width="' + width
-    + 'px" height="' + code.sizer.clientHeight +
-     'px"><body>' +
-     '<div style="overflow: hidden; width:' + width
-     + 'px; height:' + code.sizer.clientHeight + 'px; z-index: -1;" class="CodeMirror cm-s-default">'
-      + code.scroller.innerHTML + '</div></body></foreignObject></svg>';
-    // console.log(this.codeedit.instance);
-    /*
-    let codearray = code.renderedView;
-    let codestring = '';
-    for (let i in codearray) {
-      if (codearray[i]) {
-        codestring += codearray[i].node.innerHTML;
-      }
-    }
-    codestring = codestring.replace('position: absolute', 'position: relative');
-    codestring = codestring.replace('z-index: 1;', '');
-    */
-    // console.log(codestring);
+  public processCode(text: string, language: string, change: boolean) {
+    const rendered = codeSvg(text, (source, emit) => (CodeMirror as any).runMode(source, language, emit));
+    const codestring = rendered.svg;
     if (this.elementService.selCMEo) {
       if (change) {
         for (let key in this.elementService.selCMEo.cmobject.content) {
@@ -61,8 +45,9 @@ export class CodeeditorService {
             let content = this.elementService.selCMEo.cmobject.content[key];
             if (content.cat === 'html') {
               content.info = text;
-              content.width = code.sizer.clientWidth;
-              content.height = code.sizer.clientHeight;
+              content.language = language;
+              content.width = rendered.width;
+              content.height = rendered.height;
               content.object = codestring;
             }
           }
@@ -70,14 +55,15 @@ export class CodeeditorService {
       } else {
         let content = {
           cat: 'html',
+          language: language,
           coor: {
             x: 0,
             y: 0
           },
           object: codestring,
-          width: code.sizer.clientWidth,
+          width: rendered.width,
           info: text,
-          height: code.sizer.clientHeight,
+          height: rendered.height,
           correct: true
         };
         this.elementService.selCMEo.cmobject.content.push(content);

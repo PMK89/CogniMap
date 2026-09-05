@@ -38,7 +38,7 @@ export class MjEditorComponent implements OnInit {
   constructor(private store: Store<CMStore>,
               private mjEditorLatexService: MjEditorLatexService,
               private sanitizer: DomSanitizer,
-              private mjeditorService: MjEditorService) {
+              public mjeditorService: MjEditorService) {
                 this.colors = store.select('colors');
               }
 
@@ -119,6 +119,12 @@ export class MjEditorComponent implements OnInit {
         // console.log(data);
       }
     });
+  }
+
+  public copyStatus = '';
+  public async copySource() {
+    try { await (navigator as any).clipboard.writeText(this.vc.nativeElement.value); this.copyStatus = 'LaTeX source copied'; }
+    catch (_) { this.copyStatus = 'Select the source and copy it from the editor.'; }
   }
 
   // make LaTeX SVG

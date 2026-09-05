@@ -1,4 +1,4 @@
-<select [(ngModel)]="mode" (change)="changeMode()">
+<select aria-label="Code language" [(ngModel)]="mode" (change)="changeMode()">
   <option *ngFor="let mode_ of modes" value={{mode_}}>
      {{mode_ | slice:(mode_.indexOf('/') + 1):mode_.length}}
   </option>
@@ -6,6 +6,6 @@
 
 <codemirror id="codemirror" #codeeditor [(ngModel)]="code" [config]="config"></codemirror>
 
-<div (click)="readCode()">
-  read code
-</div>
+<button type="button" (click)="readCode()">Save code to selected node</button>
+<button type="button" (click)="copySource()">Copy source</button>
+<span role="status">{{copyStatus}}</span>
