@@ -57,6 +57,10 @@ export class IpcShim {
     this.listeners[channel].push(listener);
   }
 
+  public removeListener(channel: string, listener: Listener): void {
+    this.listeners[channel] = (this.listeners[channel] || []).filter(cb => cb !== listener);
+  }
+
   public removeAllListeners(channel: string): void {
     delete this.listeners[channel];
   }
@@ -274,6 +278,9 @@ export class IpcShim {
         this.request('POST', '/api/quiz/unquiz', {}).then(
           (res) => this.emit('loadedQuizes', res),
         );
+        return;
+      case 'undoQuizRating':
+        this.request('POST', '/api/quiz/undo', {}).then((res) => this.emit('loadedQuizes', res));
         return;
       case 'answerQuiz':
         this.request('POST', '/api/quiz/answer', arg).then((res) => {

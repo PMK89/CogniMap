@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { SettingsService } from '../../shared/settings.service';
@@ -37,6 +37,17 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
   public maxQ = '42';
   public mode = '';
   private settingsSubscription: Subscription;
+  private quizListener: any;
+  private revealStyle: HTMLStyleElement;
+  public currentIndex = 0;
+  public revealed = false;
+  public reviewed = 0;
+  public canUndo = false;
+  public busy = false;
+  public error = '';
+  public grades = ['0 · Blank', '1 · Wrong', '2 · Hard', '3 · Partial', '4 · Good', '5 · Easy'];
+  public get current(): any { return this.overduearray[this.currentIndex]; }
+
 
   constructor(private settingsService: SettingsService,
               private elementService: ElementService,
@@ -46,18 +57,14 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
               private store: Store<CMStore>) {
                 this.buttons = store.select('buttons');
                 this.colors = store.select('colors');
-                this.electronService.ipcRenderer.on('loadedQuizes', (event, arg) => {
-                  console.log('[TbQuizzingComponent] Received loadedQuizes event with arg:', arg);
+                this.quizListener = (event, arg) => {
                   if (arg) {
                     if (arg['quizes']) {
                       this.overduearray = arg['quizes'];
-                      console.log('[TbQuizzingComponent] overduearray populated. Length:', this.overduearray.length);
                       if (this.overduearray.length > 0) {
-                        console.log('[TbQuizzingComponent] First overdue item title:', this.overduearray[0].title);
                       }
                     } else {
                       this.overduearray = [];
-                      console.log('[TbQuizzingComponent] overduearray set to empty (no "quizes" property in arg).');
                     }
                     if (arg['timelist']) {
                       this.timelist = arg['timelist'];
@@ -69,28 +76,26 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
                       }
                     }
                   }
-                });
+                  this.currentIndex = Math.min(this.currentIndex, Math.max(0, this.overduearray.length - 1));
+                  this.hideAnswer();
+                };
+                this.electronService.ipcRenderer.on('loadedQuizes', this.quizListener);
                 this.settingsSubscription = this.settingsService.cmsettings
                       .subscribe((data) => {
-                        console.log('[TbQuizzingComponent] Received settings:', data);
                         this.cmsettings = data;
                         if (this.cmsettings.mode === 'quizing') {
                           this.mode = 'quizing';
-                          console.log('[TbQuizzingComponent] Mode set to quizing. nooverdue:', this.nooverdue, 'overduearray.length:', this.overduearray.length);
                           if (this.nooverdue ||
                             this.overduearray.length === 0) {
-                            console.log('[TbQuizzingComponent] Calling getOverdue()');
                             this.getOverdue();
                           }
                         } else {
                           if (this.mode === 'quizing') {
-                            console.log('[TbQuizzingComponent] Mode changed from quizing. Calling unQuiz()');
                             this.unQuiz();
                             this.catlist = [];
                           }
                           this.mode = '';
                         }
-                        console.log('[TbQuizzingComponent] Final mode for this update:', this.mode);
                       });
               }
 
@@ -98,13 +103,74 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.electronService.ipcRenderer.removeAllListeners('loadedQuizes');
+    this.electronService.ipcRenderer.removeListener('loadedQuizes', this.quizListener);
+    this.hideAnswer();
     if (this.settingsSubscription) {
       this.settingsSubscription.unsubscribe();
     }
     this.unQuiz();
-    console.log('quiz toolbar destroyed');
   }
+
+  @HostListener('document:keydown', ['$event'])
+  public reviewKeys(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    if (!target || /INPUT|TEXTAREA|SELECT|BUTTON/.test(target.tagName) || target.isContentEditable || document.getElementById('cm-workspace-panel')) return;
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+    if (event.key === ' ' && this.current) { event.preventDefault(); this.reveal(); }
+    else if (/^[0-5]$/.test(event.key) && this.revealed) { event.preventDefault(); this.grade(Number(event.key)); }
+    else if (event.key === 'ArrowRight') { event.preventDefault(); this.next(1); }
+    else if (event.key === 'ArrowLeft') { event.preventDefault(); this.next(-1); }
+  }
+  public hideAnswer() {
+    if (this.revealStyle && this.revealStyle.parentNode) this.revealStyle.parentNode.removeChild(this.revealStyle);
+    this.revealStyle = null; this.revealed = false;
+  }
+  public focusCurrent() {
+    if (!this.current) return;
+    this.goTo(String(this.current.coor.x), String(this.current.coor.y));
+    const x = this.current.coor.x, y = this.current.coor.y;
+    this.elementService.getElements({ l: x - 1600, r: x + 2400, t: y - 900, b: y + 1800 });
+  }
+  public next(offset: number) {
+    if (!this.overduearray.length || this.busy) return;
+    this.hideAnswer();
+    this.currentIndex = (this.currentIndex + offset + this.overduearray.length) % this.overduearray.length;
+    this.focusCurrent();
+  }
+  public reveal() {
+    if (!this.current || this.busy || this.revealed) return;
+    this.focusCurrent();
+    // Only hide the authored cover, never the covered knowledge node. CSS
+    // survives asynchronous SVG re-rendering and never changes saved geometry.
+    this.revealStyle = document.createElement('style');
+    this.revealStyle.textContent = '#cmsvg #g' + this.current.id + ' { visibility: hidden !important; }';
+    document.head.appendChild(this.revealStyle);
+    this.revealed = true;
+  }
+  private async reviewRequest(route: string, body: any) {
+    const response = await fetch('/api/quiz/' + route, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error.message);
+    if (result.unchanged) throw new Error('Review session changed. Restart the session to recover.');
+    this.electronService.ipcRenderer.emit('loadedQuizes', result);
+  }
+  public async grade(scale: number) {
+    if (!this.current || !this.revealed || this.busy) return;
+    this.busy = true; this.error = '';
+    try {
+      await this.reviewRequest('answer', { id: this.current.id, scale });
+      this.reviewed++; this.canUndo = true; this.focusCurrent();
+    } catch (err) { this.error = err.message; }
+    finally { this.busy = false; }
+  }
+  public async undoRating() {
+    if (!this.canUndo || this.busy) return;
+    this.busy = true;
+    try { await this.reviewRequest('undo', {}); this.reviewed = Math.max(0, this.reviewed - 1); this.canUndo = false; this.focusCurrent(); }
+    catch (err) { this.error = err.message; }
+    finally { this.busy = false; }
+  }
+  public restart() { this.hideAnswer(); this.nooverdue = true; this.canUndo = false; this.getOverdue(); }
 
   // finds element by title
   public findTitle(title: string) {
@@ -193,7 +259,7 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
         break;
     }
     if (params.length > 1) {
-      this.unQuiz();
+      this.hideAnswer();
       this.electronService.ipcRenderer.send('loadQuizesbyCat', params);
     }
   }
@@ -212,7 +278,6 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
   // finds quiz elements that are overdue
   public getOverdue() {
     if (this.nooverdue) {
-      console.info('getOverdue', this.nooverdue);
       this.nooverdue = false;
       if (this.cmsettings['cmtbquizedit']['interval']) {
         this.electronService.ipcRenderer.send('loadQuizes', parseInt(this.cmsettings.cmtbquizedit.interval, 10));
@@ -229,7 +294,6 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
 
   // removes quizes
   public unQuiz() {
-    console.log('unQuiz');
     if (this.overduearray.length > 0) {
       for (let key in this.overduearray) {
         if (this.overduearray[key]) {
@@ -247,7 +311,6 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
       this.getOverdue();
     }
     this.cmsettings.mode = selector;
-    console.log(this.cmsettings);
     this.settingsService.updateSettings(this.cmsettings);
   }
 

@@ -1,51 +1,11 @@
-#overdueDiv
-{
-  display:inline-block;
-  white-space: nowrap;
-}
-
-.tbbox
-{
-	border-style: solid;
-	height: 80px;
-	border-width: 1px;
-	border-color: #808080;
-    cellpadding: 0;
-    cellspacing: 0;
-    /*border-top: 2px solid #96d1f8;*/
-    /* Old browsers */
-    background: transparent;
-    /* Chrome,Safari4+ */
-    -webkit-border-radius: 5px;
-    /* FF3.6+ */
-    -moz-border-radius: 5px;
-    /* Old browsers */
-    border-radius: 5px;
-}
-th, td {
-    border: 0px;
-    padding: 0px;
-}
-
-.objecttable {
-    border-collapse: collapse;
-    border: 0px;
-    padding: 2px;
-}
-
-.connectortableclass {
-	border: 0px;
-  width: 80px;
-  height: 36px;
-	padding: 0px;
-  table-layout: fixed;
-  overflow:hidden;
-  border-spacing: 0px !important;
-}
-
-.connectortdclass {
-	border: 0px;
-	padding: 0px;
-  height: 12px  !important;
-  border-spacing: 0px !important;
-}
+.cm-review { font: 12px/1.4 var(--cm-font); color: var(--cm-text); max-width: calc(100vw - 100px); padding: 6px 10px; }
+.cm-review-heading, .cm-review-question, .cm-review-grades { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.cm-review-heading { margin-bottom: 6px; }
+button, select { color: var(--cm-text); background: var(--cm-surface-2); border: 1px solid var(--cm-border); border-radius: 4px; padding: 5px 8px; font: inherit; cursor: pointer; }
+button:disabled { opacity: .5; cursor: default; }
+.cm-review-title { text-align: left; min-width: 160px; }
+small { display: block; color: var(--cm-text-dim); }
+.cm-review-reveal { background: var(--cm-accent); color: var(--cm-accent-text); }
+summary { cursor: pointer; margin-top: 6px; color: var(--cm-text-dim); }
+p { margin: 6px 0; max-width: 700px; }
+.cm-review-error { color: var(--cm-danger); }
