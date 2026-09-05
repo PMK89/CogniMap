@@ -342,7 +342,7 @@ test('multimedia files resolve to openable URLs and are served', async ({ page }
     const open = await fetch('/api/media/open', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ type: 'pdf', path: '/src/assets/pdf/hmz.pdf' }),
+      body: JSON.stringify({ type: 'pdf', path: '/src/assets/cognimap-e2e.pdf' }),
     }).then((r) => r.json());
     const served = await fetch(open.url, { method: 'HEAD' });
     return { open, servedStatus: served.status, servedType: served.headers.get('content-type') };

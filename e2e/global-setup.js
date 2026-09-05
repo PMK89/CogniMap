@@ -20,6 +20,9 @@ module.exports = async function globalSetup() {
     fs.copyFileSync(path.join(fixtures, file), path.join(target, file));
   }
 
+  // A public checkout has no private PDF library. Supply a tiny test asset.
+  fs.writeFileSync(path.join(__dirname, '..', 'src', 'assets', 'cognimap-e2e.pdf'), '%PDF-1.1\n1 0 obj<</Type/Catalog>>endobj\n%%EOF\n');
+
   // aim the viewport at the fixture node "Hydroxylgruppe" (id 37513)
   const settingsFile = path.join(target, 'settings.json');
   const settings = JSON.parse(fs.readFileSync(settingsFile, 'utf8'));
