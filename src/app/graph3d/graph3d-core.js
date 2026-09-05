@@ -1,4 +1,5 @@
 'use strict';
+const { rootLayout } = require('./root-layout');
 
 /**
  * graph3d-core — pure graph logic for the 3D visualization.
@@ -169,6 +170,7 @@ function deriveHierarchy(graph) {
     // edges — so hierarchy follows authoring direction wherever possible
     const rankOf = (n) => (n.strong && n.forward ? 0 : n.strong ? 1 : 2);
     const queues = [[], [], []];
+    const cursors = [0, 0, 0];
     const enqueueNeighbors = (cur) => {
       const neigh = adj.get(cur).slice().sort((a, b) => rankOf(a) - rankOf(b) || a.to - b.to);
       for (const n of neigh) {
@@ -180,9 +182,9 @@ function deriveHierarchy(graph) {
     enqueueNeighbors(root);
     for (;;) {
       let item = null;
-      if (queues[0].length) item = queues[0].shift();
-      else if (queues[1].length) item = queues[1].shift();
-      else if (queues[2].length) item = queues[2].shift();
+      if (cursors[0] < queues[0].length) item = queues[0][cursors[0]++];
+      else if (cursors[1] < queues[1].length) item = queues[1][cursors[1]++];
+      else if (cursors[2] < queues[2].length) item = queues[2][cursors[2]++];
       else break;
       const { from, n } = item;
       if (depth.has(n.to)) continue; // reached earlier via a better rank
@@ -208,14 +210,17 @@ function deriveHierarchy(graph) {
 /** subtree sizes (structural tree only) */
 function subtreeSizes(h) {
   const size = new Map();
-  const calc = (id) => {
-    if (size.has(id)) return size.get(id);
-    let s = 1;
-    for (const c of h.childrenOf.get(id) || []) s += calc(c);
-    size.set(id, s);
-    return s;
-  };
-  for (const r of h.roots) calc(r);
+  const order = [], stack = h.roots.slice();
+  while (stack.length) {
+    const id = stack.pop(); order.push(id);
+    for (const child of h.childrenOf.get(id) || []) stack.push(child);
+  }
+  for (let i = order.length - 1; i >= 0; i--) {
+    const id = order[i];
+    let count = 1;
+    for (const child of h.childrenOf.get(id) || []) count += size.get(child);
+    size.set(id, count);
+  }
   return size;
 }
 
@@ -614,6 +619,10 @@ function layoutCognitiveTree(graph, h) {
 // real sheet footprint, so large diagrams get room and small notes pack
 // tighter — neighbours never overlap regardless of their 2D size
 const LAYOUTS = {
+  'root-network': (g, h) => {
+    const radii = nodeRadii(g);
+    return relaxCollisions(rootLayout(g, h, subtreeSizes(h), radii, hash01), 12, 3, radii);
+  },
   // 2D parity (DEFAULT): the authoritative 2D arrangement, exactly — no
   // relaxation, no synthetic placement. The 2D map is already laid out
   // without overlaps; Z stays flat so the scene reads as the original map
@@ -664,7 +673,7 @@ module.exports = {
   hash01,
   // the four supported modes, in dropdown order; other LAYOUTS keys remain
   // resolvable so previously saved states keep working
-  LAYOUT_PRESETS: ['2d-parity', 'layered-2.5d', 'cognitive-tree', 'force-3d'],
+  LAYOUT_PRESETS: ['root-network', '2d-parity', 'layered-2.5d', 'cognitive-tree', 'force-3d'],
   ALL_LAYOUTS: Object.keys(LAYOUTS),
   SCALE,
 };
