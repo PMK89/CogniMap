@@ -90,3 +90,17 @@ test('empty category results clear the previous session and preserve cover geome
     for (const key of Object.keys(expected)) assert.deepEqual(doc[key], expected[key]);
   }
 });
+
+test('rating undo restores scheduling and the active cover without changing geometry', async () => {
+  const loaded = await (await fetch(`${url}/api/quiz/load`, json('POST', {}))).json();
+  const target = loaded.quizes[0];
+  const before = JSON.parse(fs.readFileSync(path.join(dataDir, 'quizes.json'), 'utf8'));
+  await fetch(`${url}/api/quiz/answer`, json('POST', { id: target.id, scale: 5 }));
+  const undone = await fetch(`${url}/api/quiz/undo`, json('POST', {}));
+  assert.equal(undone.status, 200);
+  assert.ok((await undone.json()).quizes.some(d => d.id === target.id));
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(dataDir, 'quizes.json'), 'utf8')), before);
+  const doc = await (await fetch(`${url}/api/cme/id/${target.id}`)).json();
+  assert.equal(doc.types[0], 'q1');
+  assert.deepEqual(doc.coor, target.coor);
+});

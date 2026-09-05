@@ -4,6 +4,8 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const Datastore = require('@seald-io/nedb');
+const crypto = require('node:crypto');
+const { exportCanvas, importCanvas } = require('../lib/interchange/json-canvas');
 const { ROOT, DATA_DIR, BACKUP_DIR, resolveInside, ensureDir } = require('../lib/paths');
 const { ApiError, badRequest, notFound, asyncRoute } = require('../lib/errors');
 const { validators } = require('../lib/validate');
@@ -26,6 +28,7 @@ function createCmeRouter(options = {}) {
   const quizman = new QuizManager(dataDir);
   const datahistory = [];
   const redohistory = [];
+  let ratingUndo = null;
 
   // Startup self-repair: types[0] === 'q1' marks an element as part of the
   // CURRENTLY RUNNING quiz session, which lives in server memory. After a
@@ -54,6 +57,16 @@ function createCmeRouter(options = {}) {
   })();
   // Requests must not race startup overlay repair.
   router.use((req, res, next) => ready.then(() => next(), next));
+
+  // Serialize mutations so concurrent review/import requests cannot interleave
+  // their read/validate/write stages. Reads remain available.
+  let writes = Promise.resolve();
+  router.use((req, res, next) => {
+    if (!['POST', 'PUT', 'DELETE'].includes(req.method)) return next();
+    const previous = writes;
+    writes = new Promise(resolve => { res.once('finish', resolve); res.once('close', resolve); });
+    previous.then(() => next(), next);
+  });
 
   function pushHistory(doc) {
     if (datahistory.length > 1000) datahistory.shift();
@@ -95,6 +108,54 @@ function createCmeRouter(options = {}) {
     };
   };
 
+  // Canvas import is deliberately additive. Native IDs are never remapped
+  // behind the user's back: conflicts must be resolved in a separate map.
+  async function canvasPreview(canvas) {
+    const existing = await db.findAsync({}, { id: 1 });
+    const ids = new Set(existing.map(d => d.id));
+    const firstId = existing.reduce((max, d) => Math.max(max, Math.abs(d.id)), 0) + 1;
+    let documents;
+    try { documents = importCanvas(canvas, firstId); }
+    catch (err) { throw badRequest(err.message); }
+    const conflicts = documents.filter(d => ids.has(d.id)).map(d => d.id);
+    const token = crypto.createHash('sha256').update(JSON.stringify([canvas, existing.map(d => d.id).sort((a, b) => a - b)])).digest('hex');
+    return { documents, conflicts, token };
+  }
+
+  router.get('/canvas/export', asyncRoute(async (req, res) => {
+    let documents = await db.findAsync({});
+    if (req.query.ids) {
+      const ids = new Set(String(req.query.ids).split(',').map(Number));
+      documents = documents.filter(d => ids.has(d.id));
+    }
+    const canvas = exportCanvas(documents);
+    quizman.load();
+    const ids = new Set(documents.map(d => d.id));
+    canvas['org.cognimap'].quizes = quizman.quizes.filter(q => ids.has(q.id));
+    res.set('Content-Disposition', 'attachment; filename="cognimap.canvas"');
+    res.json(canvas);
+  }));
+  router.post('/canvas/preview', asyncRoute(async (req, res) => {
+    const preview = await canvasPreview((req.body || {}).canvas);
+    res.json({ count: preview.documents.length, conflicts: preview.conflicts, token: preview.token,
+      titles: preview.documents.filter(d => d.id > 0).slice(0, 20).map(d => d.title),
+      warnings: ['File references are preserved; copy referenced assets separately.', 'Native ID collisions are rejected; existing content is never replaced.'] });
+  }));
+  router.post('/canvas/import', asyncRoute(async (req, res) => {
+    const preview = await canvasPreview((req.body || {}).canvas);
+    if (preview.token !== req.body.token || preview.conflicts.length) throw new ApiError(409, 'import_conflict', 'Preview is stale or IDs already exist; preview again or use a separate map');
+    const scheduling = req.body.canvas['org.cognimap'] && req.body.canvas['org.cognimap'].quizes || [];
+    quizman.load();
+    const existingQuizIds = new Set(quizman.quizes.map(q => q.id));
+    const importedIds = new Set(preview.documents.map(d => d.id));
+    if (!Array.isArray(scheduling) || scheduling.some(q => !q || !importedIds.has(q.id) || existingQuizIds.has(q.id) || !Number.isFinite(q.update) || !Number.isFinite(q.difficulty) || !Number.isFinite(q.interval))) throw badRequest('Invalid or conflicting quiz scheduling metadata');
+    const documents = preview.documents.map(doc => { const copy = { ...doc }; delete copy._id; return copy; });
+    // NeDB array insertion validates the whole batch before inserting it.
+    await db.insertAsync(documents);
+    if (scheduling.length) { quizman.quizes.push(...scheduling); quizman.save(); }
+    res.status(201).json({ inserted: documents.length });
+  }));
+
   // ---- element queries ----
 
   // old channel: loadCME -> loadedCME
@@ -121,6 +182,12 @@ function createCmeRouter(options = {}) {
     if (Number.isNaN(id)) throw badRequest('id must be numeric');
     const data = await db.findOneAsync({ id });
     res.json(data); // null when not found — matches old undefined returnValue
+  }));
+
+  router.get('/cme/search', asyncRoute(async (req, res) => {
+    const { searchNodes } = require('../lib/search');
+    const docs = await db.findAsync({ id: { $gt: 0 } }, { id: 1, title: 1, coor: 1, types: 1 });
+    res.json(searchNodes(docs, String(req.query.q || '').slice(0, 200), req.query.type));
   }));
 
   // old channel: getCMETitle — case-insensitive regex search
@@ -585,6 +652,7 @@ function createCmeRouter(options = {}) {
   }
 
   async function clearQuizCovers() {
+    ratingUndo = null;
     // Query persistence, not only the current queue: a previous filter or
     // interrupted request may have left covers outside that queue.
     const active = await db.findAsync({ 'types.0': 'q1' });
@@ -692,6 +760,7 @@ function createCmeRouter(options = {}) {
       res.json({ quizes: quizman.quizcmes, unchanged: true });
       return;
     }
+    ratingUndo = { schedules: JSON.parse(JSON.stringify(quizman.quizes)), queue: JSON.parse(JSON.stringify(quizman.quizcmes)), id: arg.id };
     const calc = quizman.calculate(quizman.quizes[pos], arg.scale, quizman.today);
     quizman.quizes[pos].difficulty = calc.difficulty;
     quizman.quizes[pos].interval = calc.interval;
@@ -715,6 +784,26 @@ function createCmeRouter(options = {}) {
       }
     }
     quizman.save();
+    res.json({ quizes: quizman.quizcmes });
+  }));
+
+  router.post('/quiz/undo', asyncRoute(async (req, res) => {
+    if (!ratingUndo) return res.json({ quizes: quizman.quizcmes, unchanged: true });
+    const previous = ratingUndo;
+    const cover = previous.queue.find(d => d.id === previous.id);
+    const current = await db.findOneAsync({ id: previous.id });
+    if (!current) throw new ApiError(409, 'quiz_changed', 'The reviewed cover was deleted; undo is no longer available');
+    // Restore only scheduling style and active state; preserve intervening edits.
+    const cmo = JSON.parse(current.cmobject);
+    const priorCmo = JSON.parse(cover.cmobject);
+    cmo.style.object.str = priorCmo.style.object.str;
+    cmo.style.object.weight = priorCmo.style.object.weight;
+    const types = current.types.slice(); types[0] = 'q1';
+    await db.updateAsync({ id: previous.id }, { $set: { types, cmobject: JSON.stringify(cmo) } }, {});
+    quizman.quizes = previous.schedules;
+    quizman.quizcmes = previous.queue;
+    quizman.save();
+    ratingUndo = null;
     res.json({ quizes: quizman.quizcmes });
   }));
 
