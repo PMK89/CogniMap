@@ -23,6 +23,7 @@ class QuizManager {
     this.quizcat = [];
     this.quizclick = 0;
     this._backedUp = false;
+    this._loaded = false;
   }
 
   get today() {
@@ -30,13 +31,18 @@ class QuizManager {
   }
 
   load() {
-    if (this.quizes.length === 0 && fs.existsSync(this.file)) {
-      this.quizes = JSON.parse(fs.readFileSync(this.file, 'utf8'));
+    if (this._loaded) return;
+    if (fs.existsSync(this.file)) {
+      const entries = JSON.parse(fs.readFileSync(this.file, 'utf8'));
+      if (!Array.isArray(entries)) throw new Error('quizes.json must contain an array');
+      this.quizes = entries;
     }
+    this._loaded = true;
   }
 
   save() {
-    if (this.quizes.length > 0) {
+    this.load();
+    {
       if (!this._backedUp && fs.existsSync(this.file)) {
         const backupDir = path.join(path.dirname(this.file), 'backups');
         fs.mkdirSync(backupDir, { recursive: true });
@@ -44,7 +50,9 @@ class QuizManager {
         fs.copyFileSync(this.file, path.join(backupDir, `quizes.json.${stamp}.bak`));
         this._backedUp = true;
       }
-      fs.writeFileSync(this.file, JSON.stringify(this.quizes, null, 2));
+      const temporary = this.file + '.writing';
+      fs.writeFileSync(temporary, JSON.stringify(this.quizes, null, 2));
+      fs.renameSync(temporary, this.file);
     }
   }
 
@@ -53,7 +61,7 @@ class QuizManager {
    * Ratings < 3 reset the interval; < 4 re-queues the element in this session.
    */
   calculate(word, performanceRating, today) {
-    let timeinterval;
+    let timeinterval = 1;
     let interval;
     let difficulty;
     if (performanceRating < 3) {
@@ -129,6 +137,7 @@ class QuizManager {
 
   /** ported from deleteQuiz() */
   deleteQuiz(id) {
+    this.load();
     const pos = this.quizes.findIndex((i) => i.id === id);
     if (pos > -1) {
       this.quizes.splice(pos, 1);

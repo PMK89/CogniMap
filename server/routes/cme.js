@@ -32,15 +32,15 @@ function createCmeRouter(options = {}) {
   // restart no such session exists, so any persisted 'q1' is stale and
   // would overlay the map in every mode. Reset them to dormant 'q'.
   // The db file is backed up before the first repair write.
-  (async () => {
+  const ready = (async () => {
     try {
       const stale = await db.findAsync({ 'types.0': 'q1' });
       if (stale.length === 0) return;
       const dbFile = options.dbPath || path.join(dataDir, 'cme.db');
       if (fs.existsSync(dbFile)) {
-        ensureDir(BACKUP_DIR);
+        ensureDir(path.join(dataDir, 'backups'));
         const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-        fs.copyFileSync(dbFile, path.join(BACKUP_DIR, `cme.db.${stamp}.bak`));
+        fs.copyFileSync(dbFile, path.join(dataDir, 'backups', `cme.db.${stamp}.bak`));
       }
       for (const doc of stale) {
         doc.types[0] = 'q';
@@ -49,8 +49,11 @@ function createCmeRouter(options = {}) {
       console.log(`[cme] startup repair: reset ${stale.length} stale active-quiz (q1) elements to dormant (q)`);
     } catch (err) {
       console.error('[cme] startup quiz repair failed:', err.message);
+      throw err;
     }
   })();
+  // Requests must not race startup overlay repair.
+  router.use((req, res, next) => ready.then(() => next(), next));
 
   function pushHistory(doc) {
     if (datahistory.length > 1000) datahistory.shift();
@@ -572,14 +575,25 @@ function createCmeRouter(options = {}) {
         console.warn('[quiz] cmobject parse failed for', overduequiz.id, err.message);
       }
       quizman.quizcmes.push(quizobj);
-      const nextDueDate = quizman.today + quizobj.interval;
       await db.updateAsync(
         { id: overduequiz.id },
-        { $set: { update: nextDueDate, types: quizobj.types, cmobject: quizobj.cmobject } },
+        { $set: { types: quizobj.types, cmobject: quizobj.cmobject } },
         {}
       );
     }
     quizman.quizclick = 0;
+  }
+
+  async function clearQuizCovers() {
+    // Query persistence, not only the current queue: a previous filter or
+    // interrupted request may have left covers outside that queue.
+    const active = await db.findAsync({ 'types.0': 'q1' });
+    for (const doc of active) {
+      const types = doc.types.slice();
+      types[0] = 'q';
+      await db.updateAsync({ _id: doc._id }, { $set: { types } }, {});
+    }
+    quizman.quizcmes = [];
   }
 
   // old channel: loadQuizes -> loadedQuizes
@@ -589,7 +603,8 @@ function createCmeRouter(options = {}) {
     const today0 = quizman.today + quizman.quizclick;
     const overduearray = [];
     quizman.quizcat = [];
-    quizman.quizcmes = [];
+    quizman.quiztime = [];
+    await clearQuizCovers();
     for (const quiz of quizman.quizes) {
       if (!quiz) continue;
       if (quiz.cat.length > 3) {
@@ -628,6 +643,7 @@ function createCmeRouter(options = {}) {
     if (!Array.isArray(arg)) throw badRequest('params must be an array');
     quizman.load();
     const today0 = quizman.today;
+    await clearQuizCovers();
     const overduearray = [];
     for (const quiz of quizman.quizes) {
       if (!quiz) continue;
@@ -655,14 +671,7 @@ function createCmeRouter(options = {}) {
 
   // old channel: unQuiz -> loadedQuizes
   router.post('/quiz/unquiz', asyncRoute(async (req, res) => {
-    if (quizman.quizcmes.length > 0) {
-      for (const doc of quizman.quizcmes) {
-        if (!doc) continue;
-        doc.types[0] = 'q';
-        await db.updateAsync({ _id: doc._id }, doc, {});
-      }
-      quizman.quizcmes = [];
-    }
+    await clearQuizCovers();
     res.json({ quizes: quizman.quizcmes });
   }));
 
@@ -695,7 +704,8 @@ function createCmeRouter(options = {}) {
         if (cmo.style && cmo.style.object && cmo.style.object.str) {
           cmo.style.object.str = String(calc.interval);
           cmo.style.object.weight = calc.difficulty;
-          data.types[0] = 'q';
+          data.types = data.types.slice();
+          data.types[0] = arg.scale < 4 ? 'q1' : 'q';
           data.cmobject = JSON.stringify(cmo);
           await db.updateAsync({ _id: data._id }, data, {});
           quizman.quizcmes.splice(pos0, 1);

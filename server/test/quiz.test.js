@@ -70,3 +70,23 @@ test('POST /api/quiz/answer with an invalid scale returns 400', async () => {
   const body = await res.json();
   assert.equal(body.error.code, 'bad_request');
 });
+
+test('replacing a queue clears covers excluded by the new limit', async () => {
+  await fetch(`${url}/api/quiz/load`, json('POST', { limit: 42 }));
+  const response = await fetch(`${url}/api/quiz/load`, json('POST', { limit: 1 }));
+  const { quizes } = await response.json();
+  const graph = await (await fetch(`${url}/api/cme/graph`)).json();
+  assert.deepEqual(graph.filter(d => d.types[0] === 'q1').map(d => d.id).sort(), quizes.map(d => d.id).sort());
+});
+
+test('empty category results clear the previous session and preserve cover geometry', async () => {
+  const loaded = await (await fetch(`${url}/api/quiz/load`, json('POST', {}))).json();
+  const before = loaded.quizes.map(d => ({ id: d.id, coor: d.coor, x0: d.x0, y0: d.y0, x1: d.x1, y1: d.y1 }));
+  const response = await fetch(`${url}/api/quiz/bycat`, json('POST', { params: [true, 'nonexistent-test-category'] }));
+  assert.deepEqual((await response.json()).quizes, []);
+  for (const expected of before) {
+    const doc = await (await fetch(`${url}/api/cme/id/${expected.id}`)).json();
+    assert.equal(doc.types[0], 'q');
+    for (const key of Object.keys(expected)) assert.deepEqual(doc[key], expected[key]);
+  }
+});

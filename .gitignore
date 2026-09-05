@@ -97,6 +97,9 @@ git gc --prune=now --aggressive
 
 # Ignore large data files
 data/cognimap25.json
-data/cme.dbdata/backups/
+data/cme.db
+data/backups/
+data/viz3d.json
+data/*.writing
 e2e/.data/
 test-results/
