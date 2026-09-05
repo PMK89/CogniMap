@@ -1,0 +1,24 @@
+<button class="cm-workspace-toggle" type="button" (click)="toggle()" (mousedown)="$event.stopPropagation()" (mouseup)="$event.stopPropagation()" title="Search and workspace tools (Ctrl+K)" aria-label="Search and workspace tools">⌕ <span>Search</span> <kbd>Ctrl K</kbd></button>
+<div class="cm-workspace-backdrop" *ngIf="open" (mousedown)="$event.stopPropagation()" (mouseup)="$event.stopPropagation()">
+  <section id="cm-workspace-panel" class="cm-workspace-panel" role="dialog" aria-modal="true" aria-labelledby="cm-workspace-title">
+    <header><strong id="cm-workspace-title">CogniMap · Workspace</strong><button type="button" (click)="close()" aria-label="Close workspace">×</button></header>
+    <div class="cm-search-row">
+      <input id="cm-global-search" type="search" [(ngModel)]="query" (input)="search()" (keydown.enter)="results.length && visit(results[0])" placeholder="Find a concept, equation or topic…" aria-label="Search knowledge map">
+      <select [(ngModel)]="type" (change)="search()" aria-label="Filter node type"><option value="">All types</option><option value="a">Objects</option><option value="i">Images</option><option value="t">Text</option><option value="q">Quiz covers</option></select>
+    </div>
+    <div class="cm-search-results" aria-label="Search results">
+      <p *ngIf="query && !results.length">No matching nodes.</p>
+      <p *ngIf="!query">Recently visited</p>
+      <button type="button" *ngFor="let node of (query ? results : recent)" (click)="visit(node)"><span>{{node.title || 'Untitled'}}</span><small>#{{node.id}} · {{node.types && node.types[0]}}</small></button>
+    </div>
+    <div class="cm-workspace-options"><button type="button" (click)="back()">← Previous location</button><label>Theme <select aria-label="Theme" [(ngModel)]="theme" (change)="setTheme()"><option value="system">System</option><option value="dark">Dark</option><option value="light">Light</option></select></label></div>
+    <details><summary>JSON Canvas · Import and export</summary>
+      <p>Native metadata preserves scientific content, connectors and quiz history. Imports add documents and reject existing IDs. Copy referenced files separately.</p>
+      <a href="/api/canvas/export" download="cognimap.canvas">Export complete map (.canvas)</a>
+      <label class="cm-file-label">Preview a Canvas file <input type="file" accept=".canvas,.json,application/json" (change)="readCanvas($event)" [disabled]="busy"></label>
+      <div *ngIf="preview"><p>{{preview.count}} documents · {{preview.conflicts.length}} ID conflicts</p><p *ngFor="let title of preview.titles">{{title}}</p><button type="button" (click)="importCanvas()" [disabled]="busy || preview.conflicts.length > 0">Import {{preview.count}} documents</button></div>
+    </details>
+    <p class="cm-workspace-error" role="alert" *ngIf="error">{{error}}</p><p role="status" *ngIf="status">{{status}}</p>
+    <footer>Enter opens the first result · Escape closes · Original map content keeps its own styling</footer>
+  </section>
+</div>

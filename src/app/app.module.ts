@@ -11,6 +11,7 @@ import { CodemirrorModule } from 'ng2-codemirror';
 // import { Routes, RouterModule } from '@angular/router';
 
 // Components
+import { WorkspaceComponent } from './workspace/workspace.component';
 import { AppComponent } from './app.component';
 import { CmapComponent } from './cmap/cmap.component';
 import { CmapMediaComponent } from './cmap/cmap_media.component';
@@ -93,7 +94,7 @@ import { cmeltemplate } from './reducers/cmeltemplate.reducer';
                                cmeltemplate: cmeltemplate}),
     StoreDevtoolsModule.instrumentStore({maxAge: 3})
   ],
-  declarations: [ AppComponent,
+  declarations: [ AppComponent, WorkspaceComponent,
                   CmapComponent,
                   CmapMediaComponent,
                   MenueComponent,
