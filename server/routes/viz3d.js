@@ -22,7 +22,7 @@ function createViz3dRouter() {
 
   const DEFAULT = {
     version: 1,
-    preset: 'cognitive-tree',
+    preset: '2d-parity',
     positions: {},
     shapes: {},
     locked: {},

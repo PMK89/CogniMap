@@ -48,7 +48,7 @@ const probe = (page, expr) => page.evaluate((e) => {
 test('3D scene renders nodes and branches without console errors', async ({ page }) => {
   await open3d(page);
   const state = await probe(page, `({
-    nodes: scene['nodeMeshes'].size,
+    nodes: scene['positions'].size,
     branches: scene['branchGroup'].children.length,
     available: scene.available,
   })`);
@@ -110,7 +110,7 @@ test('3D loads the WHOLE map regardless of the 2D viewport position', async ({ p
   await page.goto('/');
   await page.waitForSelector('#cmap3d canvas', { timeout: 30000 });
   await page.waitForTimeout(3000);
-  const loaded = await probe(page, `scene['nodeMeshes'].size`);
+  const loaded = await probe(page, `scene['positions'].size`);
   // the 3D scene holds the entire map, not the viewport subset (the bug
   // showed a single node here); overlays are the only excluded elements
   expect(total).toBeGreaterThanOrEqual(10);
@@ -131,7 +131,7 @@ test('initial view frames the main cluster, not the whole galaxy (nodes visible)
     let min=[1e9,1e9,1e9], max=[-1e9,-1e9,-1e9];
     scene['positions'].forEach((p)=>{[p.x,p.y,p.z].forEach((v,i)=>{if(v<min[i])min[i]=v;if(v>max[i])max[i]=v;});});
     const diag = Math.hypot(max[0]-min[0], max[1]-min[1], max[2]-min[2]);
-    return { camDist: scene['camera'].position.distanceTo(scene['controls'].target), diag, nodes: scene['nodeMeshes'].size };
+    return { camDist: scene['camera'].position.distanceTo(scene['controls'].target), diag, nodes: scene['positions'].size };
   })()`);
   expect(st.nodes).toBeGreaterThanOrEqual(10);
   // the camera must NOT be pulled all the way out to frame the entire map
@@ -139,6 +139,92 @@ test('initial view frames the main cluster, not the whole galaxy (nodes visible)
   if (st.diag > 200) {
     expect(st.camDist).toBeLessThan(st.diag);
   }
+});
+
+test('2D parity: default preset reproduces the 2D coordinates exactly, flat', async ({ page }) => {
+  // fresh viz state so the shipped default applies
+  await page.request.get('/api/viz3d').then(async (r) => {
+    const v = await r.json();
+    v.preset = '2d-parity'; v.camera = null; v.positions = {};
+    await page.request.put('/api/viz3d', { data: v });
+  });
+  await open3d(page);
+  const check = await probe(page, `(() => {
+    const out = [];
+    let n = 0;
+    inst['docs'].forEach((d) => {
+      if (n >= 5 || !d || d.id <= 0 || !d.coor) { return; }
+      const p = scene['positions'].get(d.id);
+      if (!p) { return; }
+      out.push({ id: d.id, cx: d.coor.x, cy: d.coor.y, x: p.x, y: p.y, z: p.z });
+      n++;
+    });
+    return { preset: inst.preset, sample: out };
+  })()`);
+  expect(check.preset).toBe('2d-parity');
+  const SCALE = 1 / 12;
+  for (const s of check.sample) {
+    expect(s.x).toBeCloseTo(s.cx * SCALE, 5);
+    expect(s.z).toBeCloseTo(s.cy * SCALE, 5);
+    expect(s.y).toBe(0);
+  }
+});
+
+test('experimental saved presets are migrated to the 2D-parity default', async ({ page }) => {
+  await page.request.get('/api/viz3d').then(async (r) => {
+    const v = await r.json();
+    v.preset = 'force-3d';
+    await page.request.put('/api/viz3d', { data: v });
+  });
+  await open3d(page);
+  const preset = await probe(page, `inst.preset`);
+  expect(preset).toBe('2d-parity');
+});
+
+test('cross-links toggle and the 2D-view control work', async ({ page }) => {
+  await open3d(page);
+  await page.locator('button:has-text("Cross-links")').click();
+  await page.waitForTimeout(500);
+  const hidden = await probe(page, `scene['crossGroup'].visible`);
+  expect(hidden).toBe(false);
+  await page.locator('button:has-text("Cross-links")').click();
+  await page.waitForTimeout(500);
+  // 2D view: camera moves (nearly) directly above the target
+  await page.locator('button:has-text("2D view")').click();
+  await page.waitForTimeout(500);
+  const view = await probe(page, `(() => {
+    const c = scene['camera'].position; const t = scene['controls'].target;
+    return { dx: Math.abs(c.x - t.x), dy: c.y - t.y, dz: Math.abs(c.z - t.z) };
+  })()`);
+  expect(view.dy).toBeGreaterThan(50);        // above the map
+  expect(view.dx).toBeLessThan(1);            // no lateral offset
+  expect(view.dz).toBeLessThan(view.dy * 0.5); // small tilt only
+});
+
+test('performance guard: interactive frame time stays low while orbiting', async ({ page }) => {
+  await open3d(page);
+  const stats = await page.evaluate(async () => {
+    const s = window['__cm3d'].scene;
+    const cam = s['camera']; const ctr = s['controls'];
+    const times = [];
+    let last = performance.now();
+    let raf;
+    const loop = () => {
+      const now = performance.now();
+      times.push(now - last); last = now;
+      cam.position.x += 0.4; ctr.update();
+      s.requestRender();
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    await new Promise((r) => setTimeout(r, 1500));
+    cancelAnimationFrame(raf);
+    times.sort((a, b) => a - b);
+    return { median: times[Math.floor(times.length / 2)], frames: times.length };
+  });
+  expect(stats.frames).toBeGreaterThan(20);
+  // fixture-sized map must render comfortably within a 60 Hz budget
+  expect(stats.median).toBeLessThan(34);
 });
 
 test('a stale saved camera is ignored and the map is framed instead', async ({ page }) => {
@@ -159,7 +245,7 @@ test('a stale saved camera is ignored and the map is framed instead', async ({ p
         if (v > max[i]) { max[i] = v; }
       });
     });
-    return { target: scene['controls'].target.toArray(), min, max, nodes: scene['nodeMeshes'].size };
+    return { target: scene['controls'].target.toArray(), min, max, nodes: scene['positions'].size };
   })()`);
   expect(state.nodes).toBeGreaterThan(0);
   // the camera target must sit inside the content bounds — not at the
@@ -188,10 +274,21 @@ test('node selection in 3D syncs the application-wide selection', async ({ page 
 test('layout presets are deterministic and switchable', async ({ page }) => {
   await open3d(page);
   const posA = await probe(page, `Array.from(scene['positions'].entries()).slice(0,5)`);
-  await page.locator('.cmap3d-toolbar select').first().selectOption('radial-tree');
+  await page.locator('.cmap3d-toolbar select').first().selectOption('cognitive-tree');
   await page.waitForTimeout(1200);
   const posRadial = await probe(page, `Array.from(scene['positions'].entries()).slice(0,5)`);
   expect(JSON.stringify(posRadial)).not.toEqual(JSON.stringify(posA));
+  // switching must land the camera at reading distance of the content,
+  // never frame-the-galaxy (which shows sub-pixel nodes: a white screen)
+  const view = await probe(page, `(() => {
+    let min=[1e9,1e9,1e9], max=[-1e9,-1e9,-1e9];
+    scene['positions'].forEach((p)=>{[p.x,p.y,p.z].forEach((v,i)=>{if(v<min[i])min[i]=v;if(v>max[i])max[i]=v;});});
+    const diag = Math.hypot(max[0]-min[0], max[1]-min[1], max[2]-min[2]);
+    return { camDist: scene['camera'].position.distanceTo(scene['controls'].target), diag };
+  })()`);
+  if (view.diag > 200) {
+    expect(view.camDist).toBeLessThan(view.diag);
+  }
   // reload: radial persists and produces the identical arrangement
   await page.reload();
   await page.waitForSelector('#cmap3d canvas');
@@ -199,7 +296,7 @@ test('layout presets are deterministic and switchable', async ({ page }) => {
   const posRadial2 = await probe(page, `Array.from(scene['positions'].entries()).slice(0,5)`);
   expect(JSON.stringify(posRadial2)).toEqual(JSON.stringify(posRadial));
   // restore default preset for later tests
-  await page.locator('.cmap3d-toolbar select').first().selectOption('layered-depth');
+  await page.locator('.cmap3d-toolbar select').first().selectOption('layered-2.5d');
   await page.waitForTimeout(800);
 });
 
@@ -230,8 +327,8 @@ test('sheets stream the real 2D rendering (prep SVG) onto near nodes', async ({ 
   // pick a sheet node whose doc has a pre-rendered SVG
   const id = await probe(page, `(() => {
     let found = 0;
-    scene['nodeMeshes'].forEach((mesh, nid) => {
-      if (!found && mesh.userData.shape === 'sheet') {
+    scene['instanceIndexById'].forEach((idx, nid) => {
+      if (!found) {
         const d = inst['docIndex'][nid];
         if (d) { found = nid; }
       }
@@ -268,9 +365,13 @@ test('tree drag: the whole subtree follows the dragged parent', async ({ page })
     });
     return out;
   })()`);
-  // select, then drag via real mouse on the canvas
-  await page.evaluate((nid) => { window['__cm3d'].selectNode(nid, false); }, picked.id);
-  await page.waitForTimeout(400);
+  // bring the node on screen (the initial view may be elsewhere), select,
+  // then drag via real mouse on the canvas
+  await page.evaluate((nid) => {
+    window['__cm3d'].scene.focusNode(nid);
+    window['__cm3d'].selectNode(nid, false);
+  }, picked.id);
+  await page.waitForTimeout(600);
   const screen = await page.evaluate((nid) => {
     const inst = window['__cm3d'];
     const s = inst.scene;

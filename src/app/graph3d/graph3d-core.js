@@ -478,7 +478,9 @@ function relaxCollisions(pos, minDist, passes, radii) {
   if (radii) radii.forEach((r) => { if (r > maxR) maxR = r; });
   const cell = radii ? maxR * 2 : md;
   const keyOf = (p) => Math.floor(p.x / cell) + ':' + Math.floor(p.y / cell) + ':' + Math.floor(p.z / cell);
-  const passCount = ids.length > 20000 ? 1 : (passes || 3);
+  // two passes even on huge maps: one pass leaves visibly interpenetrating
+  // sheets in dense clusters (still bounded: grid relax is ~1.3 s/pass at 41k)
+  const passCount = ids.length > 20000 ? 2 : (passes || 3);
   for (let pass = 0; pass < passCount; pass++) {
     // rebuild the grid each pass (positions move)
     const grid = new Map();
@@ -579,15 +581,24 @@ function layoutCognitiveTree(graph, h) {
         while (d < -Math.PI) d += 2 * Math.PI;
         if (Math.abs(d) < Math.max(span, 0.35)) ang += d * 0.5;
         const branchSalt = depth === 0 ? k : salt;
-        const r = STEP * (0.85 + 0.5 * hash01(k, 5)) * (1 + Math.min(2, sizes.get(k) / 40));
         const y = parentPos.y
           + (hash01(branchSalt, 9) - 0.5) * (depth === 0 ? 30 : 0)
           + (hash01(k, 11) - 0.5) * 6;
-        pos.set(k, {
-          x: parentPos.x + Math.cos(ang) * r,
-          y,
-          z: parentPos.z + Math.sin(ang) * r,
-        });
+        const kd2 = graph.nodes.get(k);
+        if (kd2 && kd2.coor && (kd2.coor.x || kd2.coor.y)) {
+          // the child has a real 2D position: keep the map's geography
+          // EXACTLY (big topics far apart in 2D stay far apart in 3D, the
+          // user's spatial memory transfers) — hierarchy shows as height
+          pos.set(k, { x: kd2.coor.x * SCALE, y, z: kd2.coor.y * SCALE });
+        } else {
+          // no coordinates: synthetic radial placement around the parent
+          const r = STEP * (0.85 + 0.5 * hash01(k, 5)) * (1 + Math.min(2, sizes.get(k) / 40));
+          pos.set(k, {
+            x: parentPos.x + Math.cos(ang) * r,
+            y,
+            z: parentPos.z + Math.sin(ang) * r,
+          });
+        }
         // the child's own window opens around its outward direction and
         // widens for large subtrees so deep branches stay readable
         const childHalf = Math.max(span * 0.75, Math.min(1.4, 0.25 + sizes.get(k) / 60)) / 2;
@@ -603,6 +614,13 @@ function layoutCognitiveTree(graph, h) {
 // real sheet footprint, so large diagrams get room and small notes pack
 // tighter — neighbours never overlap regardless of their 2D size
 const LAYOUTS = {
+  // 2D parity (DEFAULT): the authoritative 2D arrangement, exactly — no
+  // relaxation, no synthetic placement. The 2D map is already laid out
+  // without overlaps; Z stays flat so the scene reads as the original map
+  // in a 3D workspace.
+  '2d-parity': (g, h) => layoutLegacyPlanar(g),
+  // layered 2.5D: exact X/Y with restrained hierarchy depth on Z
+  'layered-2.5d': (g, h) => layoutLayeredDepth(g, h),
   'cognitive-tree': (g, h) => relaxCollisions(layoutCognitiveTree(g, h), 12, 2, nodeRadii(g)),
   'legacy-planar': (g, h) => layoutLegacyPlanar(g),
   'layered-depth': (g, h) => relaxCollisions(layoutLayeredDepth(g, h), 10, 2, nodeRadii(g)),
@@ -644,6 +662,9 @@ module.exports = {
   computeLayout,
   relaxCollisions,
   hash01,
-  LAYOUT_PRESETS: Object.keys(LAYOUTS),
+  // the four supported modes, in dropdown order; other LAYOUTS keys remain
+  // resolvable so previously saved states keep working
+  LAYOUT_PRESETS: ['2d-parity', 'layered-2.5d', 'cognitive-tree', 'force-3d'],
+  ALL_LAYOUTS: Object.keys(LAYOUTS),
   SCALE,
 };

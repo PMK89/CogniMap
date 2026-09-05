@@ -6,7 +6,10 @@
       </select>
     </label>
     <button type="button" (click)="relayout()" title="Recompute layout (discards manual 3D positions)">Relayout</button>
+    <button type="button" (click)="frame2D()" title="Return to the 2D-equivalent top-down viewpoint">2D view</button>
     <button type="button" (click)="frameAll()" title="Frame the complete map">Frame all</button>
+    <button type="button" (click)="toggleCross()" [class.cm3d-off]="!crossVisible"
+      title="Show or hide secondary cross-links">Cross-links</button>
     <button type="button" (click)="focusSelected()" [disabled]="!selectedId" title="Focus the selected node">Focus</button>
     <label *ngIf="selectedId">Shape
       <select [(ngModel)]="selectedShape" (change)="changeShape()" aria-label="Node shape" title="Geometry of the selected node">
