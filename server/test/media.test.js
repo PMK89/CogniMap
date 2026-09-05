@@ -61,3 +61,9 @@ test('GET /files/src/.. traversal does not leak files outside the served root', 
   const res = await fetch(`${url}/files/src/%2e%2e/%2e%2e/etc/passwd`, { redirect: 'manual' });
   assert.ok(res.status >= 400, `expected a 4xx response, got ${res.status}`);
 });
+
+test('media filenames containing cognimap are not mistaken for legacy checkout prefixes', async () => {
+  const response = await fetch(`${url}/api/media/open`, json('POST', { type: 'txt', path: '/src/assets/styles/cognimap.css' }));
+  assert.equal(response.status, 200);
+  assert.equal((await response.json()).url, '/files/src/assets/styles/cognimap.css');
+});
