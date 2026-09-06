@@ -23,3 +23,17 @@ test('lossless exports cannot overwrite existing IDs', async () => {
   assert.ok(preview.conflicts.length > 0);
   assert.equal((await post('/api/canvas/import', { canvas: exported, token: preview.token })).status, 409);
 });
+
+test('native imports preserve NeDB identity and preview internal-ID collisions', async () => {
+  const { exportCanvas } = require('../lib/interchange/json-canvas');
+  const existing = (await (await fetch(url + '/api/cme/graph')).json())[0];
+  const conflicting = exportCanvas([{ ...existing, id: 800000001 }]);
+  const conflict = await (await post('/api/canvas/preview', { canvas: conflicting })).json();
+  assert.deepEqual(conflict.conflicts, [800000001]);
+  const native = { ...existing, id: 800000002, _id: 'canvas-preserved-identity' };
+  const exported = exportCanvas([native]);
+  const preview = await (await post('/api/canvas/preview', { canvas: exported })).json();
+  assert.equal((await post('/api/canvas/import', { canvas: exported, token: preview.token })).status, 201);
+  const restored = await (await fetch(url + '/api/cme/id/800000002')).json();
+  assert.equal(restored._id, native._id);
+});

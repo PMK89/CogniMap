@@ -35,9 +35,14 @@ function validate(canvas) {
 function validateNative(docs) {
   if (!Array.isArray(docs)) throw new Error('Native documents must be an array');
   const ids = new Set();
+  const internalIds = new Set();
   for (const doc of docs) {
     if (!doc || !Number.isSafeInteger(doc.id) || ids.has(doc.id)) throw new Error('Invalid or duplicate native ID');
     ids.add(doc.id);
+    if (doc._id !== undefined) {
+      if (typeof doc._id !== 'string' || internalIds.has(doc._id)) throw new Error('Invalid or duplicate native database ID');
+      internalIds.add(doc._id);
+    }
   }
 }
 
@@ -60,6 +65,14 @@ function exportCanvas(documents) {
         const content = cmo.content || [];
         const text = content.filter(c => c && ['text', 'LateX', 'latex'].includes(c.cat)).map(c => c.cat === 'text' ? (c.info || '') : '$$\n' + (c.info || '') + '\n$$');
         if (text.length) n.text += '\n\n' + text.join('\n\n');
+        const file = content.find(c => c && c.cat === 'png' && typeof c.object === 'string' && !c.object.includes('<'));
+        const web = (cmo.meta || []).find(m => m && m.type === 'link' && typeof m.path === 'string');
+        if (file && !n.text) { n.type = 'file'; n.file = file.object; delete n.text; }
+        else if (web && !n.text) { n.type = 'link'; n.url = web.path; delete n.text; }
+        else {
+          if (file) n.text += '\n\n![](' + file.object + ')';
+          if (web) n.text += '\n\n[' + (web.name || web.path) + '](' + web.path + ')';
+        }
       }
       nodes.push(n);
     } else if (ids.has(String(cmo.id0)) && ids.has(String(cmo.id1))) {
@@ -69,6 +82,7 @@ function exportCanvas(documents) {
       const reverse = link && link.start === false;
       const e = Object.assign({}, doc.canvasSource || {}, { id: String(doc.id), fromNode: String(reverse ? cmo.id1 : cmo.id0),
         toNode: String(reverse ? cmo.id0 : cmo.id1), fromEnd: 'none', toEnd: link && link.start !== undefined ? 'arrow' : 'none' });
+      if (doc.canvasSource) { e.fromEnd = doc.canvasSource.fromEnd || 'none'; e.toEnd = doc.canvasSource.toEnd || 'arrow'; }
       if (color(cmo.color0)) e.color = cmo.color0;
       if (doc.title) e.label = doc.title;
       edges.push(e);
@@ -99,7 +113,7 @@ function importCanvas(canvas, firstId = 1) {
       title: { size: 14, font: 'sans-serif', color: '#20242c', deco: '', class_array: [] },
       object: { color0: palette[n.color] || color(n.color) || '#ffffff', color1: '#64748b', trans: 1, weight: 1, str: '', num_array: [], class_array: [] }
     } };
-    if (n.type === 'file' || n.type === 'link') cmo.meta.push({ type: n.type === 'link' ? 'link' : 'file', path: n.file || n.url, name: title });
+    if (n.type === 'file' || n.type === 'link') cmo.meta.push({ type: n.type === 'link' ? 'link' : /\.pdf$/i.test(n.file) ? 'pdf' : /\.(png|jpe?g|svg|gif|webp)$/i.test(n.file) ? 'picture' : /\.(mp3|wav|ogg)$/i.test(n.file) ? 'audio' : /\.(mp4|webm)$/i.test(n.file) ? 'videos' : 'txt', path: n.file || n.url, name: title });
     docs.push({ id, title, types: ['a', 'a', 'b'], coor: { x: n.x, y: n.y }, x0: n.x, y0: n.y, x1: n.x + n.width, y1: n.y + n.height,
       cat: [], prio: 1, cdate: 0, vdate: 0, state: '', prep: '', prep1: '', cmobject: cmo, canvasSource: clone(n) });
   }

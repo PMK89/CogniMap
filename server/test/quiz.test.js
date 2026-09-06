@@ -104,3 +104,15 @@ test('rating undo restores scheduling and the active cover without changing geom
   assert.equal(doc.types[0], 'q1');
   assert.deepEqual(doc.coor, target.coor);
 });
+
+test('a malformed cover cannot partially update its recall schedule', async () => {
+  const loaded = await (await fetch(`${url}/api/quiz/load`, json('POST', {}))).json();
+  const target = loaded.quizes[0];
+  const broken = { ...target, cmobject: '{invalid' };
+  await fetch(`${url}/api/cme`, json('PUT', broken));
+  await fetch(`${url}/api/quiz/load`, json('POST', {}));
+  const before = fs.readFileSync(path.join(dataDir, 'quizes.json'), 'utf8');
+  const response = await fetch(`${url}/api/quiz/answer`, json('POST', { id: target.id, scale: 5 }));
+  assert.equal(response.status, 400);
+  assert.equal(fs.readFileSync(path.join(dataDir, 'quizes.json'), 'utf8'), before);
+});

@@ -40,3 +40,29 @@ test('native metadata with duplicate IDs or an unsupported version is rejected',
   canvas['org.cognimap'].version = 99;
   assert.throws(() => importCanvas(canvas), /version/i);
 });
+
+test('file and web references project as Canvas files and links', () => {
+  const base = { id: 1, title: '', x0: 0, y0: 0, x1: 100, y1: 80 };
+  const canvas = exportCanvas([
+    { ...base, cmobject: JSON.stringify({ content: [{ cat: 'png', object: 'media/structure.png' }] }) },
+    { ...base, id: 2, cmobject: JSON.stringify({ meta: [{ type: 'link', path: 'https://example.org', name: 'Reference' }] }) }
+  ]);
+  assert.equal(canvas.nodes[0].type, 'file');
+  assert.equal(canvas.nodes[0].file, 'media/structure.png');
+  assert.equal(canvas.nodes[1].type, 'link');
+});
+
+test('plain Canvas preserves arrows at both endpoints on re-export', () => {
+  const node = id => ({ id, type: 'text', text: id, x: 0, y: 0, width: 100, height: 80 });
+  const source = { nodes: [node('a'), node('b')], edges: [{ id: 'e', fromNode: 'a', toNode: 'b', fromEnd: 'arrow', toEnd: 'none' }] };
+  const edge = exportCanvas(importCanvas(source)).edges[0];
+  assert.equal(edge.fromEnd, 'arrow');
+  assert.equal(edge.toEnd, 'none');
+});
+
+test('mixed text and image cards keep authored text in their interoperable projection', () => {
+  const canvas = exportCanvas([{ id: 1, title: 'Important notes', cmobject: { content: [{ cat: 'text', info: 'do not lose' }, { cat: 'png', object: 'media/a.png' }] } }]);
+  assert.equal(canvas.nodes[0].type, 'text');
+  assert.ok(canvas.nodes[0].text.includes('do not lose'));
+  assert.ok(canvas.nodes[0].text.includes('media/a.png'));
+});

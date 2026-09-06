@@ -113,12 +113,13 @@ function createCmeRouter(options = {}) {
   async function canvasPreview(canvas) {
     const existing = await db.findAsync({}, { id: 1 });
     const ids = new Set(existing.map(d => d.id));
+    const internalIds = new Set(existing.map(d => d._id));
     const firstId = existing.reduce((max, d) => Math.max(max, Math.abs(d.id)), 0) + 1;
     let documents;
     try { documents = importCanvas(canvas, firstId); }
     catch (err) { throw badRequest(err.message); }
-    const conflicts = documents.filter(d => ids.has(d.id)).map(d => d.id);
-    const token = crypto.createHash('sha256').update(JSON.stringify([canvas, existing.map(d => d.id).sort((a, b) => a - b)])).digest('hex');
+    const conflicts = documents.filter(d => ids.has(d.id) || (d._id && internalIds.has(d._id))).map(d => d.id);
+    const token = crypto.createHash('sha256').update(JSON.stringify([canvas, existing.map(d => [d.id, d._id]).sort((a, b) => a[0] - b[0])])).digest('hex');
     return { documents, conflicts, token };
   }
 
@@ -149,7 +150,7 @@ function createCmeRouter(options = {}) {
     const existingQuizIds = new Set(quizman.quizes.map(q => q.id));
     const importedIds = new Set(preview.documents.map(d => d.id));
     if (!Array.isArray(scheduling) || scheduling.some(q => !q || !importedIds.has(q.id) || existingQuizIds.has(q.id) || !Number.isFinite(q.update) || !Number.isFinite(q.difficulty) || !Number.isFinite(q.interval))) throw badRequest('Invalid or conflicting quiz scheduling metadata');
-    const documents = preview.documents.map(doc => { const copy = { ...doc }; delete copy._id; return copy; });
+    const documents = preview.documents;
     // NeDB array insertion validates the whole batch before inserting it.
     await db.insertAsync(documents);
     if (scheduling.length) { quizman.quizes.push(...scheduling); quizman.save(); }
@@ -760,29 +761,27 @@ function createCmeRouter(options = {}) {
       res.json({ quizes: quizman.quizcmes, unchanged: true });
       return;
     }
-    ratingUndo = { schedules: JSON.parse(JSON.stringify(quizman.quizes)), queue: JSON.parse(JSON.stringify(quizman.quizcmes)), id: arg.id };
+    const data = quizman.quizcmes[pos0];
+    let cmo;
+    try { cmo = JSON.parse(data.cmobject); }
+    catch (err) { throw badRequest('The quiz cover has malformed content; repair it before rating'); }
+    if (!cmo || !cmo.style || !cmo.style.object) throw badRequest('The quiz cover is missing scheduling style');
+    const previous = { schedules: JSON.parse(JSON.stringify(quizman.quizes)), queue: JSON.parse(JSON.stringify(quizman.quizcmes)), id: arg.id };
     const calc = quizman.calculate(quizman.quizes[pos], arg.scale, quizman.today);
+    cmo.style.object.str = String(calc.interval);
+    cmo.style.object.weight = calc.difficulty;
+    const updated = { ...data, types: data.types.slice(), cmobject: JSON.stringify(cmo) };
+    updated.types[0] = arg.scale < 4 ? 'q1' : 'q';
+    try { await db.updateAsync({ _id: data._id }, updated, {}); }
+    catch (err) { quizman.quizcmes = previous.queue; throw err; }
     quizman.quizes[pos].difficulty = calc.difficulty;
     quizman.quizes[pos].interval = calc.interval;
     quizman.quizes[pos].update = calc.update;
-    const data = quizman.quizcmes[pos0];
-    if (data) {
-      pushHistory(JSON.parse(JSON.stringify(data)));
-      try {
-        const cmo = JSON.parse(data.cmobject);
-        if (cmo.style && cmo.style.object && cmo.style.object.str) {
-          cmo.style.object.str = String(calc.interval);
-          cmo.style.object.weight = calc.difficulty;
-          data.types = data.types.slice();
-          data.types[0] = arg.scale < 4 ? 'q1' : 'q';
-          data.cmobject = JSON.stringify(cmo);
-          await db.updateAsync({ _id: data._id }, data, {});
-          quizman.quizcmes.splice(pos0, 1);
-        }
-      } catch (err) {
-        console.warn('[quiz] answer cmobject parse failed:', err.message);
-      }
-    }
+    quizman.quizcmes.splice(pos0, 1);
+    // Retried covers must remain active and carry the updated scheduling style.
+    quizman.quizcmes = quizman.quizcmes.map(doc => doc.id === arg.id ? updated : doc);
+    ratingUndo = previous;
+    ratingUndo.graded = JSON.parse(JSON.stringify(quizman.quizes[pos]));
     quizman.save();
     res.json({ quizes: quizman.quizcmes });
   }));
@@ -791,6 +790,8 @@ function createCmeRouter(options = {}) {
     if (!ratingUndo) return res.json({ quizes: quizman.quizcmes, unchanged: true });
     const previous = ratingUndo;
     const cover = previous.queue.find(d => d.id === previous.id);
+    const currentSchedule = quizman.quizes.find(q => q.id === previous.id);
+    if (JSON.stringify(currentSchedule) !== JSON.stringify(previous.graded)) throw new ApiError(409, 'quiz_changed', 'This schedule was edited after rating; undo would overwrite that edit');
     const current = await db.findOneAsync({ id: previous.id });
     if (!current) throw new ApiError(409, 'quiz_changed', 'The reviewed cover was deleted; undo is no longer available');
     // Restore only scheduling style and active state; preserve intervening edits.
@@ -800,7 +801,8 @@ function createCmeRouter(options = {}) {
     cmo.style.object.weight = priorCmo.style.object.weight;
     const types = current.types.slice(); types[0] = 'q1';
     await db.updateAsync({ id: previous.id }, { $set: { types, cmobject: JSON.stringify(cmo) } }, {});
-    quizman.quizes = previous.schedules;
+    const priorSchedule = previous.schedules.find(q => q.id === previous.id);
+    quizman.quizes = quizman.quizes.map(q => q.id === previous.id ? priorSchedule : q);
     quizman.quizcmes = previous.queue;
     quizman.save();
     ratingUndo = null;
