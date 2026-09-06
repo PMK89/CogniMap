@@ -136,6 +136,12 @@ function connectedComponents(graph) {
  * @returns {{ depth: Map, parentOf: Map, childrenOf: Map, roots: Array }}
  */
 function deriveHierarchy(graph) {
+  // A graph instance may be classified more than once after its links change.
+  // Clear the prior pass before selecting this pass's spanning edges.
+  for (const e of graph.edges) {
+    e.cross = false;
+    e.structural = false;
+  }
   const comps = connectedComponents(graph);
   const out = new Map();
   const adj = new Map();
@@ -154,6 +160,7 @@ function deriveHierarchy(graph) {
   const parentOf = new Map();
   const childrenOf = new Map();
   const roots = [];
+  const treeEdges = new Set();
   for (const id of graph.nodes.keys()) childrenOf.set(id, []);
 
   for (const comp of comps) {
@@ -172,7 +179,7 @@ function deriveHierarchy(graph) {
     const queues = [[], [], []];
     const cursors = [0, 0, 0];
     const enqueueNeighbors = (cur) => {
-      const neigh = adj.get(cur).slice().sort((a, b) => rankOf(a) - rankOf(b) || a.to - b.to);
+      const neigh = adj.get(cur).slice().sort((a, b) => rankOf(a) - rankOf(b) || a.to - b.to || a.edge.linkId - b.edge.linkId);
       for (const n of neigh) {
         if (!depth.has(n.to)) {
           queues[rankOf(n)].push({ from: cur, n });
@@ -191,14 +198,13 @@ function deriveHierarchy(graph) {
       depth.set(n.to, depth.get(from) + 1);
       parentOf.set(n.to, from);
       childrenOf.get(from).push(n.to);
-      n.edge.cross = false;
-      n.edge.structural = true;
+      treeEdges.add(n.edge);
       enqueueNeighbors(n.to);
     }
   }
   // any edge that is not a tree edge is a cross-link; weak edges always are
   for (const e of graph.edges) {
-    const isTree = parentOf.get(e.target) === e.source || parentOf.get(e.source) === e.target;
+    const isTree = treeEdges.has(e);
     e.cross = !isTree || e.weight === 0;
     e.structural = !e.cross;
   }
@@ -673,7 +679,7 @@ module.exports = {
   hash01,
   // the four supported modes, in dropdown order; other LAYOUTS keys remain
   // resolvable so previously saved states keep working
-  LAYOUT_PRESETS: ['root-network', '2d-parity', 'layered-2.5d', 'cognitive-tree', 'force-3d'],
+  LAYOUT_PRESETS: ['2d-parity', 'layered-2.5d', 'cognitive-tree', 'root-network', 'force-3d'],
   ALL_LAYOUTS: Object.keys(LAYOUTS),
   SCALE,
 };

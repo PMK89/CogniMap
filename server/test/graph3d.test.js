@@ -180,7 +180,7 @@ test('overlay elements (quiz covers, markings) are excluded from the 3D graph', 
 
 test('2d-parity is the default-listed preset and reproduces 2D coordinates EXACTLY', () => {
   assert.equal(core.LAYOUT_PRESETS[0], '2d-parity');
-  assert.deepEqual(core.LAYOUT_PRESETS, ['2d-parity', 'layered-2.5d', 'cognitive-tree', 'force-3d']);
+  assert.deepEqual(core.LAYOUT_PRESETS, ['2d-parity', 'layered-2.5d', 'cognitive-tree', 'root-network', 'force-3d']);
   const { positions } = core.computeLayout(FIXTURE, '2d-parity');
   for (const d of FIXTURE) {
     const p = positions.get(d.id);

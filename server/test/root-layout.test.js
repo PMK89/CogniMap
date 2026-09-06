@@ -31,3 +31,19 @@ test('adding a leaf preserves distant major branch positions', () => {
   const a = before.get(2), b = after.get(2);
   assert.ok(Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z) < 10);
 });
+
+test('parallel links select one stable structural spanning edge', () => {
+  const docs = [
+    { id: 1, types: ['a'], cmobject: { links: [
+      { id: -10, targetId: 2, start: true, weight: 1 },
+      { id: -20, targetId: 2, start: true, weight: 1 },
+    ] } },
+    { id: 2, types: ['a'], cmobject: { links: [] } },
+  ];
+  const graph = core.buildGraph(docs);
+  core.deriveHierarchy(graph);
+  const structural = graph.edges.filter((edge) => edge.structural).map((edge) => edge.linkId);
+  const cross = graph.edges.filter((edge) => edge.cross).map((edge) => edge.linkId);
+  assert.deepEqual(structural, [-20]);
+  assert.deepEqual(cross, [-10]);
+});
