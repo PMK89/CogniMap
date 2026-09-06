@@ -63,7 +63,9 @@ data/cme/
 data/cme/*
 data/cme
 .stversions/*
-src/assets/images/
+src/assets/images/*
+!src/assets/images/svgelements/
+!src/assets/images/svgelements/**
 src/assets/pdf/
 src/assets/videos/
 src/assets/txt/

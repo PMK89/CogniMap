@@ -1,0 +1,9 @@
+<svg width="500" height="200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+ <g class="layer">
+  <title>Layer 1</title>
+  <path id="svg_1" d="m471.17682,-15.13152l-21.61374,-13.57259c-5.45105,-3.41734 -12.62192,-1.77189 -16.0437,3.68065l-8.53363,13.54285l41.32324,25.94604l8.52768,-13.54282c3.42773,-5.45254 1.79126,-12.6368 -3.65985,-16.05412zm-119.67313,120.68623l41.31729,25.93567l67.33475,-107.17172l-41.35895,-25.95645l-67.29309,107.1925zm-6.31393,32.95477l-0.89264,24.36905l21.53641,-11.40048l20.05463,-10.58224l-39.87717,-25.04151l-0.82123,22.65519z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="14" stroke="#666666" fill="none"/>
+  <text xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="111" id="svg_3" y="148.25" x="197.75001" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#666666" fill="#000000">Text</text>
+  <rect opacity="0.6" id="svg_4" height="132.75001" width="285.75002" y="35.87502" x="46.74992" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="14" stroke="#666666" fill="#000000"/>
+ </g>
+</svg>
