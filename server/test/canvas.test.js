@@ -66,3 +66,10 @@ test('mixed text and image cards keep authored text in their interoperable proje
   assert.ok(canvas.nodes[0].text.includes('do not lose'));
   assert.ok(canvas.nodes[0].text.includes('media/a.png'));
 });
+
+test('historical large numeric connector identities round-trip without imposing a new native schema', () => {
+  const native = [{ id: -19008315098202504, _id: 'legacy-large-link', cmobject: '{}' }];
+  assert.deepEqual(importCanvas(exportCanvas(native)), native);
+  const canvas = { nodes: [{ id: 'a', type: 'text', text: 'New', x: 0, y: 0, width: 100, height: 80 }] };
+  assert.equal(importCanvas(canvas, 10, [10, 11, -19008315098202504])[0].id, 12);
+});

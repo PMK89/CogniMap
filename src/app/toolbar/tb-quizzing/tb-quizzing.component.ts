@@ -45,6 +45,8 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
   public canUndo = false;
   public busy = false;
   public error = '';
+  public resumed = false;
+  private resumeNext = true;
   public grades = ['0 · Blank', '1 · Wrong', '2 · Hard', '3 · Partial', '4 · Good', '5 · Easy'];
   public get current(): any { return this.overduearray[this.currentIndex]; }
 
@@ -59,6 +61,7 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
                 this.colors = store.select('colors');
                 this.quizListener = (event, arg) => {
                   if (arg) {
+                    if (arg.progress) { this.reviewed = arg.progress.reviewed; this.resumed = arg.progress.resumed; }
                     if (arg['quizes']) {
                       this.overduearray = arg['quizes'];
                       if (this.overduearray.length > 0) {
@@ -159,18 +162,18 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
     this.busy = true; this.error = '';
     try {
       await this.reviewRequest('answer', { id: this.current.id, scale });
-      this.reviewed++; this.canUndo = true; this.focusCurrent();
+      this.canUndo = true; this.focusCurrent();
     } catch (err) { this.error = err.message; }
     finally { this.busy = false; }
   }
   public async undoRating() {
     if (!this.canUndo || this.busy) return;
     this.busy = true;
-    try { await this.reviewRequest('undo', {}); this.reviewed = Math.max(0, this.reviewed - 1); this.canUndo = false; this.focusCurrent(); }
+    try { await this.reviewRequest('undo', {}); this.canUndo = false; this.focusCurrent(); }
     catch (err) { this.error = err.message; }
     finally { this.busy = false; }
   }
-  public restart() { this.hideAnswer(); this.nooverdue = true; this.canUndo = false; this.getOverdue(); }
+  public restart() { this.resumeNext = false; this.hideAnswer(); this.nooverdue = true; this.canUndo = false; this.getOverdue(); }
 
   // finds element by title
   public findTitle(title: string) {
@@ -280,9 +283,9 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
     if (this.nooverdue) {
       this.nooverdue = false;
       if (this.cmsettings['cmtbquizedit']['interval']) {
-        this.electronService.ipcRenderer.send('loadQuizes', parseInt(this.cmsettings.cmtbquizedit.interval, 10));
+        this.electronService.ipcRenderer.send('loadQuizes', { limit: parseInt(this.cmsettings.cmtbquizedit.interval, 10), resume: this.resumeNext });
       } else {
-        this.electronService.ipcRenderer.send('loadQuizes', 42);
+        this.electronService.ipcRenderer.send('loadQuizes', { limit: 42, resume: this.resumeNext });
       }
     }
   }

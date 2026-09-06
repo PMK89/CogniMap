@@ -10,6 +10,7 @@ const { ROOT, DATA_DIR, BACKUP_DIR, resolveInside, ensureDir } = require('../lib
 const { ApiError, badRequest, notFound, asyncRoute } = require('../lib/errors');
 const { validators } = require('../lib/validate');
 const { QuizManager } = require('../lib/quiz');
+const { ReviewCheckpoint } = require('../lib/review-checkpoint');
 
 /**
  * Concept-map element (CME) database API — replaces the Electron
@@ -29,6 +30,8 @@ function createCmeRouter(options = {}) {
   const datahistory = [];
   const redohistory = [];
   let ratingUndo = null;
+  const checkpoint = new ReviewCheckpoint(dataDir);
+  let progress = { reviewed: 0, startedAt: null, resumed: false };
 
   // Startup self-repair: types[0] === 'q1' marks an element as part of the
   // CURRENTLY RUNNING quiz session, which lives in server memory. After a
@@ -114,9 +117,9 @@ function createCmeRouter(options = {}) {
     const existing = await db.findAsync({}, { id: 1 });
     const ids = new Set(existing.map(d => d.id));
     const internalIds = new Set(existing.map(d => d._id));
-    const firstId = existing.reduce((max, d) => Math.max(max, Math.abs(d.id)), 0) + 1;
+    const firstId = existing.reduce((max, d) => Math.max(max, d.id > 0 ? d.id : 0), 0) + 1;
     let documents;
-    try { documents = importCanvas(canvas, firstId); }
+    try { documents = importCanvas(canvas, firstId, ids); }
     catch (err) { throw badRequest(err.message); }
     const conflicts = documents.filter(d => ids.has(d.id) || (d._id && internalIds.has(d._id))).map(d => d.id);
     const token = crypto.createHash('sha256').update(JSON.stringify([canvas, existing.map(d => [d.id, d._id]).sort((a, b) => a[0] - b[0])])).digest('hex');
@@ -619,7 +622,41 @@ function createCmeRouter(options = {}) {
     catlist: quizman.quizcat,
     timelist: quizman.quiztime,
     quizes: quizman.quizcmes,
+    progress,
   });
+
+  function saveReview() {
+    const schedules = {};
+    for (const q of quizman.quizes) schedules[q.id] = { update: q.update, interval: q.interval, difficulty: q.difficulty };
+    const active = {};
+    for (const doc of quizman.quizcmes) active[doc.id] = schedules[doc.id];
+    checkpoint.save({ day: quizman.today, ids: quizman.quizcmes.map(d => d.id), reviewed: progress.reviewed,
+      startedAt: progress.startedAt, schedules: active });
+  }
+
+  async function resumeReview() {
+    const saved = checkpoint.load(quizman.today);
+    if (!saved) return false;
+    const scheduleById = new Map(quizman.quizes.map(q => [q.id, q]));
+    const docs = await db.findAsync({ id: { $in: saved.ids } });
+    const byId = new Map(docs.map(d => [d.id, d]));
+    const overdue = [];
+    for (const id of saved.ids) {
+      const doc = byId.get(id), schedule = scheduleById.get(id);
+      if (!doc || !schedule || !doc.types || !['q', 'q1'].includes(doc.types[0])) continue;
+      // A successful rating may have reached disk immediately before a crash
+      // but not the checkpoint. Never replay it as an unanswered item.
+      const expected = saved.schedules && saved.schedules[id];
+      if (expected && schedule.update > quizman.today && schedule.update !== expected.update) continue;
+      overdue.push({ id, interval: schedule.interval, dif: schedule.difficulty });
+    }
+    await clearQuizCovers();
+    await collectOverdueQuizes(overdue);
+    progress = { reviewed: saved.reviewed, startedAt: saved.startedAt || Date.now(), resumed: true };
+    quizman.quizcat = quizman.quizes.map(q => (q.cat || []).slice(0, 3).concat(q.update <= quizman.today ? [q.id] : []));
+    saveReview();
+    return true;
+  }
 
   /**
    * old function: getOverdueQuizes — sequentially mark each due element as
@@ -669,6 +706,8 @@ function createCmeRouter(options = {}) {
   router.post('/quiz/load', asyncRoute(async (req, res) => {
     const limit = Number((req.body || {}).limit || 42);
     quizman.load();
+    if (req.body && req.body.resume === true && await resumeReview()) return res.json(quizResponse());
+    progress = { reviewed: 0, startedAt: Date.now(), resumed: false };
     const today0 = quizman.today + quizman.quizclick;
     const overduearray = [];
     quizman.quizcat = [];
@@ -703,6 +742,7 @@ function createCmeRouter(options = {}) {
       overduearray.splice(limit);
     }
     await collectOverdueQuizes(overduearray);
+    saveReview();
     res.json(quizResponse());
   }));
 
@@ -712,6 +752,7 @@ function createCmeRouter(options = {}) {
     if (!Array.isArray(arg)) throw badRequest('params must be an array');
     quizman.load();
     const today0 = quizman.today;
+    progress = { reviewed: 0, startedAt: Date.now(), resumed: false };
     await clearQuizCovers();
     const overduearray = [];
     for (const quiz of quizman.quizes) {
@@ -735,6 +776,7 @@ function createCmeRouter(options = {}) {
       if (arg.length < 3 && overduearray.length > 100) overduearray.splice(100);
       await collectOverdueQuizes(overduearray);
     }
+    saveReview();
     res.json(quizResponse());
   }));
 
@@ -783,7 +825,9 @@ function createCmeRouter(options = {}) {
     ratingUndo = previous;
     ratingUndo.graded = JSON.parse(JSON.stringify(quizman.quizes[pos]));
     quizman.save();
-    res.json({ quizes: quizman.quizcmes });
+    progress.reviewed++;
+    saveReview();
+    res.json(quizResponse());
   }));
 
   router.post('/quiz/undo', asyncRoute(async (req, res) => {
@@ -806,7 +850,9 @@ function createCmeRouter(options = {}) {
     quizman.quizcmes = previous.queue;
     quizman.save();
     ratingUndo = null;
-    res.json({ quizes: quizman.quizcmes });
+    progress.reviewed = Math.max(0, progress.reviewed - 1);
+    saveReview();
+    res.json(quizResponse());
   }));
 
   return router;

@@ -37,7 +37,7 @@ function validateNative(docs) {
   const ids = new Set();
   const internalIds = new Set();
   for (const doc of docs) {
-    if (!doc || !Number.isSafeInteger(doc.id) || ids.has(doc.id)) throw new Error('Invalid or duplicate native ID');
+    if (!doc || !Number.isInteger(doc.id) || ids.has(doc.id)) throw new Error('Invalid or duplicate native ID');
     ids.add(doc.id);
     if (doc._id !== undefined) {
       if (typeof doc._id !== 'string' || internalIds.has(doc._id)) throw new Error('Invalid or duplicate native database ID');
@@ -93,7 +93,7 @@ function exportCanvas(documents) {
   return canvas;
 }
 
-function importCanvas(canvas, firstId = 1) {
+function importCanvas(canvas, firstId = 1, occupiedIds = []) {
   validate(canvas);
   if (canvas[NS]) {
     const native = canvas[NS];
@@ -104,9 +104,17 @@ function importCanvas(canvas, firstId = 1) {
   }
   const docs = [], ids = new Map();
   let next = firstId;
+  const occupied = new Set(occupiedIds);
+  const allocate = negative => {
+    while (occupied.has(negative ? -next : next)) next++;
+    if (!Number.isSafeInteger(next)) throw new Error('Cannot allocate a safe new node ID');
+    const id = negative ? -next++ : next++;
+    occupied.add(id);
+    return id;
+  };
   const palette = { '1': '#ef4444', '2': '#f97316', '3': '#eab308', '4': '#22c55e', '5': '#06b6d4', '6': '#a855f7' };
   for (const n of canvas.nodes || []) {
-    const id = next++;
+    const id = allocate(false);
     ids.set(n.id, id);
     const title = n.text || n.label || n.file || n.url || 'Group';
     const cmo = { content: [], meta: [], links: [], style: {
@@ -119,7 +127,7 @@ function importCanvas(canvas, firstId = 1) {
   }
   const byId = new Map(docs.map(d => [d.id, d]));
   for (const e of canvas.edges || []) {
-    const id = -(next++), id0 = ids.get(e.fromNode), id1 = ids.get(e.toNode);
+    const id = allocate(true), id0 = ids.get(e.fromNode), id1 = ids.get(e.toNode);
     const a = byId.get(id0), b = byId.get(id1);
     a.cmobject.links.push({ id, targetId: id1, title: e.label || '', weight: 1, con: '', start: true });
     b.cmobject.links.push({ id, targetId: id0, title: e.label || '', weight: 1, con: '', start: false });

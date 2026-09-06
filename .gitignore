@@ -107,3 +107,5 @@ e2e/.data/
 test-results/
 
 /src/assets/cognimap-e2e.pdf
+
+/data/quiz-session.json

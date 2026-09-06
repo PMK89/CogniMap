@@ -265,7 +265,7 @@ export class IpcShim {
         this.request('GET', '/api/minimap').then((res) => this.emit('loadedMM', res));
         return;
       case 'loadQuizes':
-        this.request('POST', '/api/quiz/load', { limit: arg }).then(
+        this.request('POST', '/api/quiz/load', typeof arg === 'object' ? arg : { limit: arg }).then(
           (res) => this.emit('loadedQuizes', res),
         );
         return;
