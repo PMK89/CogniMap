@@ -40,7 +40,7 @@ function createMediaRouter() {
     }
 
     // legacy payloads may contain absolute paths that embed .../cognimap/...
-    const cognimappos = relPath.indexOf('/cognimap');
+    const cognimappos = relPath.indexOf('/cognimap/');
     if (cognimappos > -1) relPath = relPath.slice(cognimappos + 9);
     // strip a leading slash so resolveInside treats it as relative
     relPath = relPath.replace(/^\/+/, '');

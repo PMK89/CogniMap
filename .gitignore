@@ -31,7 +31,7 @@ Icon?
 Thumbs.db
 
 # Node Files #
-/node_modules/
+/node_modules
 /bower_components/
 npm-debug.log
 /npm-debug.log.*
@@ -63,7 +63,9 @@ data/cme/
 data/cme/*
 data/cme
 .stversions/*
-src/assets/images/
+src/assets/images/*
+!src/assets/images/svgelements/
+!src/assets/images/svgelements/**
 src/assets/pdf/
 src/assets/videos/
 src/assets/txt/
@@ -100,3 +102,5 @@ data/cognimap25.json
 data/cme.dbdata/backups/
 e2e/.data/
 test-results/
+
+/src/assets/cognimap-e2e.pdf

@@ -9,7 +9,6 @@ const path = require('path');
  */
 module.exports = defineConfig({
   testDir: 'e2e',
-  globalSetup: require.resolve('./e2e/global-setup'),
   timeout: 60000,
   retries: 0,
   workers: 1, // single shared backend/data dir — keep tests serial
@@ -22,7 +21,7 @@ module.exports = defineConfig({
     viewport: { width: 1600, height: 900 },
   },
   webServer: {
-    command: 'node server/index.js',
+    command: 'node e2e/start-server.js',
     url: 'http://127.0.0.1:3311/api/health',
     reuseExistingServer: false,
     env: {

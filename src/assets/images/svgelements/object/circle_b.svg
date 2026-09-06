@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="500" height="200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - https://github.com/SVG-Edit/svgedit-->
+
+ <title>shape</title>
+ <g class="layer">
+  <title>Layer 1</title>
+  <ellipse id="svg_1" ry="92.5" rx="92.5" cy="100" cx="250" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="30" stroke="#666666" fill="#999999"/>
+ </g>
+</svg>
