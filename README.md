@@ -94,6 +94,7 @@ Use the **Settings** panel to adjust:
 - [Architecture](docs/ARCHITECTURE.md)
 - [Local development & testing](docs/DEVELOPMENT.md)
 - [Migration notes (Electron → browser)](docs/MIGRATION.md)
+- [Root-network layout and verification](docs/modernization/ROOT-LAYOUT.md)
 
 ## Contributing
 
