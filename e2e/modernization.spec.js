@@ -10,7 +10,14 @@ test('workspace search, system theme and Canvas preview are keyboard accessible'
   await page.keyboard.press('Control+k');
   const panel = page.getByRole('dialog', { name: 'CogniMap · Workspace' });
   await expect(panel).toBeVisible();
-  await page.getByRole('searchbox', { name: 'Search knowledge map' }).fill('Hydroxyl');
+  const search = page.getByRole('searchbox', { name: 'Search knowledge map' });
+  let settingsWritesWhileSearching = 0;
+  page.on('request', (request) => {
+    if (request.method() === 'PUT' && new URL(request.url()).pathname === '/api/settings') settingsWritesWhileSearching++;
+  });
+  await search.pressSequentially('sndqumx');
+  await expect.poll(() => settingsWritesWhileSearching).toBe(0);
+  await search.fill('Hydroxyl');
   await expect(panel.getByRole('button', { name: /Hydroxylgruppe/ })).toBeVisible();
   for (const theme of ['light', 'dark', 'system']) {
     await panel.getByLabel('Theme', { exact: true }).selectOption(theme);

@@ -571,7 +571,14 @@ export class EventService {
     }
   }
 
+  private isEditableTarget(target: any) {
+    if (!target || !target.tagName) return false;
+    const tag = String(target.tagName).toUpperCase();
+    return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || Boolean(target.isContentEditable);
+  }
+
   public onKeyDown(evt) {
+    if (this.isEditableTarget(evt.target)) return false;
     // console.log(evt.key);
     if (this.keyPressed.indexOf(evt.key) === -1) {
       this.keyPressed.push(evt.key);
@@ -930,7 +937,12 @@ export class EventService {
 
   // handles keyup events
   public onKeyUp(evt) {
-    if (this.keyPressed.indexOf('Enter') !== -1) {
+    const hadEnter = this.keyPressed.indexOf('Enter') !== -1;
+    if (this.keyPressed.indexOf(evt.key) !== -1) {
+      this.keyPressed.splice(this.keyPressed.indexOf(evt.key), 1);
+    }
+    if (this.isEditableTarget(evt.target)) return;
+    if (hadEnter) {
       // creates new element at position
       if (this.cmsettings.mode === 'new') {
         if (this.position) {
@@ -939,9 +951,6 @@ export class EventService {
           this.position = undefined;
         }
       }
-    }
-    if (this.keyPressed.indexOf(evt.key) !== -1) {
-      this.keyPressed.splice(this.keyPressed.indexOf(evt.key), 1);
     }
     // console.log(this.keyPressed);
   }
