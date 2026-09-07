@@ -74,6 +74,7 @@ export class Scene3dService {
   private highlightGroup: any;
   private branchGroup: any;
   private crossGroup: any;
+  private overviewGroup: any;
   private nodeGroup: any;
   private labelGroup: any;
   private geoCache: { [k: string]: any } = {};
@@ -86,6 +87,8 @@ export class Scene3dService {
   private dragState: any = null;
   private docsById: Map<number, any> = new Map();
   private hierarchy: any = null;
+  private rootMode = false;
+  private branchSizes: any = new Map();
   private graph: any = null;
   private positions: Map<number, any> = new Map();
 
@@ -122,7 +125,8 @@ export class Scene3dService {
     this.crossGroup = new THREE.Group();
     this.labelGroup = new THREE.Group();
     this.highlightGroup = new THREE.Group();
-    this.scene.add(this.branchGroup, this.crossGroup, this.highlightGroup, this.nodeGroup, this.labelGroup);
+    this.overviewGroup = new THREE.Group();
+    this.scene.add(this.branchGroup, this.crossGroup, this.overviewGroup, this.highlightGroup, this.nodeGroup, this.labelGroup);
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
@@ -163,8 +167,26 @@ export class Scene3dService {
       && (document.documentElement.getAttribute('data-theme') === 'dark'
           || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches));
     this.scene.background = new THREE.Color(dark ? bg : '#f5f6f8');
-    this.scene.fog = new THREE.Fog(this.scene.background, 900, 4000);
+    this.updateRootFog();
     this.requestRender();
+  }
+
+  /**
+   * Root-network uses a short focus fog to suppress unrelated far sheets,
+   * but restores the normal long view at overview range. The fog-free
+   * summary skeleton remains visible at every overview distance.
+   */
+  private updateRootFog() {
+    if (!this.scene) { return; }
+    if (!this.rootMode) {
+      this.scene.fog = new THREE.Fog(this.scene.background, 900, 4000);
+      return;
+    }
+    const distance = this.camera && this.controls
+      ? this.camera.position.distanceTo(this.controls.target) : 400;
+    this.scene.fog = distance < 400
+      ? new THREE.Fog(this.scene.background, 80, 400)
+      : new THREE.Fog(this.scene.background, 120, 4000);
   }
 
   // ----------------------------------------------------------------
@@ -176,11 +198,14 @@ export class Scene3dService {
     if (!this.available) { return; }
     this.clearScene();
     const preset = (viz && viz.preset) || '2d-parity';
+    this.rootMode = preset === 'root-network';
+    this.updateRootFog();
     this.flatMode = preset === '2d-parity' || preset === 'layered-2.5d'
       || preset === 'legacy-planar' || preset === 'layered-depth';
     const result = core.computeLayout(docs, preset, viz && viz.positions);
     this.graph = result.graph;
     this.hierarchy = result.hierarchy;
+    this.branchSizes = core.subtreeSizes(this.hierarchy);
     this.positions = result.positions;
     this.docsById = result.graph.nodes;
     const n = result.graph.nodes.size;
@@ -197,6 +222,7 @@ export class Scene3dService {
     }
     this.buildSheetPool(sheetItems);
     this.buildBranches();
+    this.buildOverviewSkeleton();
     this.updateLabels(true);
     this.requestRender();
   }
@@ -300,7 +326,7 @@ export class Scene3dService {
   }
 
   private clearScene() {
-    for (const group of [this.nodeGroup, this.branchGroup, this.crossGroup, this.labelGroup, this.highlightGroup]) {
+    for (const group of [this.nodeGroup, this.branchGroup, this.crossGroup, this.overviewGroup, this.labelGroup, this.highlightGroup]) {
       if (!group) { continue; }
       const children = group.children.slice();
       for (const c of children) {
@@ -627,11 +653,11 @@ export class Scene3dService {
     // thickness (screen-space hairlines at tens of thousands of edges
     // read as solid grey fog)
     if (!this.largeMode) {
-      for (const [a, b] of structural) {
+      for (const [a, b, edge] of structural) {
         const mid = new THREE.Vector3((a.x + b.x) / 2, (a.y + b.y) / 2 + 3, (a.z + b.z) / 2);
         const curve = new THREE.QuadraticBezierCurve3(
           new THREE.Vector3(a.x, a.y, a.z), mid, new THREE.Vector3(b.x, b.y, b.z));
-        const geo = new THREE.TubeGeometry(curve, 10, 0.2, 6, false);
+        const geo = new THREE.TubeGeometry(curve, 10, this.branchRadius(edge), 6, false);
         const mesh = new THREE.Mesh(geo, this.branchMaterial());
         mesh.userData.sharedMat = true;
         this.branchGroup.add(mesh);
@@ -639,7 +665,7 @@ export class Scene3dService {
     } else if (structural.length) {
       // one draw call for every branch: unit cylinder (base at origin,
       // pointing +Y) scaled to each edge's length and rotated into place
-      const geo = new THREE.CylinderGeometry(0.09, 0.09, 1, 5, 1, true);
+      const geo = new THREE.CylinderGeometry(this.rootMode ? 0.06 : 0.09, 0.09, 1, 5, 1, true);
       geo.translate(0, 0.5, 0);
       const inst = new THREE.InstancedMesh(geo, this.branchMaterial(), structural.length);
       inst.userData.sharedMat = true;
@@ -650,13 +676,20 @@ export class Scene3dService {
       const org = new THREE.Vector3();
       const scl = new THREE.Vector3();
       for (let i = 0; i < structural.length; i++) {
-        const a = structural[i][0];
-        const b = structural[i][1];
+        let a = structural[i][0];
+        let b = structural[i][1];
+        const edge = structural[i][2];
+        // The tapered cylinder is thick at its local base.  Structural links
+        // may be stored child-to-parent, so orient that base at the parent.
+        if (this.rootMode && this.hierarchy.parentOf.get(edge.source) === edge.target) {
+          a = structural[i][1]; b = structural[i][0];
+        }
         dir.set(b.x - a.x, b.y - a.y, b.z - a.z);
         const len = dir.length() || 0.001;
         q.setFromUnitVectors(up, dir.multiplyScalar(1 / len));
         org.set(a.x, a.y, a.z);
-        scl.set(1, len, 1);
+        const radiusScale = this.rootMode ? this.branchRadius(edge) / 0.09 : 1;
+        scl.set(radiusScale, len, radiusScale);
         m.compose(org, q, scl);
         inst.setMatrixAt(i, m);
       }
@@ -669,10 +702,72 @@ export class Scene3dService {
     if (cpts.length) {
       const geo = new THREE.BufferGeometry();
       geo.setAttribute('position', new THREE.Float32BufferAttribute(cpts, 3));
-      const lines = new THREE.LineSegments(geo, this.lineMaterial(0.28));
+      const lines = new THREE.LineSegments(geo, this.lineMaterial(this.rootMode ? 0.10 : 0.28));
       lines.userData.sharedMat = true;
       this.crossGroup.add(lines);
     }
+  }
+
+  /** A readable, fixed-pixel structural summary for root-network overviews. */
+  private buildOverviewSkeleton() {
+    if (!this.rootMode || !this.hierarchy || !this.overviewGroup) { return; }
+    const depth = new Map<number, number>();
+    const queue = this.hierarchy.roots.slice();
+    for (const id of queue) { depth.set(id, 0); }
+    for (let i = 0; i < queue.length; i++) {
+      const id = queue[i];
+      const d = depth.get(id) || 0;
+      for (const child of this.hierarchy.childrenOf.get(id) || []) {
+        depth.set(child, d + 1);
+        queue.push(child);
+      }
+    }
+    const candidates: any[] = [];
+    for (const edge of this.graph.edges) {
+      if (edge.cross) { continue; }
+      const child = this.hierarchy.parentOf.get(edge.target) === edge.source ? edge.target
+        : (this.hierarchy.parentOf.get(edge.source) === edge.target ? edge.source : undefined);
+      if (child === undefined || child === null) { continue; }
+      const a = this.positions.get(edge.source), b = this.positions.get(edge.target);
+      if (!a || !b) { continue; }
+      candidates.push({ a, b, child, size: this.branchSizes.get(child) || 1, depth: depth.get(child) || 0 });
+    }
+    // Strongest limbs first: two small draw calls, never a 40k-edge hairball.
+    candidates.sort((a, b) => b.size - a.size || a.depth - b.depth || a.child - b.child);
+    const limbs = candidates.slice(0, 700);
+    if (!limbs.length) { return; }
+    const linePts: number[] = [];
+    const pointPts: number[] = [];
+    const seen = new Set<string>();
+    for (const limb of limbs) {
+      linePts.push(limb.a.x, limb.a.y, limb.a.z, limb.b.x, limb.b.y, limb.b.z);
+      for (const p of [limb.a, limb.b]) {
+        const key = p.x + ':' + p.y + ':' + p.z;
+        if (!seen.has(key)) { seen.add(key); pointPts.push(p.x, p.y, p.z); }
+      }
+    }
+    const lineGeo = new THREE.BufferGeometry();
+    lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePts, 3));
+    const lines = new THREE.LineSegments(lineGeo,
+      new THREE.LineBasicMaterial({ color: 0x2f6fed, transparent: true, opacity: 0.82, depthTest: false, depthWrite: false, fog: false }));
+    lines.renderOrder = 10;
+    lines.userData.overview = true;
+    this.overviewGroup.add(lines);
+    const pointGeo = new THREE.BufferGeometry();
+    pointGeo.setAttribute('position', new THREE.Float32BufferAttribute(pointPts, 3));
+    const points = new THREE.Points(pointGeo,
+      new THREE.PointsMaterial({ color: 0x74a5ff, size: 2, sizeAttenuation: false, transparent: true, opacity: 0.62, depthTest: false, depthWrite: false, fog: false }));
+    points.renderOrder = 11;
+    points.userData.overview = true;
+    this.overviewGroup.add(points);
+  }
+
+  public getNodeCount(): number { return this.positions.size; }
+
+  private branchRadius(edge: any): number {
+    if (!this.rootMode) return 0.2;
+    const child = this.hierarchy.parentOf.get(edge.target) === edge.source ? edge.target : edge.source;
+    return Math.min(2.5, 0.10 + 0.10 * Math.cbrt(this.branchSizes.get(child) || 1));
   }
 
   private branchMaterial(): any {
@@ -982,14 +1077,16 @@ export class Scene3dService {
   }
 
   private rebuildEdgesFor() {
-    for (const group of [this.branchGroup, this.crossGroup]) {
+    for (const group of [this.branchGroup, this.crossGroup, this.overviewGroup]) {
       const children = group.children.slice();
       for (const c of children) {
         group.remove(c);
         if (c.geometry) { c.geometry.dispose(); }
+        if (c.userData.overview && c.material) { c.material.dispose(); }
       }
     }
     this.buildBranches();
+    this.buildOverviewSkeleton();
   }
 
   // ----------------------------------------------------------------
@@ -999,11 +1096,34 @@ export class Scene3dService {
   public focusNode(id: number) {
     const p = this.positions.get(id);
     if (!p) { return; }
-    this.controls.target.set(p.x, p.y, p.z);
+    // Preserve the current viewing bearing before changing the target.  Using
+    // the new target here can turn a distant overview eye vector into an
+    // arbitrary direction and leave the selected node outside the frustum.
     const dir = this.camera.position.clone().sub(this.controls.target).normalize();
+    this.controls.target.set(p.x, p.y, p.z);
     this.camera.position.set(p.x + dir.x * 40, p.y + dir.y * 40, p.z + dir.z * 40);
+    this.updateCameraClip(40);
+    this.updateRootFog();
     this.controls.update();
     this.requestRender();
+  }
+
+  public frameSubtree(id: number) {
+    this.frameNodes([id].concat(this.subtreeIds(id)));
+  }
+
+  private frameNodes(ids: number[]) {
+    const box = new THREE.Box3();
+    ids.forEach(id => { const p = this.positions.get(id); if (p) box.expandByPoint(new THREE.Vector3(p.x, p.y, p.z)); });
+    if (box.isEmpty()) return;
+    const center = box.getCenter(new THREE.Vector3());
+    const size = Math.max(80, box.getSize(new THREE.Vector3()).length());
+    this.controls.maxDistance = Math.max(8000, size * 2);
+    this.controls.target.copy(center);
+    this.camera.position.set(center.x + size * .45, center.y + size * .35, center.z + size * .7);
+    this.updateCameraClip(this.camera.position.distanceTo(center), size);
+    this.updateRootFog();
+    this.controls.update(); this.requestRender();
   }
 
   public frameAll() {
@@ -1020,20 +1140,40 @@ export class Scene3dService {
     this.controls.maxDistance = Math.max(8000, size * 1.6);
     this.controls.target.copy(center);
     this.camera.position.set(center.x + size * 0.35, center.y + size * 0.45, center.z + size * 0.7);
+    this.updateCameraClip(this.camera.position.distanceTo(center), size);
+    this.updateRootFog();
     this.controls.update();
     this.requestRender();
+  }
+
+  /** keep every fitted volume inside the camera depth range at any map scale */
+  private updateCameraClip(distance: number, size = 0) {
+    const radius = Math.max(40, size * 0.5);
+    const far = distance + radius * 1.5;
+    const near = Math.max(0.1, distance - radius * 1.5);
+    this.camera.near = Math.min(near, far / 1000);
+    this.camera.far = Math.max(50000, far * 1.2);
+    this.camera.updateProjectionMatrix();
   }
 
   /**
    * Initial view for a freshly opened map with no saved camera. Framing the
    * ENTIRE map is useless at scale — a 40k-node map spans ~8000 units while
    * a node is ~6 units, so every node would be sub-pixel (a white void).
-   * Instead land on the largest component's root and its first two levels of
-   * branches: the recognizable "central concept + outward branches" view.
+   * Instead land on the largest component, which preserves the recognizable
+   * branching structure while excluding distant disconnected outliers.
    * `Frame all` remains one click away for the whole-galaxy overview.
    */
   public frameInitial() {
     if (!this.positions.size) { return; }
+    if (this.rootMode && this.hierarchy.roots.length) {
+      const roots = this.hierarchy.roots.slice().sort((a, b) => this.branchSizes.get(b) - this.branchSizes.get(a) || a - b);
+      const root = roots[0];
+      // The dominant component is the useful opening overview. On the real
+      // map it contains almost every node, while Frame all also includes a
+      // ring of tiny disconnected components that shrinks the tree to dust.
+      this.frameSubtree(root); return;
+    }
     // land on the DENSEST region of the map: a deterministic coarse-grid
     // density pass over all node positions. Framing everything shows
     // sub-pixel nodes, and a component root can sit geographically far
@@ -1077,6 +1217,7 @@ export class Scene3dService {
     const t = this.controls.target;
     const d = Math.max(140, this.camera.position.distanceTo(t));
     this.camera.position.set(t.x, t.y + d, t.z + d * 0.28);
+    this.updateRootFog();
     this.controls.update();
     this.requestRender();
   }
@@ -1129,6 +1270,7 @@ export class Scene3dService {
     }
     this.camera.position.fromArray(state.position);
     this.controls.target.fromArray(state.target || [0, 0, 0]);
+    this.updateRootFog();
     this.controls.update();
     this.requestRender();
   }
@@ -1156,6 +1298,7 @@ export class Scene3dService {
     this.lastLabelCull = now;
     this.cullPending = false;
     const camPos = this.camera.position;
+    this.updateRootFog();
     // signpost billboarding: sheets rotate around Y toward the camera so
     // they are never seen edge-on as slivers — from every angle the map
     // reads like cards, exactly as in 2D (text planes are children and
@@ -1169,6 +1312,21 @@ export class Scene3dService {
       if (this.crossGroup.visible !== vis) {
         this.crossGroup.visible = vis;
         this.needsRender = true;
+      }
+    }
+    if (this.overviewGroup) {
+      const distance = camPos.distanceTo(this.controls.target);
+      // Small maps have no separate far overview range. Keep their compact
+      // structural skeleton visible, while huge maps fade it in only once
+      // ordinary geometry has become too small to read.
+      const fade = this.largeMode ? Math.max(0, Math.min(1, (distance - 1400) / 800)) : 1;
+      const visible = this.rootMode && fade > 0.01;
+      if (this.overviewGroup.visible !== visible) {
+        this.overviewGroup.visible = visible;
+        this.needsRender = true;
+      }
+      for (const child of this.overviewGroup.children) {
+        if (child.material) { child.material.opacity = (child.isPoints ? 0.62 : 0.82) * fade; }
       }
     }
     if (!this.flatMode

@@ -57,6 +57,15 @@ export class IpcShim {
     this.listeners[channel].push(listener);
   }
 
+  /** Remove one subscription without disturbing other consumers of a channel. */
+  public removeListener(channel: string, listener: Listener): void {
+    const subs = this.listeners[channel];
+    if (!subs) { return; }
+    const index = subs.indexOf(listener);
+    if (index !== -1) { subs.splice(index, 1); }
+    if (!subs.length) { delete this.listeners[channel]; }
+  }
+
   public removeAllListeners(channel: string): void {
     delete this.listeners[channel];
   }

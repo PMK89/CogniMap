@@ -11,6 +11,7 @@
     <button type="button" (click)="toggleCross()" [class.cm3d-off]="!crossVisible"
       title="Show or hide secondary cross-links">Cross-links</button>
     <button type="button" (click)="focusSelected()" [disabled]="!selectedId" title="Focus the selected node">Focus</button>
+    <button type="button" (click)="frameSubtree()" [disabled]="!selectedId" title="Frame selected node and its structural descendants">Frame subtree</button>
     <label *ngIf="selectedId">Shape
       <select [(ngModel)]="selectedShape" (change)="changeShape()" aria-label="Node shape" title="Geometry of the selected node">
         <option *ngFor="let s of shapes" value={{s}}>{{s}}</option>

@@ -41,6 +41,7 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
   private sub: any;
   private saveTimer: any;
   private themeObserver: any;
+  private graphListener: any;
 
   constructor(public scene: Scene3dService,
               private elementService: ElementService,
@@ -60,7 +61,7 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
       // active layout — legacy/experimental saved presets (spherical,
       // force-3d, ...) fall back to the 2D-parity default. force-3d stays
       // selectable but is never the restored default.
-      const allowedRestore = ['2d-parity', 'layered-2.5d', 'cognitive-tree'];
+      const allowedRestore = ['root-network', '2d-parity', 'layered-2.5d', 'cognitive-tree'];
       if (saved.preset && allowedRestore.indexOf(saved.preset) === -1) {
         this.viz.preset = '2d-parity';
         this.viz.camera = null; // the old camera framed a different layout
@@ -93,9 +94,10 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
     // canvas lazy-loads only a window around the scroll position into the
     // `cmes` store; driving the 3D scene from that store showed only the
     // handful of nodes near wherever the user happened to be scrolled.
-    this.backend.ipcRenderer.on('loadedGraph3d', (event, all: any[]) => {
+    this.graphListener = (event, all: any[]) => {
       this.ngZone.runOutsideAngular(() => this.buildScene(all || []));
-    });
+    };
+    this.backend.ipcRenderer.on('loadedGraph3d', this.graphListener);
     this.backend.ipcRenderer.send('loadGraph3d', '1');
     // the 2D viewport store is now only a source of live edits: patch the
     // full set by id and rebuild, never replace it with the viewport subset
@@ -126,6 +128,8 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
     if (this.sub) { this.sub.unsubscribe(); }
     if (this.themeObserver) { this.themeObserver.disconnect(); }
     if (this.rebuildTimer) { clearTimeout(this.rebuildTimer); }
+    if (this.graphListener) { this.backend.ipcRenderer.removeListener('loadedGraph3d', this.graphListener); }
+    if ((window as any).__cm3d === this) { delete (window as any).__cm3d; }
     this.saveViz(true);
     this.scene.dispose();
   }
@@ -135,8 +139,8 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
     this.docs = all;
     this.docIndex = {};
     for (const d of all) { if (d && typeof d.id === 'number') { this.docIndex[d.id] = d; } }
-    this.nodeCount = all.filter((d) => d && d.id > 0).length;
     this.scene.setDocs(all, this.viz);
+    this.nodeCount = this.scene.getNodeCount();
     this.graphLoaded = true;
     if (this.viz.camera) { this.scene.setCameraState(this.viz.camera); }
     else { this.scene.frameInitial(); }
@@ -148,8 +152,8 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
     this.rebuildTimer = setTimeout(() => {
       this.rebuildTimer = undefined;
       this.ngZone.runOutsideAngular(() => {
-        this.nodeCount = this.docs.filter((d) => d && d.id > 0).length;
         this.scene.setDocs(this.docs, this.viz);
+        this.nodeCount = this.scene.getNodeCount();
       });
     }, 400);
   }
@@ -225,6 +229,8 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
     this.scene.setSelection([this.selectedId]);
     this.saveViz();
   }
+
+  public frameSubtree() { if (this.selectedId) this.scene.frameSubtree(this.selectedId); }
 
   public frameAll() { this.scene.frameAll(); }
   public focusSelected() { if (this.selectedId) { this.scene.focusNode(this.selectedId); } }
