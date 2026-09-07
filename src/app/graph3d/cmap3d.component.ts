@@ -4,6 +4,7 @@ import { Scene3dService } from './scene3d.service';
 import { ElementService } from '../shared/element.service';
 import { BackendService } from '../shared/backend.service';
 import { CMStore } from '../models/CMStore';
+import { NavigatorService } from '../widgets/navigator/navigator.service';
 
 const core = require('./graph3d-core');
 
@@ -39,12 +40,15 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
   private graphLoaded = false;
   private rebuildTimer: any;
   private sub: any;
+  private navigationSub: any;
+  private graphListener: any;
   private saveTimer: any;
   private themeObserver: any;
 
   constructor(public scene: Scene3dService,
               private elementService: ElementService,
               private backend: BackendService,
+              private navigator: NavigatorService,
               private ngZone: NgZone,
               private store: Store<CMStore>) {}
 
@@ -84,9 +88,10 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
     // canvas lazy-loads only a window around the scroll position into the
     // `cmes` store; driving the 3D scene from that store showed only the
     // handful of nodes near wherever the user happened to be scrolled.
-    this.backend.ipcRenderer.on('loadedGraph3d', (event, all: any[]) => {
+    this.graphListener = (event, all: any[]) => {
       this.ngZone.runOutsideAngular(() => this.buildScene(all || []));
-    });
+    };
+    this.backend.ipcRenderer.on('loadedGraph3d', this.graphListener);
     this.backend.ipcRenderer.send('loadGraph3d', '1');
     // the 2D viewport store is now only a source of live edits: patch the
     // full set by id and rebuild, never replace it with the viewport subset
@@ -108,13 +113,21 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
       }
       if (changed) { this.scheduleRebuild(); }
     });
+    this.navigationSub = this.navigator.focusRequests.subscribe((id: number) => {
+      if (!this.graphLoaded || !this.docIndex[id]) { return; }
+      this.selectNode(id, false);
+      this.scene.focusNode(id);
+    });
     // theme changes recolor the scene
     this.themeObserver = new MutationObserver(() => this.scene.applyTheme());
     this.themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   }
 
   public ngOnDestroy() {
+    if (this.graphListener) { this.backend.ipcRenderer.removeListener('loadedGraph3d', this.graphListener); }
+    if ((window as any).__cm3d === this) { delete (window as any).__cm3d; }
     if (this.sub) { this.sub.unsubscribe(); }
+    if (this.navigationSub) { this.navigationSub.unsubscribe(); }
     if (this.themeObserver) { this.themeObserver.disconnect(); }
     if (this.rebuildTimer) { clearTimeout(this.rebuildTimer); }
     this.saveViz(true);

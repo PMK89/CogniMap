@@ -1,5 +1,4 @@
 import { Component, HostListener, OnDestroy } from '@angular/core';
-import { ElementService } from '../shared/element.service';
 import { NavigatorService } from '../widgets/navigator/navigator.service';
 
 @Component({ selector: 'app-workspace-tools', templateUrl: './workspace.component.html' })
@@ -19,7 +18,7 @@ export class WorkspaceComponent implements OnDestroy {
   private requestId = 0;
   private previous: { x: number, y: number }[] = [];
   private returnFocus: any;
-  constructor(private elements: ElementService, private navigator: NavigatorService) {
+  constructor(private navigator: NavigatorService) {
     try {
       this.theme = localStorage.getItem('cognimap-theme') || 'system';
       this.recent = JSON.parse(localStorage.getItem('cognimap-recent') || '[]');
@@ -79,8 +78,7 @@ export class WorkspaceComponent implements OnDestroy {
       if (!doc || !doc.coor) throw new Error('This node is no longer available.');
       this.previous.push({ x: window.pageXOffset, y: window.pageYOffset });
       if (this.previous.length > 50) this.previous.shift();
-      this.navigator.goTo(String(doc.coor.x), String(doc.coor.y));
-      this.elements.setSelectedCME(doc.id);
+      this.navigator.visitNode(doc);
       this.recent = [node].concat(this.recent.filter(n => n.id !== node.id)).slice(0, 12);
       try { localStorage.setItem('cognimap-recent', JSON.stringify(this.recent)); } catch (_) { /* session history remains usable */ }
       this.close();

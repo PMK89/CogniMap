@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs/Subject';
 // import { Observable } from 'rxjs/Observable';
 declare var Snap: any;
 
@@ -19,6 +20,16 @@ import { CMSettings } from '../../models/CMSettings';
 
 @Injectable()
 export class NavigatorService {
+  // Explicit navigation requests do not turn ordinary editor selections into camera moves.
+  public readonly focusRequests = new Subject<number>();
+
+  public visitNode(doc: any) {
+    this.goTo(String(doc.coor.x), String(doc.coor.y));
+    this.elementService.ensureLoaded(doc.id);
+    this.elementService.setSelectedCME(doc.id);
+    this.focusRequests.next(doc.id);
+  }
+
   public cmsettings: CMSettings;
   public selCMEo: any;
   public isnew = false;
