@@ -18,10 +18,10 @@ function makeTmpDataDir() {
  * Must be called at most once per test file (server modules cache the data
  * dir at first require), so call it once in a top-level `before` hook.
  */
-function startServer(dataDir) {
+function startServer(dataDir, options = {}) {
   process.env.COGNIMAP_DATA_DIR = dataDir;
   const { createApp } = require('../index');
-  const app = createApp();
+  const app = createApp(options);
   return new Promise((resolve, reject) => {
     const server = app.listen(0, '127.0.0.1');
     server.once('listening', () => resolve(server));

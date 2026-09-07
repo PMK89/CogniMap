@@ -26,8 +26,11 @@ const { createViz3dRouter } = require('./routes/viz3d');
  */
 function createApp(options = {}) {
   const app = express();
+  // Lossless Canvas includes the complete native documents: the authentic
+  // 41k-node map exceeds 200 MB. Keep ordinary API limits unchanged.
+  app.use('/api/canvas', express.json({ limit: options.canvasBodyLimit || '512mb', strict: false }));
   // strict:false — legacy payloads include bare JSON strings (minimap SVG)
-  app.use(express.json({ limit: '100mb', strict: false }));
+  app.use(express.json({ limit: options.bodyLimit || '100mb', strict: false }));
 
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', version: require('../package.json').version });
