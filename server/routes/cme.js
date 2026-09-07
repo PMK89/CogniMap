@@ -61,15 +61,18 @@ function createCmeRouter(options = {}) {
   // Requests must not race startup overlay repair.
   router.use((req, res, next) => ready.then(() => next(), next));
 
-  // Serialize mutations so concurrent review/import requests cannot interleave
-  // their read/validate/write stages. Reads remain available.
+  // Serialize database stages, not socket delivery: a legacy synchronous
+  // browser query must not wait for another response to finish downloading.
+  // Read-only POST endpoints remain concurrent with writes.
   let writes = Promise.resolve();
-  router.use((req, res, next) => {
-    if (!['POST', 'PUT', 'DELETE'].includes(req.method)) return next();
-    const previous = writes;
-    writes = new Promise(resolve => { res.once('finish', resolve); res.once('close', resolve); });
-    previous.then(() => next(), next);
-  });
+  function writeRoute(handler) {
+    return asyncRoute((req, res, next) => {
+      const operation = writes.then(() => handler(req, res, next));
+      // A failed write is reported by asyncRoute but must not poison the queue.
+      writes = operation.catch(() => {});
+      return operation;
+    });
+  }
 
   function pushHistory(doc) {
     if (datahistory.length > 1000) datahistory.shift();
@@ -145,7 +148,7 @@ function createCmeRouter(options = {}) {
       titles: preview.documents.filter(d => d.id > 0).slice(0, 20).map(d => d.title),
       warnings: ['File references are preserved; copy referenced assets separately.', 'Native ID collisions are rejected; existing content is never replaced.'] });
   }));
-  router.post('/canvas/import', asyncRoute(async (req, res) => {
+  router.post('/canvas/import', writeRoute(async (req, res) => {
     const preview = await canvasPreview((req.body || {}).canvas);
     if (preview.token !== req.body.token || preview.conflicts.length) throw new ApiError(409, 'import_conflict', 'Preview is stale or IDs already exist; preview again or use a separate map');
     const scheduling = req.body.canvas['org.cognimap'] && req.body.canvas['org.cognimap'].quizes || [];
@@ -233,7 +236,7 @@ function createCmeRouter(options = {}) {
   // ---- element mutations ----
 
   // old channel: newCME
-  router.post('/cme', asyncRoute(async (req, res) => {
+  router.post('/cme', writeRoute(async (req, res) => {
     const arg = req.body;
     if (!validators.cme(arg)) throw badRequest('invalid element payload', validators.cme.errors);
     quizSideEffect(arg, 'makeQuiz');
@@ -243,7 +246,7 @@ function createCmeRouter(options = {}) {
   }));
 
   // old channel: changeCME -> changedCME (+ category rename side effect)
-  router.put('/cme', asyncRoute(async (req, res) => {
+  router.put('/cme', writeRoute(async (req, res) => {
     const arg = req.body;
     if (!validators.cme(arg)) throw badRequest('invalid element payload', validators.cme.errors);
     quizSideEffect(arg, 'changeQuiz');
@@ -285,7 +288,7 @@ function createCmeRouter(options = {}) {
   }));
 
   // old channel: delCME -> deletedCME
-  router.delete('/cme/:id', asyncRoute(async (req, res) => {
+  router.delete('/cme/:id', writeRoute(async (req, res) => {
     const id = Number(req.params.id);
     if (Number.isNaN(id)) throw badRequest('id must be numeric');
     const data = await db.findOneAsync({ id });
@@ -304,7 +307,7 @@ function createCmeRouter(options = {}) {
 
   // undo — restore the most recent pre-change snapshot from the history
   // buffer (dbprocess.js kept the same buffer but never exposed retrieval)
-  router.post('/cme/undo', asyncRoute(async (req, res) => {
+  router.post('/cme/undo', writeRoute(async (req, res) => {
     const entry = datahistory.pop();
     if (!entry) {
       res.json({ data: null, message: 'history empty' });
@@ -325,7 +328,7 @@ function createCmeRouter(options = {}) {
   }));
 
   // redo — reapply the change most recently reverted by undo
-  router.post('/cme/redo', asyncRoute(async (req, res) => {
+  router.post('/cme/redo', writeRoute(async (req, res) => {
     const entry = redohistory.pop();
     if (!entry) {
       res.json({ data: null, message: 'redo history empty' });
@@ -550,7 +553,7 @@ function createCmeRouter(options = {}) {
   ];
 
   // old channel: saveDb — export all elements (sorted by cdate) to a JSON file
-  router.post('/db/save', asyncRoute(async (req, res) => {
+  router.post('/db/save', writeRoute(async (req, res) => {
     const file = String((req.body || {}).file || '');
     if (!file.endsWith('.json')) throw badRequest('export file must end with .json');
     const abs = resolveInside(ROOT, file.replace(/^\.\//, '').replace(/^\/+/, ''));
@@ -571,7 +574,7 @@ function createCmeRouter(options = {}) {
   }));
 
   // old channel: loadDb — import elements from a JSON file
-  router.post('/db/load', asyncRoute(async (req, res) => {
+  router.post('/db/load', writeRoute(async (req, res) => {
     const file = String((req.body || {}).file || '');
     const abs = resolveInside(ROOT, file.replace(/^\.\//, '').replace(/^\/+/, ''));
     if (!fs.existsSync(abs)) throw notFound('import file not found: ' + file);
@@ -595,7 +598,7 @@ function createCmeRouter(options = {}) {
   // default: database files must never be deleted. The legacy menu action
   // can only be re-enabled explicitly (COGNIMAP_ALLOW_DB_WIPE=1), and even
   // then the db file is backed up first and only emptied, never removed.
-  router.post('/db/delete', asyncRoute(async (req, res) => {
+  router.post('/db/delete', writeRoute(async (req, res) => {
     if (process.env.COGNIMAP_ALLOW_DB_WIPE !== '1') {
       throw new ApiError(403, 'db_wipe_disabled',
         'Deleting the database is disabled to protect user data. ' +
@@ -703,7 +706,7 @@ function createCmeRouter(options = {}) {
   }
 
   // old channel: loadQuizes -> loadedQuizes
-  router.post('/quiz/load', asyncRoute(async (req, res) => {
+  router.post('/quiz/load', writeRoute(async (req, res) => {
     const limit = Number((req.body || {}).limit || 42);
     quizman.load();
     if (req.body && req.body.resume === true && await resumeReview()) return res.json(quizResponse());
@@ -747,7 +750,7 @@ function createCmeRouter(options = {}) {
   }));
 
   // old channel: loadQuizesbyCat -> loadedQuizes
-  router.post('/quiz/bycat', asyncRoute(async (req, res) => {
+  router.post('/quiz/bycat', writeRoute(async (req, res) => {
     const arg = (req.body || {}).params || [];
     if (!Array.isArray(arg)) throw badRequest('params must be an array');
     quizman.load();
@@ -781,13 +784,13 @@ function createCmeRouter(options = {}) {
   }));
 
   // old channel: unQuiz -> loadedQuizes
-  router.post('/quiz/unquiz', asyncRoute(async (req, res) => {
+  router.post('/quiz/unquiz', writeRoute(async (req, res) => {
     await clearQuizCovers();
     res.json({ quizes: quizman.quizcmes });
   }));
 
   // old channel: answerQuiz -> loadedQuizes
-  router.post('/quiz/answer', asyncRoute(async (req, res) => {
+  router.post('/quiz/answer', writeRoute(async (req, res) => {
     const arg = req.body || {};
     if (!validators.quizAnswer(arg)) {
       throw badRequest('invalid quiz answer', validators.quizAnswer.errors);
@@ -830,7 +833,7 @@ function createCmeRouter(options = {}) {
     res.json(quizResponse());
   }));
 
-  router.post('/quiz/undo', asyncRoute(async (req, res) => {
+  router.post('/quiz/undo', writeRoute(async (req, res) => {
     if (!ratingUndo) return res.json({ quizes: quizman.quizcmes, unchanged: true });
     const previous = ratingUndo;
     const cover = previous.queue.find(d => d.id === previous.id);
