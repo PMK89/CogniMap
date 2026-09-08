@@ -12,9 +12,15 @@ test('a native Canvas import through the UI discharges its recovery journal', as
   page.on('pageerror', e => errors.push(String(e)));
   const baseline = await (await page.request.get('/api/canvas/export')).json();
   const source = baseline['org.cognimap'].documents.find(d => d.id > 0);
-  const document = { ...source, id: 800001234, _id: 'e2e-recovery-native', title: 'Recoverybrowserimport', types: ['q'] };
+  // Park the import far from the fixture geometry and far in the future, so
+  // later specs cannot hit it by position or find it in the review queue.
+  const offset = 900000;
+  const document = { ...source, id: 800001234, _id: 'e2e-recovery-native',
+    title: 'Recoverybrowserimport', types: ['q'],
+    coor: { x: source.coor.x + offset, y: source.coor.y + offset },
+    x0: source.x0 + offset, y0: source.y0 + offset, x1: source.x1 + offset, y1: source.y1 + offset };
   const canvas = exportCanvas([document]);
-  const schedule = { id: document.id, cat: [], update: 20000, difficulty: 2.5, interval: 7 };
+  const schedule = { id: document.id, cat: [], update: 99999, difficulty: 2.5, interval: 7 };
   canvas['org.cognimap'].quizes = [schedule];
 
   await page.goto('/');

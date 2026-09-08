@@ -298,7 +298,7 @@ Report the two final branch names and SHAs, architectural/UI/review/science/Canv
 
 ### 2026-09-08 — P0-B closed, both branches pushed
 
-**Heads.** A `ef905d9`, B `efa560b`. Both clean, both pushed to `origin`. B's `efa560b` had been committed but never pushed by the previous session, which stopped at a usage limit immediately after committing; it is pushed now.
+**Heads.** A implementation head `ef905d9`, plus the documentation commits that carry this log; B `efa560b`. Both clean, both pushed to `origin`. B's `efa560b` had been committed but never pushed by the previous session, which stopped at a usage limit immediately after committing; it is pushed now.
 
 **Completed.** P0-B (import crash consistency) in four commits on A: `2ecc5b8` journal module and unit tests, `faf1f17` route integration plus the duplicate-schedule rejection, `2de3548` contract documentation, `ef905d9` browser test. Details and explicit non-claims are in §7 under P0-B.
 
