@@ -37,3 +37,18 @@ test('native imports preserve NeDB identity and preview internal-ID collisions',
   const restored = await (await fetch(url + '/api/cme/id/800000002')).json();
   assert.equal(restored._id, native._id);
 });
+
+test('duplicate imported schedules are rejected before inserting documents', async () => {
+  const { exportCanvas } = require('../lib/interchange/json-canvas');
+  const existing = (await (await fetch(url + '/api/cme/graph')).json())[0];
+  const native = { ...existing, id: 800000003, _id: 'canvas-duplicate-schedule' };
+  const exported = exportCanvas([native]);
+  const schedule = { id: native.id, update: 20000, difficulty: 2.5, interval: 7 };
+  exported['org.cognimap'].quizes = [schedule, { ...schedule }];
+  const preview = await (await post('/api/canvas/preview', { canvas: exported })).json();
+  assert.equal((await post('/api/canvas/import', { canvas: exported, token: preview.token })).status, 400);
+  // A rejected import writes nothing, so it must not block the map either.
+  const graph = await fetch(url + '/api/cme/graph');
+  assert.equal(graph.status, 200);
+  assert.equal((await graph.json()).some(d => d.id === native.id), false);
+});

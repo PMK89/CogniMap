@@ -11,6 +11,7 @@ const { ApiError, badRequest, notFound, asyncRoute } = require('../lib/errors');
 const { validators } = require('../lib/validate');
 const { QuizManager } = require('../lib/quiz');
 const { ReviewCheckpoint } = require('../lib/review-checkpoint');
+const { ImportJournal } = require('../lib/interchange/import-journal');
 
 /**
  * Concept-map element (CME) database API — replaces the Electron
@@ -30,6 +31,10 @@ function createCmeRouter(options = {}) {
   const datahistory = [];
   const redohistory = [];
   let ratingUndo = null;
+  const importJournal = new ImportJournal(dataDir);
+  let importPending = false;
+  const recoveryError = () => new ApiError(503, 'import_recovery_required',
+    'Canvas import is incomplete. Restart the server to recover before editing the map.');
   const checkpoint = new ReviewCheckpoint(dataDir);
   let progress = { reviewed: 0, startedAt: null, resumed: false };
 
@@ -40,6 +45,8 @@ function createCmeRouter(options = {}) {
   // The db file is backed up before the first repair write.
   const ready = (async () => {
     try {
+      // Complete interrupted imports before overlay repair can change their documents.
+      await importJournal.recover(db, quizman);
       const stale = await db.findAsync({ 'types.0': 'q1' });
       if (stale.length === 0) return;
       const dbFile = options.dbPath || path.join(dataDir, 'cme.db');
@@ -54,12 +61,14 @@ function createCmeRouter(options = {}) {
       }
       console.log(`[cme] startup repair: reset ${stale.length} stale active-quiz (q1) elements to dormant (q)`);
     } catch (err) {
-      console.error('[cme] startup quiz repair failed:', err.message);
+      console.error('[cme] startup recovery failed:', err.message);
       throw err;
     }
   })();
+  // Keep startup rejection handled even before the first HTTP request arrives.
+  ready.catch(() => {});
   // Requests must not race startup overlay repair.
-  router.use((req, res, next) => ready.then(() => next(), next));
+  router.use((req, res, next) => ready.then(() => next(importPending ? recoveryError() : undefined), next));
 
   // Serialize database stages, not socket delivery: a legacy synchronous
   // browser query must not wait for another response to finish downloading.
@@ -67,7 +76,11 @@ function createCmeRouter(options = {}) {
   let writes = Promise.resolve();
   function writeRoute(handler) {
     return asyncRoute((req, res, next) => {
-      const operation = writes.then(() => handler(req, res, next));
+      const operation = writes.then(() => {
+        // Requests already queued before an import failed must also stop.
+        if (importPending) throw recoveryError();
+        return handler(req, res, next);
+      });
       // A failed write is reported by asyncRoute but must not poison the queue.
       writes = operation.catch(() => {});
       return operation;
@@ -155,11 +168,19 @@ function createCmeRouter(options = {}) {
     quizman.load();
     const existingQuizIds = new Set(quizman.quizes.map(q => q.id));
     const importedIds = new Set(preview.documents.map(d => d.id));
-    if (!Array.isArray(scheduling) || scheduling.some(q => !q || !importedIds.has(q.id) || existingQuizIds.has(q.id) || !Number.isFinite(q.update) || !Number.isFinite(q.difficulty) || !Number.isFinite(q.interval))) throw badRequest('Invalid or conflicting quiz scheduling metadata');
+    if (!Array.isArray(scheduling) || new Set(scheduling.map(q => q && q.id)).size !== scheduling.length || scheduling.some(q => !q || !importedIds.has(q.id) || existingQuizIds.has(q.id) || !Number.isFinite(q.update) || !Number.isFinite(q.difficulty) || !Number.isFinite(q.interval))) throw badRequest('Invalid or conflicting quiz scheduling metadata');
     const documents = preview.documents;
-    // NeDB array insertion validates the whole batch before inserting it.
-    await db.insertAsync(documents);
-    if (scheduling.length) { quizman.quizes.push(...scheduling); quizman.save(); }
+    // Keep intent until both native documents and schedules are persisted.
+    // A failed operation blocks further graph access until startup recovery.
+    importPending = true;
+    try {
+      await importJournal.begin(documents, scheduling, db, quizman);
+      importPending = false;
+    } catch (err) {
+      // Rejected intent wrote nothing; only a retained journal blocks the map.
+      importPending = importJournal.exists();
+      throw err;
+    }
     res.status(201).json({ inserted: documents.length });
   }));
 
