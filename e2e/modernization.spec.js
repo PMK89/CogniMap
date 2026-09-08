@@ -56,3 +56,29 @@ test('review reveals only a cover, grades it, and undoes the rating', async ({ p
   settings.mode = 'view';
   await page.request.put('/api/settings', { data: settings });
 });
+
+test('finishing a session reports completion and what is scheduled next', async ({ page }) => {
+  const settings = await (await page.request.get('/api/settings/1')).json();
+  settings.mode = 'quizing';
+  await page.request.put('/api/settings', { data: settings });
+  await page.goto('/');
+  await page.waitForSelector('app-tb-quizzing');
+  const review = page.locator('app-tb-quizzing');
+  await review.getByRole('button', { name: 'Start / refresh due' }).click();
+  const status = review.getByRole('status').first();
+  await expect(status).toContainText('0 rated');
+  // Grade 5 never requeues, so exactly this many ratings drain the queue.
+  const queued = Number((await status.innerText()).match(/(\d+) remaining/)[1]);
+  expect(queued).toBeGreaterThan(0);
+  for (let rated = 1; rated <= queued; rated++) {
+    await review.getByRole('button', { name: 'Reveal answer · Space' }).click();
+    await review.getByRole('button', { name: '5 · Easy' }).click();
+    await expect(status).toContainText(`${rated} rated`);
+  }
+  // The finished session must not read like a session that never had items.
+  await expect(review.getByText(/Session complete · \d+ rated/)).toBeVisible();
+  await expect(review.getByText('No items in this session.')).toHaveCount(0);
+  await expect(review.getByText(/Next \d+ due in \d+ days?; \d+ scheduled ahead/)).toBeVisible();
+  settings.mode = 'view';
+  await page.request.put('/api/settings', { data: settings });
+});

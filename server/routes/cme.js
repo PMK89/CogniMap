@@ -649,6 +649,22 @@ function createCmeRouter(options = {}) {
     progress,
   });
 
+  /**
+   * Upcoming due counts by day, derived from the current schedules. Ratings
+   * move covers into the future, so the figure the session started with is
+   * stale exactly when the queue empties and the user wants to know what is
+   * next. Derivation only; it never changes a schedule.
+   */
+  function refreshUpcoming() {
+    const days = [];
+    for (const quiz of quizman.quizes) {
+      if (!quiz || !(quiz.update > quizman.today)) continue;
+      const due = quiz.update - quizman.today;
+      days[due] = (days[due] || 0) + 1;
+    }
+    quizman.quiztime = days;
+  }
+
   function saveReview() {
     const schedules = {};
     for (const q of quizman.quizes) schedules[q.id] = { update: q.update, interval: q.interval, difficulty: q.difficulty };
@@ -863,6 +879,7 @@ function createCmeRouter(options = {}) {
     ratingUndo = previous;
     ratingUndo.graded = JSON.parse(JSON.stringify(quizman.quizes[pos]));
     quizman.save();
+    refreshUpcoming();
     progress.reviewed++;
     saveReview();
     res.json(quizResponse());
@@ -887,6 +904,7 @@ function createCmeRouter(options = {}) {
     quizman.quizes = quizman.quizes.map(q => q.id === previous.id ? priorSchedule : q);
     quizman.quizcmes = previous.queue;
     quizman.save();
+    refreshUpcoming();
     ratingUndo = null;
     progress.reviewed = Math.max(0, progress.reviewed - 1);
     saveReview();

@@ -4,7 +4,9 @@
     <button type="button" class="cm-review-reveal" (click)="reveal()" [disabled]="revealed || busy">{{revealed ? 'Answer revealed' : 'Reveal answer · Space'}}</button>
     <div class="cm-review-grades" *ngIf="revealed"><button type="button" *ngFor="let label of grades; let score = index" (click)="grade(score)" [disabled]="busy">{{label}}</button><button type="button" (click)="hideAnswer()">Hide</button></div>
   </div>
-  <p *ngIf="!current">No items in this session. Refresh due items or select another category.</p>
+  <p *ngIf="!current" role="status"><span *ngIf="reviewed > 0">Session complete · {{reviewed}} rated.</span><span *ngIf="!reviewed">No items in this session.</span>
+    <span *ngIf="nextDue"> Next {{nextDue.count}} due in {{nextDue.days}} day{{nextDue.days === 1 ? '' : 's'}}; {{upcoming}} scheduled ahead.</span>
+    <span *ngIf="!nextDue"> Refresh due items or select another category.</span></p>
   <p class="cm-review-error" *ngIf="error" role="alert">{{error}}</p>
   <details><summary>Categories and question authoring</summary><label><input type="checkbox" [(ngModel)]="allcat" (change)="changeallcat(allcat)"> Include future items</label>
     <select [(ngModel)]="quizcat0mod" (change)="chooseCat('1')" aria-label="Subject"><option *ngFor="let cat of quizcat0" [value]="cat">{{cat}}</option></select>

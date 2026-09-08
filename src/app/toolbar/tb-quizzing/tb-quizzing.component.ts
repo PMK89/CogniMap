@@ -49,6 +49,19 @@ export class TbQuizzingComponent implements OnInit, OnDestroy {
   private resumeNext = true;
   public grades = ['0 · Blank', '1 · Wrong', '2 · Hard', '3 · Partial', '4 · Good', '5 · Easy'];
   public get current(): any { return this.overduearray[this.currentIndex]; }
+  /** Soonest upcoming due day the backend reported, or null when none is scheduled. */
+  public get nextDue(): { days: number, count: number } {
+    for (let days = 0; days < this.timelist.length; days++) {
+      if (this.timelist[days] > 0) return { days, count: this.timelist[days] };
+    }
+    return null;
+  }
+  /** Total items scheduled beyond this session. */
+  public get upcoming(): number {
+    let total = 0;
+    for (let days = 0; days < this.timelist.length; days++) total += this.timelist[days] || 0;
+    return total;
+  }
 
 
   constructor(private settingsService: SettingsService,
