@@ -12,12 +12,12 @@ The original objective is a stable, usable, modern cognitive-map application pre
 
 These are implementation baseline SHAs, before any commit containing this handoff document:
 
-| Deliverable | Branch | Baseline SHA | Local worktree |
-| --- | --- | --- | --- |
-| A: general modernization | `feature/cognimap-modernization-2026` | `16052b3e04f5134640f01147690f2e07ad1e1e02` | `/home/pmk/cognimap-modernization-2026` |
-| B: additional root layout | `feature/3d-root-network-layout-2026` | `798b5c2ce0b0a5b4504f8bcbb91bdeaedaf8ac50` | `/home/pmk/cognimap-root-layout-2026` |
+| Deliverable | Branch | Baseline SHA | Current head (2026-09-08) | Local worktree |
+| --- | --- | --- | --- | --- |
+| A: general modernization | `feature/cognimap-modernization-2026` | `16052b3e04f5134640f01147690f2e07ad1e1e02` | `ef905d9` | `/home/pmk/cognimap-modernization-2026` |
+| B: additional root layout | `feature/3d-root-network-layout-2026` | `798b5c2ce0b0a5b4504f8bcbb91bdeaedaf8ac50` | `efa560b` | `/home/pmk/cognimap-root-layout-2026` |
 
-Both baselines were clean and pushed to `https://github.com/PMK89/CogniMap.git`. Inspect current HEAD rather than resetting to these hashes: later documentation or implementation commits may exist.
+Both baselines were clean and pushed to `https://github.com/PMK89/CogniMap.git`. Both current heads are committed, clean and pushed; nothing is stashed or uncommitted. Inspect current HEAD rather than resetting to these hashes: later documentation or implementation commits may exist.
 
 A starts from fetched `origin/master` at `321a311`. B starts from that master state and safely merges the newer `origin/3d-graphic-overhaul` at `afe3114`, retaining its useful work. B is not a superset of A. It does not automatically include A's workspace, review, science or Canvas improvements. Keep the deliverables separable; do not silently merge A into B. If a combined release is later wanted, document and test that integration separately.
 
@@ -75,7 +75,7 @@ If continuing on a different machine, clone the public repository and check out 
 | Scientific content | Full CodeMirror serialization; asynchronous LaTeX preview/error protection; original chemistry/vector/media preserved | Exhaustive source fidelity, error, resize and lifecycle verification across all widgets |
 | Quiz | Contextual reveal/hide, grades, progress, navigation, undo, same-day restart checkpoint | Authoring clarity, richer session statistics, stale-client/failure-injection matrix; persistent undo decision |
 | Search | Literal ranked prefix/substring/subsequence search, type filters, recent visits, previous viewport, 3D focus | Connected-context navigation/breadcrumb usability and repeated large-map latency measurements |
-| Canvas | Validated preview/additive import, native extension, exact authentic-copy round trip | Cross-file crash recovery; asset packaging/Markdown vault optional; edited-native reconciliation optional |
+| Canvas | Validated preview/additive import, native extension, exact authentic-copy round trip, cross-file roll-forward recovery (P0-B) | Power-loss durability beyond process-restart recovery; asset packaging/Markdown vault optional; edited-native reconciliation optional |
 | 3D | Additional deterministic root mode, tapered structure, subordinate cross-links, overview LOD, focus/subtree controls | Measured small-edit stability, collisions/branch readability, GPU/frame-time/memory/streaming profiling |
 | Verification | Unit/build/browser suites and authentic-copy checks | Repeated performance and full visual acceptance matrix; not all original wishes have been exhaustively tested |
 
@@ -113,7 +113,15 @@ B's structural forest uses deterministic roots and authored edge preferences; se
 
 **Gate:** fresh install, tests/build/browser suite pass; audit findings distinguished from demonstrated exposure; remaining advisories documented. Suggested commits: `build: document reproducible development setup`, then individual `fix(deps): ...` commits.
 
-### P0-B: import crash consistency
+### P0-B: import crash consistency — COMPLETE (2026-09-08, commits `2ecc5b8`, `faf1f17`, `2de3548`, `ef905d9`)
+
+Delivered: `server/lib/interchange/import-journal.js` records a versioned intent (`canvas-import-journal.json`) before the first write and rolls it forward at startup, ahead of stale-cover repair. Documents get their database identity before the intent commits, so a retry cannot duplicate them. Recovery is idempotent; a record that exists but differs from the intent stops recovery without overwriting anything; unrelated documents and schedules are never touched. A runtime import failure retains its journal and blocks graph requests — including ones already queued behind it — until a restart completes recovery, reported as `import_recovery_required` (503). A rejected import writes nothing and leaves the map usable. Duplicate quiz schedules inside one payload are now rejected before insertion. Contract and failure-boundary table: [CANVAS-RECOVERY.md](CANVAS-RECOVERY.md).
+
+Tested: 15 unit tests (`server/test/import-journal.test.js`) over real temporary NeDB and QuizManager instances — resume before/during/after insertion, after schedule save, repeated recovery, conflicting native/internal/schedule identity, malformed and future-version journals retained, injected insert and save failures with in-memory schedule restore, uncommitted `.writing` leftovers. Two HTTP tests (`server/test/canvas-recovery-api.test.js`) inject a schedule-write failure, assert the block, restart the process and compare recovered documents and schedules exactly. One browser test (`e2e/canvas-recovery.spec.js`) drives a native import through the real workspace UI and asserts no pending intent remains.
+
+Explicitly not claimed: power-loss durability without filesystem synchronization, atomic snapshots for reads in flight, or a cross-file ACID transaction between NeDB and `quizes.json`. Not yet done from the original package: characterization on the authentic 41k-node copy (the recovery path was exercised on fixtures only), and re-benchmarking import timings against the journal implementation — §9's pre-journal figures do not measure it.
+
+**Original scope, retained for reference:**
 
 **Owner:** backend worker, scoped to Canvas import orchestration and new recovery tests. Parent must review the persistence design before implementation.
 
@@ -182,11 +190,13 @@ A full framework migration is not a prerequisite by itself. If justified by secu
 
 Last completed runs on the implementation baselines:
 
-| Check | Branch A | Branch B |
+| Check | Branch A (head `ef905d9`, 2026-09-08) | Branch B (head `efa560b`) |
 | --- | --- | --- |
-| `npm test` | 80 passing; two existing lint warnings | 61 passing |
-| `npm run build` | Pass; three existing bundle-size warnings | Pass; three existing bundle-size warnings |
-| `npm run test:e2e` | 40 passing, 3.2 minutes | 39 passing, 3.3 minutes |
+| `npm test` | 98 passing; two existing lint warnings | 61 passing at `798b5c2`; not re-run after `efa560b` |
+| `npm run build` | Pass; three existing bundle-size warnings | Pass at `798b5c2`; not re-run after `efa560b` |
+| `npm run test:e2e` | 41 passing, 3.1 minutes | 39 passing at `798b5c2`; not re-run after `efa560b` |
+
+A's counts rose from the 80/40 baseline by the 18 unit and one browser test added for P0-B. B's `efa560b` adds a benchmark script and documentation only; its four root-layout regression tests passed when that commit was made, but the full B suites have not been re-run since — do that before treating B as verified at its current head.
 
 Do not require counts to remain constant after adding tests, but investigate unexplained reductions. One earlier wrong-worktree execution was detected by the 61 versus 80 count difference.
 
@@ -217,7 +227,8 @@ Stable local logs:
 
 - `/home/pmk/cognimap-verification-2026/modernization-tests.log`
 - `/home/pmk/cognimap-verification-2026/modernization-build.log`
-- `/home/pmk/cognimap-modernization-patched-e2e.log`
+- `/home/pmk/cognimap-verification-2026/modernization-e2e.log` (current, 41 passing)
+- `/home/pmk/cognimap-modernization-patched-e2e.log` (earlier run)
 - `/home/pmk/cognimap-verification-2026/root-tests.log`
 - `/home/pmk/cognimap-verification-2026/root-build.log`
 - `/home/pmk/cognimap-verification-2026/root-e2e.log`
@@ -282,3 +293,21 @@ Do not leave the next account to infer whether a running test passed. Do not mar
 A is ready for final user review when the data/science/review contracts are preserved, the remaining material stability issues are fixed or explicitly evidenced as limitations, the UI/editor matrix is inspected, Canvas recovery is tested, and clean-install/unit/build/browser checks pass. B additionally needs demonstrated root readability, small-edit stability and measured authentic-map interaction/streaming performance while preserving all older modes.
 
 Report the two final branch names and SHAs, architectural/UI/review/science/Canvas changes, bugs fixed, root algorithm, measurements with conditions, exact test results, remaining limitations and sensible next steps. Distinguish optional extensions and major future migration from unmet critical safety/usability requirements. Leave both branches pushed and reviewable, with no merge into master. The user, not an automated cleanup step, decides how to integrate the two deliverables.
+
+## 14. Continuation log
+
+### 2026-09-08 — P0-B closed, both branches pushed
+
+**Heads.** A `ef905d9`, B `efa560b`. Both clean, both pushed to `origin`. B's `efa560b` had been committed but never pushed by the previous session, which stopped at a usage limit immediately after committing; it is pushed now.
+
+**Completed.** P0-B (import crash consistency) in four commits on A: `2ecc5b8` journal module and unit tests, `faf1f17` route integration plus the duplicate-schedule rejection, `2de3548` contract documentation, `ef905d9` browser test. Details and explicit non-claims are in §7 under P0-B.
+
+**Recovered work.** The previous session had left A's working tree carrying a route integration, an HTTP recovery test and `CANVAS-RECOVERY.md` that all referenced `server/lib/interchange/import-journal.js` — a module the delegated Devin worker never produced. Two Devin invocations failed with `cognition.ai/errorKind: unavailable` connection errors and one earlier one refused a tool call in non-interactive mode; no worker output was usable. The module was written directly against the ticket in `/home/pmk/cognimap-import-journal-task.txt`, which remains an accurate specification of what was built. One design defect in the inherited route code was fixed: `importPending` was latched before `begin()`, so a rejected import — bad duplicate schedules, or an already-pending journal — would have blocked the whole map until a restart despite writing nothing. It now reflects whether a journal actually survives.
+
+**Tests actually run this session, on A only.** `npm test` 98 passing (log `/home/pmk/cognimap-verification-2026/modernization-tests.log`); `npm run build` pass with the three known bundle-size warnings (`modernization-build.log`); `npm run test:e2e` 41 passing in 3.1 minutes (`modernization-e2e.log`). The unit and browser suites were also run individually against the new specs before the full runs. B's suites were **not** re-run at `efa560b`; see §8.
+
+**Environment as left.** No servers or workers are running; port 3311 and the scratch port 3399 are free. A scratch server was started once on 3399 against a disposable fixture copy and has been stopped. `node_modules` in both worktrees still symlink to `/tmp/cognimap-a-deps-updated-container-20260908/node_modules`, which was alive throughout this session — P0-A's clean-install work is still open and this link is still the single largest environment risk.
+
+**Finding, not a hypothesis.** The Claude-in-Chrome browser extension could not load `http://127.0.0.1:3399/` or `http://localhost:3399/` in this environment — every attempt returned "Frame with ID 0 is showing error page", while `curl` fetched the same index and bundle with HTTP 200. Interactive extension-driven checks of a local server are therefore unavailable here; Playwright against port 3311 is the working browser path and is what the browser coverage above uses.
+
+**Next concrete action.** P0-A: verify a clean `npm ci` from the committed lockfile in an isolated location, so neither worktree depends on the `/tmp` tree, then refresh the dependency audit. After that, the two P0-B items deliberately deferred — exercising recovery against the authentic 41k-node copy, and re-benchmarking import timings against the journal, since §9's figures predate it.
