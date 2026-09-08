@@ -739,6 +739,8 @@ function createCmeRouter(options = {}) {
     await clearQuizCovers();
     for (const quiz of quizman.quizes) {
       if (!quiz) continue;
+      // Schedules written before categories existed have no cat array.
+      if (!Array.isArray(quiz.cat)) quiz.cat = [];
       if (quiz.cat.length > 3) {
         quiz.cat = quiz.cat.slice(0, 3);
       } else {
@@ -781,10 +783,11 @@ function createCmeRouter(options = {}) {
     const overduearray = [];
     for (const quiz of quizman.quizes) {
       if (!quiz) continue;
+      const cat = Array.isArray(quiz.cat) ? quiz.cat : [];
       let isshown = today0 >= quiz.update || Boolean(arg[0]);
-      if (arg[1] && isshown) isshown = arg[1] === quiz.cat[0];
-      if (arg[2] && isshown) isshown = arg[2] === quiz.cat[1];
-      if (arg[3] && isshown) isshown = arg[3] === quiz.cat[2];
+      if (arg[1] && isshown) isshown = arg[1] === cat[0];
+      if (arg[2] && isshown) isshown = arg[2] === cat[1];
+      if (arg[3] && isshown) isshown = arg[3] === cat[2];
       if (isshown) {
         overduearray.push({
           id: quiz.id,
@@ -828,17 +831,28 @@ function createCmeRouter(options = {}) {
       return;
     }
     const data = quizman.quizcmes[pos0];
+    // Rate the cover as it exists now. The queue snapshot was taken when the
+    // session loaded and predates any edit made since; writing it back would
+    // silently revert that edit's title, geometry and content.
+    const current = await db.findOneAsync({ _id: data._id });
+    if (!current) {
+      console.warn('[quiz] schedule', arg.id, 'has no document; rating skipped');
+      res.json({ quizes: quizman.quizcmes, unchanged: true });
+      return;
+    }
     let cmo;
-    try { cmo = JSON.parse(data.cmobject); }
+    try { cmo = JSON.parse(current.cmobject); }
     catch (err) { throw badRequest('The quiz cover has malformed content; repair it before rating'); }
     if (!cmo || !cmo.style || !cmo.style.object) throw badRequest('The quiz cover is missing scheduling style');
     const previous = { schedules: JSON.parse(JSON.stringify(quizman.quizes)), queue: JSON.parse(JSON.stringify(quizman.quizcmes)), id: arg.id };
     const calc = quizman.calculate(quizman.quizes[pos], arg.scale, quizman.today);
     cmo.style.object.str = String(calc.interval);
     cmo.style.object.weight = calc.difficulty;
-    const updated = { ...data, types: data.types.slice(), cmobject: JSON.stringify(cmo) };
-    updated.types[0] = arg.scale < 4 ? 'q1' : 'q';
-    try { await db.updateAsync({ _id: data._id }, updated, {}); }
+    const types = (current.types || []).slice();
+    types[0] = arg.scale < 4 ? 'q1' : 'q';
+    const updated = { ...current, types, cmobject: JSON.stringify(cmo) };
+    // Persist only what rating owns, the way undo already does.
+    try { await db.updateAsync({ _id: data._id }, { $set: { types, cmobject: updated.cmobject } }, {}); }
     catch (err) { quizman.quizcmes = previous.queue; throw err; }
     quizman.quizes[pos].difficulty = calc.difficulty;
     quizman.quizes[pos].interval = calc.interval;
