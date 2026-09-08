@@ -58,7 +58,10 @@ npm run dev        # backend on :3210, webpack dev server on :3000
 1. **Create/Edit Map:** Add nodes and links on the main canvas (edit mode).
 2. **Save/Load/Export:** maps persist automatically to the local database; JSON import/export is available through the backend APIs (`/api/db/save`, `/api/db/load`).
 3. **Widgets:** pick widgets for the two dock slots from the navigation toolbar.
-4. **Theme:** toggle dark/light with the ◐ button (bottom right).
+4. **Search and navigation:** press `Ctrl+K` for ranked search, type filters, recent concepts and previous location. Opening a result also focuses it in the active 3D view.
+5. **Theme:** select System, Light or Dark in workspace tools, or toggle dark/light with the ◐ button.
+6. **JSON Canvas:** expand Import and export in workspace tools. Preview before importing; existing identities are never overwritten. Transfer referenced media separately.
+7. **Review:** use the Map review toolbar to reveal, grade and undo the latest rating. A same-day session resumes after restart; Start / refresh due starts a new queue.
 
 ## Data Management
 
@@ -94,6 +97,8 @@ Use the **Settings** panel to adjust:
 - [Architecture](docs/ARCHITECTURE.md)
 - [Local development & testing](docs/DEVELOPMENT.md)
 - [Migration notes (Electron → browser)](docs/MIGRATION.md)
+- [Modernization architecture and compatibility](docs/modernization/ARCHITECTURE-COMPATIBILITY.md)
+- [Modernization plan and verification status](docs/modernization/PLAN.md)
 
 ## Contributing
 

@@ -14,18 +14,18 @@ Quiz covers remain native q/q1 documents. Scheduling stays in quizes.json. Fix q
 
 The root layout reuses the existing deterministic forest and cross-edge distinction. Structural placement determines coordinates; cross-links do not exert forces. Keep all older modes and streamed rich content.
 
-## Implementation checkpoints
+## Implementation checkpoints (verified 2026-09-08)
 
-- [x] Inspect dirty live checkout, fetch remote, compare ancestry, isolate branches.
-- [x] Baseline npm test: 53 passed, two existing lint warnings (loopback-capable host run).
-- [x] Read-only historical database inventory: 81,240 documents, 39,831 connectors; no malformed lines.
-- [ ] Complete baseline production builds and browser suites.
-- [ ] Characterize and repair quiz persistence, queue replacement, scheduling and restart behavior.
-- [ ] Improve review controls and lifecycle; verify real reveal/grade behavior.
-- [ ] Improve application chrome, theme selection and scientific editor usability.
-- [ ] Add validated JSON Canvas adapter, preview and additive import/export; round-trip tests.
-- [ ] Improve navigation and verify large-map performance.
-- [ ] Add deterministic multidirectional root layout on Branch B; benchmark and inspect in browser.
-- [ ] Document architecture, compatibility, measurements and limitations; full final verification.
+- [x] Inspect live checkout, fetch remote, compare ancestry and isolate feature branches.
+- [x] Establish baseline: 53 backend tests, production build and browser fixture diagnosis.
+- [x] Read-only historical inventory: 81,240 documents; native data hashes preserved.
+- [x] Characterize/repair quiz persistence, scheduling, queue replacement and restart recovery.
+- [x] Add reveal/grade/undo controls; verify unchanged cover bounds on an authentic copy.
+- [x] Add workspace themes/search, editor shortcut isolation and scientific source/preview improvements.
+- [x] Add validated JSON Canvas preview/import/export; verify exact full HTTP document/schedule import into an empty temporary database.
+- [x] Connect search to 3D focus and release renderer listeners on repeated view changes.
+- [x] Add and visually verify the independent deterministic root layout on the authentic large graph.
+- [x] Document architecture, compatibility, benchmarks and remaining limitations.
+- [x] Final checks: A80 backend tests /40 browser tests; B61 backend tests /39 browser tests; both production builds pass.
 
-Each implemented checkpoint is committed separately. Tests use copied historical fixtures; browser servers use e2e/.data. Local large-map artifacts and screenshots remain untracked. No source data is committed.
+Final evidence is summarized in ARCHITECTURE-COMPATIBILITY.md (A) and ROOT-LAYOUT.md (B). The original local master and 3d-graphic-overhaul refs remain unchanged. All database mutation tests use temporary copies; generated knowledge data and screenshots stay untracked. Neither feature branch is merged into a source branch.
