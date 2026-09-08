@@ -31,3 +31,7 @@ The final read-only benchmark ran once on the authentic `cme.db`; it is CPU layo
 ## Maintainer map
 
 `src/app/graph3d/graph3d-core.js` derives graph and hierarchy state. `root-layout.js` computes deterministic root positions. `scene3d.service.ts` owns LOD, cylinder orientation, fog, framing, and rendering. `cmap3d.component.ts` exposes the preset and preserves the full-graph lifecycle. `scripts/benchmark-root.js` decodes NeDB records read-only for the CPU measurement.
+
+## Dependency checkpoint
+
+The Express-compatible `path-to-regexp` resolution is patched from 0.1.12 to 0.1.13. An isolated dependency tree preserves the original installation. With this patch, all 61 regression tests and 39 browser tests pass and the production build succeeds; final logs are in `/home/pmk/cognimap-verification-2026/root-*.log`. Existing Angular/MathJax/toolchain advisory debt remains a separate compatibility project.
