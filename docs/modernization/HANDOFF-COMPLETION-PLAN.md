@@ -48,7 +48,7 @@ The original checkout contains real-data changes. Never reset, clean, switch, in
    ```
 
 3. Compare local and remote feature refs. Preserve any unexpected uncommitted work; inspect its diff and owner rather than discarding it. Use the new account's own GitHub authentication if a push needs it. Never print tokens.
-4. Resolve dependencies before running anything. At this checkpoint both `node_modules` entries point to `/tmp/cognimap-a-deps-updated-container-20260908/node_modules`. This isolated patched installation is temporary and shared. It may vanish. Never run an installer through a link into the original checkout. Prefer a fresh per-worktree install from the committed lockfile, using `npm ci` after inspecting package scripts and the actual directory/link. Record clean-install failures and fix the cause without a broad lockfile rewrite. Node 22.13.1/npm 11.1.0 were used for the last verification; the declared Node minimum alone does not prove all versions work.
+4. Resolve dependencies before running anything. **Resolved 2026-09-08:** both worktrees now symlink `node_modules` to stable home paths (`/home/pmk/cognimap-deps-2026/a2` and `/home/pmk/cognimap-deps-2026/b2`), each a clean `npm ci` from the committed lockfile. `npm ci` works with no flags; see [DEVELOPMENT-SETUP.md](DEVELOPMENT-SETUP.md). Nothing points at `/tmp/cognimap-a-deps-updated-container-20260908` any more; it is orphaned but was left in place. The historical warning below is kept for context. At the previous checkpoint both `node_modules` entries pointed to `/tmp/cognimap-a-deps-updated-container-20260908/node_modules`. This isolated patched installation is temporary and shared. It may vanish. Never run an installer through a link into the original checkout. Prefer a fresh per-worktree install from the committed lockfile, using `npm ci` after inspecting package scripts and the actual directory/link. Record clean-install failures and fix the cause without a broad lockfile rewrite. Node 22.13.1/npm 11.1.0 were used for the last verification; the declared Node minimum alone does not prove all versions work.
 5. Inspect task-owned servers in the actual host namespace, including their command, cwd, port and data directory. Sandbox process lists can miss host listeners. Both browser suites use port 3311 and must run sequentially. Do not attach to an unknown existing server or kill unrelated processes.
 6. Re-establish tests if the environment or code changed. Run `npm test`, `npm run build`, then `npm run test:e2e` separately in each worktree. Save full logs under a stable home directory and check the final summary. Do not rerun expensive unchanged suites repeatedly without a reason.
 7. Choose the next bounded package below, write its acceptance criteria, and delegate only work with explicit file ownership. Update this handoff after each meaningful milestone.
@@ -69,7 +69,7 @@ If continuing on a different machine, clone the public repository and check out 
 
 | Area | Implemented and exercised | Remaining completion work |
 | --- | --- | --- |
-| Architecture | Pure Canvas/search/checkpoint modules; explicit navigation bridge; retained legacy widget contracts | Broader ownership documentation, clean-install reproducibility, incremental dependency/security work |
+| Architecture | Pure Canvas/search/checkpoint modules; explicit navigation bridge; retained legacy widget contracts; verified clean-install reproducibility; unused production dependencies removed | Broader ownership documentation; mathjax-node rendering backend; Angular/Express major upgrades |
 | UI | Compact themed workspace; persistent system/light/dark; keyboard focus handling | Systematic responsive/editor-panel review; remaining inaccessible legacy controls |
 | Editing | Regression coverage, shortcut isolation, renderer listener cleanup | Full node/connector type matrix, multi-selection/group/copy/resize/undo edge cases |
 | Scientific content | Full CodeMirror serialization; asynchronous LaTeX preview/error protection; original chemistry/vector/media preserved | Exhaustive source fidelity, error, resize and lifecycle verification across all widgets |
@@ -102,7 +102,15 @@ B's structural forest uses deterministic roots and authored edge preferences; se
 
 ## 7. Ordered completion work packages
 
-### P0-A: reproducible environment and dependency triage
+### P0-A: reproducible environment and dependency triage — steps 1-3 COMPLETE (2026-09-08, commits A `5bfbc31`/`4955bdf`, B `6b42371`)
+
+Delivered: [DEVELOPMENT-SETUP.md](DEVELOPMENT-SETUP.md) records the tested toolchain (Node 22.13.1, npm 11.1.0), the verified `npm ci` procedure and why the tracked `.npmrc` (`legacy-peer-deps=true`) is load-bearing — `@angular/compiler-cli@2.4.6` declares `peer typescript@^2` against the TypeScript 3.9.10 the build needs. Both worktrees were reinstalled from the committed lockfile into stable home paths and re-verified in full.
+
+`npm`, `@angularclass/conventions-loader` and `get-pixels` were declared runtime dependencies with no importer anywhere; removing them cut production advisories from 44 to 19 (critical 5 to 2, high 23 to 8) and 229 lockfile entries, with no source change. Applied and verified independently on each branch.
+
+Step 4 remains open: `mathjax-node` is the one production advisory chain with a traced runtime path (`server/routes/media.js`), and its fix is a rendering-backend change, not a version bump. Angular/Express/mathjax fixes are major-only and belong to §7 P2. The 310-change non-forced `npm audit fix` was evaluated and deliberately not applied — it bumps webpack and a transitive `selfsigned` major.
+
+**Original scope, retained for reference:**
 
 **Owner:** build/dependency worker; parent owns upgrade boundaries. Work on A first, selectively repeat independent fixes on B with its own tests.
 
@@ -190,13 +198,14 @@ A full framework migration is not a prerequisite by itself. If justified by secu
 
 Last completed runs on the implementation baselines:
 
-| Check | Branch A (head `ef905d9`, 2026-09-08) | Branch B (head `efa560b`) |
+| Check | Branch A (`4955bdf`) | Branch B (`6b42371`) |
 | --- | --- | --- |
-| `npm test` | 98 passing; two existing lint warnings | 61 passing at `798b5c2`; not re-run after `efa560b` |
-| `npm run build` | Pass; three existing bundle-size warnings | Pass at `798b5c2`; not re-run after `efa560b` |
-| `npm run test:e2e` | 41 passing, 3.1 minutes | 39 passing at `798b5c2`; not re-run after `efa560b` |
+| `npm ci` from lockfile | Pass, 1458 packages | Pass, 1458 packages |
+| `npm test` | 98 passing; two existing lint warnings | 61 passing |
+| `npm run build` | Pass; three existing bundle-size warnings | Pass; same three warnings |
+| `npm run test:e2e` | 41 passing, 3.1 minutes | 39 passing, 3.2 minutes |
 
-A's counts rose from the 80/40 baseline by the 18 unit and one browser test added for P0-B. B's `efa560b` adds a benchmark script and documentation only; its four root-layout regression tests passed when that commit was made, but the full B suites have not been re-run since — do that before treating B as verified at its current head.
+Both rows were measured at the stated heads on fresh installs, after the dependency removal. A's counts rose from the 80/40 baseline by the 18 unit and one browser test added for P0-B.
 
 Do not require counts to remain constant after adding tests, but investigate unexplained reductions. One earlier wrong-worktree execution was detected by the 61 versus 80 count difference.
 
@@ -311,3 +320,15 @@ Report the two final branch names and SHAs, architectural/UI/review/science/Canv
 **Finding, not a hypothesis.** The Claude-in-Chrome browser extension could not load `http://127.0.0.1:3399/` or `http://localhost:3399/` in this environment — every attempt returned "Frame with ID 0 is showing error page", while `curl` fetched the same index and bundle with HTTP 200. Interactive extension-driven checks of a local server are therefore unavailable here; Playwright against port 3311 is the working browser path and is what the browser coverage above uses.
 
 **Next concrete action.** P0-A: verify a clean `npm ci` from the committed lockfile in an isolated location, so neither worktree depends on the `/tmp` tree, then refresh the dependency audit. After that, the two P0-B items deliberately deferred — exercising recovery against the authentic 41k-node copy, and re-benchmarking import timings against the journal, since §9's figures predate it.
+
+### 2026-09-08 (later) — P0-A steps 1-3 closed, both branches reinstalled and re-verified
+
+**Heads.** A `4955bdf` plus this log's commit; B `6b42371`. Both clean and pushed.
+
+**Completed.** P0-A steps 1-3, described in §7 and in full in [DEVELOPMENT-SETUP.md](DEVELOPMENT-SETUP.md). Also fixed a fixture landmine in the P0-B browser test: its imported copy sat at the source node's coordinates and was long overdue, so it would have joined the review queue and shared a position with fixture content that later specs click (A `84eea41`).
+
+**Correction to an earlier reading.** A first clean-install attempt failed with `ERESOLVE` on the Angular/TypeScript peer range. That was an artifact of copying only `package.json` and `package-lock.json` into a scratch directory: the repository already tracks an `.npmrc` with `legacy-peer-deps=true`, and `npm ci` in a real checkout succeeds with no flags. There is no clean-install defect. Copy `.npmrc` with the manifests when reproducing an install outside a checkout.
+
+**Environment as left.** No servers or workers running; ports 3311 and 3399 free. `node_modules` symlinks: A → `/home/pmk/cognimap-deps-2026/a2/node_modules`, B → `/home/pmk/cognimap-deps-2026/b2/node_modules`, both stable home paths, both clean `npm ci` results from the committed lockfiles. `/tmp/cognimap-a-deps-updated-container-20260908` is orphaned; nothing references it and it was left in place rather than deleted. `/home/pmk/cognimap-deps-2026/a` and `b` are the earlier pre-pruning installs and can be removed. Audit reports are in `/home/pmk/cognimap-verification-2026/audit-a*.json`; all suite logs in that same directory were overwritten with the current runs.
+
+**Next concrete action.** P0-A step 4 (`mathjax-node` rendering backend proposal tied to the scientific-content matrix), then the P1 packages in handoff order — P1-A review workflow closure, P1-B editor/science usability matrix, P1-C navigation and large-map search, P1-D root-layout quality on B. The two P0-B items deferred earlier also remain: recovery against the authentic 41k-node copy, and re-benchmarking import timings against the journal.
