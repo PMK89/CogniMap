@@ -73,7 +73,7 @@ If continuing on a different machine, clone the public repository and check out 
 | UI | Compact themed workspace; persistent system/light/dark; keyboard focus handling | Systematic responsive/editor-panel review; remaining inaccessible legacy controls |
 | Editing | Regression coverage, shortcut isolation, renderer listener cleanup | Full node/connector type matrix, multi-selection/group/copy/resize/undo edge cases |
 | Scientific content | Full CodeMirror serialization; asynchronous LaTeX preview/error protection; original chemistry/vector/media preserved | Exhaustive source fidelity, error, resize and lifecycle verification across all widgets |
-| Quiz | Contextual reveal/hide, grades, progress, navigation, undo, same-day restart checkpoint | Authoring clarity, richer session statistics, stale-client/failure-injection matrix; persistent undo decision |
+| Quiz | Contextual reveal/hide, grades, progress, navigation, undo, same-day restart checkpoint; rating no longer reverts concurrent edits; completion and next-due statistics; stale-client and historical-record boundaries covered; persistent undo decided against | Authoring discoverability beyond the current controls; failure injection against the authentic dataset |
 | Search | Literal ranked prefix/substring/subsequence search, type filters, recent visits, previous viewport, 3D focus | Connected-context navigation/breadcrumb usability and repeated large-map latency measurements |
 | Canvas | Validated preview/additive import, native extension, exact authentic-copy round trip, cross-file roll-forward recovery (P0-B) | Power-loss durability beyond process-restart recovery; asset packaging/Markdown vault optional; edited-native reconciliation optional |
 | 3D | Additional deterministic root mode, tapered structure, subordinate cross-links, overview LOD, focus/subtree controls | Measured small-edit stability, collisions/branch readability, GPU/frame-time/memory/streaming profiling |
@@ -92,7 +92,7 @@ A retains Angular 2.4/ngrx, TypeScript, Express 4, NeDB and webpack 5. Do not be
 
 Quiz scheduling stays in `server/lib/quiz.js`; preserve its actual SM2-derived retry/day behavior, not a textbook replacement. `q` is dormant and `q1` active. Startup repair completes before requests. Reveal affects only the selected cover through rendering state; it does not move nodes. Schedule writes use temporary-file/rename. The optional version-1 `quiz-session.json` resumes same-day queue/progress and avoids repeating ratings already persisted before a checkpoint interruption. Corrupt/expired checkpoints fall back to native due schedules.
 
-Undo's snapshot is memory-only and unavailable after backend restart. Performing undo does persist the restored schedule and updated checkpoint, while preserving unrelated later edits. Restart resumes progress, not revealed visual state. Keep this distinction accurate in documentation.
+Undo stays session-scoped by deliberate decision (P1-A step 3, 2026-09-08): it corrects a misgrade in the active session. After a restart there is no session to correct, the schedule is already persisted, and re-rating the cover in a later session reaches the same place through the normal algorithm. Making it restart-persistent would need versioned snapshots and revision checks against a cover that may since have been edited — real complexity for a rare window. Do not implement it without a user request. Undo's snapshot is memory-only and unavailable after backend restart. Performing undo does persist the restored schedule and updated checkpoint, while preserving unrelated later edits. Restart resumes progress, not revealed visual state. Keep this distinction accurate in documentation.
 
 Canvas targets JSON Canvas 1.0. The `org.cognimap` v1 extension contains complete native documents, related schedules and a projection hash. Edited projections retaining native metadata are rejected to avoid ambiguous data loss. Removing the extension permits plain Canvas import as new cards. Identity conflicts are rejected. File references are not bundled assets. Canvas requests allow 512 MiB; other APIs retain 100 MiB. Large JSON parsing consumes substantial memory.
 
@@ -140,7 +140,21 @@ Explicitly not claimed: power-loss durability without filesystem synchronization
 
 **Gate:** interrupted imports reach a documented consistent state on restart without losing pre-existing content; exact document/schedule comparison; plain/native Canvas tests and full backend/browser regression pass. Commit characterization, protocol and recovery separately.
 
-### P1-A: review workflow closure
+### P1-A: review workflow closure — COMPLETE (2026-09-08, commits `345e6f0`, `9a8a36e`, `0d49b28`, `0dc7a6a`)
+
+**Bug fixed, data loss.** The review queue holds documents copied when the session loads. Rating wrote that snapshot back as a whole document, so every edit made to a cover during the session — title, position, size, content — was silently reverted the moment the user graded it. Rating now reads the current document and persists only what it owns, the two fields undo already limited itself to. A schedule whose document no longer exists reports `unchanged` instead of advancing on its own.
+
+**Bug fixed, availability.** A schedule record without a `cat` array — written before categories existed — made `/quiz/load` return 500 and the review feature unusable until the file was repaired by hand. Category filtering had the same gap. Both normalise now; stored records are not rewritten.
+
+**Statistics and completion.** A finished session showed the same sentence as one that never had items. It now reports completion with the count rated, and surfaces the upcoming due counts the backend already sent and the client silently discarded. Those counts are recomputed after rating and undo, because the figure taken at session start is stale exactly when the queue empties. Derivation only; no schedule changes.
+
+**Decision recorded:** restart-persistent undo is not needed — see §6.
+
+**Boundaries now covered** (`server/test/quiz.test.js`, `server/test/quiz-boundaries.test.js`, `e2e/modernization.spec.js`): edits during a session survive rating; rating an element outside the current queue, a second rating from a stale tab, and rating a cover deleted mid-session all change nothing; historical schedules without categories start a session; an expired checkpoint falls back to a fresh session; a restart after undo resumes the restored cover and progress; a finished session reports completion and next-due; reveal stays targeted across question navigation and leaves nothing revealed behind. The golden scheduling test (`legacy successful recall and in-session retry math remains unchanged`) still passes untouched.
+
+**Not done:** failure injection against the authentic dataset rather than fixtures, and a wider authoring-discoverability pass — the current controls (subject/topic/subtopic selects, include-future-items, the authoring note) are usable and now exercised by a browser test, but no user study justified changing them.
+
+**Original scope, retained for reference:**
 
 **Owner:** review worker; isolate UI changes from scheduler logic.
 
@@ -198,12 +212,12 @@ A full framework migration is not a prerequisite by itself. If justified by secu
 
 Last completed runs on the implementation baselines:
 
-| Check | Branch A (`4955bdf`) | Branch B (`6b42371`) |
+| Check | Branch A (`0dc7a6a`) | Branch B (`6b42371`) |
 | --- | --- | --- |
 | `npm ci` from lockfile | Pass, 1458 packages | Pass, 1458 packages |
-| `npm test` | 98 passing; two existing lint warnings | 61 passing |
+| `npm test` | 105 passing; two existing lint warnings | 61 passing |
 | `npm run build` | Pass; three existing bundle-size warnings | Pass; same three warnings |
-| `npm run test:e2e` | 41 passing, 3.1 minutes | 39 passing, 3.2 minutes |
+| `npm run test:e2e` | 43 passing, 3.1 minutes | 39 passing, 3.2 minutes |
 
 Both rows were measured at the stated heads on fresh installs, after the dependency removal. A's counts rose from the 80/40 baseline by the 18 unit and one browser test added for P0-B.
 
@@ -332,3 +346,19 @@ Report the two final branch names and SHAs, architectural/UI/review/science/Canv
 **Environment as left.** No servers or workers running; ports 3311 and 3399 free. `node_modules` symlinks: A → `/home/pmk/cognimap-deps-2026/a2/node_modules`, B → `/home/pmk/cognimap-deps-2026/b2/node_modules`, both stable home paths, both clean `npm ci` results from the committed lockfiles. `/tmp/cognimap-a-deps-updated-container-20260908` is orphaned; nothing references it and it was left in place rather than deleted. `/home/pmk/cognimap-deps-2026/a` and `b` are the earlier pre-pruning installs and can be removed. Audit reports are in `/home/pmk/cognimap-verification-2026/audit-a*.json`; all suite logs in that same directory were overwritten with the current runs.
 
 **Next concrete action.** P0-A step 4 (`mathjax-node` rendering backend proposal tied to the scientific-content matrix), then the P1 packages in handoff order — P1-A review workflow closure, P1-B editor/science usability matrix, P1-C navigation and large-map search, P1-D root-layout quality on B. The two P0-B items deferred earlier also remain: recovery against the authentic 41k-node copy, and re-benchmarking import timings against the journal.
+
+### 2026-09-08 (third session) — P1-A closed; a data-loss bug found and fixed
+
+**Heads.** A implementation head `0dc7a6a` plus this log's commit; B `6b42371`. Both clean and pushed.
+
+**Completed.** P1-A, described in §7. The material finding is the first one there: rating a cover silently reverted any edit made to it during the session. That was reachable in ordinary use — start a review, fix a typo or nudge a node, grade it, lose the change — and it is now covered by a regression that asserts title, `coor` and all four bounds survive rating.
+
+**New finding, not fixed, belongs to P1-B.** `PUT /cme` (`server/routes/cme.js`, the `db.updateAsync({ id: arg.id }, data, { upsert: true })` at the end of the handler) has the same whole-document-replace shape as the rating bug did, in the opposite direction. Characterized: load a review, rate a cover, then let a client that still holds the pre-rating copy save any edit. The cover reverts to `q1` with the pre-rating scheduling style while `quizes.json` keeps the post-rating schedule, so the persisted cover and its schedule disagree and the cover reappears as active. It self-heals at the next restart through the stale-`q1` repair, so it is a session-level inconsistency rather than data loss. The root cause in both places is writing a whole document a client or queue snapshotted earlier; `PUT /cme` also owns `types`, which is why it can overwrite review state. Fixing it means deciding which fields the edit path owns — the same question the rating fix answered for its side — so it belongs with P1-B's editor matrix, not to a quick patch.
+
+**Also noted, not touched.** `tb-quizzing.component.ts` has an empty `if (this.overduearray.length > 0) { }` block in the `loadedQuizes` listener. Pre-existing dead code; left alone.
+
+**Tests run this session, branch A only.** `npm test` 105 passing, still exactly the two known lint warnings; `npm run build` pass with the three known bundle-size warnings; `npm run test:e2e` 43 passing. Logs overwritten in place under `/home/pmk/cognimap-verification-2026/`. B was not re-run — nothing on B changed after `6b42371`, whose full verification is recorded in §8.
+
+**Environment as left.** No servers or workers running; ports 3311 and 3399 free. Dependency symlinks unchanged from the previous entry: A → `/home/pmk/cognimap-deps-2026/a2`, B → `/home/pmk/cognimap-deps-2026/b2`. Probe scripts used to characterize the two bugs were written to the session scratchpad and are not in Git; the behaviors they found are all covered by committed tests except the `PUT /cme` finding above, which has no test yet by intent — write it with the fix.
+
+**Next concrete action.** P1-B, starting with the `PUT /cme` whole-document-replace finding, since it is the last known correctness gap of that family and the editor matrix has to touch that handler anyway. Then P1-C navigation, P1-D root layout on B, and P0-A step 4 (`mathjax-node`). The two deferred P0-B items also remain: recovery against the authentic 41k-node copy, and re-benchmarking import timings against the journal.
