@@ -35,3 +35,27 @@ The final read-only benchmark ran once on the authentic `cme.db`; it is CPU layo
 ## Dependency checkpoint
 
 The Express-compatible `path-to-regexp` resolution is patched from 0.1.12 to 0.1.13. An isolated dependency tree preserves the original installation. With this patch, all 61 regression tests and 39 browser tests pass and the production build succeeds; final logs are in `/home/pmk/cognimap-verification-2026/root-*.log`. Existing Angular/MathJax/toolchain advisory debt remains a separate compatibility project.
+
+## Synthetic edit-stability measurements (2026-09-08)
+
+Run `node scripts/benchmark-root-stability.js --nodes 41000` (also accepts
+`--nodes=41000`; default 2,000, range 20–50,000). The script constructs a
+five-child branching graph and emits JSON. It compares reversed input and
+three independent edits against one baseline: a new leaf, a weak cross-link
+between leaves in different root branches, and a disconnected component.
+It verifies exact cross-edge classification and unchanged hierarchy parents
+for the semantic-link case. Displacement is measured in layout coordinate
+units over shared nodes; no arbitrary pass threshold is applied to edits.
+
+The 41,000-node run had identical positions under input permutation. All
+three edits preserved existing parents. Leaf insertion moved the p95 shared
+node by 0.8391 units (maximum 15.2898); adding a disconnected component gave
+p95 0.8188 (maximum 15.2898). The weak cross-link moved no nodes. Median
+movement was zero in all three cases. These are synthetic single-run
+measurements, not proof of stability for all authentic-map edits. Component
+addition can move existing positions even when their hierarchy is unchanged.
+The script reports elapsed synchronous layout time separately from geometric
+movement; it does not measure browser frame time or GPU memory.
+
+Local aggregate evidence: `/home/pmk/cognimap-verification-2026/root-stability-20.json`
+and `root-stability-41000.json`. The measurement script accesses no real map.
