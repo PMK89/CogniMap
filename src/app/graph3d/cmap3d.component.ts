@@ -44,6 +44,10 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
   private graphListener: any;
   private saveTimer: any;
   private themeObserver: any;
+  private systemTheme: any;
+  private systemThemeListener = () => {
+    if (!document.documentElement.hasAttribute('data-theme')) { this.scene.applyTheme(); }
+  };
 
   constructor(public scene: Scene3dService,
               private elementService: ElementService,
@@ -121,6 +125,8 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
     // theme changes recolor the scene
     this.themeObserver = new MutationObserver(() => this.scene.applyTheme());
     this.themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    this.systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+    this.systemTheme.addListener(this.systemThemeListener);
   }
 
   public ngOnDestroy() {
@@ -129,6 +135,7 @@ export class Cmap3dComponent implements OnInit, OnDestroy {
     if (this.sub) { this.sub.unsubscribe(); }
     if (this.navigationSub) { this.navigationSub.unsubscribe(); }
     if (this.themeObserver) { this.themeObserver.disconnect(); }
+    if (this.systemTheme) { this.systemTheme.removeListener(this.systemThemeListener); }
     if (this.rebuildTimer) { clearTimeout(this.rebuildTimer); }
     this.saveViz(true);
     this.scene.dispose();

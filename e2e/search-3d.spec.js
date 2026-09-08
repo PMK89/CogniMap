@@ -30,3 +30,21 @@ test('reopening 3D releases the previous graph listener', async ({ page }) => {
   }
   expect(errors).toEqual([]);
 });
+
+test('3D follows live system-theme changes and respects a manual override', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('cognimap-3d', '1');
+    localStorage.removeItem('cognimap-theme');
+  });
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/');
+  await page.waitForFunction(() => window.__cm3d && window.__cm3d.scene.scene);
+  const background = () => page.evaluate(() => window.__cm3d.scene.scene.background.getHexString());
+  await expect.poll(background).toBe('f5f6f8');
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect.poll(background).not.toBe('f5f6f8');
+  await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+  const manual = await background();
+  await page.emulateMedia({ colorScheme: 'light' });
+  await expect.poll(background).toBe(manual);
+});
