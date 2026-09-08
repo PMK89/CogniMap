@@ -41,6 +41,10 @@ test('review reveals only a cover, grades it, and undoes the rating', async ({ p
   await page.goto('/');
   await page.waitForSelector('app-tb-quizzing');
   const review = page.locator('app-tb-quizzing');
+  // Earlier legacy quiz checks leave a resumable session. Exercise the explicit
+  // new-session action before asserting this test's independent progress.
+  await review.getByRole('button', { name: 'Start / refresh due' }).click();
+  await expect(review.getByRole('status')).toContainText('0 rated');
   await expect(review.getByRole('button', { name: 'Reveal answer · Space' })).toBeVisible();
   await review.getByRole('button', { name: 'Reveal answer · Space' }).click();
   await expect(review.getByRole('button', { name: '5 · Easy' })).toBeVisible();
