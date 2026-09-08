@@ -82,3 +82,44 @@ test('finishing a session reports completion and what is scheduled next', async 
   settings.mode = 'view';
   await page.request.put('/api/settings', { data: settings });
 });
+
+test('moving to another question never leaves an earlier cover revealed', async ({ page }) => {
+  const settings = await (await page.request.get('/api/settings/1')).json();
+  settings.mode = 'quizing';
+  await page.request.put('/api/settings', { data: settings });
+  await page.goto('/');
+  await page.waitForSelector('app-tb-quizzing');
+  const review = page.locator('app-tb-quizzing');
+  await review.getByRole('button', { name: 'Start / refresh due' }).click();
+  // Earlier specs may have rated everything due, so build the queue from the
+  // authoring controls instead: include future items, then pick a subject.
+  await review.getByText('Categories and question authoring').click();
+  await review.getByLabel('Include future items').check();
+  await review.getByLabel('Subject').selectOption('Chemie');
+  const status = review.getByRole('status').first();
+  await expect(status).not.toContainText('0 remaining');
+  expect(Number((await status.innerText()).match(/(\d+) remaining/)[1])).toBeGreaterThan(1);
+  // Reveal hides covers with an injected stylesheet; count the live rules.
+  const hidden = () => page.evaluate(() => Array.from(document.head.querySelectorAll('style'))
+    .map(s => s.textContent).filter(t => t.includes('visibility: hidden')));
+
+  expect(await hidden()).toHaveLength(0);
+  await review.getByRole('button', { name: 'Reveal answer · Space' }).click();
+  const first = await hidden();
+  expect(first).toHaveLength(1);
+
+  await review.getByRole('button', { name: 'Next question' }).click();
+  await expect(review.getByRole('button', { name: 'Reveal answer · Space' })).toBeVisible();
+  expect(await hidden()).toHaveLength(0);
+
+  await review.getByRole('button', { name: 'Reveal answer · Space' }).click();
+  const second = await hidden();
+  expect(second).toHaveLength(1);
+  expect(second[0]).not.toEqual(first[0]);
+
+  // Going back must reveal nothing on its own.
+  await review.getByRole('button', { name: 'Previous question' }).click();
+  expect(await hidden()).toHaveLength(0);
+  settings.mode = 'view';
+  await page.request.put('/api/settings', { data: settings });
+});
